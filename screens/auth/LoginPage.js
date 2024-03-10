@@ -6,16 +6,27 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
+import Toast from "react-native-toast-message";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const showToast = () => {
+    setTimeout(() => {
+      Toast.show({
+        type: "error",
+        text1: "Wrong credentials",
+        text2: "Please enter correct UserId or Password",
+        visibilityTimeout: 5000,
+        position: "top",
+      });
+    }, 100);
+  };
   const navigation = useNavigation();
   // API -> http://localhost:8080/auth/login
 
@@ -39,7 +50,8 @@ const LoginPage = () => {
         navigation.navigate("Home");
       } else {
         // Handle unsuccessful login
-        Alert.alert("Error", "Invalid email or password");
+        // Alert.alert("Error", "Invalid email or password");
+        showToast();
       }
     } catch (error) {
       console.error("Error:", error);
@@ -47,165 +59,168 @@ const LoginPage = () => {
     }
   };
   return (
-    <SafeAreaView
-      style={{
-        backgroundColor: "white",
-        height: "100%",
-      }}
-    >
-      <ScrollView>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("StartingPage");
-          }}
-          style={{
-            marginTop: 20,
-            marginLeft: 20,
-            // backgroundColor: "black",
-            width: 40,
-            borderWidth: 1,
-            borderColor: "#034694",
-            // backgroundColor: "lightgray",
-            paddingHorizontal: 12,
-            paddingVertical: 12,
-            borderRadius: 50,
-          }}
-        >
-          <FontAwesome name="chevron-left" size={14} color="#034694" />
-        </TouchableOpacity>
-        <Text
-          style={{
-            fontSize: 26,
-            paddingVertical: 20,
-            paddingHorizontal: 20,
-            fontWeight: "700",
-            color: "#00308F",
-          }}
-        >
-          Let's Login in the App.
-        </Text>
-        <Text
-          style={{
-            fontSize: 36,
-            paddingVertical: 0,
-            paddingHorizontal: 20,
-            fontWeight: "200",
-            color: "#C0C0C0",
-          }}
-        >
-          Welcome Back!
-        </Text>
-        <Text
-          style={{
-            fontSize: 36,
-            paddingVertical: 0,
-            paddingHorizontal: 20,
-            fontWeight: "200",
-            color: "#C0C0C0",
-          }}
-        >
-          Safety First
-        </Text>
-        <View>
-          <View
-            style={{
-              marginTop: 40,
-              marginHorizontal: 20,
-              width: "100%",
+    <>
+      <SafeAreaView
+        style={{
+          backgroundColor: "white",
+          height: "100%",
+        }}
+      >
+        <ScrollView>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("StartingPage");
             }}
-          >
-            <Text
-              style={{
-                textAlign: "left",
-                fontSize: 12,
-                paddingHorizontal: 5,
-                paddingVertical: 5,
-                fontWeight: "300",
-                color: "#00308F",
-              }}
-            >
-              Enter Your UserId
-            </Text>
-            <TextInput
-              onChangeText={(text) => setEmail(text)}
-              value={email}
-              style={{
-                paddingHorizontal: 12,
-                paddingVertical: 12,
-                width: "90%",
-                backgroundColor: "#F0F8FF",
-                borderRadius: 5,
-                color: "black",
-              }}
-              placeholder="Enter Your User EmailId"
-            />
-          </View>
-          <View
             style={{
               marginTop: 20,
-              marginHorizontal: 20,
-              width: "100%",
+              marginLeft: 20,
+              // backgroundColor: "black",
+              width: 40,
+              borderWidth: 1,
+              borderColor: "#034694",
+              // backgroundColor: "lightgray",
+              paddingHorizontal: 12,
+              paddingVertical: 12,
+              borderRadius: 50,
             }}
           >
-            <Text
-              style={{
-                textAlign: "left",
-                fontSize: 12,
-                paddingHorizontal: 5,
-                paddingVertical: 5,
-                fontWeight: "300",
-                color: "#00308F",
-              }}
-            >
-              Enter Your Password
-            </Text>
-            <TextInput
-              onChangeText={(text) => setPassword(text)}
-              value={password}
-              style={{
-                paddingHorizontal: 12,
-                paddingVertical: 12,
-                width: "90%",
-                backgroundColor: "#F0F8FF",
-                borderRadius: 5,
-                color: "black",
-              }}
-              placeholder="Enter Your Password"
-              returnKeyType="go"
-              secureTextEntry
-            />
-          </View>
-        </View>
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 40,
-          }}
-        >
-          <TouchableOpacity
-            onPress={handleLogin}
-            style={{
-              width: "90%",
-              backgroundColor: "#034694",
-              paddingVertical: 14,
-              borderRadius: 5,
-            }}
-          >
-            <Text
-              style={{
-                textAlign: "center",
-                fontSize: 16,
-                fontWeight: "600",
-                color: "white",
-              }}
-            >
-              LogIn in Your Profile
-            </Text>
+            <FontAwesome name="chevron-left" size={14} color="#034694" />
           </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          <Text
+            style={{
+              fontSize: 26,
+              paddingVertical: 20,
+              paddingHorizontal: 20,
+              fontWeight: "700",
+              color: "#00308F",
+            }}
+          >
+            Let's Login in the App.
+          </Text>
+          <Text
+            style={{
+              fontSize: 36,
+              paddingVertical: 0,
+              paddingHorizontal: 20,
+              fontWeight: "200",
+              color: "#C0C0C0",
+            }}
+          >
+            Welcome Back!
+          </Text>
+          <Text
+            style={{
+              fontSize: 36,
+              paddingVertical: 0,
+              paddingHorizontal: 20,
+              fontWeight: "200",
+              color: "#C0C0C0",
+            }}
+          >
+            Safety First
+          </Text>
+          <View>
+            <View
+              style={{
+                marginTop: 40,
+                marginHorizontal: 20,
+                width: "100%",
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "left",
+                  fontSize: 12,
+                  paddingHorizontal: 5,
+                  paddingVertical: 5,
+                  fontWeight: "300",
+                  color: "#00308F",
+                }}
+              >
+                Enter Your UserId
+              </Text>
+              <TextInput
+                onChangeText={(text) => setEmail(text)}
+                value={email}
+                style={{
+                  paddingHorizontal: 12,
+                  paddingVertical: 12,
+                  width: "90%",
+                  backgroundColor: "#F0F8FF",
+                  borderRadius: 5,
+                  color: "black",
+                }}
+                placeholder="Enter Your User EmailId"
+              />
+            </View>
+            <View
+              style={{
+                marginTop: 20,
+                marginHorizontal: 20,
+                width: "100%",
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "left",
+                  fontSize: 12,
+                  paddingHorizontal: 5,
+                  paddingVertical: 5,
+                  fontWeight: "300",
+                  color: "#00308F",
+                }}
+              >
+                Enter Your Password
+              </Text>
+              <TextInput
+                onChangeText={(text) => setPassword(text)}
+                value={password}
+                style={{
+                  paddingHorizontal: 12,
+                  paddingVertical: 12,
+                  width: "90%",
+                  backgroundColor: "#F0F8FF",
+                  borderRadius: 5,
+                  color: "black",
+                }}
+                placeholder="Enter Your Password"
+                returnKeyType="go"
+                secureTextEntry
+              />
+            </View>
+          </View>
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 40,
+            }}
+          >
+            <TouchableOpacity
+              onPress={handleLogin}
+              style={{
+                width: "90%",
+                backgroundColor: "#034694",
+                paddingVertical: 14,
+                borderRadius: 5,
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 16,
+                  fontWeight: "600",
+                  color: "white",
+                }}
+              >
+                LogIn in Your Profile
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+        <Toast />
+      </SafeAreaView>
+    </>
   );
 };
 
