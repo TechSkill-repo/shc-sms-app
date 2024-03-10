@@ -6,8 +6,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
-const starter = () => {
+const StartingPage = () => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView
       style={{
@@ -38,7 +40,7 @@ const starter = () => {
       </Text>
       <View
         style={{
-          paddingHorizontal: 12,
+          paddingHorizontal: 40,
         }}
       >
         <Text
@@ -49,10 +51,13 @@ const starter = () => {
           }}
         >
           We welcome you to our safety Management system to provide the best
-          safety in your enviroment in your orgination and department.
+          safety in your orginations.
         </Text>
       </View>
       <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("login");
+        }}
         style={{
           position: "absolute",
           bottom: 30,
@@ -77,4 +82,4 @@ const starter = () => {
   );
 };
 
-export default starter;
+export default StartingPage;
