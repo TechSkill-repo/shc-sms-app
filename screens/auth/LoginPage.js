@@ -11,10 +11,13 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
+import useAuthStore from "../../store/userAuthStore";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const setUser = useAuthStore((state) => state.setUser);
 
   const showToast = () => {
     setTimeout(() => {
@@ -46,7 +49,12 @@ const LoginPage = () => {
       // Assuming the response contains a property named 'success' indicating whether login was successful
       if (responseData.message === "successful") {
         // Handle successful login
-        Alert.alert("Success", "Logged in successfully");
+        setUser({
+          username: responseData.username,
+          role: responseData.role,
+          email: responseData.email,
+        });
+        // Alert.alert("Success", "Logged in successfully");
         navigation.navigate("Home");
       } else {
         // Handle unsuccessful login
