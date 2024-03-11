@@ -5,7 +5,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import StartingPage from "./screens/starter/StartingPage";
 import LoginPage from "./screens/auth/LoginPage";
-import ProfileScreen from "./screens/ProfileScreen";
 import TabNavigation from "./Navigation/TabNavigation";
 
 const Stack = createNativeStackNavigator();
@@ -19,11 +18,7 @@ function App() {
           component={TabNavigation}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="ProfileScreen"
-          component={ProfileScreen}
-          options={{ headerShown: false }}
-        />
+
         <Stack.Screen
           name="StartingPage"
           component={StartingPage}

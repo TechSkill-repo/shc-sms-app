@@ -144,7 +144,7 @@ const LoginUi = () => {
           }}
           style={{
             width: "90%",
-            backgroundColor: "#034694",
+            backgroundColor: "#244aca",
             paddingVertical: 14,
             borderRadius: 5,
           }}
