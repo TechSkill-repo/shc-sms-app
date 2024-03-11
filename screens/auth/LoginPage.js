@@ -12,7 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import useAuthStore from "../../store/userAuthStore";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -36,7 +36,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://192.168.241.50:8085/auth/login", {
+      const response = await fetch("http://192.168.1.7:8080/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,18 +58,20 @@ const LoginPage = () => {
         });
 
         try {
-          await AsyncStorage.setItem("userData", JSON.stringify({
-            username: responseData.username,
-            role: responseData.role,
-            email: responseData.email,
-          }));
+          await AsyncStorage.setItem(
+            "userData",
+            JSON.stringify({
+              username: responseData.username,
+              role: responseData.role,
+              email: responseData.email,
+            })
+          );
           await AsyncStorage.setItem("accessToken", responseData.token);
         } catch (error) {
           console.log("async storage login failed!", error);
         }
         // Alert.alert("Success", "Logged in successfully");
         navigation.navigate("Home");
-        
       } else {
         // Handle unsuccessful login
         // Alert.alert("Error", "Invalid email or password");

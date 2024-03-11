@@ -11,23 +11,21 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const StartingPage = () => {
   const navigation = useNavigation();
-  useEffect(()=>{
+  useEffect(() => {
     handleGetToken();
-  },[]);
+  }, []);
 
-  const handleGetToken = async ()=>{
+  const handleGetToken = async () => {
     try {
       const dataToken = await AsyncStorage.getItem("accessToken");
       console.log("accessToken", dataToken);
-      if(dataToken){
-        navigation.replace("Home")
-      }else{
-        navigation.replace("login")
+      if (dataToken) {
+        navigation.replace("Home");
       }
     } catch (error) {
       console.error("Error retrieving token:", error);
     }
-  }
+  };
   return (
     <SafeAreaView
       style={{

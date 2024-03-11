@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
-  const { username, role, email } = useAuthStore(); // Ac
+  const { username, role, email } = useAuthStore();
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -27,17 +27,15 @@ const Home = () => {
     fetchUserData();
   }, []);
 
-  const handleLogout = async ()=>{
+  const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem("accessToken");
       await AsyncStorage.removeItem("userData");
-      navigation.navigate("login");
+      navigation.navigate("StartingPage");
     } catch (error) {
       console.error("Error logging out:", error);
     }
-
   };
-
 
   return (
     <SafeAreaView
@@ -47,11 +45,11 @@ const Home = () => {
       }}
     >
       <View>
-      {userData ? (
+        {username ? (
           <>
-            <Text>Welcome, {userData.username}!</Text>
-            <Text>Your role is: {userData.role}</Text>
-            <Text>Your email is: {userData.email}</Text>
+            <Text>Welcome, {username}!</Text>
+            <Text>Your role is: {role}</Text>
+            <Text>Your email is: {email}</Text>
           </>
         ) : (
           <Text>Loading...</Text>
@@ -61,24 +59,28 @@ const Home = () => {
       <TouchableOpacity
         style={{
           width: 100,
-          height:50,
+          height: 50,
           backgroundColor: "#034694",
           paddingVertical: 14,
           borderRadius: 5,
-          position:"absolute",
-          bottom:20,
-          alignSelf:"center"
-
+          position: "absolute",
+          bottom: 20,
+          alignSelf: "center",
         }}
-        onPress={()=>{
+        onPress={() => {
           handleLogout();
-        }}>
-        <Text style={{
-          textAlign: "center",
-          fontSize: 16,
-          fontWeight: "600",
-          color: "white",
-        }}>Logout</Text>
+        }}
+      >
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 16,
+            fontWeight: "600",
+            color: "white",
+          }}
+        >
+          Logout
+        </Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
