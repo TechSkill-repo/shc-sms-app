@@ -7,7 +7,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Home from "../screens/Home";
 import Setting from "../screens/Setting";
 import Menu from "../screens/Menu";
-import TbmPage from "../screens/TbM/TbmPage";
 import TBM from "../routes/TbmRoutes.js/TBM";
 
 const Tab = createBottomTabNavigator();

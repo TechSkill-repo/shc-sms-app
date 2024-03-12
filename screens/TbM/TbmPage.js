@@ -92,7 +92,7 @@ const TbmPage = () => {
           <Text
             style={{
               fontSize: 16,
-              fontWeight: "600",
+              fontWeight: "300",
               marginLeft: 5,
               color: "#2e2d6e",
             }}
@@ -108,10 +108,8 @@ const TbmPage = () => {
             navigation.navigate("TbtForm");
           }}
           style={{
-            marginTop: 60,
-            borderWidth: 2,
-            borderColor: "#2e2d6e",
-            backgroundColor: "white",
+            marginTop: 40,
+            backgroundColor: "#2e2d6e",
             marginHorizontal: 20,
             paddingHorizontal: 20,
             paddingVertical: 15,
@@ -127,8 +125,8 @@ const TbmPage = () => {
               alignItems: "center",
             }}
           >
-            <FontAwesome
-              name="wpforms"
+            <FontAwesome6
+              name="file-waveform"
               size={20}
               color="#ffaa00"
               style={{
@@ -138,8 +136,8 @@ const TbmPage = () => {
             <Text
               style={{
                 fontSize: 18,
-                fontWeight: "700",
-                color: "#2e2d6e",
+                fontWeight: "400",
+                color: "#fff",
               }}
             >
               Tool Box Talk Form
@@ -153,9 +151,7 @@ const TbmPage = () => {
           }}
           style={{
             marginTop: 30,
-            borderWidth: 2,
-            borderColor: "#2e2d6e",
-            backgroundColor: "white",
+            backgroundColor: "#2e2d6e",
             marginHorizontal: 20,
             paddingHorizontal: 20,
             paddingVertical: 15,
@@ -171,8 +167,8 @@ const TbmPage = () => {
               alignItems: "center",
             }}
           >
-            <FontAwesome
-              name="wpforms"
+            <FontAwesome6
+              name="person-running"
               size={20}
               color="#ffaa00"
               style={{
@@ -182,8 +178,8 @@ const TbmPage = () => {
             <Text
               style={{
                 fontSize: 18,
-                fontWeight: "700",
-                color: "#2e2d6e",
+                fontWeight: "400",
+                color: "#fff",
               }}
             >
               Daily Job Plan
@@ -197,9 +193,7 @@ const TbmPage = () => {
           }}
           style={{
             marginTop: 30,
-            borderWidth: 2,
-            borderColor: "#2e2d6e",
-            backgroundColor: "white",
+            backgroundColor: "#2e2d6e",
             marginHorizontal: 20,
             paddingHorizontal: 20,
             paddingVertical: 15,
@@ -226,8 +220,8 @@ const TbmPage = () => {
             <Text
               style={{
                 fontSize: 18,
-                fontWeight: "700",
-                color: "#2e2d6e",
+                fontWeight: "400",
+                color: "#fff",
               }}
             >
               PPE Check List
@@ -241,9 +235,7 @@ const TbmPage = () => {
           }}
           style={{
             marginTop: 30,
-            borderWidth: 2,
-            borderColor: "#2e2d6e",
-            backgroundColor: "white",
+            backgroundColor: "#2e2d6e",
             marginHorizontal: 20,
             paddingHorizontal: 20,
             paddingVertical: 15,
@@ -270,11 +262,53 @@ const TbmPage = () => {
             <Text
               style={{
                 fontSize: 18,
-                fontWeight: "700",
-                color: "#2e2d6e",
+                fontWeight: "400",
+                color: "#fff",
               }}
             >
               Tools and Tackles
+            </Text>
+          </View>
+          <AntDesign name="right" size={20} color="#ffaa00" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("toolsTackles");
+          }}
+          style={{
+            marginTop: 30,
+            backgroundColor: "#2e2d6e",
+            marginHorizontal: 20,
+            paddingHorizontal: 20,
+            paddingVertical: 15,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            borderRadius: 5,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <FontAwesome6
+              name="gripfire"
+              size={20}
+              color="#ffaa00"
+              style={{
+                marginRight: 15,
+              }}
+            />
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: "400",
+                color: "#fff",
+              }}
+            >
+              F.S.G.R
             </Text>
           </View>
           <AntDesign name="right" size={20} color="#ffaa00" />
