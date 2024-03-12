@@ -125,8 +125,8 @@ const TbmPage = () => {
               alignItems: "center",
             }}
           >
-            <FontAwesome
-              name="wpforms"
+            <FontAwesome6
+              name="file-waveform"
               size={20}
               color="#ffaa00"
               style={{
