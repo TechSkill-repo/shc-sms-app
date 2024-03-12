@@ -137,6 +137,7 @@ const Step1 = ({ onNext }) => {
           }}
           value={`${day}/${month}/${year}`}
           placeholder="Date"
+          editable={false}
         />
       </View>
       <View
@@ -172,6 +173,7 @@ const Step1 = ({ onNext }) => {
           value={`${hours}:${minutes < 10 ? `0${minutes}` : minutes}:${
             seconds < 10 ? `0${seconds}` : seconds
           }`}
+          editable={false}
         />
       </View>
       <View
