@@ -11,7 +11,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
+const Step3 = ({ onNext, onPrev }) => {
   const [inputList, setInputList] = useState([{ id: 1, text: "" }]);
   const [idCounter, setIdCounter] = useState(2); // Counter for generating unique ids
 
@@ -24,11 +24,6 @@ const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
   const handleRemoveInput = (idToRemove) => {
     const updatedList = inputList.filter((item) => item.id !== idToRemove);
     setInputList(updatedList);
-
-    const updatedAttendance = formData.attendance.filter(
-      (item, index) => index !== idToRemove - 1
-    );
-    setFormData({ ...formData, attendance: updatedAttendance });
   };
 
   const handleInputChange = (text, id) => {
@@ -36,11 +31,6 @@ const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
       item.id === id ? { ...item, text: text } : item
     );
     setInputList(updatedList);
-
-    const updatedAttendance = updatedList
-      .map((item) => item.text.trim())
-      .filter(Boolean);
-    setFormData({ ...formData, attendance: updatedAttendance });
   };
   return (
     <ScrollView
@@ -73,7 +63,7 @@ const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
               fontWeight: "600",
             }}
           >
-            5.) TBT Attendance
+            Hazards & Necessary Steps
           </Text>
         </View>
       </View>
@@ -98,7 +88,7 @@ const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
             marginBottom: 10,
           }}
         >
-          Enter Employee Names
+          Enter Hazards Description
         </Text>
 
         {inputList.map((input, index) => (
@@ -122,7 +112,7 @@ const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
               }}
               value={input.text}
               onChangeText={(text) => handleInputChange(text, input.id)}
-              placeholder={`Employee Name ${index + 1}`}
+              placeholder={`Hazards Description ${index + 1}`}
             />
             {index > 0 && ( // Render remove button for all inputs except the first one
               <TouchableOpacity
@@ -153,6 +143,7 @@ const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
         <TouchableOpacity
           onPress={handleAddInput}
           style={{
+            width: "50%",
             marginTop: 10,
             backgroundColor: "#244aca",
             paddingHorizontal: 20,
@@ -167,7 +158,101 @@ const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
               color: "#fff",
             }}
           >
-            + Add Employee
+            + Add Hazard
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          flex: 1,
+          //   justifyContent: "center",
+          //   alignItems: "center",
+          padding: 20,
+        }}
+      >
+        <Text
+          style={{
+            textAlign: "left",
+            fontSize: 16,
+            paddingHorizontal: 5,
+            paddingVertical: 5,
+            fontWeight: "600",
+            color: "#00308F",
+            paddingRight: 15,
+            marginBottom: 10,
+          }}
+        >
+          Enter Necessary Steps Taken
+        </Text>
+
+        {inputList.map((input, index) => (
+          <View
+            key={input.id}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            <TextInput
+              style={{
+                paddingHorizontal: 12,
+                paddingVertical: 12,
+                width: "90%",
+                backgroundColor: "#F5F5F5",
+                elevation: 3,
+                borderRadius: 5,
+                color: "black",
+              }}
+              value={input.text}
+              onChangeText={(text) => handleInputChange(text, input.id)}
+              placeholder={`Necessary Step ${index + 1}`}
+            />
+            {index > 0 && ( // Render remove button for all inputs except the first one
+              <TouchableOpacity
+                onPress={() => handleRemoveInput(input.id)}
+                style={{
+                  marginTop: 10,
+                  backgroundColor: "#244aca",
+                  paddingHorizontal: 20,
+                  paddingVertical: 10,
+                  borderRadius: 50,
+                  marginLeft: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontWeight: "600",
+                    color: "#fff",
+                  }}
+                >
+                  -
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        ))}
+        {/* <Button title="+" onPress={handleAddInput} /> */}
+        <TouchableOpacity
+          onPress={handleAddInput}
+          style={{
+            width: "50%",
+            marginTop: 10,
+            backgroundColor: "#244aca",
+            paddingHorizontal: 20,
+            paddingVertical: 10,
+            borderRadius: 50,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 14,
+              fontWeight: "600",
+              color: "#fff",
+            }}
+          >
+            + Add Step
           </Text>
         </TouchableOpacity>
       </View>
@@ -236,4 +321,4 @@ const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
     </ScrollView>
   );
 };
-export default Step5;
+export default Step3;

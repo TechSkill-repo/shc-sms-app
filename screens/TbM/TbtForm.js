@@ -39,8 +39,7 @@ const TbtForm = () => {
 
     // step:5
     totalNumberOfPeopleAssign: "", //interger
-    attendance: []
-
+    attendance: [],
   });
 
   const nextStep = () => {
@@ -63,54 +62,83 @@ const TbtForm = () => {
   const renderStep = () => {
     switch (step) {
       case 1:
-        return <Step1 onNext={nextStep} setFormData={setFormData} formData={formData} updateFormData={updateStep1FormData} />;
+        return (
+          <Step1
+            onNext={nextStep}
+            setFormData={setFormData}
+            formData={formData}
+            updateFormData={updateStep1FormData}
+          />
+        );
 
       case 2:
-        return <Step2 onNext={nextStep} onPrev={prevStep} setFormData={setFormData} formData={formData} />;
+        return (
+          <Step2
+            onNext={nextStep}
+            onPrev={prevStep}
+            setFormData={setFormData}
+            formData={formData}
+          />
+        );
 
       case 3:
-        return <Step3 onNext={nextStep} onPrev={prevStep} setFormData={setFormData} formData={formData} />;
+        return (
+          <Step3
+            onNext={nextStep}
+            onPrev={prevStep}
+            setFormData={setFormData}
+            formData={formData}
+          />
+        );
 
       case 4:
-        return <Step4 onNext={nextStep} onPrev={prevStep} setFormData={setFormData} formData={formData} />;
+        return (
+          <Step4
+            onNext={nextStep}
+            onPrev={prevStep}
+            setFormData={setFormData}
+            formData={formData}
+          />
+        );
 
       case 5:
-        return <Step5 onNext={submitForm} onPrev={prevStep} setFormData={setFormData} formData={formData} />;
+        return (
+          <Step5
+            onNext={submitForm}
+            onPrev={prevStep}
+            setFormData={setFormData}
+            formData={formData}
+          />
+        );
 
       default:
         return null;
     }
   };
 
-
-
   const submitForm = async () => {
-    await axios.post("http://192.168.241.49:8085/forms/tbm-form", formData, {
-      headers: {
-        "Content-Type": "application/json",
-      }
-    }).then((response) => {
-      
-      console.log("Form Submited Successfully:", response.data);
-      alert("Form Submited Successfully")
-
-    }).catch(error => {
-      console.error('Error submitting form:', error);
-      if (error.response) {
-
-        console.error('Server responded with status:', error.response.status);
-        console.error('Response data:', error.response.data);
-      } else if (error.request) {
-  
-        console.error('No response received:', error.request);
-      } else {
-  
-        console.error('Request error:', error.message);
-      }
-
-    });
-  }
-
+    await axios
+      .post("http://192.168.1.7:8080/forms/tbm-form", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("Form Submited Successfully:", response.data);
+        alert("Form Submited Successfully");
+      })
+      .catch((error) => {
+        console.error("Error submitting form:", error);
+        if (error.response) {
+          console.error("Server responded with status:", error.response.status);
+          console.error("Response data:", error.response.data);
+        } else if (error.request) {
+          console.error("No response received:", error.request);
+        } else {
+          console.error("Request error:", error.message);
+        }
+      });
+  };
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>

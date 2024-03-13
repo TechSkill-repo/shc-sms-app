@@ -53,7 +53,7 @@ const TbmPage = () => {
     >
       <View
         style={{
-          backgroundColor: "#ffbf00a1",
+          backgroundColor: "#ffaa00a1",
           height: 200,
         }}
       >
