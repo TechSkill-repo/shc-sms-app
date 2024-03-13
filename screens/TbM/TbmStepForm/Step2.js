@@ -11,7 +11,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
 
-const Step2 = ({ onNext, onPrev }) => {
+const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
   return (
     <ScrollView
       style={{
@@ -43,7 +43,7 @@ const Step2 = ({ onNext, onPrev }) => {
               fontWeight: "600",
             }}
           >
-            2.) Tool-Box Talk
+            2. Tool-Box Talk
           </Text>
         </View>
       </View>
@@ -78,6 +78,7 @@ const Step2 = ({ onNext, onPrev }) => {
             color: "black",
           }}
           placeholder="Please Enter Company Supervisor/Manager"
+          onChangeText={(companySupervisor)=>{setFormData({...formData, companySupervisor})}}
         />
       </View>
       <View
@@ -110,6 +111,7 @@ const Step2 = ({ onNext, onPrev }) => {
             color: "black",
           }}
           placeholder="Enter Safety Representative"
+          onChangeText={(safetyRepresentative)=>{setFormData({...formData, safetyRepresentative})}}
         />
       </View>
       <View
@@ -142,6 +144,7 @@ const Step2 = ({ onNext, onPrev }) => {
             color: "black",
           }}
           placeholder="Enter Department Name"
+          onChangeText={(department)=>{setFormData({...formData, department})}}
         />
       </View>
       <View
@@ -174,6 +177,7 @@ const Step2 = ({ onNext, onPrev }) => {
             color: "black",
           }}
           placeholder="Enter Contractor Representative Name"
+          onChangeText={(contractorRepresentative)=>{setFormData({...formData, contractorRepresentative})}}
         />
       </View>
       <View
@@ -206,6 +210,7 @@ const Step2 = ({ onNext, onPrev }) => {
             color: "black",
           }}
           placeholder="Contractor Employees Name"
+          onChangeText={(contractorEmployee)=>{setFormData({...formData, contractorEmployee})}}
         />
       </View>
       <View

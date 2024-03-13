@@ -11,7 +11,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const Step5 = ({ onNext, onPrev }) => {
+const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
   const [inputList, setInputList] = useState([{ id: 1, text: "" }]);
   const [idCounter, setIdCounter] = useState(2); // Counter for generating unique ids
 
@@ -24,6 +24,9 @@ const Step5 = ({ onNext, onPrev }) => {
   const handleRemoveInput = (idToRemove) => {
     const updatedList = inputList.filter((item) => item.id !== idToRemove);
     setInputList(updatedList);
+
+    const updatedAttendance = formData.attendance.filter((item, index) => index !== idToRemove - 1);
+    setFormData({ ...formData, attendance: updatedAttendance });
   };
 
   const handleInputChange = (text, id) => {
@@ -31,6 +34,9 @@ const Step5 = ({ onNext, onPrev }) => {
       item.id === id ? { ...item, text: text } : item
     );
     setInputList(updatedList);
+
+    const updatedAttendance = updatedList.map((item) => item.text.trim()).filter(Boolean);
+    setFormData({ ...formData, attendance: updatedAttendance });
   };
   return (
     <ScrollView

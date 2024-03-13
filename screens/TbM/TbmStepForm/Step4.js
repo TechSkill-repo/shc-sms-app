@@ -11,7 +11,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
 
-const Step4 = ({ onNext, onPrev }) => {
+const Step4 = ({ onNext, onPrev, setFormData, formData }) => {
   return (
     <ScrollView
       style={{
@@ -81,6 +81,7 @@ const Step4 = ({ onNext, onPrev }) => {
           multiline={true} // Allow multiline input
           numberOfLines={2} // Set maximum number of lines
           textAlignVertical="top"
+          onChangeText={(sop)=>{setFormData({...formData, sop})}}
         />
       </View>
       <View
@@ -117,6 +118,7 @@ const Step4 = ({ onNext, onPrev }) => {
           multiline={true} // Allow multiline input
           numberOfLines={2} // Set maximum number of lines
           textAlignVertical="top"
+          onChangeText={(responsibilities)=>{setFormData({...formData, responsibilities})}}
         />
       </View>
       <View
@@ -153,6 +155,7 @@ const Step4 = ({ onNext, onPrev }) => {
           multiline={true} // Allow multiline input
           numberOfLines={2} // Set maximum number of lines
           textAlignVertical="top"
+          onChangeText={(safetyMessage)=>{setFormData({...formData, safetyMessage})}}
         />
       </View>
       <View
@@ -198,6 +201,7 @@ const Step4 = ({ onNext, onPrev }) => {
           multiline={true} // Allow multiline input
           numberOfLines={2} // Set maximum number of lines
           textAlignVertical="top"
+          onChangeText={(actionResulting)=>{setFormData({...formData, actionResulting})}}
         />
       </View>
       <View

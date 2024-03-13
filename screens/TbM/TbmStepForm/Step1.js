@@ -11,7 +11,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
 
-const Step1 = ({ onNext }) => {
+const Step1 = ({ onNext, formData, setFormData }) => {
   const currentDate = new Date();
 
   const [permitNumber, setPermitNumber] = useState("");
@@ -138,6 +138,7 @@ const Step1 = ({ onNext }) => {
           value={`${day}/${month}/${year}`}
           placeholder="Date"
           editable={false}
+          onChangeText={(todaysDate)=>{setFormData({...formData, todaysDate})}}
         />
       </View>
       <View
@@ -174,6 +175,7 @@ const Step1 = ({ onNext }) => {
             seconds < 10 ? `0${seconds}` : seconds
           }`}
           editable={false}
+          onChangeText={(currentTime)=>{setFormData({...formData, currentTime})}}
         />
       </View>
       <View
@@ -207,6 +209,7 @@ const Step1 = ({ onNext }) => {
           }}
           placeholder="Shift"
           value={shift}
+          onChangeText={(currentShift)=>{setFormData({...formData, currentShift})}}
         />
       </View>
       <View
@@ -239,6 +242,8 @@ const Step1 = ({ onNext }) => {
             color: "black",
           }}
           placeholder="Enter Your Site Location"
+          onChangeText={(siteLocation)=>{setFormData({...formData, siteLocation})}}
+          
         />
       </View>
       <View
@@ -274,7 +279,10 @@ const Step1 = ({ onNext }) => {
           placeholder="Enter Your Permit Number"
           onChangeText={(permitNumber) => {
             setPermitNumber(permitNumber);
+            setFormData({...formData, permitNumber})
           }}
+
+          // onChangeText={(permitNumber)=>{setFormData({...formData, permitNumber})}}
           keyboardType="numeric"
         />
       </View>

@@ -11,7 +11,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
 
-const Step3 = ({ onNext, onPrev }) => {
+const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
   return (
     <ScrollView
       style={{
@@ -90,6 +90,7 @@ const Step3 = ({ onNext, onPrev }) => {
           multiline={true} // Allow multiline input
           numberOfLines={4} // Set maximum number of lines
           textAlignVertical="top"
+          onChangeText={(safetyContractReviewItems)=>{setFormData({...formData, safetyContractReviewItems})}}
         />
       </View>
       <View
@@ -140,6 +141,7 @@ const Step3 = ({ onNext, onPrev }) => {
           multiline={true} // Allow multiline input
           numberOfLines={4} // Set maximum number of lines
           textAlignVertical="top"
+          onChangeText={(itemsOfGeneralSafetyImportance)=>{setFormData({...formData, itemsOfGeneralSafetyImportance})}}
         />
       </View>
       <View
@@ -199,6 +201,7 @@ const Step3 = ({ onNext, onPrev }) => {
           multiline={true} // Allow multiline input
           numberOfLines={4} // Set maximum number of lines
           textAlignVertical="top"
+          onChangeText={(queries)=>{setFormData({...formData, queries})}}
         />
       </View>
       <View
