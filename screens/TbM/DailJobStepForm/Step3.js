@@ -11,26 +11,62 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const Step3 = ({ onNext, onPrev }) => {
+const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
+  const [hazardsInputList, setHazardsInputList] = useState([{ id: 1, text: "" }]);
+  const [stepsInputList, setStepsInputList] = useState([{ id: 1, text: "" }]);
+  const [hazardsIdCounter, setHazardsIdCounter] = useState(2);
+  const [stepsIdCounter, setStepsIdCounter] = useState(2);
+
   const [inputList, setInputList] = useState([{ id: 1, text: "" }]);
   const [idCounter, setIdCounter] = useState(2); // Counter for generating unique ids
 
-  const handleAddInput = () => {
-    const newInput = { id: idCounter, text: "" };
-    setInputList([...inputList, newInput]);
-    setIdCounter(idCounter + 1);
+  const handleAddHazardInput = () => {
+    const newInput = { id: hazardsIdCounter, text: "" };
+    setHazardsInputList([...hazardsInputList, newInput]);
+    setHazardsIdCounter(hazardsIdCounter + 1);
   };
 
-  const handleRemoveInput = (idToRemove) => {
-    const updatedList = inputList.filter((item) => item.id !== idToRemove);
-    setInputList(updatedList);
+  const handleRemoveHazardInput = (idToRemove) => {
+    const updatedList = hazardsInputList.filter((item) => item.id !== idToRemove);
+    setHazardsInputList(updatedList);
+
+    const updatedHazardsDesc = updatedList.map((item) => item.text.trim());
+    setFormData({ ...formData, hazardsDescription: updatedHazardsDesc });
   };
 
-  const handleInputChange = (text, id) => {
-    const updatedList = inputList.map((item) =>
+  const handleHazardInputChange = (text, id) => {
+    const updatedList = hazardsInputList.map((item) =>
       item.id === id ? { ...item, text: text } : item
     );
-    setInputList(updatedList);
+    setHazardsInputList(updatedList);
+
+    const updatedHazardsDesc = updatedList.map((item) => item.text.trim());
+    setFormData({ ...formData, hazardsDescription: updatedHazardsDesc });
+  };
+
+  // necessary steps
+  const handleAddStepInput = () => {
+    const newInput = { id: stepsIdCounter, text: "" };
+    setStepsInputList([...stepsInputList, newInput]);
+    setStepsIdCounter(stepsIdCounter + 1);
+  };
+
+  const handleRemoveStepInput = (idToRemove) => {
+    const updatedList = stepsInputList.filter((item) => item.id !== idToRemove);
+    setStepsInputList(updatedList);
+
+    const updatedSteps = updatedList.map((item) => item.text.trim());
+    setFormData({ ...formData, necessarySteps: updatedSteps });
+  };
+
+  const handleStepInputChange = (text, id) => {
+    const updatedList = stepsInputList.map((item) =>
+      item.id === id ? { ...item, text: text } : item
+    );
+    setStepsInputList(updatedList);
+
+    const updatedSteps = updatedList.map((item) => item.text.trim());
+    setFormData({ ...formData, necessarySteps: updatedSteps });
   };
   return (
     <ScrollView
@@ -91,7 +127,7 @@ const Step3 = ({ onNext, onPrev }) => {
           Enter Hazards Description
         </Text>
 
-        {inputList.map((input, index) => (
+        {hazardsInputList.map((input, index) => (
           <View
             key={input.id}
             style={{
@@ -111,12 +147,12 @@ const Step3 = ({ onNext, onPrev }) => {
                 color: "black",
               }}
               value={input.text}
-              onChangeText={(text) => handleInputChange(text, input.id)}
+              onChangeText={(text) => handleHazardInputChange(text, input.id)}
               placeholder={`Hazards Description ${index + 1}`}
             />
             {index > 0 && ( // Render remove button for all inputs except the first one
               <TouchableOpacity
-                onPress={() => handleRemoveInput(input.id)}
+                onPress={() => handleRemoveHazardInput(input.id)}
                 style={{
                   marginTop: 10,
                   backgroundColor: "#244aca",
@@ -141,7 +177,7 @@ const Step3 = ({ onNext, onPrev }) => {
         ))}
         {/* <Button title="+" onPress={handleAddInput} /> */}
         <TouchableOpacity
-          onPress={handleAddInput}
+          onPress={handleAddHazardInput}
           style={{
             width: "50%",
             marginTop: 10,
@@ -185,7 +221,7 @@ const Step3 = ({ onNext, onPrev }) => {
           Enter Necessary Steps Taken
         </Text>
 
-        {inputList.map((input, index) => (
+        {stepsInputList.map((input, index) => (
           <View
             key={input.id}
             style={{
@@ -205,12 +241,12 @@ const Step3 = ({ onNext, onPrev }) => {
                 color: "black",
               }}
               value={input.text}
-              onChangeText={(text) => handleInputChange(text, input.id)}
+              onChangeText={(text) => handleStepInputChange(text, input.id)}
               placeholder={`Necessary Step ${index + 1}`}
             />
             {index > 0 && ( // Render remove button for all inputs except the first one
               <TouchableOpacity
-                onPress={() => handleRemoveInput(input.id)}
+                onPress={() => handleRemoveStepInput(input.id)}
                 style={{
                   marginTop: 10,
                   backgroundColor: "#244aca",
@@ -235,7 +271,7 @@ const Step3 = ({ onNext, onPrev }) => {
         ))}
         {/* <Button title="+" onPress={handleAddInput} /> */}
         <TouchableOpacity
-          onPress={handleAddInput}
+          onPress={handleAddStepInput}
           style={{
             width: "50%",
             marginTop: 10,

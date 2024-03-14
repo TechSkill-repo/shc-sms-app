@@ -15,7 +15,7 @@ import {
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const Step2 = ({ onNext, onPrev }) => {
+const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
   const navigation = useNavigation();
   return (
     <ScrollView
@@ -89,6 +89,7 @@ const Step2 = ({ onNext, onPrev }) => {
             color: "black",
           }}
           placeholder="Enter Your Work Type"
+          onChangeText={(typeOfWork) => { setFormData({ ...formData, typeOfWork }) }}
         />
       </View>
       <View
@@ -120,9 +121,9 @@ const Step2 = ({ onNext, onPrev }) => {
             borderRadius: 5,
             color: "black",
           }}
-          value=""
+          // value=""
           placeholder="Enter Supervisor Name"
-          // onChangeText={(permitNumber)=>{setFormData({...formData, permitNumber})}}
+          onChangeText={(nameOfSupervisor) => { setFormData({ ...formData, nameOfSupervisor }) }}
         />
       </View>
       <View
@@ -154,9 +155,9 @@ const Step2 = ({ onNext, onPrev }) => {
             borderRadius: 5,
             color: "black",
           }}
-          value=""
+          // value=""
           placeholder="Enter SOP Number"
-          // onChangeText={(permitNumber)=>{setFormData({...formData, permitNumber})}}
+          onChangeText={(sopNumber) => { setFormData({ ...formData, sopNumber }) }}
         />
       </View>
       <View
@@ -188,9 +189,9 @@ const Step2 = ({ onNext, onPrev }) => {
             borderRadius: 5,
             color: "black",
           }}
-          value=""
+          // value=""
           placeholder="Enter Job Description"
-          // onChangeText={(permitNumber)=>{setFormData({...formData, permitNumber})}}
+          onChangeText={(jobDescription) => { setFormData({ ...formData, jobDescription }) }}
         />
       </View>
       <View

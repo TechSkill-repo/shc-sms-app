@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import React, { useState } from "react";
 
 import Step1 from "./TbmStepForm/Step1";
@@ -8,6 +8,7 @@ import Step4 from "./TbmStepForm/Step4";
 import Step5 from "./TbmStepForm/Step5";
 import axios from "axios";
 import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
 
 const TbtForm = () => {
   const [step, setStep] = useState(1);
@@ -104,7 +105,7 @@ const TbtForm = () => {
       case 5:
         return (
           <Step5
-            onNext={submitForm}
+            onNext={handleConfirmSubmit}
             onPrev={prevStep}
             setFormData={setFormData}
             formData={formData}
@@ -116,9 +117,11 @@ const TbtForm = () => {
     }
   };
 
+
+  const navigation = useNavigation();
   const submitForm = async () => {
     await axios
-      .post("http://192.168.1.7:8080/forms/tbm-form", formData, {
+      .post("http://192.168.241.49:8085/forms/tbm-form", formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -126,6 +129,7 @@ const TbtForm = () => {
       .then((response) => {
         console.log("Form Submited Successfully:", response.data);
         alert("Form Submited Successfully");
+        navigation.goBack();
       })
       .catch((error) => {
         console.error("Error submitting form:", error);
@@ -138,6 +142,27 @@ const TbtForm = () => {
           console.error("Request error:", error.message);
         }
       });
+  };
+
+  const handleConfirmSubmit = () => {
+    Alert.alert(
+      "Confirm Submission",
+      "Do you want to submit the form?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Submit",
+          onPress: () => {
+            alert("Form submitted successfully");
+            submitForm();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   return (

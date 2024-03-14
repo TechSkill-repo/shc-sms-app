@@ -15,7 +15,7 @@ import {
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const Step1 = ({ onNext }) => {
+const Step1 = ({ onNext, formData, setFormData }) => {
   const currentDate = new Date();
 
   const [permitNumber, setPermitNumber] = useState("");
@@ -233,6 +233,7 @@ const Step1 = ({ onNext }) => {
             color: "black",
           }}
           placeholder="Enter Your Site Location"
+          onChangeText={(siteLocation)=>{setFormData({...formData, siteLocation})}}
         />
       </View>
       <View
@@ -268,6 +269,10 @@ const Step1 = ({ onNext }) => {
           placeholder="Enter Your Permit Number"
           // onChangeText={(permitNumber)=>{setFormData({...formData, permitNumber})}}
           keyboardType="numeric"
+          onChangeText={(permitNumber) => {
+            setPermitNumber(permitNumber);
+            setFormData({...formData, permitNumber})
+          }}
         />
       </View>
       <View
