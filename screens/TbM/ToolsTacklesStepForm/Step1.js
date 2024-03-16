@@ -11,7 +11,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
 
-const Step1 = ({ onNext, formData, setFormData }) => {
+const Step1 = ({ onNext, formData, setStep1Data }) => {
   const currentDate = new Date();
 
   const [permitNumber, setPermitNumber] = useState("");
@@ -103,7 +103,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
               fontWeight: "600",
             }}
           >
-            Tool Box Meeting
+            Tools and Tackles
           </Text>
         </View>
       </View>
@@ -140,7 +140,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
           value={`${day}/${month}/${year}`}
           placeholder="Date"
           editable={false}
-          // onChangeText={(todaysDate) => { setFormData({ ...formData, todaysDate }) }}
+        // onChangeText={(todaysDate) => { setFormData({ ...formData, todaysDate }) }}
         />
       </View>
       <View
@@ -160,7 +160,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             color: "#00308F",
           }}
         >
-          Current Time
+          Location
         </Text>
         <TextInput
           style={{
@@ -172,11 +172,10 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             borderRadius: 5,
             color: "black",
           }}
-          placeholder="Time"
-          value={`${hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds
-            }`}
-          editable={false}
-          // onChangeText={(currentTime) => { setFormData({ ...formData, currentTime }) }}
+          placeholder="Location"
+          value={formData.location}
+          // editable={false}
+          onChangeText={(location) => { setStep1Data({ ...formData, location }) }}
         />
       </View>
       <View
@@ -196,7 +195,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             color: "#00308F",
           }}
         >
-          Current Shift
+          Work permit number
         </Text>
         <TextInput
           style={{
@@ -208,85 +207,15 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             borderRadius: 5,
             color: "black",
           }}
-          placeholder="Shift"
-          value={shift}
-          onChangeText={(currentShift) => { setFormData({ ...formData, currentShift }) }}
-        />
-      </View>
-      <View
-        style={{
-          marginTop: 20,
-          marginHorizontal: 20,
-          width: "100%",
-        }}
-      >
-        <Text
-          style={{
-            textAlign: "left",
-            fontSize: 14,
-            paddingHorizontal: 5,
-            paddingVertical: 5,
-            fontWeight: "600",
-            color: "#00308F",
-          }}
-        >
-          Site Location
-        </Text>
-        <TextInput
-          style={{
-            paddingHorizontal: 12,
-            paddingVertical: 12,
-            width: "90%",
-            backgroundColor: "#F5F5F5",
-            elevation: 3,
-            borderRadius: 5,
-            color: "black",
-          }}
-          placeholder="Enter Your Site Location"
-          onChangeText={(siteLocation) => { setFormData({ ...formData, siteLocation }) }}
-
-        />
-      </View>
-      <View
-        style={{
-          marginTop: 20,
-          marginHorizontal: 20,
-          width: "100%",
-        }}
-      >
-        <Text
-          style={{
-            textAlign: "left",
-            fontSize: 14,
-            paddingHorizontal: 5,
-            paddingVertical: 5,
-            fontWeight: "600",
-            color: "#00308F",
-          }}
-        >
-          Work Order / Permit Number
-        </Text>
-        <TextInput
-          style={{
-            paddingHorizontal: 12,
-            paddingVertical: 12,
-            width: "90%",
-            backgroundColor: "#F5F5F5",
-            elevation: 3,
-            borderRadius: 5,
-            color: "black",
-          }}
+          placeholder="Work permit number"
           value={permitNumber}
-          placeholder="Enter Your Permit Number"
           onChangeText={(permitNumber) => {
-            setPermitNumber(permitNumber);
-            setFormData({ ...formData, permitNumber })
+            setPermitNumber(permitNumber); setStep1Data({ ...formData, permitNumber })
           }}
-
-          // onChangeText={(permitNumber)=>{setFormData({...formData, permitNumber})}}
-          keyboardType="numeric"
         />
       </View>
+
+
       <View
         style={{
           flex: 1,

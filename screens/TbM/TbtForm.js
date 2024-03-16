@@ -1,5 +1,5 @@
 import { Alert, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Step1 from "./TbmStepForm/Step1";
 import Step2 from "./TbmStepForm/Step2";
@@ -11,12 +11,50 @@ import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 
 const TbtForm = () => {
+  const currentDate = new Date();
+
+  const day = currentDate.getDate(); // Returns the 
+  const month = currentDate.getMonth() + 1; // 
+  const year = currentDate.getFullYear(); // Returns 
+
+  const [currentTime, setCurrentTime] = useState(new Date());
+  useEffect(() => {
+    // Update the current time every second
+    const timerID = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    // Clean up the timer
+    return () => {
+      clearInterval(timerID);
+    };
+  }, []);
+
+  // Extract hours, minutes, and seconds
+  const hours = currentTime.getHours();
+  const minutes = currentTime.getMinutes();
+  const seconds = currentTime.getSeconds();
+
+  const [shift, setShift] = useState("");
+  useEffect(() => {
+    if (hours > 6 && hours < 8) {
+      setShift("Morning A Shift");
+    } else if (hours > 8 && hours < 12) {
+      setShift("Morning General Shift");
+    } else if (hours > 12 && hours < 17) {
+      setShift("Afternoon B Shift");
+    } else {
+      setShift("Night C Shift");
+    }
+  }, []);
+
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     // step:1
-    todaysDate: "",
-    currentTime: "",
-    currentShift: "",
+    todaysDate: `${day}/${month}/${year}`,
+    currentTime: `${hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds
+      }`,
+    currentShift: shift,
     siteLocation: "",
     permitNumber: "",
 
