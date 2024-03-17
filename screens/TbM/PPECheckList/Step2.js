@@ -11,13 +11,13 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
-    const [inputList, setInputList] = useState([{ id: 1, toolName: "", condition: "" }]);
+    const [inputList, setInputList] = useState([{ id: 1, empId: "", empName: "", ppeItem:"", ppeStatus:"" }]);
     const [idCounter, setIdCounter] = useState(2); // Counter for generating unique ids
 
     const handleAddInput = () => {
-        const newInput = { id: idCounter, toolName: "", condition: "" };
+        const newInput = { id: idCounter, empId: "", empName: "", ppeItem:"", ppeStatus:"" };
 
-        const exists = inputList.some(item => item.toolName === "" && item.condition === "");
+        const exists = inputList.some(item => item.empId === "" && item.empName === "" && item.ppeItem && item.ppeStatus);
         if (!exists) {
             setInputList([...inputList, newInput]);
             setIdCounter(idCounter + 1);
@@ -28,15 +28,16 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
         const updatedList = inputList.filter((item) => item.id !== idToRemove);
         setInputList(updatedList);
 
-        // const updatedTools = formData.toolsName.filter(
+        // const updatedPPE = formData.empId.filter(
         //     (item, index) => index !== idToRemove - 1
         // );
-        // const updatedTools = formData.toolsName.filter((item) => item.id !== idToRemove);
 
-        const updatedTools = formData.toolsName ? formData.toolsName.filter((item) => item.id !== idToRemove) : [];
+        const updatedPPE = formData.empId?formData.empId.filter(
+            (item) => item.id !== idToRemove
+        ):[];
 
 
-        setStep2Data({ ...formData, toolsName: updatedTools });
+        setStep2Data({ ...formData, empId: updatedPPE });
     };
 
     const handleInputChange = (text, id, field) => {
@@ -45,16 +46,16 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
         );
         setInputList(updatedList);
 
-        const updatedTools = updatedList
-            .map((item) => ({ toolName: item.toolName.trim(), condition: item.condition.trim() })).filter(Boolean);
-        setStep2Data({ ...formData, tools: updatedList});
+        const updatedppe = updatedList
+            .map((item) => ({ empId: item.empId ? item.empId.trim():"", empName: item.empName? item.empName.trim():"" })).filter(Boolean);
+        setStep2Data({ ...formData, ppe: updatedList });
     };
 
     const handleNext = () => {
         const combinedFormData = {
             ...step1Data,
             ...formData, // Include step2 data
-            tools: inputList, // Include tools list
+            ppe: inputList, // Include tools list
         };
         // Post formData to your server
         console.log("Form data:", combinedFormData);
@@ -93,7 +94,7 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
                             fontWeight: "600",
                         }}
                     >
-                        Tools Tackles
+                        PPE CheckList
                     </Text>
                 </View>
             </View>
@@ -118,7 +119,7 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
                         marginBottom: 10,
                     }}
                 >
-                    Tools Name
+                    PPE
                 </Text>
 
                 {inputList.map((input, index) => (
@@ -145,8 +146,8 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
                                     marginBottom: 10
                                 }}
                                 value={input.text}
-                                onChangeText={(text) => handleInputChange(text, input.id, 'toolName')}
-                                placeholder={`Tools Name ${index + 1}`}
+                                onChangeText={(text) => handleInputChange(text, input.id, 'empId')}
+                                placeholder={`Employee Id ${index + 1}`}
                             />
                             <TextInput
                                 style={{
@@ -159,8 +160,38 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
                                     color: "black",
                                 }}
                                 value={input.text}
-                                onChangeText={(text) => handleInputChange(text, input.id, 'condition')}
-                                placeholder={`Condition ${index + 1}`}
+                                onChangeText={(text) => handleInputChange(text, input.id, 'empName')}
+                                placeholder={`Employee Name ${index + 1}`}
+                            />
+
+                            <TextInput
+                                style={{
+                                    paddingHorizontal: 12,
+                                    paddingVertical: 12,
+                                    width: "90%",
+                                    backgroundColor: "#F5F5F5",
+                                    elevation: 3,
+                                    borderRadius: 5,
+                                    color: "black",
+                                }}
+                                value={input.text}
+                                onChangeText={(text) => handleInputChange(text, input.id, 'ppeItem')}
+                                placeholder={`PPE Item ${index + 1}`}
+                            />
+
+                            <TextInput
+                                style={{
+                                    paddingHorizontal: 12,
+                                    paddingVertical: 12,
+                                    width: "90%",
+                                    backgroundColor: "#F5F5F5",
+                                    elevation: 3,
+                                    borderRadius: 5,
+                                    color: "black",
+                                }}
+                                value={input.text}
+                                onChangeText={(text) => handleInputChange(text, input.id, 'ppeStatus')}
+                                placeholder={`PPE Status ${index + 1}`}
                             />
                         </View>
                         {index > 0 && ( // Render remove button for all inputs except the first one
