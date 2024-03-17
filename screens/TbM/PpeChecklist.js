@@ -50,6 +50,11 @@ const PpeChecklist = () => {
         return null;
     }
   };
+
+  const formData = {
+    ...step1Data, ...step2Data
+  }
+  console.log("form data", formData);
   const navigation = useNavigation();
   const submitForm = async () => {
     const formData = {
