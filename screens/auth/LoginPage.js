@@ -17,8 +17,26 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const setUser = useAuthStore((state) => state.setUser);
+  const navigation = useNavigation();
+
+  // useEffect(() => {
+  //   const checkAuthentication = async () => {
+  //     try {
+  //       const userData = await AsyncStorage.getItem("userData");
+  //       if (userData) {
+  //         // User data exists, navigate to Home
+  //         navigation.navigate("Home");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error checking authentication:", error);
+  //       // Handle error, e.g., show an alert
+  //       Alert.alert("Error", "An error occurred while checking authentication");
+  //     }
+  //   };
+
+  //   checkAuthentication();
+  // }, []);
 
   const showToast = () => {
     setTimeout(() => {
@@ -31,12 +49,12 @@ const LoginPage = () => {
       });
     }, 100);
   };
-  const navigation = useNavigation();
+
   // API -> http://localhost:8080/auth/login
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://192.168.1.7:8080/auth/login", {
+      const response = await fetch("http://192.168.108.49:8085/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

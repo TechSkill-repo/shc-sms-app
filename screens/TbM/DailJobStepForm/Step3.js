@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 
 const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
   const [hazardsInputList, setHazardsInputList] = useState([{ id: 1, text: "" }]);
@@ -155,22 +155,14 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
                 onPress={() => handleRemoveHazardInput(input.id)}
                 style={{
                   marginTop: 10,
-                  backgroundColor: "#244aca",
-                  paddingHorizontal: 20,
+                  // backgroundColor: "#244aca",
+                  paddingHorizontal: 10,
                   paddingVertical: 10,
                   borderRadius: 50,
-                  marginLeft: 10,
+                  // marginLeft: 10,
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: "600",
-                    color: "#fff",
-                  }}
-                >
-                  -
-                </Text>
+                <AntDesign name="delete" size={24} color="red" />
               </TouchableOpacity>
             )}
           </View>
@@ -249,22 +241,14 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
                 onPress={() => handleRemoveStepInput(input.id)}
                 style={{
                   marginTop: 10,
-                  backgroundColor: "#244aca",
-                  paddingHorizontal: 20,
+                  // backgroundColor: "#244aca",
+                  paddingHorizontal: 10,
                   paddingVertical: 10,
                   borderRadius: 50,
-                  marginLeft: 10,
+                  // marginLeft: 10,
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: "600",
-                    color: "#fff",
-                  }}
-                >
-                  -
-                </Text>
+              <AntDesign name="delete" size={24} color="red" />
               </TouchableOpacity>
             )}
           </View>

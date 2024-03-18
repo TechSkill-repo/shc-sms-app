@@ -204,22 +204,14 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
                                 onPress={() => handleRemoveInput(input.id)}
                                 style={{
                                     marginTop: 10,
-                                    backgroundColor: "#244aca",
-                                    paddingHorizontal: 20,
+                                    // backgroundColor: "#244aca",
+                                    paddingHorizontal: 0,
                                     paddingVertical: 10,
                                     borderRadius: 50,
-                                    marginLeft: 10,
+                                    // marginLeft: 10,
                                 }}
                             >
-                                <Text
-                                    style={{
-                                        fontSize: 14,
-                                        fontWeight: "600",
-                                        color: "#fff",
-                                    }}
-                                >
-                                    -
-                                </Text>
+                                <AntDesign name="delete" size={24} color="red" />
                             </TouchableOpacity>
                         )}
                     </View>
