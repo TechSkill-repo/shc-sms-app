@@ -1,9 +1,10 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import useAuthStore from "../store/userAuthStore";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import Header from "../components/Home/Header";
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
@@ -44,44 +45,8 @@ const Home = () => {
         backgroundColor: "white",
       }}
     >
-      <View>
-        {username ? (
-          <>
-            <Text>Welcome, {username}!</Text>
-            <Text>Your role is: {role}</Text>
-            <Text>Your email is: {email}</Text>
-          </>
-        ) : (
-          <Text>Loading...</Text>
-        )}
-      </View>
-
-      <TouchableOpacity
-        style={{
-          width: 100,
-          height: 50,
-          backgroundColor: "#034694",
-          paddingVertical: 14,
-          borderRadius: 5,
-          position: "absolute",
-          bottom: 20,
-          alignSelf: "center",
-        }}
-        onPress={() => {
-          handleLogout();
-        }}
-      >
-        <Text
-          style={{
-            textAlign: "center",
-            fontSize: 16,
-            fontWeight: "600",
-            color: "white",
-          }}
-        >
-          Logout
-        </Text>
-      </TouchableOpacity>
+      <StatusBar backgroundColor="#ffaa001a" barStyle="dark-content" />
+      <Header />
     </SafeAreaView>
   );
 };
