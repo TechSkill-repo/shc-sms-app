@@ -19,6 +19,8 @@ const data = [
 
 const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
 
+    const [seeMore, setSeeMore] = useState(false);
+
 
     const [inputList, setInputList] = useState([{ id: 1, toolName: "", condition: "" }]);
     const [idCounter, setIdCounter] = useState(2); // Counter for generating unique ids
@@ -57,7 +59,8 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
         setInputList(updatedList);
 
         const updatedTools = updatedList
-            .map((item) => ({ toolName: item.toolName.trim(), condition: item.condition.trim() })).filter(Boolean);
+        .filter((item) => item.toolName && item.condition && item.tpi && item.deformation && item.auditDoneBy)
+            .map((item) => ({ toolName: item.toolName.trim(), condition: item.condition.trim(), tpi: item.tpi.trim(), deformation: item.deformation.trim(), auditDoneBy: item.auditDoneBy.trim() })).filter(Boolean);
         setStep2Data({ ...formData, tools: updatedList });
     };
 
@@ -141,7 +144,7 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
                             marginBottom: 10,
                         }}
                     >
-                        <View style={{ width: "95%", justifyContent:"center", alignItems:"center" }}>
+                        <View style={{ width: "95%", justifyContent: "center", alignItems: "center" }}>
 
 
                             <TextInput
@@ -198,6 +201,65 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
                                     <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
                                 )}
                             />
+                            <TouchableOpacity style={{color:"blue"}} onPress={()=>{
+                                setSeeMore((prevState) => !prevState);
+                            }}>
+                                <Text>See more fields</Text>
+                            </TouchableOpacity>
+
+                            {seeMore && (
+                                <View style={{ width: "95%", justifyContent: "center", alignItems: "center" }}>
+                                <TextInput
+                                style={{
+                                    paddingHorizontal: 12,
+                                    paddingVertical: 12,
+                                    width: "95%",
+                                    backgroundColor: "#F5F5F5",
+                                    elevation: 3,
+                                    borderRadius: 5,
+                                    color: "black",
+                                    marginBottom: 10
+                                }}
+                                value={input.text}
+                                onChangeText={(text) => handleInputChange(text, input.id, 'tpi')}
+                                placeholder={`Tpi ${index + 1}`}
+                            />
+
+                            <TextInput
+                                style={{
+                                    paddingHorizontal: 12,
+                                    paddingVertical: 12,
+                                    width: "95%",
+                                    backgroundColor: "#F5F5F5",
+                                    elevation: 3,
+                                    borderRadius: 5,
+                                    color: "black",
+                                    marginBottom: 10
+                                }}
+                                value={input.text}
+                                onChangeText={(text) => handleInputChange(text, input.id, 'deformation')}
+                                placeholder={`Deformation ${index + 1}`}
+                            />
+
+<TextInput
+                                style={{
+                                    paddingHorizontal: 12,
+                                    paddingVertical: 12,
+                                    width: "95%",
+                                    backgroundColor: "#F5F5F5",
+                                    elevation: 3,
+                                    borderRadius: 5,
+                                    color: "black",
+                                    marginBottom: 10
+                                }}
+                                value={input.text}
+                                onChangeText={(text) => handleInputChange(text, input.id, 'auditDoneBy')}
+                                placeholder={`Audit Done By ${index + 1}`}
+                            />
+                            </View>
+
+                            
+                            )}
                         </View>
                         {index > 0 && ( // Render remove button for all inputs except the first one
                             <TouchableOpacity
@@ -307,7 +369,7 @@ export default Step2;
 
 const styles = StyleSheet.create({
     dropdown: {
-        width:"90%",
+        width: "90%",
         margin: 10,
         height: 50,
         backgroundColor: 'white',
