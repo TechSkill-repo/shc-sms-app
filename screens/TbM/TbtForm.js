@@ -9,6 +9,7 @@ import Step5 from "./TbmStepForm/Step5";
 import axios from "axios";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
+import { serveraddress } from "../../assets/values/Constants";
 
 const TbtForm = () => {
   const currentDate = new Date();
@@ -159,7 +160,7 @@ const TbtForm = () => {
   const navigation = useNavigation();
   const submitForm = async () => {
     await axios
-      .post("http://192.168.241.49:8085/forms/tbm-form", formData, {
+      .post(serveraddress+`forms/tbm-form`, formData, {
         headers: {
           "Content-Type": "application/json",
         },

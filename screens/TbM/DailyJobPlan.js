@@ -1,6 +1,8 @@
 import { View, Text, Button, Alert } from "react-native";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import {SERVER_ADDRESS} from "@env"
+import { serveraddress } from "../../assets/values/Constants";
 
 import Step1 from "./DailJobStepForm/Step1";
 import Step2 from "./DailJobStepForm/Step2";
@@ -65,7 +67,7 @@ const DailyJobPlan = () => {
 
   const submitForm = async () => {
     await axios
-      .post("http://192.168.241.49:8085/forms/daily-job-plans", formData, {
+      .post(serveraddress+`forms/daily-job-plans`, formData, {
         headers: {
           "Content-Type": "application/json",
         },

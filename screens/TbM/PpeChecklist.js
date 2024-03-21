@@ -4,6 +4,7 @@ import Step1 from "./PPECheckList/Step1";
 import Step2 from "./PPECheckList/Step2"
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import { serveraddress } from "../../assets/values/Constants";
 
 const PpeChecklist = () => {
   const [step, setStep] = useState(1);
@@ -61,7 +62,7 @@ const PpeChecklist = () => {
       ...step1Data, ...step2Data
     }
     await axios
-      .post("http://192.168.108.49:8085/forms/ppe-checklist", formData, {
+      .post(serveraddress+`forms/ppe-checklist`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
