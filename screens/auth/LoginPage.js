@@ -20,24 +20,6 @@ const LoginPage = () => {
   const setUser = useAuthStore((state) => state.setUser);
   const navigation = useNavigation();
 
-  // useEffect(() => {
-  //   const checkAuthentication = async () => {
-  //     try {
-  //       const userData = await AsyncStorage.getItem("userData");
-  //       if (userData) {
-  //         // User data exists, navigate to Home
-  //         navigation.navigate("Home");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error checking authentication:", error);
-  //       // Handle error, e.g., show an alert
-  //       Alert.alert("Error", "An error occurred while checking authentication");
-  //     }
-  //   };
-
-  //   checkAuthentication();
-  // }, []);
-
   const showToast = () => {
     setTimeout(() => {
       Toast.show({
@@ -54,7 +36,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://192.168.108.49:8085/auth/login", {
+      const response = await fetch(`http://192.168.1.3:8080/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +48,6 @@ const LoginPage = () => {
       console.log(responseData);
       console.log("token", responseData.token);
 
-      // Assuming the response contains a property named 'success' indicating whether login was successful
       if (responseData.message === "successful") {
         // Handle successful login
         setUser({
@@ -75,24 +56,12 @@ const LoginPage = () => {
           email: responseData.email,
         });
 
-        try {
-          await AsyncStorage.setItem(
-            "userData",
-            JSON.stringify({
-              username: responseData.username,
-              role: responseData.role,
-              email: responseData.email,
-            })
-          );
-          await AsyncStorage.setItem("accessToken", responseData.token);
-        } catch (error) {
-          console.log("async storage login failed!", error);
-        }
-        // Alert.alert("Success", "Logged in successfully");
-        navigation.navigate("Home");
+        // Save token to AsyncStorage
+        await AsyncStorage.setItem("accessToken", responseData.token);
+
+        // navigation.navigate("TabNavigation");
       } else {
         // Handle unsuccessful login
-        // Alert.alert("Error", "Invalid email or password");
         showToast();
       }
     } catch (error) {
@@ -100,6 +69,7 @@ const LoginPage = () => {
       Alert.alert("Error", "An error occurred while trying to login");
     }
   };
+
   return (
     <>
       <SafeAreaView

@@ -11,32 +11,18 @@ const Home = () => {
   const { username, role, email } = useAuthStore();
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        // Retrieve user data from AsyncStorage
-        const userDataJson = await AsyncStorage.getItem("userData");
-        if (userDataJson) {
-          const userData = JSON.parse(userDataJson);
-          setUserData(userData);
-        }
-      } catch (error) {
-        console.error("Error retrieving user data:", error);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
-  const handleLogout = async () => {
+  const getTokenFromStorage = async () => {
     try {
-      await AsyncStorage.removeItem("accessToken");
-      await AsyncStorage.removeItem("userData");
-      navigation.navigate("StartingPage");
+      const token = await AsyncStorage.getItem("accessToken");
+      console.log("Retrieved token:", token); // Log retrieved token
+      return token;
     } catch (error) {
-      console.error("Error logging out:", error);
+      console.error("Error getting token from AsyncStorage:", error);
+      return null;
     }
   };
+
+  getTokenFromStorage();
 
   return (
     <SafeAreaView
@@ -45,8 +31,8 @@ const Home = () => {
         backgroundColor: "white",
       }}
     >
-      <StatusBar backgroundColor="#ffaa001a" barStyle="dark-content" />
       <Header />
+      <StatusBar backgroundColor="#ffaa001a" barStyle="dark-content" />
     </SafeAreaView>
   );
 };
