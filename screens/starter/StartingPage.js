@@ -72,7 +72,7 @@ const StartingPage = () => {
       </View>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("login");
+          navigation.navigate("LoginPage");
         }}
         style={{
           position: "absolute",

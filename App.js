@@ -12,18 +12,23 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   const [token, setToken] = React.useState("");
-  const getTokenFromStorage = async () => {
-    try {
-      const token = await AsyncStorage.getItem("accessToken");
-      console.log("Retrieved token:", token); // Log retrieved token
-      setToken(token);
-    } catch (error) {
-      console.error("Error getting token from AsyncStorage:", error);
-      return null;
-    }
-  };
 
-  getTokenFromStorage();
+  React.useEffect(() => {
+    const getTokenFromStorage = async () => {
+      try {
+        const token = await AsyncStorage.getItem("accessToken");
+        console.log("Retrieved token:", token); // Log retrieved token
+        setToken(token);
+      } catch (error) {
+        console.error("Error getting token from AsyncStorage:", error);
+        return null;
+      }
+    };
+    getTokenFromStorage();
+
+  }, [])
+
+
   return (
     <NavigationContainer>
       {token ? <AppRouter /> : <AuthRouter />}

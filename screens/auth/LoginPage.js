@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import useAuthStore from "../../store/userAuthStore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { serveraddress } from "../../assets/values/Constants";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -36,7 +37,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(`http://192.168.1.3:8080/auth/login`, {
+      const response = await fetch(serveraddress+`auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -60,6 +61,7 @@ const LoginPage = () => {
         await AsyncStorage.setItem("accessToken", responseData.token);
 
         // navigation.navigate("TabNavigation");
+        navigation.navigate("home")
       } else {
         // Handle unsuccessful login
         showToast();

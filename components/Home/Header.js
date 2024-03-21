@@ -24,7 +24,7 @@ const Header = () => {
     try {
       await AsyncStorage.removeItem("accessToken");
       console.log("Token removed from AsyncStorage");
-      // navigation.navigate("StartingPage");
+      navigation.navigate("StartingPage");
     } catch (error) {
       console.error("Error removing token from AsyncStorage:", error);
     }
