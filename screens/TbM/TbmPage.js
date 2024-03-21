@@ -1,4 +1,10 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import {
   AntDesign,
@@ -7,6 +13,7 @@ import {
   Entypo,
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const TbmPage = () => {
   const navigation = useNavigation();
@@ -45,16 +52,17 @@ const TbmPage = () => {
   };
 
   return (
-    <ScrollView
+    <SafeAreaView
       style={{
         backgroundColor: "white",
         height: "100%",
       }}
     >
+      <StatusBar backgroundColor="#ffaa00a1" barStyle="dark-content" />
       <View
         style={{
           backgroundColor: "#ffaa00a1",
-          height: 200,
+          height: 180,
         }}
       >
         <Text
@@ -314,7 +322,7 @@ const TbmPage = () => {
           <AntDesign name="right" size={20} color="#ffaa00" />
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
