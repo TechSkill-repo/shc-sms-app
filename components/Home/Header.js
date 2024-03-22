@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { MaterialIcons, FontAwesome6 } from "@expo/vector-icons";
 // import { MaterialIcons } from '@expo/vector-icons';
 import Cards from "./Cards";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import useAuthStore from "../../store/userAuthStore";
 
 const Header = () => {
   const setUser = useAuthStore((state) => state.setUser);
+  const { token, removeToken } = useAuthStore();
   // Sample user details
 
   // Function to handle notification screen navigation
@@ -21,13 +21,7 @@ const Header = () => {
 
   // Function to remove token from AsyncStorage
   const removeTokenFromStorage = async () => {
-    try {
-      await AsyncStorage.removeItem("accessToken");
-      console.log("Token removed from AsyncStorage");
-      navigation.navigate("StartingPage");
-    } catch (error) {
-      console.error("Error removing token from AsyncStorage:", error);
-    }
+    removeToken();
   };
 
   return (

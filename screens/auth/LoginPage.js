@@ -37,7 +37,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(serveraddress+`auth/login`, {
+      const response = await fetch(serveraddress + `auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -55,13 +55,8 @@ const LoginPage = () => {
           username: responseData.username,
           role: responseData.role,
           email: responseData.email,
+          token: responseData.token,
         });
-
-        // Save token to AsyncStorage
-        await AsyncStorage.setItem("accessToken", responseData.token);
-
-        // navigation.navigate("TabNavigation");
-        navigation.navigate("home")
       } else {
         // Handle unsuccessful login
         showToast();
