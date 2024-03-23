@@ -9,9 +9,10 @@ import { serveraddress } from "../../assets/values/Constants";
 
 
 const ToolsTackles = () => {
+  const [dateTime, setDateTime] = useState(new Date());
   const [step, setStep] = useState(1);
   const [step1Data, setStep1Data] = useState({
-    todaysDate: "",
+    todaysDate: dateTime,
     location: "",
     permitNumber: "",
   });
@@ -60,6 +61,26 @@ const ToolsTackles = () => {
 
   const navigation = useNavigation();
   const submitForm = async () => {
+    const currentDate = new Date();
+
+    // Extract hours, minutes, and seconds
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const seconds = currentDate.getSeconds();
+    
+    // Format hours, minutes, and seconds with leading zeros if needed
+    const formattedHours = String(hours).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(seconds).padStart(2, '0');
+    
+    // Combine date and time into a single dateTime string
+    const dateTime = `${currentDate.toISOString().split('T')[0]} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+
+    // Update formData with current date and time
+    setDateTime((prevData) => ({
+      ...prevData,
+      dateTime: dateTime,
+    }));
     const formData = {
       ...step1Data, ...step2Data
     }

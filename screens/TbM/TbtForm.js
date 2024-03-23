@@ -159,8 +159,32 @@ const TbtForm = () => {
 
   const navigation = useNavigation();
   const submitForm = async () => {
+    // Get the current date and time
+    const currentDate = new Date();
+
+    // Extract date components
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
+    const day = String(currentDate.getDate()).padStart(2, '0');
+
+    // Extract time components
+    const hours = String(currentDate.getHours()).padStart(2, '0');
+    const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+    const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+
+    // Format date and time
+    const formattedDate = `${year}-${month}-${day}`;
+    const formattedTime = `${hours}:${minutes}:${seconds}`;
+
+    // Log or use the formatted date and time as needed
+    console.log("Current Date:", formattedDate);
+    console.log("Current Time:", formattedTime);
     await axios
-      .post(serveraddress+`forms/tbm-form`, formData, {
+      .post(serveraddress + `forms/tbm-form`, {
+        date: formattedDate,
+        time: formattedTime,
+        ...formData, // Other formData fields
+      }, {
         headers: {
           "Content-Type": "application/json",
         },

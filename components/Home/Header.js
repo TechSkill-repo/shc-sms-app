@@ -28,15 +28,55 @@ const Header = () => {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <FontAwesome6 name="gripfire" size={40} color="red" />
-        <Text
+        <View style={{ width: 40, height: 40, borderWidth: 0.5, borderRadius: 9, borderColor: "#e9ecef" }}>
+
+          {/* <FontAwesome6 name="gripfire" size={40} color="red" /> */}
+          <Image
+          source={{
+            uri: "https://media.istockphoto.com/id/1346124870/photo/happy-mixed-race-construction-site-worker-looking-at-camera.jpg?s=612x612&w=0&k=20&c=xoTSYyxwPLbHquvUecUJM6RPzWULeAP2O2q7U8IUmyY=",
+          }}
+          style={{
+            height: 40,
+            width: 40,
+            borderRadius: 9,
+          }}
+        />
+        </View>
+        {/* <Text
           style={{
             fontSize: 20,
             fontWeight: "300",
           }}
         >
-          SAFETY FIRST
-        </Text>
+          Fahad Mahamood
+        </Text> */}
+              <View>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "600",
+            }}
+          >
+            Fahad Mahmood
+          </Text>
+          <Text
+            style={{
+              fontSize: 12,
+              fontWeight: "600",
+              color:"#6c757d"
+            }}
+          >
+            Safty Manager
+          </Text>
+          {/* <Text
+            style={{
+              fontSize: 12,
+              fontWeight: "300",
+            }}
+          >
+            fahadmahmood1200@gmail.com
+          </Text> */}
+        </View>
         <View
           style={{
             display: "flex",
@@ -44,23 +84,30 @@ const Header = () => {
             justifyContent: "space-between",
             alignItems: "center",
             width: 70,
+            marginRight:12
           }}
         >
-          <TouchableOpacity onPress={() => navigateToNotifications()}>
-            {/* Your notification icon component */}
-            <MaterialIcons
-              name="notifications-active"
-              size={25}
-              color="#034694"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={removeTokenFromStorage}>
-            {/* Your notification icon component */}
-            <MaterialIcons name="logout" size={25} color="black" />
-          </TouchableOpacity>
+          <View style={{ width: 40, height: 40, borderWidth: 0.5, borderRadius: 9, borderColor: "#e9ecef", display:"flex", justifyContent:"center", alignItems:"center" }}>
+
+            <TouchableOpacity onPress={() => navigateToNotifications()} style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+              {/* Your notification icon component */}
+              <MaterialIcons
+                name="notifications-active"
+                size={25}
+                color="#034694"
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={{ width: 40, height: 40, borderWidth: 0.5, borderRadius: 9, borderColor: "#e9ecef", display:"flex", justifyContent:"center", alignItems:"center", marginHorizontal:7 }}>
+
+            <TouchableOpacity onPress={removeTokenFromStorage} style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+              {/* Your notification icon component */}
+              <MaterialIcons name="logout" size={25} color="black" />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-      <View
+      {/* <View
         style={{
           flexDirection: "row",
           alignItems: "center",
@@ -106,7 +153,7 @@ const Header = () => {
             fahadmahmood1200@gmail.com
           </Text>
         </View>
-      </View>
+      </View> */}
       <View
         style={{
           marginTop: 20,
@@ -132,6 +179,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
     backgroundColor: "#ffaa001a",
+    paddingBottom:20
   },
 
   body: {

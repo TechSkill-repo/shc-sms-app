@@ -1,7 +1,7 @@
 import { View, Text, Button, Alert } from "react-native";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import {SERVER_ADDRESS} from "@env"
+import { SERVER_ADDRESS } from "@env"
 import { serveraddress } from "../../assets/values/Constants";
 
 import Step1 from "./DailJobStepForm/Step1";
@@ -10,13 +10,15 @@ import Step3 from "./DailJobStepForm/Step3";
 import axios from "axios";
 
 const DailyJobPlan = () => {
+  const [dateTime, setDateTime] = useState(new Date());
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     // step:1
-    todaysDate: "",
-    currentTime: "",
-    currentShift: "",
-    siteLocation: "",
+    // todaysDate: "",
+    // currentTime: "",
+    dateTime: dateTime,
+    shift: "",
+    ocation: "",
     permitNumber: "",
 
     //step:2
@@ -29,6 +31,13 @@ const DailyJobPlan = () => {
     hazardsDescription: [],
     necessarySteps: []
   })
+
+  // useEffect(() => {
+  //   // Update the current date in formData whenever it changes
+  //   const formattedDate = new Date(dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate());
+  //   setDateTime((prevData) => ({ ...prevData, dateTime: formattedDate }));
+  // }, [dateTime, setDateTime]);
+
   const nextStep = () => {
     setStep(step + 1);
   };
@@ -66,8 +75,20 @@ const DailyJobPlan = () => {
   }, [navigation]);
 
   const submitForm = async () => {
+    // Get the current date and time
+    const currentDate = new Date();
+    const currentTime = currentDate.toLocaleTimeString();
+
+    // Combine date and time into a single dateTime string
+    const dateTime = `${currentDate.toISOString()} ${currentTime}`;
+
+    // Update formData with current date and time
+    setFormData((prevData) => ({
+      ...prevData,
+      dateTime: dateTime,
+    }));
     await axios
-      .post(serveraddress+`forms/daily-job-plans`, formData, {
+      .post(serveraddress + `forms/daily-job-plans`, formData, {
         headers: {
           "Content-Type": "application/json",
         },

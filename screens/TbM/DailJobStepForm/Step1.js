@@ -16,9 +16,11 @@ import {
 import { useNavigation } from "@react-navigation/native";
 
 const Step1 = ({ onNext, formData, setFormData }) => {
-  const currentDate = new Date();
+  // const currentDate = new Date();
+  const [currentDate, setCurrentDate] = useState(new Date());
 
-  const [permitNumber, setPermitNumber] = useState("");
+  const [workPermitNumber, setworkPermitNumber] = useState("");
+  const [location, setLocation] = useState("");
 
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -36,6 +38,32 @@ const Step1 = ({ onNext, formData, setFormData }) => {
       clearInterval(timerID);
     };
   }, []);
+
+
+  useEffect(() => {
+    // Update the current date in formData whenever it changes
+    const formattedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    setFormData((prevData) => ({ ...prevData, currentDate: formattedDate }));
+  }, [currentDate, setFormData]);
+
+  useEffect(() => {
+    setFormData((prevData) => ({ ...prevData, currentDate: `${day}/${month}/${year}` }));
+  }, [currentDate, setFormData]);
+
+  useEffect(() => {
+    setFormData((prevData) => ({ ...prevData, currentTime: `${hours}:${minutes < 10 ? `0${minutes}` : minutes}:${
+      seconds < 10 ? `0${seconds}` : seconds
+    }` }));
+  }, [currentTime, setFormData]);
+
+  useEffect(() => {
+    setFormData((prevData) => ({ ...prevData, shift: shift }));
+  }, [shift, setFormData]);
+
+  // useEffect(() => {
+  //   // Update the current date in formData whenever it changes
+  //   setFormData((prevData) => ({ ...prevData, currentDate }));
+  // }, [currentDate, setFormData]);
   // Extract hours, minutes, and seconds
   const hours = currentTime.getHours();
   const minutes = currentTime.getMinutes();
@@ -45,6 +73,12 @@ const Step1 = ({ onNext, formData, setFormData }) => {
   const day = currentDate.getDate(); // Returns the day of the month (1-31)
   const month = currentDate.getMonth() + 1; // Returns the month (0-11); adding 1 to get the actual month number
   const year = currentDate.getFullYear(); // Returns the year (e.g., 2024)
+
+  // const handleDateChange = (newDate) => {
+  //   setCurrentDate(newDate);
+  //   setFormData({ ...formData, currentDate: newDate });
+  // };
+  // console.log("currentDate", currentDate);
 
   useEffect(() => {
     if (hours > 6 && hours < 8) {
@@ -57,6 +91,11 @@ const Step1 = ({ onNext, formData, setFormData }) => {
       setShift("Night C Shift");
     }
   }, []);
+
+  // Function to handle time change
+  const handleTimeChange = (newTime) => {
+    setCurrentTime(newTime);
+  };
   return (
     <ScrollView
       style={{
@@ -132,6 +171,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
           value={`${day}/${month}/${year}`}
           placeholder="Date"
           editable={false}
+          // onChangeText={handleDateChange}
         />
       </View>
       <View
@@ -168,6 +208,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             seconds < 10 ? `0${seconds}` : seconds
           }`}
           editable={false}
+          // onChangeText={handleTimeChange}
         />
       </View>
       <View
@@ -233,7 +274,11 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             color: "black",
           }}
           placeholder="Enter Your Site Location"
-          onChangeText={(siteLocation)=>{setFormData({...formData, siteLocation})}}
+          // onChangeText={(location)=>{setFormData({...formData, location})}}
+          onChangeText={(location) => {
+            setLocation(location);
+            setFormData({...formData, location})
+          }}
         />
       </View>
       <View
@@ -265,13 +310,13 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             borderRadius: 5,
             color: "black",
           }}
-          value={permitNumber}
+          value={workPermitNumber}
           placeholder="Enter Your Permit Number"
           // onChangeText={(permitNumber)=>{setFormData({...formData, permitNumber})}}
           keyboardType="numeric"
-          onChangeText={(permitNumber) => {
-            setPermitNumber(permitNumber);
-            setFormData({...formData, permitNumber})
+          onChangeText={(workPermitNumber) => {
+            setworkPermitNumber(workPermitNumber);
+            setFormData({...formData, workPermitNumber})
           }}
         />
       </View>
