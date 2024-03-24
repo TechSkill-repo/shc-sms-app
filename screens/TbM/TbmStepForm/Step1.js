@@ -173,8 +173,9 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             color: "black",
           }}
           placeholder="Time"
-          value={`${hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds
-            }`}
+          value={`${hours}:${minutes < 10 ? `0${minutes}` : minutes}:${
+            seconds < 10 ? `0${seconds}` : seconds
+          }`}
           editable={false}
           // onChangeText={(currentTime) => { setFormData({ ...formData, currentTime }) }}
         />
@@ -208,9 +209,10 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             borderRadius: 5,
             color: "black",
           }}
-          placeholder="Shift"
-          value={shift}
-          onChangeText={(currentShift) => { setFormData({ ...formData, currentShift }) }}
+          placeholder="Enter Shift"
+          onChangeText={(shift) => {
+            setFormData({ ...formData, shift });
+          }}
         />
       </View>
       <View
@@ -243,8 +245,9 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             color: "black",
           }}
           placeholder="Enter Your Site Location"
-          onChangeText={(siteLocation) => { setFormData({ ...formData, siteLocation }) }}
-
+          onChangeText={(location) => {
+            setFormData({ ...formData, location });
+          }}
         />
       </View>
       <View
@@ -280,9 +283,8 @@ const Step1 = ({ onNext, formData, setFormData }) => {
           placeholder="Enter Your Permit Number"
           onChangeText={(permitNumber) => {
             setPermitNumber(permitNumber);
-            setFormData({ ...formData, permitNumber })
+            setFormData({ ...formData, permitNumber });
           }}
-
           // onChangeText={(permitNumber)=>{setFormData({...formData, permitNumber})}}
           keyboardType="numeric"
         />
