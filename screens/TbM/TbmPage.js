@@ -111,216 +111,277 @@ const TbmPage = () => {
       </View>
 
       <View>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("TbtForm");
-          }}
-          style={{
-            marginTop: 40,
-            backgroundColor: "#2e2d6e",
-            marginHorizontal: 20,
-            paddingHorizontal: 20,
-            paddingVertical: 15,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderRadius: 5,
-          }}
-        >
-          <View
+        <View style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("TbtForm");
+            }}
             style={{
+              marginTop: 40,
+              backgroundColor: "#2e2d6e",
+              marginHorizontal: 20,
+              paddingHorizontal: 20,
+              paddingVertical: 15,
               flexDirection: "row",
+              justifyContent: "space-between",
               alignItems: "center",
+              borderRadius: 5,
+              height: 100,
+              width: 100
             }}
           >
-            <FontAwesome6
-              name="file-waveform"
-              size={20}
-              color="#ffaa00"
+            <View
               style={{
-                marginRight: 15,
-              }}
-            />
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: "400",
-                color: "#fff",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent:"center"
               }}
             >
-              Tool Box Talk Form
-            </Text>
-          </View>
-          <AntDesign name="right" size={20} color="#ffaa00" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("DailyJobPlan");
-          }}
-          style={{
-            marginTop: 30,
-            backgroundColor: "#2e2d6e",
-            marginHorizontal: 20,
-            paddingHorizontal: 20,
-            paddingVertical: 15,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderRadius: 5,
-          }}
-        >
-          <View
+              <FontAwesome6
+                name="file-waveform"
+                size={20}
+                color="#ffaa00"
+                style={{
+                  marginRight: 15,
+                }}
+              />
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: "400",
+                  color: "#fff",
+                }}
+              >
+                Tool Box Talk Form
+              </Text>
+            </View>
+            {/* <AntDesign name="right" size={20} color="#ffaa00" /> */}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("DailyJobPlan");
+            }}
             style={{
+              marginTop: 30,
+              backgroundColor: "#2e2d6e",
+              marginHorizontal: 20,
+              paddingHorizontal: 20,
+              paddingVertical: 15,
               flexDirection: "row",
+              justifyContent: "space-between",
               alignItems: "center",
+              borderRadius: 5,
+              width: 100,
+              height: 100
             }}
           >
-            <FontAwesome6
-              name="person-running"
-              size={20}
-              color="#ffaa00"
+            <View
               style={{
-                marginRight: 15,
-              }}
-            />
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: "400",
-                color: "#fff",
+                flexDirection: "column",
+                alignItems: "center",
               }}
             >
-              Daily Job Plan
-            </Text>
-          </View>
-          <AntDesign name="right" size={20} color="#ffaa00" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("ppeChecklist");
-          }}
-          style={{
-            marginTop: 30,
-            backgroundColor: "#2e2d6e",
-            marginHorizontal: 20,
-            paddingHorizontal: 20,
-            paddingVertical: 15,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderRadius: 5,
-          }}
-        >
-          <View
+              <FontAwesome6
+                name="person-running"
+                size={20}
+                color="#ffaa00"
+                style={{
+                  marginRight: 15,
+                }}
+              />
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: "400",
+                  color: "#fff",
+                }}
+              >
+                Daily Job Plan
+              </Text>
+            </View>
+            {/* <AntDesign name="right" size={20} color="#ffaa00" /> */}
+          </TouchableOpacity>
+        </View>
+        <View style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignContent: "center" }}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("ppeChecklist");
+            }}
             style={{
+              marginTop: 30,
+              backgroundColor: "#2e2d6e",
+              marginHorizontal: 20,
+              paddingHorizontal: 20,
+              paddingVertical: 15,
               flexDirection: "row",
+              justifyContent: "space-between",
               alignItems: "center",
+              borderRadius: 5,
+              width: 100,
+              height: 100
             }}
           >
-            <FontAwesome6
-              name="helmet-safety"
-              size={20}
-              color="#ffaa00"
+            <View
               style={{
-                marginRight: 15,
-              }}
-            />
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: "400",
-                color: "#fff",
+                flexDirection: "column",
+                alignItems: "center",
               }}
             >
-              PPE Check List
-            </Text>
-          </View>
-          <AntDesign name="right" size={20} color="#ffaa00" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("toolsTackles");
-          }}
-          style={{
-            marginTop: 30,
-            backgroundColor: "#2e2d6e",
-            marginHorizontal: 20,
-            paddingHorizontal: 20,
-            paddingVertical: 15,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderRadius: 5,
-          }}
-        >
-          <View
+              <FontAwesome6
+                name="helmet-safety"
+                size={20}
+                color="#ffaa00"
+                style={{
+                  marginRight: 15,
+                }}
+              />
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: "400",
+                  color: "#fff",
+                }}
+              >
+                PPE Check List
+              </Text>
+            </View>
+            {/* <AntDesign name="right" size={20} color="#ffaa00" /> */}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("toolsTackles");
+            }}
             style={{
+              marginTop: 30,
+              backgroundColor: "#2e2d6e",
+              marginHorizontal: 20,
+              paddingHorizontal: 20,
+              paddingVertical: 15,
               flexDirection: "row",
+              justifyContent: "space-between",
               alignItems: "center",
+              borderRadius: 5,
+              width: 100,
+              height: 100
             }}
           >
-            <Entypo
-              name="tools"
-              size={20}
-              color="#ffaa00"
+            <View
               style={{
-                marginRight: 15,
-              }}
-            />
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: "400",
-                color: "#fff",
+                flexDirection: "column",
+                alignItems: "center",
               }}
             >
-              Tools and Tackles
-            </Text>
-          </View>
-          <AntDesign name="right" size={20} color="#ffaa00" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("toolsTackles");
-          }}
-          style={{
-            marginTop: 30,
-            backgroundColor: "#2e2d6e",
-            marginHorizontal: 20,
-            paddingHorizontal: 20,
-            paddingVertical: 15,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderRadius: 5,
-          }}
-        >
-          <View
+              <Entypo
+                name="tools"
+                size={20}
+                color="#ffaa00"
+                style={{
+                  marginRight: 15,
+                }}
+              />
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: "400",
+                  color: "#fff",
+                }}
+              >
+                Tools and Tackles
+              </Text>
+            </View>
+            {/* <AntDesign name="right" size={20} color="#ffaa00" /> */}
+          </TouchableOpacity>
+        </View>
+        <View style={{display:"flex", flexDirection:'row', justifyContent:"center", alignContent:"center"}}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("toolsTackles");
+            }}
             style={{
+              marginTop: 30,
+              backgroundColor: "#2e2d6e",
+              marginHorizontal: 20,
+              paddingHorizontal: 20,
+              paddingVertical: 15,
               flexDirection: "row",
+              justifyContent: "space-between",
               alignItems: "center",
+              borderRadius: 5,
+              width: 100,
+              height: 100
             }}
           >
-            <FontAwesome6
-              name="gripfire"
-              size={20}
-              color="#ffaa00"
+            <View
               style={{
-                marginRight: 15,
-              }}
-            />
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: "400",
-                color: "#fff",
+                flexDirection: "column",
+                alignItems: "center",
               }}
             >
-              F.S.G.R
-            </Text>
-          </View>
-          <AntDesign name="right" size={20} color="#ffaa00" />
-        </TouchableOpacity>
+              <FontAwesome6
+                name="gripfire"
+                size={20}
+                color="#ffaa00"
+                style={{
+                  marginRight: 15,
+                }}
+              />
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: "400",
+                  color: "#fff",
+                }}
+              >
+                F.S.G.R
+              </Text>
+            </View>
+            {/* <AntDesign name="right" size={20} color="#ffaa00" /> */}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("toolsTackles");
+            }}
+            style={{
+              marginTop: 30,
+              backgroundColor: "#2e2d6e",
+              marginHorizontal: 20,
+              paddingHorizontal: 20,
+              paddingVertical: 15,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              borderRadius: 5,
+              width: 100,
+              height: 100
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <FontAwesome6
+                name="gripfire"
+                size={20}
+                color="#ffaa00"
+                style={{
+                  marginRight: 15,
+                }}
+              />
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: "400",
+                  color: "#fff",
+                }}
+              >
+                F.S.G.R
+              </Text>
+            </View>
+            {/* <AntDesign name="right" size={20} color="#ffaa00" /> */}
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
