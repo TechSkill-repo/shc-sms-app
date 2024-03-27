@@ -22,7 +22,7 @@ const Cards = ({ text, bgColor, color }) => {
             style={{
               fontSize: 22,
               color: color,
-              fontWeight: "340",
+              fontWeight: "400",
             }}
           >
             {text}
@@ -31,7 +31,7 @@ const Cards = ({ text, bgColor, color }) => {
             style={{
               fontSize: 12,
               color: color,
-              fontWeight: "600",
+              fontWeight: "300",
             }}
           >
             Monthly

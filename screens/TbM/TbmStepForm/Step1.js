@@ -216,8 +216,9 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             color: "black",
           }}
           placeholder="Time"
-          value={`${hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds
-            }`}
+          value={`${hours}:${minutes < 10 ? `0${minutes}` : minutes}:${
+            seconds < 10 ? `0${seconds}` : seconds
+          }`}
           editable={false}
         // onChangeText={(currentTime) => { setFormData({ ...formData, currentTime }) }}
         />
@@ -251,6 +252,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             borderRadius: 5,
             color: "black",
           }}
+<<<<<<< HEAD
           placeholder="Shift"
           value={shift}
           onChangeText={(currentShift) => { setFormData({ ...formData, currentShift }) }}
@@ -278,6 +280,12 @@ const Step1 = ({ onNext, formData, setFormData }) => {
               size={20}
             />
           )}
+=======
+          placeholder="Enter Shift"
+          onChangeText={(shift) => {
+            setFormData({ ...formData, shift });
+          }}
+>>>>>>> 1d75fd306073bbdb404bac4a263538010ca1ab05
         />
       </View>
       <View
@@ -310,6 +318,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             color: "black",
           }}
           placeholder="Enter Your Site Location"
+<<<<<<< HEAD
           onChangeText={(siteLocation) => { setFormData({ ...formData, siteLocation }) }}
 
         /> */}
@@ -336,6 +345,11 @@ const Step1 = ({ onNext, formData, setFormData }) => {
               size={20}
             />
           )}
+=======
+          onChangeText={(location) => {
+            setFormData({ ...formData, location });
+          }}
+>>>>>>> 1d75fd306073bbdb404bac4a263538010ca1ab05
         />
       </View>
       <View
@@ -371,9 +385,8 @@ const Step1 = ({ onNext, formData, setFormData }) => {
           placeholder="Enter Your Permit Number"
           onChangeText={(permitNumber) => {
             setPermitNumber(permitNumber);
-            setFormData({ ...formData, permitNumber })
+            setFormData({ ...formData, permitNumber });
           }}
-
           // onChangeText={(permitNumber)=>{setFormData({...formData, permitNumber})}}
           keyboardType="numeric"
         />

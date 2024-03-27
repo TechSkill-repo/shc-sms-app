@@ -14,9 +14,9 @@ import { serveraddress } from "../../assets/values/Constants";
 const TbtForm = () => {
   const currentDate = new Date();
 
-  const day = currentDate.getDate(); // Returns the 
-  const month = currentDate.getMonth() + 1; // 
-  const year = currentDate.getFullYear(); // Returns 
+  const day = currentDate.getDate(); // Returns the
+  const month = currentDate.getMonth() + 1; //
+  const year = currentDate.getFullYear(); // Returns
 
   const [currentTime, setCurrentTime] = useState(new Date());
   useEffect(() => {
@@ -36,27 +36,15 @@ const TbtForm = () => {
   const minutes = currentTime.getMinutes();
   const seconds = currentTime.getSeconds();
 
-  const [shift, setShift] = useState("");
-  useEffect(() => {
-    if (hours > 6 && hours < 8) {
-      setShift("Morning A Shift");
-    } else if (hours > 8 && hours < 12) {
-      setShift("Morning General Shift");
-    } else if (hours > 12 && hours < 17) {
-      setShift("Afternoon B Shift");
-    } else {
-      setShift("Night C Shift");
-    }
-  }, []);
-
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     // step:1
     todaysDate: `${day}/${month}/${year}`,
-    currentTime: `${hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds
-      }`,
-    currentShift: shift,
-    siteLocation: "",
+    currentTime: `${hours}:${minutes < 10 ? `0${minutes}` : minutes}:${
+      seconds < 10 ? `0${seconds}` : seconds
+    }`,
+    shift: "",
+    location: "",
     permitNumber: "",
 
     // step:2
@@ -156,7 +144,6 @@ const TbtForm = () => {
     }
   };
 
-
   const navigation = useNavigation();
   const submitForm = async () => {
     // Get the current date and time
@@ -164,13 +151,13 @@ const TbtForm = () => {
 
     // Extract date components
     const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
-    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Adding 1 because months are zero-based
+    const day = String(currentDate.getDate()).padStart(2, "0");
 
     // Extract time components
-    const hours = String(currentDate.getHours()).padStart(2, '0');
-    const minutes = String(currentDate.getMinutes()).padStart(2, '0');
-    const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+    const hours = String(currentDate.getHours()).padStart(2, "0");
+    const minutes = String(currentDate.getMinutes()).padStart(2, "0");
+    const seconds = String(currentDate.getSeconds()).padStart(2, "0");
 
     // Format date and time
     const formattedDate = `${year}-${month}-${day}`;
@@ -180,15 +167,19 @@ const TbtForm = () => {
     console.log("Current Date:", formattedDate);
     console.log("Current Time:", formattedTime);
     await axios
-      .post(serveraddress + `forms/tbm-form`, {
-        date: formattedDate,
-        time: formattedTime,
-        ...formData, // Other formData fields
-      }, {
-        headers: {
-          "Content-Type": "application/json",
+      .post(
+        serveraddress + `forms/tbm-form`,
+        {
+          date: formattedDate,
+          time: formattedTime,
+          ...formData, // Other formData fields
         },
-      })
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((response) => {
         console.log("Form Submited Successfully:", response.data);
         alert("Form Submited Successfully");

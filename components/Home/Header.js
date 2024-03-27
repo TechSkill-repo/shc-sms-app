@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { MaterialIcons, FontAwesome6 } from "@expo/vector-icons";
+import { AntDesign, Feather } from "@expo/vector-icons";
 // import { MaterialIcons } from '@expo/vector-icons';
 import Cards from "./Cards";
 import { useNavigation } from "@react-navigation/native";
@@ -28,29 +28,29 @@ const Header = () => {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <View style={{ width: 40, height: 40, borderWidth: 0.5, borderRadius: 9, borderColor: "#e9ecef" }}>
-
-          {/* <FontAwesome6 name="gripfire" size={40} color="red" /> */}
-          <Image
-          source={{
-            uri: "https://media.istockphoto.com/id/1346124870/photo/happy-mixed-race-construction-site-worker-looking-at-camera.jpg?s=612x612&w=0&k=20&c=xoTSYyxwPLbHquvUecUJM6RPzWULeAP2O2q7U8IUmyY=",
-          }}
+        <View
           style={{
-            height: 40,
             width: 40,
+            height: 40,
+            borderWidth: 0.5,
             borderRadius: 9,
-          }}
-        />
-        </View>
-        {/* <Text
-          style={{
-            fontSize: 20,
-            fontWeight: "300",
+            borderColor: "#e9ecef",
           }}
         >
-          Fahad Mahamood
-        </Text> */}
-              <View>
+          {/* <FontAwesome6 name="gripfire" size={40} color="red" /> */}
+          <Image
+            source={{
+              uri: "https://media.istockphoto.com/id/1346124870/photo/happy-mixed-race-construction-site-worker-looking-at-camera.jpg?s=612x612&w=0&k=20&c=xoTSYyxwPLbHquvUecUJM6RPzWULeAP2O2q7U8IUmyY=",
+            }}
+            style={{
+              height: 40,
+              width: 40,
+              borderRadius: 9,
+            }}
+          />
+        </View>
+
+        <View>
           <Text
             style={{
               fontSize: 18,
@@ -63,19 +63,11 @@ const Header = () => {
             style={{
               fontSize: 12,
               fontWeight: "600",
-              color:"#6c757d"
+              color: "#6c757d",
             }}
           >
             Safty Manager
           </Text>
-          {/* <Text
-            style={{
-              fontSize: 12,
-              fontWeight: "300",
-            }}
-          >
-            fahadmahmood1200@gmail.com
-          </Text> */}
         </View>
         <View
           style={{
@@ -84,76 +76,61 @@ const Header = () => {
             justifyContent: "space-between",
             alignItems: "center",
             width: 70,
-            marginRight:12
+            marginRight: 12,
           }}
         >
-          <View style={{ width: 40, height: 40, borderWidth: 0.5, borderRadius: 9, borderColor: "#e9ecef", display:"flex", justifyContent:"center", alignItems:"center" }}>
-
-            <TouchableOpacity onPress={() => navigateToNotifications()} style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+          <View
+            style={{
+              width: 40,
+              height: 40,
+              borderWidth: 0.5,
+              borderRadius: 9,
+              borderColor: "#e9ecef",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => navigateToNotifications()}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               {/* Your notification icon component */}
-              <MaterialIcons
-                name="notifications-active"
-                size={25}
-                color="#034694"
-              />
+              <Feather name="bell" size={25} color="#034694" />
             </TouchableOpacity>
           </View>
-          <View style={{ width: 40, height: 40, borderWidth: 0.5, borderRadius: 9, borderColor: "#e9ecef", display:"flex", justifyContent:"center", alignItems:"center", marginHorizontal:7 }}>
-
-            <TouchableOpacity onPress={removeTokenFromStorage} style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+          <View
+            style={{
+              width: 40,
+              height: 40,
+              borderWidth: 0.5,
+              borderRadius: 9,
+              borderColor: "#e9ecef",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginHorizontal: 7,
+            }}
+          >
+            <TouchableOpacity
+              onPress={removeTokenFromStorage}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               {/* Your notification icon component */}
-              <MaterialIcons name="logout" size={25} color="black" />
+              <AntDesign name="logout" size={25} color="red" />
             </TouchableOpacity>
           </View>
         </View>
       </View>
-      {/* <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          //   marginTop: 20,
-          backgroundColor: "#ffaa001a",
-          padding: 20,
-        }}
-      >
-        <Image
-          source={{
-            uri: "https://media.istockphoto.com/id/1346124870/photo/happy-mixed-race-construction-site-worker-looking-at-camera.jpg?s=612x612&w=0&k=20&c=xoTSYyxwPLbHquvUecUJM6RPzWULeAP2O2q7U8IUmyY=",
-          }}
-          style={{
-            height: 80,
-            width: 80,
-            borderRadius: 50,
-          }}
-        />
-        <View>
-          <Text
-            style={{
-              fontSize: 22,
-              fontWeight: "600",
-            }}
-          >
-            Fahad Mahmood
-          </Text>
-          <Text
-            style={{
-              fontSize: 18,
-              fontWeight: "600",
-            }}
-          >
-            Safty Manager
-          </Text>
-          <Text
-            style={{
-              fontSize: 12,
-              fontWeight: "300",
-            }}
-          >
-            fahadmahmood1200@gmail.com
-          </Text>
-        </View>
-      </View> */}
+
       <View
         style={{
           marginTop: 20,
@@ -179,7 +156,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
     backgroundColor: "#ffaa001a",
-    paddingBottom:20
+    paddingBottom: 20,
   },
 
   body: {
