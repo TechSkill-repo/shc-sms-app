@@ -26,8 +26,8 @@ const Step4 = ({ onNext, onPrev, setFormData, formData }) => {
       <View
         style={{
           width: "100%",
-          height: 120,
-          backgroundColor: "#ffaa00a1",
+          height: 50,
+          backgroundColor: "#014E88",
           flexDirection: "row",
           justifyContent: "space-between",
           paddingHorizontal: 20,
@@ -37,7 +37,7 @@ const Step4 = ({ onNext, onPrev, setFormData, formData }) => {
         <View>
           <Text
             style={{
-              color: "#2e2d6e",
+              color: "#fff",
               fontSize: 22,
               marginLeft: 0,
               fontWeight: "600",
@@ -81,7 +81,9 @@ const Step4 = ({ onNext, onPrev, setFormData, formData }) => {
           multiline={true} // Allow multiline input
           numberOfLines={2} // Set maximum number of lines
           textAlignVertical="top"
-          onChangeText={(sop)=>{setFormData({...formData, sop})}}
+          onChangeText={(sop) => {
+            setFormData({ ...formData, sop });
+          }}
         />
       </View>
       <View
@@ -118,7 +120,9 @@ const Step4 = ({ onNext, onPrev, setFormData, formData }) => {
           multiline={true} // Allow multiline input
           numberOfLines={2} // Set maximum number of lines
           textAlignVertical="top"
-          onChangeText={(responsibilities)=>{setFormData({...formData, responsibilities})}}
+          onChangeText={(responsibilities) => {
+            setFormData({ ...formData, responsibilities });
+          }}
         />
       </View>
       <View
@@ -155,7 +159,9 @@ const Step4 = ({ onNext, onPrev, setFormData, formData }) => {
           multiline={true} // Allow multiline input
           numberOfLines={2} // Set maximum number of lines
           textAlignVertical="top"
-          onChangeText={(safetyMessage)=>{setFormData({...formData, safetyMessage})}}
+          onChangeText={(safetyMessage) => {
+            setFormData({ ...formData, safetyMessage });
+          }}
         />
       </View>
       <View
@@ -201,7 +207,9 @@ const Step4 = ({ onNext, onPrev, setFormData, formData }) => {
           multiline={true} // Allow multiline input
           numberOfLines={2} // Set maximum number of lines
           textAlignVertical="top"
-          onChangeText={(actionResulting)=>{setFormData({...formData, actionResulting})}}
+          onChangeText={(actionResulting) => {
+            setFormData({ ...formData, actionResulting });
+          }}
         />
       </View>
       <View

@@ -12,7 +12,9 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 
 const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
-  const [hazardsInputList, setHazardsInputList] = useState([{ id: 1, text: "" }]);
+  const [hazardsInputList, setHazardsInputList] = useState([
+    { id: 1, text: "" },
+  ]);
   const [stepsInputList, setStepsInputList] = useState([{ id: 1, text: "" }]);
   const [hazardsIdCounter, setHazardsIdCounter] = useState(2);
   const [stepsIdCounter, setStepsIdCounter] = useState(2);
@@ -27,7 +29,9 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
   };
 
   const handleRemoveHazardInput = (idToRemove) => {
-    const updatedList = hazardsInputList.filter((item) => item.id !== idToRemove);
+    const updatedList = hazardsInputList.filter(
+      (item) => item.id !== idToRemove
+    );
     setHazardsInputList(updatedList);
 
     const updatedHazardsDesc = updatedList.map((item) => item.text.trim());
@@ -83,7 +87,7 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
         style={{
           width: "100%",
           height: 120,
-          backgroundColor: "#ffaa00a1",
+          backgroundColor: "#014E88",
           flexDirection: "row",
           justifyContent: "space-between",
           paddingHorizontal: 20,
@@ -248,7 +252,7 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
                   // marginLeft: 10,
                 }}
               >
-              <AntDesign name="delete" size={24} color="red" />
+                <AntDesign name="delete" size={24} color="red" />
               </TouchableOpacity>
             )}
           </View>

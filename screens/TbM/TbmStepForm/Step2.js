@@ -26,8 +26,8 @@ const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
       <View
         style={{
           width: "100%",
-          height: 120,
-          backgroundColor: "#ffaa00a1",
+          height: 50,
+          backgroundColor: "#014E88",
           flexDirection: "row",
           justifyContent: "space-between",
           paddingHorizontal: 20,
@@ -37,7 +37,7 @@ const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
         <View>
           <Text
             style={{
-              color: "#2e2d6e",
+              color: "#fff",
               fontSize: 22,
               marginLeft: 0,
               fontWeight: "600",
@@ -78,7 +78,9 @@ const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
             color: "black",
           }}
           placeholder="Please Enter Company Supervisor/Manager"
-          onChangeText={(companySupervisor)=>{setFormData({...formData, companySupervisor})}}
+          onChangeText={(companySupervisor) => {
+            setFormData({ ...formData, companySupervisor });
+          }}
         />
       </View>
       <View
@@ -111,7 +113,9 @@ const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
             color: "black",
           }}
           placeholder="Enter Safety Representative"
-          onChangeText={(safetyRepresentative)=>{setFormData({...formData, safetyRepresentative})}}
+          onChangeText={(safetyRepresentative) => {
+            setFormData({ ...formData, safetyRepresentative });
+          }}
         />
       </View>
       <View
@@ -144,7 +148,9 @@ const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
             color: "black",
           }}
           placeholder="Enter Department Name"
-          onChangeText={(department)=>{setFormData({...formData, department})}}
+          onChangeText={(department) => {
+            setFormData({ ...formData, department });
+          }}
         />
       </View>
       <View
@@ -177,7 +183,9 @@ const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
             color: "black",
           }}
           placeholder="Enter Contractor Representative Name"
-          onChangeText={(contractorRepresentative)=>{setFormData({...formData, contractorRepresentative})}}
+          onChangeText={(contractorRepresentative) => {
+            setFormData({ ...formData, contractorRepresentative });
+          }}
         />
       </View>
       <View
@@ -210,7 +218,9 @@ const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
             color: "black",
           }}
           placeholder="Contractor Employees Name"
-          onChangeText={(contractorEmployee)=>{setFormData({...formData, contractorEmployee})}}
+          onChangeText={(contractorEmployee) => {
+            setFormData({ ...formData, contractorEmployee });
+          }}
         />
       </View>
       <View

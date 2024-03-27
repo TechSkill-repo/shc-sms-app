@@ -15,7 +15,6 @@ import { fetchLocations } from "../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 
 const Step1 = ({ onNext, formData, setStep1Data }) => {
-
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
 
@@ -33,7 +32,7 @@ const Step1 = ({ onNext, formData, setStep1Data }) => {
         const data = await fetchLocations();
         setLocations(data);
       } catch (error) {
-        console.error('Error fetching locations:', error);
+        console.error("Error fetching locations:", error);
       }
     }
     fetchLocationsData();
@@ -41,9 +40,9 @@ const Step1 = ({ onNext, formData, setStep1Data }) => {
 
   const handleLocationChange = (selectedLocation) => {
     setSelectedLocation(selectedLocation);
-    setStep1Data(prevState => ({
+    setStep1Data((prevState) => ({
       ...prevState,
-      location: selectedLocation.label
+      location: selectedLocation.label,
     }));
   };
 
@@ -107,7 +106,7 @@ const Step1 = ({ onNext, formData, setStep1Data }) => {
         style={{
           width: "100%",
           height: 120,
-          backgroundColor: "#ffaa00a1",
+          backgroundColor: "#014E88",
           flexDirection: "row",
           justifyContent: "space-between",
           paddingHorizontal: 20,
@@ -167,7 +166,7 @@ const Step1 = ({ onNext, formData, setStep1Data }) => {
           value={`${day}/${month}/${year}`}
           placeholder="Date"
           editable={false}
-        // onChangeText={(todaysDate) => { setFormData({ ...formData, todaysDate }) }}
+          // onChangeText={(todaysDate) => { setFormData({ ...formData, todaysDate }) }}
         />
       </View>
       <View
@@ -210,7 +209,10 @@ const Step1 = ({ onNext, formData, setStep1Data }) => {
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
           iconStyle={styles.iconStyle}
-          data={locations.map(location => ({ label: location.name, value: location.id }))}
+          data={locations.map((location) => ({
+            label: location.name,
+            value: location.id,
+          }))}
           search
           maxHeight={300}
           labelField="label"
@@ -261,11 +263,11 @@ const Step1 = ({ onNext, formData, setStep1Data }) => {
           placeholder="Work permit number"
           value={permitNumber}
           onChangeText={(permitNumber) => {
-            setPermitNumber(permitNumber); setStep1Data({ ...formData, permitNumber })
+            setPermitNumber(permitNumber);
+            setStep1Data({ ...formData, permitNumber });
           }}
         />
       </View>
-
 
       <View
         style={{
@@ -322,7 +324,6 @@ const Step1 = ({ onNext, formData, setStep1Data }) => {
   );
 };
 export default Step1;
-
 
 const styles = StyleSheet.create({
   dropdown: {

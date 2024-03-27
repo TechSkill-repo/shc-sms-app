@@ -26,8 +26,8 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
       <View
         style={{
           width: "100%",
-          height: 120,
-          backgroundColor: "#ffaa00a1",
+          height: 50,
+          backgroundColor: "#014E88",
           flexDirection: "row",
           justifyContent: "space-between",
           paddingHorizontal: 20,
@@ -37,7 +37,7 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
         <View>
           <Text
             style={{
-              color: "#2e2d6e",
+              color: "#fff",
               fontSize: 22,
               marginLeft: 0,
               fontWeight: "600",
@@ -90,7 +90,9 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
           multiline={true} // Allow multiline input
           numberOfLines={4} // Set maximum number of lines
           textAlignVertical="top"
-          onChangeText={(safetyContractReviewItems)=>{setFormData({...formData, safetyContractReviewItems})}}
+          onChangeText={(safetyContractReviewItems) => {
+            setFormData({ ...formData, safetyContractReviewItems });
+          }}
         />
       </View>
       <View
@@ -141,7 +143,9 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
           multiline={true} // Allow multiline input
           numberOfLines={4} // Set maximum number of lines
           textAlignVertical="top"
-          onChangeText={(itemsOfGeneralSafetyImportance)=>{setFormData({...formData, itemsOfGeneralSafetyImportance})}}
+          onChangeText={(itemsOfGeneralSafetyImportance) => {
+            setFormData({ ...formData, itemsOfGeneralSafetyImportance });
+          }}
         />
       </View>
       <View
@@ -201,7 +205,9 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
           multiline={true} // Allow multiline input
           numberOfLines={4} // Set maximum number of lines
           textAlignVertical="top"
-          onChangeText={(queries)=>{setFormData({...formData, queries})}}
+          onChangeText={(queries) => {
+            setFormData({ ...formData, queries });
+          }}
         />
       </View>
       <View

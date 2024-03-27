@@ -110,7 +110,7 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
         style={{
           width: "100%",
           height: 120,
-          backgroundColor: "#ffaa00a1",
+          backgroundColor: "#014E88",
           flexDirection: "row",
           justifyContent: "space-between",
           paddingHorizontal: 20,

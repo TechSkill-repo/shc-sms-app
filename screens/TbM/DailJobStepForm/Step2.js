@@ -32,7 +32,7 @@ const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
         style={{
           width: "100%",
           height: 120,
-          backgroundColor: "#ffaa00a1",
+          backgroundColor: "#014E88",
           flexDirection: "row",
           justifyContent: "space-between",
           paddingHorizontal: 20,
@@ -89,7 +89,9 @@ const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
             color: "black",
           }}
           placeholder="Enter Your Work Type"
-          onChangeText={(typeOfWork) => { setFormData({ ...formData, typeOfWork }) }}
+          onChangeText={(typeOfWork) => {
+            setFormData({ ...formData, typeOfWork });
+          }}
         />
       </View>
       <View
@@ -123,7 +125,9 @@ const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
           }}
           // value=""
           placeholder="Enter Supervisor Name"
-          onChangeText={(nameOfSupervisor) => { setFormData({ ...formData, nameOfSupervisor }) }}
+          onChangeText={(nameOfSupervisor) => {
+            setFormData({ ...formData, nameOfSupervisor });
+          }}
         />
       </View>
       <View
@@ -157,7 +161,9 @@ const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
           }}
           // value=""
           placeholder="Enter SOP Number"
-          onChangeText={(sopNumber) => { setFormData({ ...formData, sopNumber }) }}
+          onChangeText={(sopNumber) => {
+            setFormData({ ...formData, sopNumber });
+          }}
         />
       </View>
       <View
@@ -191,7 +197,9 @@ const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
           }}
           // value=""
           placeholder="Enter Job Description"
-          onChangeText={(jobDescription) => { setFormData({ ...formData, jobDescription }) }}
+          onChangeText={(jobDescription) => {
+            setFormData({ ...formData, jobDescription });
+          }}
         />
       </View>
       <View

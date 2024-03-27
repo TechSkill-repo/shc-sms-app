@@ -56,8 +56,8 @@ const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
       <View
         style={{
           width: "100%",
-          height: 120,
-          backgroundColor: "#ffaa00a1",
+          height: 50,
+          backgroundColor: "#014E88",
           flexDirection: "row",
           justifyContent: "space-between",
           paddingHorizontal: 20,
@@ -67,7 +67,7 @@ const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
         <View>
           <Text
             style={{
-              color: "#2e2d6e",
+              color: "#fff",
               fontSize: 22,
               marginLeft: 0,
               fontWeight: "600",

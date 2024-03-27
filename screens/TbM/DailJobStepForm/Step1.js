@@ -16,15 +16,17 @@ import {
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Dropdown } from "react-native-element-dropdown";
-import { fetchLocations, getShiftOptions, locationData } from "../../../components/Global/Global";
+import {
+  fetchLocations,
+  getShiftOptions,
+  locationData,
+} from "../../../components/Global/Global";
 
 const Step1 = ({ onNext, formData, setFormData }) => {
-
   const shiftOptions = getShiftOptions();
   // console.log("shift options:", shiftOptions);
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
-
 
   // const currentDate = new Date();
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -49,21 +51,29 @@ const Step1 = ({ onNext, formData, setFormData }) => {
     };
   }, []);
 
-
   useEffect(() => {
     // Update the current date in formData whenever it changes
-    const formattedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    const formattedDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
     setFormData((prevData) => ({ ...prevData, currentDate: formattedDate }));
   }, [currentDate, setFormData]);
 
   useEffect(() => {
-    setFormData((prevData) => ({ ...prevData, currentDate: `${day}/${month}/${year}` }));
+    setFormData((prevData) => ({
+      ...prevData,
+      currentDate: `${day}/${month}/${year}`,
+    }));
   }, [currentDate, setFormData]);
 
   useEffect(() => {
     setFormData((prevData) => ({
-      ...prevData, currentTime: `${hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds
-        }`
+      ...prevData,
+      currentTime: `${hours}:${minutes < 10 ? `0${minutes}` : minutes}:${
+        seconds < 10 ? `0${seconds}` : seconds
+      }`,
     }));
   }, [currentTime, setFormData]);
 
@@ -108,16 +118,16 @@ const Step1 = ({ onNext, formData, setFormData }) => {
     setCurrentTime(newTime);
   };
 
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState("");
 
   // Define the onChange method for the dropdown
   const handleDropdownChange = (selectedValue) => {
     const { label, value } = selectedValue;
     console.log("Selected value:", label);
     // Update formData state with the selected value
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      shift: value // Assuming 'shift' is the key in formData where you want to store the selected value
+      shift: value, // Assuming 'shift' is the key in formData where you want to store the selected value
     }));
   };
 
@@ -127,7 +137,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
         const data = await fetchLocations();
         setLocations(data);
       } catch (error) {
-        console.error('Error fetching locations:', error);
+        console.error("Error fetching locations:", error);
       }
     }
     fetchLocationsData();
@@ -135,9 +145,9 @@ const Step1 = ({ onNext, formData, setFormData }) => {
 
   const handleLocationChange = (selectedLocation) => {
     setSelectedLocation(selectedLocation);
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      location: selectedLocation.label
+      location: selectedLocation.label,
     }));
   };
 
@@ -153,7 +163,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
         style={{
           width: "100%",
           height: 120,
-          backgroundColor: "#ffaa00a1",
+          backgroundColor: "#014E88",
           flexDirection: "row",
           justifyContent: "space-between",
           paddingHorizontal: 20,
@@ -213,7 +223,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
           value={`${day}/${month}/${year}`}
           placeholder="Date"
           editable={false}
-        // onChangeText={handleDateChange}
+          // onChangeText={handleDateChange}
         />
       </View>
       <View
@@ -246,10 +256,11 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             color: "black",
           }}
           placeholder="Time"
-          value={`${hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds
-            }`}
+          value={`${hours}:${minutes < 10 ? `0${minutes}` : minutes}:${
+            seconds < 10 ? `0${seconds}` : seconds
+          }`}
           editable={false}
-        // onChangeText={handleTimeChange}
+          // onChangeText={handleTimeChange}
         />
       </View>
       <View
@@ -321,7 +332,10 @@ const Step1 = ({ onNext, formData, setFormData }) => {
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
           iconStyle={styles.iconStyle}
-          data={locations.map(location => ({ label: location.name, value: location.id }))}
+          data={locations.map((location) => ({
+            label: location.name,
+            value: location.id,
+          }))}
           search
           maxHeight={300}
           labelField="label"
@@ -339,8 +353,6 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             />
           )}
         />
-
-
       </View>
       <View
         style={{
@@ -377,7 +389,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
           keyboardType="numeric"
           onChangeText={(workPermitNumber) => {
             setworkPermitNumber(workPermitNumber);
-            setFormData({ ...formData, workPermitNumber })
+            setFormData({ ...formData, workPermitNumber });
           }}
         />
       </View>
@@ -428,7 +440,6 @@ const Step1 = ({ onNext, formData, setFormData }) => {
   );
 };
 export default Step1;
-
 
 const styles = StyleSheet.create({
   dropdown: {

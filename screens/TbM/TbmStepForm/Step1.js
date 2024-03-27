@@ -11,12 +11,15 @@ import {
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
-import { fetchLocations, getShiftOptions } from "../../../components/Global/Global";
+import {
+  fetchLocations,
+  getShiftOptions,
+} from "../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 
 const Step1 = ({ onNext, formData, setFormData }) => {
   const shiftOptions = getShiftOptions();
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState("");
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const currentDate = new Date();
@@ -27,14 +30,13 @@ const Step1 = ({ onNext, formData, setFormData }) => {
 
   const [shift, setShift] = useState("");
 
-
   const handleDropdownChange = (selectedValue) => {
     const { label, value } = selectedValue;
     console.log("Selected value:", label);
     // Update formData state with the selected value
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      shift: value // Assuming 'shift' is the key in formData where you want to store the selected value
+      shift: value, // Assuming 'shift' is the key in formData where you want to store the selected value
     }));
   };
 
@@ -49,7 +51,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
         const data = await fetchLocations();
         setLocations(data);
       } catch (error) {
-        console.error('Error fetching locations:', error);
+        console.error("Error fetching locations:", error);
       }
     }
     fetchLocationsData();
@@ -57,9 +59,9 @@ const Step1 = ({ onNext, formData, setFormData }) => {
 
   const handleLocationChange = (selectedLocation) => {
     setSelectedLocation(selectedLocation);
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      location: selectedLocation.label
+      location: selectedLocation.label,
     }));
   };
 
@@ -122,11 +124,12 @@ const Step1 = ({ onNext, formData, setFormData }) => {
       <View
         style={{
           width: "100%",
-          height: 120,
-          backgroundColor: "#ffaa00a1",
+          height: 50,
+          backgroundColor: "#014E88",
           flexDirection: "row",
           justifyContent: "space-between",
           paddingHorizontal: 20,
+          paddingVertical: 5,
           alignItems: "center",
         }}
       >
@@ -135,12 +138,12 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             navigation.navigate("ToolBoxTalk");
           }}
         >
-          <AntDesign name="left" size={25} color="#2e2d6e" />
+          <AntDesign name="left" size={25} color="#fff" />
         </TouchableOpacity>
         <View>
           <Text
             style={{
-              color: "#2e2d6e",
+              color: "#fff",
               fontSize: 22,
               marginLeft: 20,
               fontWeight: "600",
@@ -183,7 +186,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
           value={`${day}/${month}/${year}`}
           placeholder="Date"
           editable={false}
-        // onChangeText={(todaysDate) => { setFormData({ ...formData, todaysDate }) }}
+          // onChangeText={(todaysDate) => { setFormData({ ...formData, todaysDate }) }}
         />
       </View>
       <View
@@ -220,7 +223,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             seconds < 10 ? `0${seconds}` : seconds
           }`}
           editable={false}
-        // onChangeText={(currentTime) => { setFormData({ ...formData, currentTime }) }}
+          // onChangeText={(currentTime) => { setFormData({ ...formData, currentTime }) }}
         />
       </View>
       <View
@@ -280,12 +283,10 @@ const Step1 = ({ onNext, formData, setFormData }) => {
               size={20}
             />
           )}
-=======
-          placeholder="Enter Shift"
+          // placeholder="Enter Shift"
           onChangeText={(shift) => {
             setFormData({ ...formData, shift });
           }}
->>>>>>> 1d75fd306073bbdb404bac4a263538010ca1ab05
         />
       </View>
       <View
@@ -318,7 +319,6 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             color: "black",
           }}
           placeholder="Enter Your Site Location"
-<<<<<<< HEAD
           onChangeText={(siteLocation) => { setFormData({ ...formData, siteLocation }) }}
 
         /> */}
@@ -328,7 +328,10 @@ const Step1 = ({ onNext, formData, setFormData }) => {
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
           iconStyle={styles.iconStyle}
-          data={locations.map(location => ({ label: location.name, value: location.id }))}
+          data={locations.map((location) => ({
+            label: location.name,
+            value: location.id,
+          }))}
           search
           maxHeight={300}
           labelField="label"
@@ -345,11 +348,9 @@ const Step1 = ({ onNext, formData, setFormData }) => {
               size={20}
             />
           )}
-=======
           onChangeText={(location) => {
             setFormData({ ...formData, location });
           }}
->>>>>>> 1d75fd306073bbdb404bac4a263538010ca1ab05
         />
       </View>
       <View
