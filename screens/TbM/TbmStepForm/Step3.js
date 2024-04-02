@@ -153,8 +153,8 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
             color: "#2c8fff",
           }}
         >
-          Red Strips, Orange Strips, Green Strips, Safety-alert tips for Satefy
-          communications, hazards or Safety conditions applicable to this
+          Red Strips, Orange Strips, #209920 Strips, Safety-alert tips for
+          Satefy communications, hazards or Safety conditions applicable to this
           group's work area
         </Text>
       </View>
@@ -196,7 +196,7 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
         <TouchableOpacity
           onPress={onPrev}
           style={{
-            backgroundColor: "#2e2d6e",
+            backgroundColor: "rgb(120, 69, 172)",
             padding: 10,
             borderRadius: 50,
           }}
@@ -217,7 +217,7 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            backgroundColor: "#2e2d6e",
+            backgroundColor: "rgb(120, 69, 172)",
             padding: 10,
             borderRadius: 50,
             marginLeft: 10,

@@ -379,7 +379,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             }
           }}
           style={{
-            backgroundColor: "#2e2d6e",
+            backgroundColor: "rgb(120, 69, 172)",
             padding: 10,
             borderRadius: 50,
             position: "absolute",

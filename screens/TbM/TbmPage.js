@@ -122,7 +122,7 @@ const TbmPage = () => {
               navigation.navigate("toolsTackles");
             }}
           >
-            <Entypo name="tools" size={40} color="#800000" />
+            <Entypo name="tools" size={40} color="#b87333" />
             <Text
               style={{
                 marginTop: 20,
