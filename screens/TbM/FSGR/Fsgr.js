@@ -29,9 +29,14 @@ const Fsgr = () => {
     };
   }, []);
 
+  // Extract hours, minutes, and seconds
+  const hours = currentTime.getHours();
+  const minutes = currentTime.getMinutes();
+  const seconds = currentTime.getSeconds();
+
   const [fsgrData, setFsgrData] = useState({
-    Report_Date: `${day}-${month}-${year}`,
-    Report_Time: "",
+    Report_Date: `${year}-${month}-${day}`,
+    Report_Time: `${hours}:${minutes}:${seconds}`,
     Location: "",
     Emp_Name: "",
     Emp_Designation: "",
@@ -74,7 +79,7 @@ const Fsgr = () => {
         fsgrData={fsgrData}
         setFsgrData={setFsgrData}
         currentDate={`${day}/${month}/${year}`}
-        currentTime="12:11:23"
+        currentTime={`${hours}:${minutes}:${seconds}`}
         handleSubmit={handleSubmit}
       />
     </ScrollView>

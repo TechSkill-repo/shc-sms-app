@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  ScrollView,
-  Alert,
-} from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -14,6 +7,7 @@ import Toast from "react-native-toast-message";
 import useAuthStore from "../../store/userAuthStore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { serveraddress } from "../../assets/values/Constants";
+import { TextInput } from "react-native-paper";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -101,7 +95,7 @@ const LoginPage = () => {
               paddingVertical: 20,
               paddingHorizontal: 20,
               fontWeight: "700",
-              color: "#00308F",
+              color: "#21005d",
             }}
           >
             Let's Login in the App.
@@ -136,28 +130,14 @@ const LoginPage = () => {
                 width: "100%",
               }}
             >
-              <Text
-                style={{
-                  textAlign: "left",
-                  fontSize: 12,
-                  paddingHorizontal: 5,
-                  paddingVertical: 5,
-                  fontWeight: "300",
-                  color: "#00308F",
-                }}
-              >
-                Enter Your UserId
-              </Text>
               <TextInput
+                mode="outlined"
+                label="Enter User ID"
                 onChangeText={(text) => setEmail(text)}
                 value={email}
                 style={{
-                  paddingHorizontal: 12,
-                  paddingVertical: 12,
                   width: "90%",
-                  backgroundColor: "#F0F8FF",
-                  borderRadius: 5,
-                  color: "black",
+                  backgroundColor: "white",
                 }}
                 placeholder="Enter Your User EmailId"
               />
@@ -169,28 +149,14 @@ const LoginPage = () => {
                 width: "100%",
               }}
             >
-              <Text
-                style={{
-                  textAlign: "left",
-                  fontSize: 12,
-                  paddingHorizontal: 5,
-                  paddingVertical: 5,
-                  fontWeight: "300",
-                  color: "#00308F",
-                }}
-              >
-                Enter Your Password
-              </Text>
               <TextInput
+                mode="outlined"
+                label="Enter Password"
                 onChangeText={(text) => setPassword(text)}
                 value={password}
                 style={{
-                  paddingHorizontal: 12,
-                  paddingVertical: 12,
                   width: "90%",
-                  backgroundColor: "#F0F8FF",
-                  borderRadius: 5,
-                  color: "black",
+                  backgroundColor: "white",
                 }}
                 placeholder="Enter Your Password"
                 returnKeyType="go"
@@ -209,7 +175,7 @@ const LoginPage = () => {
               onPress={handleLogin}
               style={{
                 width: "90%",
-                backgroundColor: "#034694",
+                backgroundColor: "#21005d",
                 paddingVertical: 14,
                 borderRadius: 5,
               }}

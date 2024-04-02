@@ -49,7 +49,7 @@ const StartingPage = () => {
           textAlign: "center",
           fontWeight: "bold",
           fontSize: 28,
-          color: "#002244",
+          color: "#21005d",
         }}
       >
         Welcome to Safety Management System
@@ -78,7 +78,7 @@ const StartingPage = () => {
           position: "absolute",
           bottom: 30,
           width: "90%",
-          backgroundColor: "#034694",
+          backgroundColor: "#21005d",
           paddingVertical: 14,
           borderRadius: 50,
         }}
