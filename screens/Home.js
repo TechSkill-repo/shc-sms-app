@@ -32,7 +32,7 @@ const Home = () => {
       }}
     >
       <Header />
-      <StatusBar backgroundColor="#ffaa001a" barStyle="dark-content" />
+      <StatusBar backgroundColor="#fffbfe" barStyle="dark-content" />
     </SafeAreaView>
   );
 };

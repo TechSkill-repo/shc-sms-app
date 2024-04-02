@@ -55,11 +55,11 @@ const TbmPage = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#014E88" />
+      <StatusBar backgroundColor="#fffbfe" />
       <View
         style={{
           height: "25%",
-          backgroundColor: "#014E88",
+          backgroundColor: "#fffbfe",
         }}
       >
         <Text style={styles.heading}>Tool Box Meeting</Text>
@@ -67,7 +67,7 @@ const TbmPage = () => {
           style={{
             paddingHorizontal: 20,
             fontSize: 13,
-            color: "white",
+            color: "#21005d",
           }}
         >
           You have to fill all the form on the daily basis, so that the record
@@ -84,13 +84,13 @@ const TbmPage = () => {
             }}
             style={[styles.box, { borderTopWidth: 1, borderRightWidth: 1 }]}
           >
-            <FontAwesome6 name="file-waveform" size={40} color="#014E88" />
+            <FontAwesome6 name="file-waveform" size={40} color="#318CE7" />
             <Text
               style={{
                 marginTop: 20,
                 fontSize: 18,
                 fontWeight: "600",
-                color: "#014E88",
+                color: "rgb(120, 69, 172)",
               }}
             >
               TBT FROM
@@ -102,13 +102,13 @@ const TbmPage = () => {
             }}
             style={[styles.box, { borderTopWidth: 1 }]}
           >
-            <FontAwesome6 name="person-walking" size={40} color="#014E88" />
+            <FontAwesome6 name="person-walking" size={40} color="#17B169" />
             <Text
               style={{
                 marginTop: 20,
                 fontSize: 18,
                 fontWeight: "600",
-                color: "#014E88",
+                color: "rgb(120, 69, 172)",
               }}
             >
               Daily Job Plan
@@ -122,13 +122,13 @@ const TbmPage = () => {
               navigation.navigate("toolsTackles");
             }}
           >
-            <Entypo name="tools" size={40} color="#014E88" />
+            <Entypo name="tools" size={40} color="#800000" />
             <Text
               style={{
                 marginTop: 20,
                 fontSize: 18,
                 fontWeight: "600",
-                color: "#014E88",
+                color: "rgb(120, 69, 172)",
               }}
             >
               Tools & Tackles
@@ -140,13 +140,13 @@ const TbmPage = () => {
             }}
             style={[styles.box, { borderTopWidth: 1 }]}
           >
-            <FontAwesome6 name="helmet-safety" size={40} color="#014E88" />
+            <FontAwesome6 name="helmet-safety" size={40} color="#FEBE10" />
             <Text
               style={{
                 marginTop: 20,
                 fontSize: 18,
                 fontWeight: "600",
-                color: "#014E88",
+                color: "rgb(120, 69, 172)",
               }}
             >
               PPE Check List
@@ -154,41 +154,44 @@ const TbmPage = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
-          <View
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("fsgr");
+            }}
             style={[
               styles.box,
               { borderTopWidth: 1, borderBottomWidth: 1, borderRightWidth: 1 },
             ]}
           >
-            <FontAwesome name="fire" size={40} color="#014E88" />
+            <FontAwesome name="fire" size={40} color="#FF0000" />
             <Text
               style={{
                 marginTop: 20,
                 fontSize: 20,
                 fontWeight: "600",
-                color: "#014E88",
+                color: "rgb(120, 69, 172)",
               }}
             >
               F.S.G.R
             </Text>
-          </View>
+          </TouchableOpacity>
           <View
             style={[styles.box, { borderTopWidth: 1, borderBottomWidth: 1 }]}
           >
             <MaterialCommunityIcons
               name="traffic-cone"
               size={40}
-              color="#014E88"
+              color="#ee7600"
             />
             <Text
               style={{
                 marginTop: 20,
                 fontSize: 20,
                 fontWeight: "600",
-                color: "#014E88",
+                color: "rgb(120, 69, 172)",
               }}
             >
-              Danger
+              Assident Report
             </Text>
           </View>
         </View>
@@ -205,7 +208,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 25,
     fontWeight: "600",
-    color: "#FFFFFF",
+    color: "#21005d",
     paddingHorizontal: 20,
     paddingVertical: 20,
     // marginBottom: 20,
@@ -227,7 +230,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "50%", // Adjust width as needed
     height: 165, // Adjust height as needed
-    borderColor: "#014E881a",
+    borderColor: "#21005d1a",
   },
 });
 

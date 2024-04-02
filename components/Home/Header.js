@@ -55,6 +55,7 @@ const Header = () => {
             style={{
               fontSize: 18,
               fontWeight: "600",
+              color: "#21005d",
             }}
           >
             Fahad Mahmood
@@ -63,7 +64,7 @@ const Header = () => {
             style={{
               fontSize: 12,
               fontWeight: "600",
-              color: "#6c757d",
+              color: "#21005da1",
             }}
           >
             Safty Manager
@@ -100,7 +101,7 @@ const Header = () => {
               }}
             >
               {/* Your notification icon component */}
-              <Feather name="bell" size={25} color="#034694" />
+              <Feather name="bell" size={25} color="#21005d" />
             </TouchableOpacity>
           </View>
           <View
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
     paddingTop: 20,
-    backgroundColor: "#ffaa001a",
+    backgroundColor: "#fffbfe",
     paddingBottom: 20,
   },
 
