@@ -1,18 +1,37 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, ImageBackgroundComponent } from "react-native";
 import { Appbar } from "react-native-paper";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import Form from "./Form";
 import { useState, useEffect } from "react";
+import axios from "axios";
+import { serveraddress } from "../../../assets/values/Constants";
 
 const Fsgr = () => {
   const navigation = useNavigation();
-  const [currentDate, setCurrentDate] = useState("");
-  const [currentTime, setCurrentTime] = useState("");
+
+  const currentDate = new Date();
+
+  const day = currentDate.getDate(); // Returns the
+  const month = currentDate.getMonth() + 1; //
+  const year = currentDate.getFullYear(); // Returns
+
+  const [currentTime, setCurrentTime] = useState(new Date());
+  useEffect(() => {
+    // Update the current time every second
+    const timerID = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    // Clean up the timer
+    return () => {
+      clearInterval(timerID);
+    };
+  }, []);
 
   const [fsgrData, setFsgrData] = useState({
-    Report_Date: currentDate,
-    Report_Time: currentTime,
+    Report_Date: `${day}-${month}-${year}`,
+    Report_Time: "",
     Location: "",
     Emp_Name: "",
     Emp_Designation: "",
@@ -21,25 +40,18 @@ const Fsgr = () => {
     Message: "",
   });
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      const date = now.getDate().toString().padStart(2, "0");
-      const month = (now.getMonth() + 1).toString().padStart(2, "0");
-      const year = now.getFullYear();
-      const hours = now.getHours().toString().padStart(2, "0");
-      const minutes = now.getMinutes().toString().padStart(2, "0");
-      const seconds = now.getSeconds().toString().padStart(2, "0");
-
-      setCurrentDate(`${date}-${month}-${year}`);
-      setCurrentTime(`${hours}:${minutes}:${seconds}`);
-    }, 1000); // Update every second
-
-    return () => clearInterval(interval);
-  }, []);
-
   const handleSubmit = () => {
-    console.log(fsgrData);
+    axios
+      .post(`${serveraddress}fsgr/table`, fsgrData)
+      .then((response) => {
+        console.log("Data sent successfully:", response.data);
+        // Handle success, such as displaying a success message or navigating to another screen
+        navigation.navigate("ToolBoxTalk");
+      })
+      .catch((error) => {
+        console.error("Error sending data:", error);
+        // Handle error, such as displaying an error message to the user
+      });
   };
 
   return (
@@ -61,8 +73,8 @@ const Fsgr = () => {
       <Form
         fsgrData={fsgrData}
         setFsgrData={setFsgrData}
-        currentDate={currentDate}
-        currentTime={currentTime}
+        currentDate={`${day}/${month}/${year}`}
+        currentTime="12:11:23"
         handleSubmit={handleSubmit}
       />
     </ScrollView>

@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import React from "react";
 import { TextInput, Button } from "react-native-paper";
 
@@ -23,8 +23,9 @@ const Form = ({
       >
         <TextInput
           mode="outlined"
+          label="Report Time"
           value={currentDate}
-          label="Date of Report"
+          editable={false}
           style={{
             width: "45%",
           }}
@@ -117,7 +118,13 @@ const Form = ({
         <Button
           icon="check"
           mode="contained"
-          onPress={handleSubmit}
+          onPress={() => {
+            fsgrData.Message === ""
+              ? Alert.alert("Please Fill The Form", "", [
+                  { text: "OK", onPress: () => console.log("OK Pressed") },
+                ])
+              : handleSubmit();
+          }}
           style={{
             marginTop: 20,
             width: "95%",

@@ -213,21 +213,6 @@ const Step1 = ({ onNext, formData, setFormData }) => {
         >
           Current Shift
         </Text>
-        {/* <TextInput
-          style={{
-            paddingHorizontal: 12,
-            paddingVertical: 12,
-            width: "90%",
-            backgroundColor: "#F5F5F5",
-            elevation: 3,
-            borderRadius: 5,
-            color: "black",
-          }}
-<<<<<<< HEAD
-          placeholder="Shift"
-          value={shift}
-          onChangeText={(currentShift) => { setFormData({ ...formData, currentShift }) }}
-        /> */}
         <Dropdown
           style={styles.dropdown}
           placeholderStyle={styles.placeholderStyle}
@@ -276,20 +261,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
         >
           Site Location
         </Text>
-        {/* <TextInput
-          style={{
-            paddingHorizontal: 12,
-            paddingVertical: 12,
-            width: "90%",
-            backgroundColor: "#F5F5F5",
-            elevation: 3,
-            borderRadius: 5,
-            color: "black",
-          }}
-          placeholder="Enter Your Site Location"
-          onChangeText={(siteLocation) => { setFormData({ ...formData, siteLocation }) }}
 
-        /> */}
         <Dropdown
           style={styles.dropdown}
           placeholderStyle={styles.placeholderStyle}
