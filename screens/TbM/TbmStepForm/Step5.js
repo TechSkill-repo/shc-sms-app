@@ -55,31 +55,6 @@ const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
     >
       <View
         style={{
-          width: "100%",
-          height: 50,
-          backgroundColor: "#014E88",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingHorizontal: 20,
-          alignItems: "center",
-        }}
-      >
-        <View>
-          <Text
-            style={{
-              color: "#fff",
-              fontSize: 22,
-              marginLeft: 0,
-              fontWeight: "600",
-            }}
-          >
-            5.) TBT Attendance
-          </Text>
-        </View>
-      </View>
-
-      <View
-        style={{
           flex: 1,
           //   justifyContent: "center",
           //   alignItems: "center",

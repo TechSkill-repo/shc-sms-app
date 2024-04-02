@@ -1,4 +1,4 @@
-import { Alert, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 
 import Step1 from "./TbmStepForm/Step1";
@@ -8,6 +8,7 @@ import Step4 from "./TbmStepForm/Step4";
 import Step5 from "./TbmStepForm/Step5";
 import axios from "axios";
 import Toast from "react-native-toast-message";
+import { Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { serveraddress } from "../../assets/values/Constants";
 
@@ -220,11 +221,20 @@ const TbtForm = () => {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {/* <Text>Tbt Form</Text> */}
-      {/* <Button title="Next" /> */}
-      {renderStep()}
-    </View>
+    <>
+      <Appbar.Header>
+        <Appbar.BackAction
+          onPress={() => {
+            navigation.navigate("ToolBoxTalk");
+          }}
+        />
+        <Appbar.Content title="Tool Box Talk Form" />
+        <Appbar.Action icon="dots-vertical" />
+      </Appbar.Header>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        {renderStep()}
+      </View>
+    </>
   );
 };
 

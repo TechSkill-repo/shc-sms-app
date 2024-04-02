@@ -1,9 +1,9 @@
 import { View, Text, Button, Alert } from "react-native";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { SERVER_ADDRESS } from "@env"
+import { SERVER_ADDRESS } from "@env";
 import { serveraddress } from "../../assets/values/Constants";
-
+import { Appbar } from "react-native-paper";
 import Step1 from "./DailJobStepForm/Step1";
 import Step2 from "./DailJobStepForm/Step2";
 import Step3 from "./DailJobStepForm/Step3";
@@ -29,8 +29,8 @@ const DailyJobPlan = () => {
 
     // step:3
     hazardsDescription: [],
-    necessarySteps: []
-  })
+    necessarySteps: [],
+  });
 
   // useEffect(() => {
   //   // Update the current date in formData whenever it changes
@@ -51,13 +51,33 @@ const DailyJobPlan = () => {
   const renderStep = () => {
     switch (step) {
       case 1:
-        return <Step1 onNext={nextStep} formData={formData} setFormData={setFormData} />;
+        return (
+          <Step1
+            onNext={nextStep}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        );
 
       case 2:
-        return <Step2 onNext={nextStep} onPrev={prevStep} formData={formData} setFormData={setFormData} />;
+        return (
+          <Step2
+            onNext={nextStep}
+            onPrev={prevStep}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        );
 
       case 3:
-        return <Step3 onPrev={prevStep} onNext={handleConfirmSubmit} formData={formData} setFormData={setFormData} />;
+        return (
+          <Step3
+            onPrev={prevStep}
+            onNext={handleConfirmSubmit}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        );
 
       default:
         return null;
@@ -133,11 +153,20 @@ const DailyJobPlan = () => {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {/* <Text>Tbt Form</Text> */}
-      {/* <Button title="Next" /> */}
-      {renderStep()}
-    </View>
+    <>
+      <Appbar.Header>
+        <Appbar.BackAction
+          onPress={() => {
+            navigation.navigate("ToolBoxTalk");
+          }}
+        />
+        <Appbar.Content title="Daily Job Plan" />
+        <Appbar.Action icon="dots-vertical" />
+      </Appbar.Header>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        {renderStep()}
+      </View>
+    </>
   );
 };
 

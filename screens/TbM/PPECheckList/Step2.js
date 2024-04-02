@@ -116,31 +116,6 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
     >
       <View
         style={{
-          width: "100%",
-          height: 120,
-          backgroundColor: "#014E88",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingHorizontal: 20,
-          alignItems: "center",
-        }}
-      >
-        <View>
-          <Text
-            style={{
-              color: "#2e2d6e",
-              fontSize: 22,
-              marginLeft: 0,
-              fontWeight: "600",
-            }}
-          >
-            PPE CheckList
-          </Text>
-        </View>
-      </View>
-
-      <View
-        style={{
           flex: 1,
           //   justifyContent: "center",
           //   alignItems: "center",

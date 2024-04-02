@@ -25,31 +25,6 @@ const Step4 = ({ onNext, onPrev, setFormData, formData }) => {
     >
       <View
         style={{
-          width: "100%",
-          height: 50,
-          backgroundColor: "#014E88",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingHorizontal: 20,
-          alignItems: "center",
-        }}
-      >
-        <View>
-          <Text
-            style={{
-              color: "#fff",
-              fontSize: 22,
-              marginLeft: 0,
-              fontWeight: "600",
-            }}
-          >
-            4.) Final Details
-          </Text>
-        </View>
-      </View>
-
-      <View
-        style={{
           marginTop: 20,
           marginHorizontal: 20,
           width: "100%",

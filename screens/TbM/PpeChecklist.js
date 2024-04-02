@@ -1,10 +1,11 @@
 import { View, Text, Alert } from "react-native";
 import React, { useState } from "react";
 import Step1 from "./PPECheckList/Step1";
-import Step2 from "./PPECheckList/Step2"
+import Step2 from "./PPECheckList/Step2";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { serveraddress } from "../../assets/values/Constants";
+import { Appbar } from "react-native-paper";
 
 const PpeChecklist = () => {
   const [dateTime, setDateTime] = useState(new Date());
@@ -34,7 +35,7 @@ const PpeChecklist = () => {
             setStep1Data={setStep1Data}
             formData={step1Data}
           />
-        )
+        );
 
       case 2:
         return (
@@ -44,9 +45,8 @@ const PpeChecklist = () => {
             setStep2Data={setStep2Data}
             step1Data={step1Data}
             formData={step2Data}
-
           />
-        )
+        );
 
       default:
         return null;
@@ -54,8 +54,9 @@ const PpeChecklist = () => {
   };
 
   const formData = {
-    ...step1Data, ...step2Data
-  }
+    ...step1Data,
+    ...step2Data,
+  };
   console.log("form data", formData);
   const navigation = useNavigation();
   const submitForm = async () => {
@@ -65,14 +66,16 @@ const PpeChecklist = () => {
     const hours = currentDate.getHours();
     const minutes = currentDate.getMinutes();
     const seconds = currentDate.getSeconds();
-    
+
     // Format hours, minutes, and seconds with leading zeros if needed
-    const formattedHours = String(hours).padStart(2, '0');
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(seconds).padStart(2, '0');
-    
+    const formattedHours = String(hours).padStart(2, "0");
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(seconds).padStart(2, "0");
+
     // Combine date and time into a single dateTime string
-    const dateTime = `${currentDate.toISOString().split('T')[0]} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+    const dateTime = `${
+      currentDate.toISOString().split("T")[0]
+    } ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
 
     // Update formData with current date and time
     setDateTime((prevData) => ({
@@ -81,10 +84,11 @@ const PpeChecklist = () => {
     }));
     console.log("datetime:", dateTime);
     const formData = {
-      ...step1Data, ...step2Data
-    }
+      ...step1Data,
+      ...step2Data,
+    };
     await axios
-      .post(serveraddress+`forms/ppe-checklist`, formData, {
+      .post(serveraddress + `forms/ppe-checklist`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -129,9 +133,20 @@ const PpeChecklist = () => {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {renderStep()}
-    </View>
+    <>
+      <Appbar.Header>
+        <Appbar.BackAction
+          onPress={() => {
+            navigation.navigate("ToolBoxTalk");
+          }}
+        />
+        <Appbar.Content title="PPE Checklist " />
+        <Appbar.Action icon="dots-vertical" />
+      </Appbar.Header>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        {renderStep()}
+      </View>
+    </>
   );
 };
 

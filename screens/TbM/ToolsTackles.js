@@ -5,8 +5,7 @@ import Step2 from "./ToolsTacklesStepForm/Step2";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { serveraddress } from "../../assets/values/Constants";
-
-
+import { Appbar } from "react-native-paper";
 
 const ToolsTackles = () => {
   const [dateTime, setDateTime] = useState(new Date());
@@ -20,8 +19,9 @@ const ToolsTackles = () => {
   const [step2Data, setStep2Data] = useState({});
 
   const formData = {
-    ...step1Data, ...step2Data
-  }
+    ...step1Data,
+    ...step2Data,
+  };
   console.log(formData);
   const nextStep = () => {
     setStep(step + 1);
@@ -30,7 +30,6 @@ const ToolsTackles = () => {
   const prevStep = () => {
     setStep(step - 1);
   };
-
 
   const renderStep = () => {
     switch (step) {
@@ -67,14 +66,16 @@ const ToolsTackles = () => {
     const hours = currentDate.getHours();
     const minutes = currentDate.getMinutes();
     const seconds = currentDate.getSeconds();
-    
+
     // Format hours, minutes, and seconds with leading zeros if needed
-    const formattedHours = String(hours).padStart(2, '0');
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(seconds).padStart(2, '0');
-    
+    const formattedHours = String(hours).padStart(2, "0");
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(seconds).padStart(2, "0");
+
     // Combine date and time into a single dateTime string
-    const dateTime = `${currentDate.toISOString().split('T')[0]} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+    const dateTime = `${
+      currentDate.toISOString().split("T")[0]
+    } ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
 
     // Update formData with current date and time
     setDateTime((prevData) => ({
@@ -82,10 +83,11 @@ const ToolsTackles = () => {
       dateTime: dateTime,
     }));
     const formData = {
-      ...step1Data, ...step2Data
-    }
+      ...step1Data,
+      ...step2Data,
+    };
     await axios
-      .post(serveraddress+`forms/tools-tackle`, formData, {
+      .post(serveraddress + `forms/tools-tackle`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -129,11 +131,21 @@ const ToolsTackles = () => {
     );
   };
 
-
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {renderStep()}
-    </View>
+    <>
+      <Appbar.Header>
+        <Appbar.BackAction
+          onPress={() => {
+            navigation.navigate("ToolBoxTalk");
+          }}
+        />
+        <Appbar.Content title="Tool & Tackles" />
+        <Appbar.Action icon="dots-vertical" />
+      </Appbar.Header>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        {renderStep()}
+      </View>
+    </>
   );
 };
 

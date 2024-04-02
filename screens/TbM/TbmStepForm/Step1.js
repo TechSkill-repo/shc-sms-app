@@ -11,6 +11,7 @@ import {
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
+import { Appbar } from "react-native-paper";
 import {
   fetchLocations,
   getShiftOptions,
@@ -121,39 +122,6 @@ const Step1 = ({ onNext, formData, setFormData }) => {
         backgroundColor: "white",
       }}
     >
-      <View
-        style={{
-          width: "100%",
-          height: 50,
-          backgroundColor: "#014E88",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingHorizontal: 20,
-          paddingVertical: 5,
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("ToolBoxTalk");
-          }}
-        >
-          <AntDesign name="left" size={25} color="#fff" />
-        </TouchableOpacity>
-        <View>
-          <Text
-            style={{
-              color: "#fff",
-              fontSize: 22,
-              marginLeft: 20,
-              fontWeight: "600",
-            }}
-          >
-            Tool Box Meeting
-          </Text>
-        </View>
-      </View>
-
       <View
         style={{
           marginTop: 20,

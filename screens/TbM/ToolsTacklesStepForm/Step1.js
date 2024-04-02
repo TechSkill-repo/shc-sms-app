@@ -104,38 +104,6 @@ const Step1 = ({ onNext, formData, setStep1Data }) => {
     >
       <View
         style={{
-          width: "100%",
-          height: 120,
-          backgroundColor: "#014E88",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingHorizontal: 20,
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("ToolBoxTalk");
-          }}
-        >
-          <AntDesign name="left" size={25} color="#2e2d6e" />
-        </TouchableOpacity>
-        <View>
-          <Text
-            style={{
-              color: "#2e2d6e",
-              fontSize: 22,
-              marginLeft: 20,
-              fontWeight: "600",
-            }}
-          >
-            Tools and Tackles
-          </Text>
-        </View>
-      </View>
-
-      <View
-        style={{
           marginTop: 20,
           marginHorizontal: 20,
           width: "100%",

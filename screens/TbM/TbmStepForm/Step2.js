@@ -10,6 +10,7 @@ import {
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
+import { Appbar } from "react-native-paper";
 
 const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
   return (
@@ -23,31 +24,6 @@ const Step2 = ({ onNext, onPrev, formData, setFormData }) => {
         backgroundColor: "white",
       }}
     >
-      <View
-        style={{
-          width: "100%",
-          height: 50,
-          backgroundColor: "#014E88",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingHorizontal: 20,
-          alignItems: "center",
-        }}
-      >
-        <View>
-          <Text
-            style={{
-              color: "#fff",
-              fontSize: 22,
-              marginLeft: 0,
-              fontWeight: "600",
-            }}
-          >
-            2. Tool-Box Talk
-          </Text>
-        </View>
-      </View>
-
       <View
         style={{
           marginTop: 20,

@@ -25,31 +25,6 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
     >
       <View
         style={{
-          width: "100%",
-          height: 50,
-          backgroundColor: "#014E88",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingHorizontal: 20,
-          alignItems: "center",
-        }}
-      >
-        <View>
-          <Text
-            style={{
-              color: "#fff",
-              fontSize: 22,
-              marginLeft: 0,
-              fontWeight: "600",
-            }}
-          >
-            3.) Safety Contract & Reviews
-          </Text>
-        </View>
-      </View>
-
-      <View
-        style={{
           marginTop: 20,
           marginHorizontal: 20,
           width: "100%",
