@@ -8,6 +8,7 @@ import {
 import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import LogoLight from "../../assets/logo/logoLight.png";
 
 const StartingPage = () => {
   const navigation = useNavigation();
@@ -19,9 +20,6 @@ const StartingPage = () => {
     try {
       const dataToken = await AsyncStorage.getItem("accessToken");
       console.log("accessToken", dataToken);
-      if (dataToken) {
-        navigation.replace("Home");
-      }
     } catch (error) {
       console.error("Error retrieving token:", error);
     }
@@ -36,19 +34,17 @@ const StartingPage = () => {
       }}
     >
       <Image
-        source={{
-          uri: "https://t3.ftcdn.net/jpg/03/88/93/80/360_F_388938052_2EKg0yzCQYm7uZiQBOpld4l0LabxtYCm.jpg",
-        }}
+        source={LogoLight}
         style={{
           width: "100%",
-          height: "50%",
+          height: "40%",
         }}
       />
       <Text
         style={{
           textAlign: "center",
           fontWeight: "bold",
-          fontSize: 28,
+          fontSize: 20,
           color: "#21005d",
         }}
       >
