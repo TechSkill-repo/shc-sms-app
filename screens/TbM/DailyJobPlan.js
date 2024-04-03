@@ -1,4 +1,4 @@
-import { View, Text, Button, Alert } from "react-native";
+import { View, Text, Button, Alert, ActivityIndicator } from "react-native";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SERVER_ADDRESS } from "@env";
@@ -10,6 +10,7 @@ import Step3 from "./DailJobStepForm/Step3";
 import axios from "axios";
 
 const DailyJobPlan = () => {
+  const [loading, setLoading] = useState(false);
   const [dateTime, setDateTime] = useState(new Date());
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -95,6 +96,7 @@ const DailyJobPlan = () => {
   }, [navigation]);
 
   const submitForm = async () => {
+    setLoading(true);
     // Get the current date and time
     const currentDate = new Date();
     const currentTime = currentDate.toLocaleTimeString();
@@ -115,10 +117,14 @@ const DailyJobPlan = () => {
       })
       .then((response) => {
         console.log("Form Submited Successfully:", response.data);
+        setLoading(false);
+
         alert("Form Submited Successfully");
         navigation.goBack();
+
       })
       .catch((error) => {
+        setLoading(false); // Stop loading
         console.error("Error submitting form:", error);
         if (error.response) {
           console.error("Server responded with status:", error.response.status);
@@ -143,7 +149,7 @@ const DailyJobPlan = () => {
         {
           text: "Submit",
           onPress: () => {
-            alert("Form submitted successfully");
+            // alert("Form submitted successfully");
             submitForm();
           },
         },
@@ -164,7 +170,11 @@ const DailyJobPlan = () => {
         <Appbar.Action icon="dots-vertical" />
       </Appbar.Header>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        {renderStep()}
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          renderStep()
+        )}
       </View>
     </>
   );
