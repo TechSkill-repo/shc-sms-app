@@ -1,4 +1,4 @@
-import { Alert, Text, View } from "react-native";
+import { Alert, Text, View, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 
 import Step1 from "./TbmStepForm/Step1";
@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { serveraddress } from "../../assets/values/Constants";
 
 const TbtForm = () => {
+  const [loading, setLoading] = useState(false);
   const currentDate = new Date();
 
   const day = currentDate.getDate(); // Returns the
@@ -147,6 +148,8 @@ const TbtForm = () => {
 
   const navigation = useNavigation();
   const submitForm = async () => {
+    setLoading(true);
+    
     // Get the current date and time
     const currentDate = new Date();
 
@@ -183,10 +186,12 @@ const TbtForm = () => {
       )
       .then((response) => {
         console.log("Form Submited Successfully:", response.data);
+        setLoading(false);
         alert("Form Submited Successfully");
         navigation.goBack();
       })
       .catch((error) => {
+        setLoading(false);
         console.error("Error submitting form:", error);
         if (error.response) {
           console.error("Server responded with status:", error.response.status);
@@ -211,7 +216,7 @@ const TbtForm = () => {
         {
           text: "Submit",
           onPress: () => {
-            alert("Form submitted successfully");
+            // alert("Form submitted successfully");
             submitForm();
           },
         },
@@ -232,7 +237,11 @@ const TbtForm = () => {
         <Appbar.Action icon="dots-vertical" />
       </Appbar.Header>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        {renderStep()}
+      {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          renderStep()
+        )}
       </View>
     </>
   );

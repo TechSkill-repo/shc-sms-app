@@ -1,4 +1,4 @@
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, ActivityIndicator } from "react-native";
 import React, { useState } from "react";
 import Step1 from "./ToolsTacklesStepForm/Step1";
 import Step2 from "./ToolsTacklesStepForm/Step2";
@@ -8,6 +8,7 @@ import { serveraddress } from "../../assets/values/Constants";
 import { Appbar } from "react-native-paper";
 
 const ToolsTackles = () => {
+  const [loading, setLoading] = useState(false);
   const [dateTime, setDateTime] = useState(new Date());
   const [step, setStep] = useState(1);
   const [step1Data, setStep1Data] = useState({
@@ -60,6 +61,7 @@ const ToolsTackles = () => {
 
   const navigation = useNavigation();
   const submitForm = async () => {
+    setLoading(true);
     const currentDate = new Date();
 
     // Extract hours, minutes, and seconds
@@ -94,10 +96,12 @@ const ToolsTackles = () => {
       })
       .then((response) => {
         console.log("Form Submited Successfully:", response.data);
+        setLoading(false);
         alert("Form Submited Successfully");
         navigation.goBack();
       })
       .catch((error) => {
+        setLoading(false);
         console.error("Error submitting form:", error);
         if (error.response) {
           console.error("Server responded with status:", error.response.status);
@@ -122,7 +126,7 @@ const ToolsTackles = () => {
         {
           text: "Submit",
           onPress: () => {
-            alert("Form submitted successfully");
+            // alert("Form submitted successfully");
             submitForm();
           },
         },
@@ -143,7 +147,11 @@ const ToolsTackles = () => {
         <Appbar.Action icon="dots-vertical" />
       </Appbar.Header>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        {renderStep()}
+      {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          renderStep()
+        )}
       </View>
     </>
   );
