@@ -1,12 +1,13 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text } from "react-native";
+import React from "react";
+import UnderConstruction from "../components/Global/UnderConstruction/UnderConstruction";
 
 const Setting = () => {
   return (
     <View>
-      <Text>Setting</Text>
+      <UnderConstruction />
     </View>
-  )
-}
+  );
+};
 
-export default Setting
+export default Setting;

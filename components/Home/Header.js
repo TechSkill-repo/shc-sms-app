@@ -8,7 +8,7 @@ import useAuthStore from "../../store/userAuthStore";
 
 const Header = () => {
   const setUser = useAuthStore((state) => state.setUser);
-  const { token, removeToken } = useAuthStore();
+  const { token, removeToken, username, role } = useAuthStore();
   // Sample user details
 
   // Function to handle notification screen navigation
@@ -58,7 +58,7 @@ const Header = () => {
               color: "#21005d",
             }}
           >
-            Fahad Mahmood
+            {username}
           </Text>
           <Text
             style={{
@@ -67,7 +67,7 @@ const Header = () => {
               color: "#21005da1",
             }}
           >
-            Safty Manager
+            {role === "sm" ? "Safety Manager" : ""}
           </Text>
         </View>
         <View
