@@ -1,6 +1,9 @@
-import { View, Text, Alert, ScrollView } from "react-native";
-import React from "react";
+import { View, Text, Alert, ScrollView, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
 import { TextInput, Button } from "react-native-paper";
+import { fetchLocations } from "../../../components/Global/Global";
+import { AntDesign } from "@expo/vector-icons";
+import { Dropdown } from "react-native-element-dropdown";
 
 const Form = ({
   handleSubmit,
@@ -9,6 +12,43 @@ const Form = ({
   currentDate,
   currentTime,
 }) => {
+  const [locations, setLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+
+  useEffect(() => {
+    async function fetchLocationsData() {
+      try {
+        const data = await fetchLocations();
+        setLocations(data);
+      } catch (error) {
+        console.error("Error fetching locations:", error);
+      }
+    }
+    fetchLocationsData();
+  }, []);
+
+  const handleLocationChange = (selectedLocation) => {
+    setSelectedLocation(selectedLocation);
+    setFsgrData((prevState) => ({
+      ...prevState,
+      Location: selectedLocation.label,
+    }));
+    setIsFocus(false);
+  };
+
+  const renderLabel = () => {
+    if (value || isFocus) {
+      return (
+        <Text style={[styles.label, isFocus && { color: 'blue' }]}>
+          Location
+        </Text>
+      );
+    }
+    return null;
+  };
+
   return (
     <ScrollView
       style={{
@@ -47,7 +87,7 @@ const Form = ({
           alignItems: "center",
         }}
       >
-        <TextInput
+        {/* <TextInput
           mode="outlined"
           label="Location"
           style={{
@@ -57,7 +97,46 @@ const Form = ({
           onChangeText={(Location) => {
             setFsgrData({ ...fsgrData, Location });
           }}
-        />
+        /> */}
+
+        <View style={styles.container}>
+          {renderLabel()}
+
+          <Dropdown
+            style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={locations.map((Location) => ({
+              label: Location.name,
+              value: Location.id,
+            }))}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={!isFocus ? 'Location' : '...'}
+            searchPlaceholder="Search..."
+            value={selectedLocation} // Use selectedLocation here
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={handleLocationChange}
+            renderLeftIcon={() => (
+              <AntDesign
+                style={styles.icon}
+                color={isFocus ? 'blue' : 'black'}
+                name="Safety"
+                size={20}
+              />
+            )}
+
+            onChangeText={(Location) => {
+              setFsgrData({ ...fsgrData, Location });
+            }}
+          />
+        </View>
+
         <TextInput
           mode="outlined"
           label="Employee Name"
@@ -134,8 +213,8 @@ const Form = ({
           onPress={() => {
             fsgrData.Message === ""
               ? Alert.alert("Please Fill The Form", "", [
-                  { text: "OK", onPress: () => console.log("OK Pressed") },
-                ])
+                { text: "OK", onPress: () => console.log("OK Pressed") },
+              ])
               : handleSubmit();
           }}
           style={{
@@ -151,3 +230,46 @@ const Form = ({
 };
 
 export default Form;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    padding: 16,
+    width:"103%",
+    marginBottom:-15
+  },
+  dropdown: {
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 8,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  label: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+});
+

@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, ImageBackgroundComponent } from "react-native";
+import { View, Text, ScrollView, ImageBackgroundComponent, ActivityIndicator } from "react-native";
 import { Appbar } from "react-native-paper";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -8,6 +8,7 @@ import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
 
 const Fsgr = () => {
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   const currentDate = new Date();
@@ -46,14 +47,19 @@ const Fsgr = () => {
   });
 
   const handleSubmit = () => {
+    setLoading(true);
     axios
       .post(`${serveraddress}fsgr/table`, fsgrData)
       .then((response) => {
         console.log("Data sent successfully:", response.data);
         // Handle success, such as displaying a success message or navigating to another screen
+        setLoading(false);
+
+        alert("Form Submited Successfully");
         navigation.navigate("ToolBoxTalk");
       })
       .catch((error) => {
+        setLoading(false);
         console.error("Error sending data:", error);
         // Handle error, such as displaying an error message to the user
       });
@@ -75,13 +81,15 @@ const Fsgr = () => {
         <Appbar.Content title="FSGR" />
         <Appbar.Action icon="dots-vertical" />
       </Appbar.Header>
-      <Form
-        fsgrData={fsgrData}
-        setFsgrData={setFsgrData}
-        currentDate={`${day}/${month}/${year}`}
-        currentTime={`${hours}:${minutes}:${seconds}`}
-        handleSubmit={handleSubmit}
-      />
+      {loading ? (<ActivityIndicator size="large" color="#0000ff" />) : (
+        <Form
+          fsgrData={fsgrData}
+          setFsgrData={setFsgrData}
+          currentDate={`${day}/${month}/${year}`}
+          currentTime={`${hours}:${minutes}:${seconds}`}
+          handleSubmit={handleSubmit}
+        />
+      )}
     </ScrollView>
   );
 };
