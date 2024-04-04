@@ -1,4 +1,4 @@
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, ScrollView } from "react-native";
 import React from "react";
 import { TextInput, Button } from "react-native-paper";
 
@@ -10,7 +10,7 @@ const Form = ({
   currentTime,
 }) => {
   return (
-    <View
+    <ScrollView
       style={{
         width: "100%",
       }}
@@ -116,6 +116,19 @@ const Form = ({
           numberOfLines={3}
         />
         <Button
+          icon="camera"
+          mode="contained"
+          style={{
+            backgroundColor: "#1976d2",
+            borderRadius: 4,
+            marginTop: 10,
+            width: "90%",
+          }}
+          onPress={() => console.log("Pressed")}
+        >
+          Click Photo
+        </Button>
+        <Button
           icon="check"
           mode="contained"
           onPress={() => {
@@ -133,7 +146,7 @@ const Form = ({
           Submit your FSGR
         </Button>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
