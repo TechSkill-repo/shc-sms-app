@@ -175,7 +175,10 @@ const TbmPage = () => {
               F.S.G.R
             </Text>
           </TouchableOpacity>
-          <View
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("accidentReport");
+            }}
             style={[styles.box, { borderTopWidth: 1, borderBottomWidth: 1 }]}
           >
             <MaterialCommunityIcons
@@ -191,9 +194,9 @@ const TbmPage = () => {
                 color: "rgb(120, 69, 172)",
               }}
             >
-              Assident Report
+              Accident Report
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

@@ -7,6 +7,7 @@ import PpeChecklist from "../../screens/TbM/PpeChecklist";
 import TbtForm from "../../screens/TbM/TbtForm";
 import ToolsTackles from "../../screens/TbM/ToolsTackles";
 import Fsgr from "../../screens/TbM/FSGR/Fsgr";
+import AccidentReports from "../../screens/AccidentReports/AccidentReports";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,11 @@ const TBM = () => {
       <Stack.Screen
         name="fsgr"
         component={Fsgr}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="accidentReport"
+        component={AccidentReports}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
