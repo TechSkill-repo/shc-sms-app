@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Alert, ActivityIndicator } from "react-native";
 import React, { useState, useEffect } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,6 +10,7 @@ import { serveraddress } from "../../assets/values/Constants";
 import { TextInput } from "react-native-paper";
 
 const LoginPage = () => {
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const setUser = useAuthStore((state) => state.setUser);
@@ -30,6 +31,7 @@ const LoginPage = () => {
   // API -> http://localhost:8080/auth/login
 
   const handleLogin = async () => {
+    setLoading(true);
     try {
       const response = await fetch(serveraddress + `auth/login`, {
         method: "POST",
@@ -51,18 +53,26 @@ const LoginPage = () => {
           email: responseData.email,
           token: responseData.token,
         });
+        setLoading(false);
       } else {
         // Handle unsuccessful login
         showToast();
+        setLoading(false);
       }
     } catch (error) {
+      setLoading(false);
       console.error("Error:", error);
       Alert.alert("Error", "An error occurred while trying to login");
     }
   };
 
   return (
-    <>
+    <>{loading ? (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>) : (
+
+
       <SafeAreaView
         style={{
           backgroundColor: "white",
@@ -195,6 +205,7 @@ const LoginPage = () => {
         </ScrollView>
         <Toast />
       </SafeAreaView>
+    )}
     </>
   );
 };
