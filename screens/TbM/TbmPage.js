@@ -93,7 +93,7 @@ const TbmPage = () => {
                 color: "rgb(120, 69, 172)",
               }}
             >
-              TBT FROM
+              TBT FORM
             </Text>
           </TouchableOpacity>
           <TouchableOpacity

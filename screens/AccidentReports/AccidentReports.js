@@ -1,13 +1,123 @@
-import { View, Text } from "react-native";
-import React from "react";
-import UnderConstruction from "../../components/Global/UnderConstruction/UnderConstruction";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import { Appbar } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import Nearmess from "./AccidentScreens/Nearmess";
+import FirstAde from "./AccidentScreens/FirstAde";
+import LostTimeEng from "./AccidentScreens/LostTimeEng";
+import Disabled from "./AccidentScreens/Disabled";
 
 const AccidentReports = () => {
+  const [selectedCard, setSelectedCard] = useState(1);
+
+  const handleCardSelect = (cardNumber) => {
+    setSelectedCard(cardNumber);
+  };
+
+  const navigation = useNavigation();
+  useEffect(() => {
+    navigation.getParent()?.setOptions({
+      tabBarStyle: {
+        display: "none",
+      },
+    });
+  }, [navigation]);
   return (
-    <View>
-      <UnderConstruction />
-    </View>
+    <ScrollView
+      style={{
+        backgroundColor: "white",
+      }}
+    >
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => {}} />
+        <Appbar.Content title="Accident" />
+      </Appbar.Header>
+      <View>
+        <View style={styles.container}>
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                selectedCard === 1 && styles.selectedButton,
+              ]}
+              onPress={() => handleCardSelect(1)}
+            >
+              <Text style={styles.buttonText}>Near Miss</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                selectedCard === 2 && styles.selectedButton,
+              ]}
+              onPress={() => handleCardSelect(2)}
+            >
+              <Text style={styles.buttonText}>First Aid</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                selectedCard === 3 && styles.selectedButton,
+              ]}
+              onPress={() => handleCardSelect(3)}
+            >
+              <Text style={styles.buttonText}>Lost Time</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                selectedCard === 4 && styles.selectedButton,
+              ]}
+              onPress={() => handleCardSelect(4)}
+            >
+              <Text style={styles.buttonText}>Disabled</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            {selectedCard === 1 && <Nearmess />}
+            {selectedCard === 2 && <FirstAde />}
+            {selectedCard === 3 && <LostTimeEng />}
+            {selectedCard === 4 && <Disabled />}
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+    width: "100%",
+  },
+  button: {
+    padding: 12,
+    borderBottomWidth: 2,
+    backgroundColor: "#fffbfe",
+    borderBottomColor: "lightgray",
+  },
+  selectedButton: {
+    borderBottomWidth: 2,
+    borderBottomColor: "#21005d",
+    color: "#21005d",
+  },
+  buttonText: {
+    fontSize: 16,
+    color: "#21005d",
+    fontWeight: "500",
+  },
+});
 
 export default AccidentReports;
