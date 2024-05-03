@@ -12,9 +12,12 @@ import Nearmess from "./AccidentScreens/Nearmess";
 import FirstAde from "./AccidentScreens/FirstAde";
 import LostTimeEng from "./AccidentScreens/LostTimeEng";
 import Disabled from "./AccidentScreens/Disabled";
+import AccidentForm from "../../models/AccidentModel/AccidentForm";
 
 const AccidentReports = () => {
   const [selectedCard, setSelectedCard] = useState(1);
+
+  const [isVisible, setIsVisible] = useState(false);
 
   const handleCardSelect = (cardNumber) => {
     setSelectedCard(cardNumber);
@@ -37,6 +40,8 @@ const AccidentReports = () => {
       <Appbar.Header>
         <Appbar.BackAction onPress={() => {}} />
         <Appbar.Content title="Accident" />
+        <Appbar.Action icon="pencil" onPress={() => setIsVisible(true)} />
+        <Appbar.Action icon="magnify" />
       </Appbar.Header>
       <View>
         <View style={styles.container}>
@@ -86,6 +91,7 @@ const AccidentReports = () => {
           </View>
         </View>
       </View>
+      <AccidentForm isVisible={isVisible} setIsVisible={setIsVisible} />
     </ScrollView>
   );
 };
@@ -111,7 +117,6 @@ const styles = StyleSheet.create({
   selectedButton: {
     borderBottomWidth: 2,
     borderBottomColor: "#21005d",
-    color: "#21005d",
   },
   buttonText: {
     fontSize: 16,
