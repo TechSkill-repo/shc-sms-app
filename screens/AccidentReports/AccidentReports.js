@@ -45,7 +45,7 @@ const AccidentReports = () => {
       </Appbar.Header>
       <View>
         <View style={styles.container}>
-          <View style={styles.buttonsContainer}>
+          <ScrollView style={styles.buttonsContainer} horizontal={true}>
             <TouchableOpacity
               style={[
                 styles.button,
@@ -82,7 +82,7 @@ const AccidentReports = () => {
             >
               <Text style={styles.buttonText}>Disabled</Text>
             </TouchableOpacity>
-          </View>
+          </ScrollView>
           <View>
             {selectedCard === 1 && <Nearmess />}
             {selectedCard === 2 && <FirstAde />}
