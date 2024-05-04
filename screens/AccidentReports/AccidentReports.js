@@ -13,6 +13,7 @@ import FirstAde from "./AccidentScreens/FirstAde";
 import LostTimeEng from "./AccidentScreens/LostTimeEng";
 import Disabled from "./AccidentScreens/Disabled";
 import AccidentForm from "../../models/AccidentModel/AccidentForm";
+import DangerousIncident from "./AccidentScreens/DangerousIncident";
 
 const AccidentReports = () => {
   const [selectedCard, setSelectedCard] = useState(1);
@@ -71,7 +72,7 @@ const AccidentReports = () => {
               ]}
               onPress={() => handleCardSelect(3)}
             >
-              <Text style={styles.buttonText}>Lost Time</Text>
+              <Text style={styles.buttonText}>L.T.I</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -80,7 +81,16 @@ const AccidentReports = () => {
               ]}
               onPress={() => handleCardSelect(4)}
             >
-              <Text style={styles.buttonText}>Disabled</Text>
+              <Text style={styles.buttonText}>Disability</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                selectedCard === 5 && styles.selectedButton,
+              ]}
+              onPress={() => handleCardSelect(5)}
+            >
+              <Text style={styles.buttonText}>Dangerous Incident</Text>
             </TouchableOpacity>
           </ScrollView>
           <View>
@@ -88,6 +98,7 @@ const AccidentReports = () => {
             {selectedCard === 2 && <FirstAde />}
             {selectedCard === 3 && <LostTimeEng />}
             {selectedCard === 4 && <Disabled />}
+            {selectedCard === 5 && <DangerousIncident />}
           </View>
         </View>
       </View>

@@ -13,7 +13,7 @@ import { serveraddress } from "../../../assets/values/Constants";
 import axios from "axios";
 import Loading from "../../../assets/logo/Loading.png";
 
-const FirstAde = () => {
+const DangerousIncident = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [id, setId] = useState(0);
   const [data, setData] = useState([]);
@@ -24,7 +24,9 @@ const FirstAde = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${serveraddress}accident/first_aid/`);
+        const response = await axios.get(
+          `${serveraddress}accident/disability/`
+        );
         if (response.data) {
           setData(response.data);
         } else {
@@ -58,17 +60,24 @@ const FirstAde = () => {
                 setIsVisible(true);
                 setId(data.id);
               }}
-              key={data.id}
               style={styles.container}
+              key={data.id}
             >
               <View>
                 <Text>{data.Date}</Text>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Text style={styles.text}>Location</Text>
-                  <Text style={styles.textLocation}>
+                <Text
+                  style={
+                    ([styles.text],
+                    {
+                      marginRight: 20,
+                    })
+                  }
+                >
+                  Location
+                  <Text style={styles.text}>
                     {data.Location === null ? "" : data.Location}
                   </Text>
-                </View>
+                </Text>
               </View>
               <View>
                 <AntDesign
@@ -81,7 +90,7 @@ const FirstAde = () => {
             </TouchableOpacity>
           );
         })
-      ) : dataNotFound ? (
+      ) : dataNotFound === true ? (
         <Text>No data found</Text>
       ) : null}
 
@@ -89,7 +98,7 @@ const FirstAde = () => {
         isVisible={isVisible}
         setIsVisible={setIsVisible}
         id={id}
-        endPoint="first_aid"
+        endPoint="dangerous_incident"
       />
     </View>
   );
@@ -116,17 +125,11 @@ const styles = StyleSheet.create({
   },
   text: {
     paddingVertical: 4,
-    fontSize: 14,
-    fontWeight: "400",
-    color: "#505050",
-  },
-  textLocation: {
-    paddingVertical: 4,
     fontSize: 16,
     fontWeight: "600",
+
     color: "#21005d",
-    marginLeft: 10,
   },
 });
 
-export default FirstAde;
+export default DangerousIncident;
