@@ -18,10 +18,11 @@ import axios from "axios";
 import { serveraddress } from "../../assets/values/Constants";
 
 const data = [
-  { label: "Near Miss", value: "Near Miss" },
-  { label: "First Aid", value: "First Aid" },
-  { label: "Lost Time", value: "Lost Time" },
-  { label: "Disable", value: "Disable" },
+  { label: "Near Miss", value: "near_mess" },
+  { label: "First Aid Care", value: "first_aid" },
+  { label: "Lost Time Injury", value: "lost_time_injury" },
+  { label: "Disable", value: "disability" },
+  { label: "Dangerous Incident", value: "dangerous_incident" },
 ];
 
 const AccidentForm = ({ isVisible, setIsVisible }) => {
@@ -63,11 +64,6 @@ const AccidentForm = ({ isVisible, setIsVisible }) => {
   }, []);
 
   const handleLocationChange = (selectedLocation) => {
-    // setSelectedLocation(selectedLocation);
-    // setFormData((prevState) => ({
-    //   ...prevState,
-    //   location: selectedLocation.label,
-    // }));
     setSelectedLocation(selectedLocation);
   };
 
@@ -76,42 +72,33 @@ const AccidentForm = ({ isVisible, setIsVisible }) => {
   };
 
   const handleSubmit = async () => {
-    const formData = {
-      accidentDate,
-      location: selectedLocation.label,
-      safetySupervisor,
-      personName,
-      accidentType: selectedAcidentType.value,
-      accidentNote,
-    };
-
     try {
-      const response = await axios.post(
-        serveraddress + `/accident/`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.data.success) {
-        throw new Error("Failed to submit form");
+      const response = await axios.post(`${serveraddress}accident/`, {
+        Date: accidentDate,
+        Location: selectedLocation.label,
+        SupervisorName: safetySupervisor,
+        PersonName: personName,
+        IncidentType: selectedAcidentType.value,
+        Message: accidentNote,
+      });
+      console.log("Response:", response.data);
+      if (response.data.message === "One Data Added Successfully") {
+        // Handle success, maybe show a success message or navigate to another screen
+        console.log("Form submitted successfully");
+        setAccidentDate(new Date());
+        setSelectedLocation(null);
+        setSafetySupervisor("");
+        setPersonName("");
+        setSelectedAcidentType(null);
+        setAccidentNote("");
+        setIsVisible(false);
+      } else {
+        // Handle unsuccessful response
+        console.error("Failed to submit form:", response.data.error);
       }
-
-      // Reset form fields or close the modal
-      setAccidentDate(new Date());
-      setSelectedLocation(null);
-      setSafetySupervisor("");
-      setPersonName("");
-      setSelectedAcidentType(null);
-      setAccidentNote("");
-
-      setIsVisible(false);
     } catch (error) {
+      // Handle network errors or any other errors
       console.error("Error submitting form:", error.message);
-      // Handle error
     }
   };
 
@@ -120,6 +107,7 @@ const AccidentForm = ({ isVisible, setIsVisible }) => {
       visible={isVisible}
       onRequestClose={() => setIsVisible(false)}
       transparent
+      animationType="slide"
     >
       <View
         style={{
