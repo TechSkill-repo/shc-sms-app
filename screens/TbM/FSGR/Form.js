@@ -1,8 +1,15 @@
-import { View, Text, Alert, ScrollView, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { TextInput, Button } from "react-native-paper";
 import { fetchLocations } from "../../../components/Global/Global";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 import { Dropdown } from "react-native-element-dropdown";
 
 const Form = ({
@@ -41,7 +48,7 @@ const Form = ({
   const renderLabel = () => {
     if (value || isFocus) {
       return (
-        <Text style={[styles.label, isFocus && { color: 'blue' }]}>
+        <Text style={[styles.label, isFocus && { color: "blue" }]}>
           Location
         </Text>
       );
@@ -103,7 +110,7 @@ const Form = ({
           {renderLabel()}
 
           <Dropdown
-            style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+            style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}
@@ -116,7 +123,7 @@ const Form = ({
             maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder={!isFocus ? 'Location' : '...'}
+            placeholder={!isFocus ? "Location" : "..."}
             searchPlaceholder="Search..."
             value={selectedLocation} // Use selectedLocation here
             onFocus={() => setIsFocus(true)}
@@ -125,12 +132,11 @@ const Form = ({
             renderLeftIcon={() => (
               <AntDesign
                 style={styles.icon}
-                color={isFocus ? 'blue' : 'black'}
+                color={isFocus ? "blue" : "black"}
                 name="Safety"
                 size={20}
               />
             )}
-
             onChangeText={(Location) => {
               setFsgrData({ ...fsgrData, Location });
             }}
@@ -194,36 +200,62 @@ const Form = ({
           multiline
           numberOfLines={3}
         />
-        <Button
-          icon="camera"
-          mode="contained"
+
+        <TouchableOpacity
           style={{
-            backgroundColor: "#1976d2",
-            borderRadius: 4,
+            backgroundColor: "#4caf501a",
+            height: 40,
+            borderRadius: 10,
             marginTop: 10,
-            width: "90%",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "50%",
           }}
-          onPress={() => console.log("Pressed")}
         >
-          Click Photo
-        </Button>
-        <Button
-          icon="check"
-          mode="contained"
-          onPress={() => {
-            fsgrData.Message === ""
-              ? Alert.alert("Please Fill The Form", "", [
-                { text: "OK", onPress: () => console.log("OK Pressed") },
-              ])
-              : handleSubmit();
-          }}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Entypo name="camera" size={20} color="#4caf50" />
+            <Text
+              style={{
+                fontSize: 14,
+                marginLeft: 10,
+                fontWeight: "700",
+                color: "#4caf50",
+              }}
+            >
+              Take Photo
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleSubmit}
           style={{
+            backgroundColor: "#21005d",
+            height: 45,
+            borderRadius: 50,
+            marginTop: 10,
+            alignItems: "center",
+            justifyContent: "center",
+            elevation: 5,
+            width: "90%",
             marginTop: 20,
-            width: "95%",
           }}
         >
-          Submit your FSGR
-        </Button>
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: "500",
+              color: "white",
+            }}
+          >
+            Submit Report
+          </Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -233,14 +265,14 @@ export default Form;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 16,
-    width:"103%",
-    marginBottom:-15
+    width: "103%",
+    marginBottom: -15,
   },
   dropdown: {
     height: 50,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 8,
@@ -249,8 +281,8 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   label: {
-    position: 'absolute',
-    backgroundColor: 'white',
+    position: "absolute",
+    backgroundColor: "white",
     left: 22,
     top: 8,
     zIndex: 999,
@@ -272,4 +304,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-

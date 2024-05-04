@@ -1,4 +1,10 @@
-import { View, Text, ScrollView, ImageBackgroundComponent, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  ImageBackgroundComponent,
+  ActivityIndicator,
+} from "react-native";
 import { Appbar } from "react-native-paper";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -46,6 +52,14 @@ const Fsgr = () => {
     Message: "",
   });
 
+  useEffect(() => {
+    navigation.getParent()?.setOptions({
+      tabBarStyle: {
+        display: "none",
+      },
+    });
+  }, [navigation]);
+
   const handleSubmit = () => {
     setLoading(true);
     axios
@@ -81,7 +95,9 @@ const Fsgr = () => {
         <Appbar.Content title="FSGR" />
         <Appbar.Action icon="dots-vertical" />
       </Appbar.Header>
-      {loading ? (<ActivityIndicator size="large" color="#0000ff" />) : (
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
         <Form
           fsgrData={fsgrData}
           setFsgrData={setFsgrData}
