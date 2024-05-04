@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { AntDesign, Entypo } from "@expo/vector-icons";
@@ -41,6 +42,8 @@ const AccidentForm = ({ isVisible, setIsVisible }) => {
 
   const [accidentNote, setAccidentNote] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || accidentDate;
     setShowDatePicker(Platform.OS === "ios");
@@ -72,6 +75,11 @@ const AccidentForm = ({ isVisible, setIsVisible }) => {
   };
 
   const handleSubmit = async () => {
+    if (!accidentDate || !selectedLocation || !safetySupervisor || !personName || !selectedAcidentType || !accidentNote) {
+      alert("All fields are mandatory")
+      return;
+    }
+    setLoading(true);
     try {
       const response = await axios.post(`${serveraddress}accident/`, {
         Date: accidentDate,
@@ -83,6 +91,7 @@ const AccidentForm = ({ isVisible, setIsVisible }) => {
       });
       console.log("Response:", response.data);
       if (response.data.message === "One Data Added Successfully") {
+        setLoading(false);
         // Handle success, maybe show a success message or navigate to another screen
         console.log("Form submitted successfully");
         setAccidentDate(new Date());
@@ -93,10 +102,12 @@ const AccidentForm = ({ isVisible, setIsVisible }) => {
         setAccidentNote("");
         setIsVisible(false);
       } else {
+        setLoading(false);
         // Handle unsuccessful response
         console.error("Failed to submit form:", response.data.error);
       }
     } catch (error) {
+      setLoading(false);
       // Handle network errors or any other errors
       console.error("Error submitting form:", error.message);
     }
@@ -267,28 +278,32 @@ const AccidentForm = ({ isVisible, setIsVisible }) => {
               }}
             />
           </View>
-          <TouchableOpacity
-            onPress={handleSubmit}
-            style={{
-              backgroundColor: "#21005d",
-              height: 45,
-              borderRadius: 50,
-              marginTop: 10,
-              alignItems: "center",
-              justifyContent: "center",
-              elevation: 2,
-            }}
-          >
-            <Text
+          {loading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : (
+            <TouchableOpacity
+              onPress={handleSubmit}
               style={{
-                fontSize: 15,
-                fontWeight: "600",
-                color: "white",
+                backgroundColor: "#21005d",
+                height: 45,
+                borderRadius: 50,
+                marginTop: 10,
+                alignItems: "center",
+                justifyContent: "center",
+                elevation: 2,
               }}
             >
-              SUBMIT REPORT
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontWeight: "600",
+                  color: "white",
+                }}
+              >
+                SUBMIT REPORT
+              </Text>
+            </TouchableOpacity>
+          )}
         </ScrollView>
       </View>
     </Modal>

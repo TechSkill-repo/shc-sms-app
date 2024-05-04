@@ -1,4 +1,4 @@
-import { View, Text, Button, Alert, ActivityIndicator } from "react-native";
+import { View, Text, Button, Alert, ActivityIndicator, Image } from "react-native";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SERVER_ADDRESS } from "@env";
@@ -8,6 +8,7 @@ import Step1 from "./DailJobStepForm/Step1";
 import Step2 from "./DailJobStepForm/Step2";
 import Step3 from "./DailJobStepForm/Step3";
 import axios from "axios";
+import Loading from "../../assets/logo/Loading.png"
 
 const DailyJobPlan = () => {
   const [loading, setLoading] = useState(false);
@@ -171,7 +172,13 @@ const DailyJobPlan = () => {
       </Appbar.Header>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+          // <ActivityIndicator size="large" color="#0000ff" />
+          <Image
+          source={Loading}
+          style={{
+            height: 500,
+            width: "100%",
+          }}/>
         ) : (
           renderStep()
         )}

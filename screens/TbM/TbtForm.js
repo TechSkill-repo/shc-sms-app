@@ -1,4 +1,4 @@
-import { Alert, Text, View, ActivityIndicator } from "react-native";
+import { Alert, Text, View, ActivityIndicator, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 
 import Step1 from "./TbmStepForm/Step1";
@@ -11,6 +11,7 @@ import Toast from "react-native-toast-message";
 import { Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { serveraddress } from "../../assets/values/Constants";
+import Loading from "../../assets/logo/Loading.png"
 
 const TbtForm = () => {
   const [loading, setLoading] = useState(false);
@@ -149,7 +150,7 @@ const TbtForm = () => {
   const navigation = useNavigation();
   const submitForm = async () => {
     setLoading(true);
-    
+
     // Get the current date and time
     const currentDate = new Date();
 
@@ -237,8 +238,15 @@ const TbtForm = () => {
         <Appbar.Action icon="dots-vertical" />
       </Appbar.Header>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+        {loading ? (
+          // <ActivityIndicator size="large" color="#0000ff" />
+          <Image
+            source={Loading}
+            style={{
+              height: 500,
+              width: "100%",
+            }}
+          />
         ) : (
           renderStep()
         )}

@@ -25,7 +25,7 @@ const DangerousIncident = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `${serveraddress}accident/disability/`
+          `${serveraddress}accident/dangerous_incident/`
         );
         if (response.data) {
           setData(response.data);

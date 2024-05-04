@@ -4,6 +4,8 @@ import {
   ScrollView,
   ImageBackgroundComponent,
   ActivityIndicator,
+  Image,
+  Button,
 } from "react-native";
 import { Appbar } from "react-native-paper";
 import React from "react";
@@ -12,6 +14,13 @@ import Form from "./Form";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
+import Loading from "../../../assets/logo/Loading.png";
+import {
+  ALERT_TYPE,
+  Dialog,
+  AlertNotificationRoot,
+  Toast,
+} from "react-native-alert-notification";
 
 const Fsgr = () => {
   const [loading, setLoading] = useState(false);
@@ -61,6 +70,19 @@ const Fsgr = () => {
   }, [navigation]);
 
   const handleSubmit = () => {
+
+    if (
+      !fsgrData.Location ||
+      !fsgrData.Emp_Name ||
+      !fsgrData.Emp_Designation ||
+      !fsgrData.Incharge_Name ||
+      !fsgrData.Site_Supervisior ||
+      !fsgrData.Message
+    ) {
+      alert("All fields are mandatory");
+      return;
+    }
+
     setLoading(true);
     axios
       .post(`${serveraddress}fsgr/table`, fsgrData)
@@ -70,6 +92,7 @@ const Fsgr = () => {
         setLoading(false);
 
         alert("Form Submited Successfully");
+        // showDialog("Form Submitted Successfully");
         navigation.navigate("ToolBoxTalk");
       })
       .catch((error) => {
@@ -77,6 +100,15 @@ const Fsgr = () => {
         console.error("Error sending data:", error);
         // Handle error, such as displaying an error message to the user
       });
+  };
+
+  const showDialog = (message) => {
+    Dialog.show({
+      type: ALERT_TYPE.SUCCESS,
+      title: "Success",
+      textBody: message,
+      button: "Close",
+    });
   };
 
   return (
@@ -96,7 +128,14 @@ const Fsgr = () => {
         <Appbar.Action icon="dots-vertical" />
       </Appbar.Header>
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        // <ActivityIndicator size="large" color="#0000ff" />
+        <Image
+          source={Loading}
+          style={{
+            height: 500,
+            width: "100%",
+          }}
+        />
       ) : (
         <Form
           fsgrData={fsgrData}

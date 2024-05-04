@@ -1,4 +1,4 @@
-import { View, Text, Alert, ActivityIndicator } from "react-native";
+import { View, Text, Alert, ActivityIndicator, Image } from "react-native";
 import React, { useState } from "react";
 import Step1 from "./ToolsTacklesStepForm/Step1";
 import Step2 from "./ToolsTacklesStepForm/Step2";
@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { serveraddress } from "../../assets/values/Constants";
 import { Appbar } from "react-native-paper";
+import Loading from "../../assets/logo/Loading.png"
 
 const ToolsTackles = () => {
   const [loading, setLoading] = useState(false);
@@ -147,8 +148,15 @@ const ToolsTackles = () => {
         <Appbar.Action icon="dots-vertical" />
       </Appbar.Header>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+        {loading ? (
+          // <ActivityIndicator size="large" color="#0000ff" />
+          <Image
+            source={Loading}
+            style={{
+              height: 500,
+              width: "100%",
+            }}
+          />
         ) : (
           renderStep()
         )}
