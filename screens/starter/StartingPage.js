@@ -76,7 +76,8 @@ const StartingPage = () => {
           width: "90%",
           backgroundColor: "#21005d",
           paddingVertical: 14,
-          borderRadius: 50,
+          borderRadius: 6,
+          elevation: 6,
         }}
       >
         <Text
