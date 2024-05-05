@@ -27,10 +27,11 @@ const ppeItemData = [
 ];
 
 const ppeStatusData = [
-  { label: "Damaged ⚠️", value: "bad" },
-  { label: "Need to be replaced ⭕️", value: "bad" },
-  { label: "Bad but can hold for 2 days 🚨", value: "good" },
-  { label: "Can't work with this ❌", value: "bad" },
+  { label: "Good ✅", value: "good" },
+  { label: "Damaged ⚠️", value: "damaged" },
+  { label: "Need to be replaced ⭕️", value: "replaced" },
+  { label: "Bad but can used for 2 days 🚨", value: "canBeUsed" },
+  { label: "Can't work with this ❌", value: "cantUse" },
 ];
 
 const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
