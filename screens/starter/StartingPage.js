@@ -48,7 +48,7 @@ const StartingPage = () => {
           color: "#21005d",
         }}
       >
-        Welcome to Safety Management System
+        Welcome to Safety CSMS
       </Text>
       <View
         style={{
@@ -59,11 +59,12 @@ const StartingPage = () => {
           style={{
             textAlign: "center",
             color: "gray",
-            marginTop: 12,
+            marginTop: 6,
+            fontWeight: "300",
+            fontSize: 15,
           }}
         >
-          We welcome you to our safety Management system to provide the best
-          safety in your orginations.
+          We extend a warm welcome to our Safety Management System.
         </Text>
       </View>
       <TouchableOpacity
