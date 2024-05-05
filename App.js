@@ -8,8 +8,6 @@ import AuthRouter from "./routes/authRouter/AuthRoute";
 
 import useAuthStore from "./store/userAuthStore";
 
-// import CodePush from "react-native-code-push";
-
 // const CODE_PUSH_OPTION = {
 //   checkFrequency: CodePush.CheckFrequency.ON_APP_START,
 // }
@@ -18,7 +16,6 @@ const Stack = createNativeStackNavigator();
 // const navigation = useNavigation();
 
 function App() {
-
   const { token } = useAuthStore();
 
   // useEffect(() => {

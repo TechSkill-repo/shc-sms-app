@@ -24,7 +24,6 @@
     "react": "18.2.0",
     "react-native": "0.73.4",
     "react-native-alert-notification": "^0.4.0",
-    "react-native-code-push": "^8.2.2",
     "react-native-dotenv": "^3.4.11",
     "react-native-element-dropdown": "^2.10.2",
     "react-native-heroicons": "^4.0.0",
