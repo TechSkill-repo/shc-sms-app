@@ -64,7 +64,15 @@ const LostTimeEng = () => {
               key={data.id}
             >
               <View>
-                <Text>{data.Date}</Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: "500",
+                    color: "#505050",
+                  }}
+                >
+                  Date {data.Date.slice(0, 10)}
+                </Text>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text style={styles.text}>Location</Text>
                   <Text style={styles.textLocation}>
