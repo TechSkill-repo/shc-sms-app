@@ -39,7 +39,7 @@ const AccidentReports = () => {
       }}
     >
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => {}} />
+        <Appbar.BackAction onPress={() => {navigation.goBack()}} />
         <Appbar.Content title="Accident" />
         <Appbar.Action icon="pencil" onPress={() => setIsVisible(true)} />
         <Appbar.Action icon="magnify" />

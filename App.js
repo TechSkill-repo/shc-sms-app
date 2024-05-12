@@ -8,9 +8,6 @@ import AuthRouter from "./routes/authRouter/AuthRoute";
 
 import useAuthStore from "./store/userAuthStore";
 
-// const CODE_PUSH_OPTION = {
-//   checkFrequency: CodePush.CheckFrequency.ON_APP_START,
-// }
 
 const Stack = createNativeStackNavigator();
 // const navigation = useNavigation();
@@ -18,17 +15,7 @@ const Stack = createNativeStackNavigator();
 function App() {
   const { token } = useAuthStore();
 
-  // useEffect(() => {
-  //   const syncWithCodePush = (status) => {
-  //     console.log(status);
-  //   };
 
-  //   CodePush.sync(
-  //     { installMode: CodePush.InstallMode.IMMEDIATE },
-  //     syncWithCodePush,
-  //     null
-  //   );
-  // }, []);
 
   return (
     <NavigationContainer>
