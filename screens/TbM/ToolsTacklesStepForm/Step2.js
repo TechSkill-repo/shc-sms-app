@@ -1,11 +1,9 @@
 import {
   View,
   Text,
-  Button,
   TextInput,
   ScrollView,
   TouchableOpacity,
-  Alert,
   StyleSheet,
 } from "react-native";
 import React, { useState } from "react";
@@ -163,20 +161,6 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
                 }
                 placeholder={`Tools Name ${index + 1}`}
               />
-              {/* <TextInput
-                                style={{
-                                    paddingHorizontal: 12,
-                                    paddingVertical: 12,
-                                    width: "90%",
-                                    backgroundColor: "#F5F5F5",
-                                    elevation: 3,
-                                    borderRadius: 5,
-                                    color: "black",
-                                }}
-                                value={input.text}
-                                onChangeText={(text) => handleInputChange(text, input.id, 'condition')}
-                                placeholder={`Condition ${index + 1}`}
-                            /> */}
 
               <Dropdown
                 style={styles.dropdown}
@@ -296,7 +280,6 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
             )}
           </View>
         ))}
-        {/* <Button title="+" onPress={handleAddInput} /> */}
         <TouchableOpacity
           onPress={handleAddInput}
           style={{
@@ -334,7 +317,6 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
             borderRadius: 50,
           }}
         >
-          {/* <Button title="Next" onPress={onNext} /> */}
           <Text
             style={{
               paddingHorizontal: 20,

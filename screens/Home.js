@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, StatusBar } from "react-native";
-import React, { useEffect, useState } from "react";
+import { StatusBar } from "react-native";
+import React, { useState } from "react";
 import useAuthStore from "../store/userAuthStore";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";

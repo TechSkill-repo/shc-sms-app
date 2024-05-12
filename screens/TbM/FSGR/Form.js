@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { TextInput, Button } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 import { fetchLocations } from "../../../components/Global/Global";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { Dropdown } from "react-native-element-dropdown";
@@ -202,6 +202,7 @@ const Form = ({
         />
 
         <TouchableOpacity
+          onPress={console.log("")}
           style={{
             backgroundColor: "#4caf501a",
             height: 40,

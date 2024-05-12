@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  Button,
   TextInput,
   ScrollView,
   TouchableOpacity,
@@ -264,7 +263,6 @@ const Step1 = ({ onNext, formData, setStep1Data }) => {
             right: 20,
           }}
         >
-          {/* <Button title="Next" onPress={onNext} /> */}
           <View
             style={{
               alignItems: "center",

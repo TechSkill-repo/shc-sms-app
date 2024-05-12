@@ -5,7 +5,6 @@ import {
   ImageBackgroundComponent,
   ActivityIndicator,
   Image,
-  Button,
 } from "react-native";
 import { Appbar } from "react-native-paper";
 import React from "react";
@@ -102,14 +101,6 @@ const Fsgr = () => {
       });
   };
 
-  const showDialog = (message) => {
-    Dialog.show({
-      type: ALERT_TYPE.SUCCESS,
-      title: "Success",
-      textBody: message,
-      button: "Close",
-    });
-  };
 
   return (
     <ScrollView

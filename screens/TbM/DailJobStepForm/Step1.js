@@ -4,7 +4,6 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
-  Alert,
   StyleSheet,
 } from "react-native";
 import React, { useState, useEffect } from "react";
@@ -380,7 +379,6 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             right: 20,
           }}
         >
-          {/* <Button title="Next" onPress={onNext} /> */}
           <View
             style={{
               alignItems: "center",

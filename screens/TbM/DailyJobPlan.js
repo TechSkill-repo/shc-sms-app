@@ -1,14 +1,13 @@
-import { View, Text, Button, Alert, ActivityIndicator, Image } from "react-native";
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { SERVER_ADDRESS } from "@env";
+import { View, Alert, Image } from "react-native";
+import React, { useState, useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { serveraddress } from "../../assets/values/Constants";
 import { Appbar } from "react-native-paper";
 import Step1 from "./DailJobStepForm/Step1";
 import Step2 from "./DailJobStepForm/Step2";
 import Step3 from "./DailJobStepForm/Step3";
 import axios from "axios";
-import Loading from "../../assets/logo/Loading.png"
+import Loading from "../../assets/logo/Loading.png";
 
 const DailyJobPlan = () => {
   const [loading, setLoading] = useState(false);
@@ -33,12 +32,6 @@ const DailyJobPlan = () => {
     hazardsDescription: [],
     necessarySteps: [],
   });
-
-  // useEffect(() => {
-  //   // Update the current date in formData whenever it changes
-  //   const formattedDate = new Date(dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate());
-  //   setDateTime((prevData) => ({ ...prevData, dateTime: formattedDate }));
-  // }, [dateTime, setDateTime]);
 
   const nextStep = () => {
     setStep(step + 1);
@@ -122,7 +115,6 @@ const DailyJobPlan = () => {
 
         alert("Form Submited Successfully");
         navigation.goBack();
-
       })
       .catch((error) => {
         setLoading(false); // Stop loading
@@ -174,11 +166,12 @@ const DailyJobPlan = () => {
         {loading ? (
           // <ActivityIndicator size="large" color="#0000ff" />
           <Image
-          source={Loading}
-          style={{
-            height: 500,
-            width: "100%",
-          }}/>
+            source={Loading}
+            style={{
+              height: 500,
+              width: "100%",
+            }}
+          />
         ) : (
           renderStep()
         )}

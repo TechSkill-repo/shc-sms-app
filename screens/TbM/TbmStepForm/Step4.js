@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  Button,
   TextInput,
   ScrollView,
   TouchableOpacity,
@@ -203,7 +202,6 @@ const Step4 = ({ onNext, onPrev, setFormData, formData }) => {
             borderRadius: 50,
           }}
         >
-          {/* <Button title="Next" onPress={onNext} /> */}
           <Text
             style={{
               paddingHorizontal: 20,

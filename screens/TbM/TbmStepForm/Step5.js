@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  Button,
   TextInput,
   ScrollView,
   TouchableOpacity,
@@ -116,7 +115,7 @@ const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
             )}
           </View>
         ))}
-        {/* <Button title="+" onPress={handleAddInput} /> */}
+
         <TouchableOpacity
           onPress={handleAddInput}
           style={{
@@ -154,7 +153,6 @@ const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
             borderRadius: 50,
           }}
         >
-          {/* <Button title="Next" onPress={onNext} /> */}
           <Text
             style={{
               paddingHorizontal: 20,
