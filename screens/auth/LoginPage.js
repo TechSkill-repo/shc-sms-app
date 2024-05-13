@@ -21,6 +21,20 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const setUser = useAuthStore((state) => state.setUser);
+
+  const setUser = useAuthStore((state) => state.setUser);
+
+  const showToast = () => {
+    setTimeout(() => {
+      Toast.show({
+        type: "error",
+        text1: "Wrong credentials",
+        text2: "Please enter correct UserId or Password",
+        visibilityTimeout: 5000,
+        position: "top",
+      });
+    }, 100);
+  };
   const navigation = useNavigation();
 
   const showToast = () => {
@@ -65,6 +79,13 @@ const LoginPage = () => {
         // Handle unsuccessful login
         showToast();
         setLoading(false);
+        });
+        // Alert.alert("Success", "Logged in successfully");
+        navigation.navigate("Home");
+      } else {
+        // Handle unsuccessful login
+        // Alert.alert("Error", "Invalid email or password");
+        showToast();
       }
     } catch (error) {
       setLoading(false);
@@ -121,6 +142,20 @@ const LoginPage = () => {
               color: "#C0C0C0",
             }}
           >
+              color: "#00308F",
+            }}
+          >
+            Let's Login in the App.
+          </Text>
+          <Text
+            style={{
+              fontSize: 36,
+              paddingVertical: 0,
+              paddingHorizontal: 20,
+              fontWeight: "200",
+              color: "#C0C0C0",
+            }}
+          >
             Welcome Back!
           </Text>
           <Text
@@ -150,6 +185,28 @@ const LoginPage = () => {
                 style={{
                   width: "90%",
                   backgroundColor: "white",
+              <Text
+                style={{
+                  textAlign: "left",
+                  fontSize: 12,
+                  paddingHorizontal: 5,
+                  paddingVertical: 5,
+                  fontWeight: "300",
+                  color: "#00308F",
+                }}
+              >
+                Enter Your UserId
+              </Text>
+              <TextInput
+                onChangeText={(text) => setEmail(text)}
+                value={email}
+                style={{
+                  paddingHorizontal: 12,
+                  paddingVertical: 12,
+                  width: "90%",
+                  backgroundColor: "#F0F8FF",
+                  borderRadius: 5,
+                  color: "black",
                 }}
                 placeholder="Enter Your User EmailId"
               />
@@ -169,6 +226,28 @@ const LoginPage = () => {
                 style={{
                   width: "90%",
                   backgroundColor: "white",
+              <Text
+                style={{
+                  textAlign: "left",
+                  fontSize: 12,
+                  paddingHorizontal: 5,
+                  paddingVertical: 5,
+                  fontWeight: "300",
+                  color: "#00308F",
+                }}
+              >
+                Enter Your Password
+              </Text>
+              <TextInput
+                onChangeText={(text) => setPassword(text)}
+                value={password}
+                style={{
+                  paddingHorizontal: 12,
+                  paddingVertical: 12,
+                  width: "90%",
+                  backgroundColor: "#F0F8FF",
+                  borderRadius: 5,
+                  color: "black",
                 }}
                 placeholder="Enter Your Password"
                 returnKeyType="go"
@@ -208,6 +287,26 @@ const LoginPage = () => {
                 </Text>
               </TouchableOpacity>
             )}
+            <TouchableOpacity
+              onPress={handleLogin}
+              style={{
+                width: "90%",
+                backgroundColor: "#034694",
+                paddingVertical: 14,
+                borderRadius: 5,
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 16,
+                  fontWeight: "600",
+                  color: "white",
+                }}
+              >
+                LogIn in Your Profile
+              </Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
         <Toast />

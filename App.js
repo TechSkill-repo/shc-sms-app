@@ -20,6 +20,23 @@ function App() {
   return (
     <NavigationContainer>
       {token ? <AppRouter /> : <AuthRouter />}
+      <Stack.Navigator>
+        <Stack.Screen
+          name="StartingPage"
+          component={StartingPage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="login"
+          component={LoginPage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

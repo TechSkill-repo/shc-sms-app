@@ -23,7 +23,6 @@ const Home = () => {
   };
 
   getTokenFromStorage();
-
   return (
     <SafeAreaView
       style={{
@@ -33,6 +32,11 @@ const Home = () => {
     >
       <Header />
       <StatusBar backgroundColor="#fffbfe" barStyle="dark-content" />
+      <View>
+        <Text>Welcome, {username}!</Text>
+        <Text>Your role is: {role}</Text>
+        <Text>Your email is: {email}</Text>
+      </View>
     </SafeAreaView>
   );
 };
