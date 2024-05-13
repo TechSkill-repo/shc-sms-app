@@ -1,11 +1,24 @@
-// Zustand store setup (store.js)
-import { create } from "zustand";
+import create from "zustand";
+import { devtools, persist } from "zustand/middleware";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const useAuthStore = create((set) => ({
-  username: "",
-  role: "",
-  email: "",
-  setUser: (userData) => set((state) => ({ ...state, ...userData })),
-}));
+const useAuthStore = create(
+  devtools(
+    persist(
+      (set) => ({
+        username: "",
+        role: "",
+        email: "",
+        token: "",
+        setUser: (userData) => set((state) => ({ ...state, ...userData })),
+        removeToken: () => set({ token: "" }),
+      }),
+      {
+        name: "newUser",
+        getStorage: () => AsyncStorage,
+      }
+    )
+  )
+);
 
 export default useAuthStore;

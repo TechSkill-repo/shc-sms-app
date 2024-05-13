@@ -38,7 +38,7 @@ const LoginUi = () => {
           paddingVertical: 20,
           paddingHorizontal: 20,
           fontWeight: "700",
-          color: "#00308F",
+          color: "#21005d",
         }}
       >
         Let's Login in the App.
@@ -49,7 +49,7 @@ const LoginUi = () => {
           paddingVertical: 0,
           paddingHorizontal: 20,
           fontWeight: "200",
-          color: "#C0C0C0",
+          color: "#21005d",
         }}
       >
         Welcome Back!
@@ -140,11 +140,11 @@ const LoginUi = () => {
       >
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Home");
+            navigation.navigate("StartingPage");
           }}
           style={{
             width: "90%",
-            backgroundColor: "#034694",
+            backgroundColor: "red",
             paddingVertical: 14,
             borderRadius: 5,
           }}

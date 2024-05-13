@@ -2,9 +2,9 @@ import {
   View,
   Text,
   TouchableOpacity,
-  TextInput,
   ScrollView,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -12,10 +12,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import useAuthStore from "../../store/userAuthStore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { serveraddress } from "../../assets/values/Constants";
+import { TextInput } from "react-native-paper";
 
 const LoginPage = () => {
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const setUser = useAuthStore((state) => state.setUser);
 
   const setUser = useAuthStore((state) => state.setUser);
 
@@ -31,11 +36,25 @@ const LoginPage = () => {
     }, 100);
   };
   const navigation = useNavigation();
+
+  const showToast = () => {
+    setTimeout(() => {
+      Toast.show({
+        type: "error",
+        text1: "Wrong credentials",
+        text2: "Please enter correct UserId or Password",
+        visibilityTimeout: 5000,
+        position: "top",
+      });
+    }, 100);
+  };
+
   // API -> http://localhost:8080/auth/login
 
   const handleLogin = async () => {
+    setLoading(true);
     try {
-      const response = await fetch("http://192.168.1.7:8080/auth/login", {
+      const response = await fetch(serveraddress + `auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,14 +64,21 @@ const LoginPage = () => {
 
       const responseData = await response.json();
       console.log(responseData);
+      console.log("token", responseData.token);
 
-      // Assuming the response contains a property named 'success' indicating whether login was successful
       if (responseData.message === "successful") {
         // Handle successful login
         setUser({
           username: responseData.username,
           role: responseData.role,
           email: responseData.email,
+          token: responseData.token,
+        });
+        setLoading(false);
+      } else {
+        // Handle unsuccessful login
+        showToast();
+        setLoading(false);
         });
         // Alert.alert("Success", "Logged in successfully");
         navigation.navigate("Home");
@@ -62,10 +88,12 @@ const LoginPage = () => {
         showToast();
       }
     } catch (error) {
+      setLoading(false);
       console.error("Error:", error);
       Alert.alert("Error", "An error occurred while trying to login");
     }
   };
+
   return (
     <>
       <SafeAreaView
@@ -100,6 +128,20 @@ const LoginPage = () => {
               paddingVertical: 20,
               paddingHorizontal: 20,
               fontWeight: "700",
+              color: "#21005d",
+            }}
+          >
+            Let's Login in the App.
+          </Text>
+          <Text
+            style={{
+              fontSize: 36,
+              paddingVertical: 0,
+              paddingHorizontal: 20,
+              fontWeight: "200",
+              color: "#C0C0C0",
+            }}
+          >
               color: "#00308F",
             }}
           >
@@ -135,6 +177,14 @@ const LoginPage = () => {
                 width: "100%",
               }}
             >
+              <TextInput
+                mode="outlined"
+                label="Enter User ID"
+                onChangeText={(text) => setEmail(text)}
+                value={email}
+                style={{
+                  width: "90%",
+                  backgroundColor: "white",
               <Text
                 style={{
                   textAlign: "left",
@@ -168,6 +218,14 @@ const LoginPage = () => {
                 width: "100%",
               }}
             >
+              <TextInput
+                mode="outlined"
+                label="Enter Password"
+                onChangeText={(text) => setPassword(text)}
+                value={password}
+                style={{
+                  width: "90%",
+                  backgroundColor: "white",
               <Text
                 style={{
                   textAlign: "left",
@@ -204,6 +262,31 @@ const LoginPage = () => {
               marginTop: 40,
             }}
           >
+            {loading ? (
+              <ActivityIndicator size="large" color="#0000ff" />
+            ) : (
+              <TouchableOpacity
+                onPress={handleLogin}
+                style={{
+                  width: "90%",
+                  backgroundColor: "#21005d",
+                  paddingVertical: 14,
+                  borderRadius: 5,
+                  elevation: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 16,
+                    fontWeight: "600",
+                    color: "white",
+                  }}
+                >
+                  LogIn in Your Profile
+                </Text>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               onPress={handleLogin}
               style={{

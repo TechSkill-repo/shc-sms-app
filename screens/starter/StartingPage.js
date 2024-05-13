@@ -5,11 +5,25 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import LogoLight from "../../assets/logo/logoLight.png";
 
 const StartingPage = () => {
   const navigation = useNavigation();
+  useEffect(() => {
+    handleGetToken();
+  }, []);
+
+  const handleGetToken = async () => {
+    try {
+      const dataToken = await AsyncStorage.getItem("accessToken");
+      console.log("accessToken", dataToken);
+    } catch (error) {
+      console.error("Error retrieving token:", error);
+    }
+  };
   return (
     <SafeAreaView
       style={{
@@ -20,23 +34,21 @@ const StartingPage = () => {
       }}
     >
       <Image
-        source={{
-          uri: "https://t3.ftcdn.net/jpg/03/88/93/80/360_F_388938052_2EKg0yzCQYm7uZiQBOpld4l0LabxtYCm.jpg",
-        }}
+        source={LogoLight}
         style={{
           width: "100%",
-          height: "50%",
+          height: "40%",
         }}
       />
       <Text
         style={{
           textAlign: "center",
           fontWeight: "bold",
-          fontSize: 28,
-          color: "#002244",
+          fontSize: 20,
+          color: "#21005d",
         }}
       >
-        Welcome to Safety Management System
+        Welcome to Safety CSMS
       </Text>
       <View
         style={{
@@ -47,24 +59,26 @@ const StartingPage = () => {
           style={{
             textAlign: "center",
             color: "gray",
-            marginTop: 12,
+            marginTop: 6,
+            fontWeight: "300",
+            fontSize: 15,
           }}
         >
-          We welcome you to our safety Management system to provide the best
-          safety in your orginations.
+          We extend a warm welcome to our Safety Management System.
         </Text>
       </View>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("login");
+          navigation.navigate("LoginPage");
         }}
         style={{
           position: "absolute",
           bottom: 30,
           width: "90%",
-          backgroundColor: "#034694",
+          backgroundColor: "#21005d",
           paddingVertical: 14,
-          borderRadius: 50,
+          borderRadius: 6,
+          elevation: 6,
         }}
       >
         <Text
