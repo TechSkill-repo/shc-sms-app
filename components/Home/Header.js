@@ -8,7 +8,7 @@ import useAuthStore from "../../store/userAuthStore";
 
 const Header = () => {
   const setUser = useAuthStore((state) => state.setUser);
-  const { token, removeToken, username, role } = useAuthStore();
+  const { token, removeToken,removeRole, username, role } = useAuthStore();
   // Sample user details
 
   // Function to handle notification screen navigation
@@ -22,6 +22,7 @@ const Header = () => {
   // Function to remove token from AsyncStorage
   const removeTokenFromStorage = async () => {
     removeToken();
+    removeRole();
   };
 
   return (
@@ -67,7 +68,7 @@ const Header = () => {
               color: "#21005da1",
             }}
           >
-            {role === "sm" ? "Safety Manager" : ""}
+            {role === "sm" ? "Safety Manager" : "Site Incharge"}
           </Text>
         </View>
         <View

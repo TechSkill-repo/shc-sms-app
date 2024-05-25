@@ -12,6 +12,7 @@ const useAuthStore = create(
         token: "",
         setUser: (userData) => set((state) => ({ ...state, ...userData })),
         removeToken: () => set({ token: "" }),
+        removeRole:() => set({role:""}),
       }),
       {
         name: "newUser",

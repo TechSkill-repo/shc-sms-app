@@ -15,8 +15,9 @@ const TabNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        activeTintColor: "rgb(120, 69, 172)", // Active tab text color
-        inactiveTintColor: "lightgray", // Inactive tab text color
+        tabBarActiveTintColor: "rgb(120, 69, 172)", // Active tab icon color
+        tabBarInactiveTintColor: "rgb(208, 193, 218)", // Inactive tab icon color
+        tabBarShowLabel: false, // Hide tab labels
       }}
     >
       <Tab.Screen
@@ -26,7 +27,7 @@ const TabNavigation = () => {
           headerShown: false,
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
-            <Entypo name="home" size={24} color={color} />
+            <Entypo name="home" size={28} color={color} />
           ),
         }}
       />
@@ -37,7 +38,7 @@ const TabNavigation = () => {
           headerShown: false,
           tabBarLabel: "TBM",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="toolbox" size={24} color={color} />
+            <MaterialCommunityIcons name="toolbox" size={28} color={color} />
           ),
         }}
       />
@@ -48,7 +49,7 @@ const TabNavigation = () => {
           headerShown: false,
           tabBarLabel: "FSGR",
           tabBarIcon: ({ color }) => (
-            <FontAwesome name="fire" size={24} color={color} />
+            <FontAwesome name="fire" size={28} color={color} />
           ),
         }}
       />
@@ -59,7 +60,7 @@ const TabNavigation = () => {
           headerShown: false,
           tabBarLabel: "Menu",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="menu-sharp" size={24} color={color} />
+            <Ionicons name="menu-sharp" size={28} color={color} />
           ),
         }}
       />
