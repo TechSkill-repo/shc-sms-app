@@ -12,6 +12,13 @@ import { fetchLocations } from "../../../components/Global/Global";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { Dropdown } from "react-native-element-dropdown";
 
+const dataPriority = [
+  { label: "Critical", value: "critical" },
+  { label: "High", value: "high" },
+  { label: "Low", value: "low" },
+  { label: "Medium", value: "medium" },
+];
+
 const Form = ({
   handleSubmit,
   fsgrData,
@@ -22,7 +29,9 @@ const Form = ({
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [value, setValue] = useState(null);
-  const [isFocus, setIsFocus] = useState(false);
+  const [selectedPriority, setSelectedPriority] = useState(null);
+  const [locationFocus, setLocationFocus] = useState(false);
+  const [priorityFocus, setPriorityFocus] = useState(false);
 
   useEffect(() => {
     async function fetchLocationsData() {
@@ -36,20 +45,31 @@ const Form = ({
     fetchLocationsData();
   }, []);
 
+  // console.log("priority", priorityFocus);
+
   const handleLocationChange = (selectedLocation) => {
     setSelectedLocation(selectedLocation);
     setFsgrData((prevState) => ({
       ...prevState,
-      Location: selectedLocation.label,
+      location: selectedLocation.label,
     }));
-    setIsFocus(false);
+    setLocationFocus(false);
   };
 
-  const renderLabel = () => {
-    if (value || isFocus) {
+  const handlePriorityChange = (selectedPriority) => {
+    setSelectedPriority(selectedPriority);
+    setFsgrData((prevState) => ({
+      ...prevState,
+      priority: selectedPriority.value,
+    }));
+    setPriorityFocus(false);
+  };
+
+  const renderLabel = (label, isFocus) => {
+    if (priorityFocus || locationFocus || isFocus) {
       return (
         <Text style={[styles.label, isFocus && { color: "blue" }]}>
-          Location
+          {label}
         </Text>
       );
     }
@@ -107,10 +127,10 @@ const Form = ({
         /> */}
 
         <View style={styles.container}>
-          {renderLabel()}
+          {renderLabel("Location", locationFocus)}
 
           <Dropdown
-            style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
+            style={[styles.dropdown, locationFocus && { borderColor: "blue" }]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}
@@ -123,23 +143,23 @@ const Form = ({
             maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder={!isFocus ? "Location" : "..."}
+            placeholder={!locationFocus ? "Location" : "..."}
             searchPlaceholder="Search..."
             value={selectedLocation} // Use selectedLocation here
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
+            onFocus={() => setLocationFocus(true)}
+            onBlur={() => setLocationFocus(false)}
             onChange={handleLocationChange}
             renderLeftIcon={() => (
               <AntDesign
                 style={styles.icon}
-                color={isFocus ? "blue" : "black"}
+                color={locationFocus ? "blue" : "black"}
                 name="Safety"
                 size={20}
               />
             )}
-            onChangeText={(Location) => {
-              setFsgrData({ ...fsgrData, Location });
-            }}
+            // onChangeText={(Location) => {
+            //   setFsgrData({ ...fsgrData, Location });
+            // }}
           />
         </View>
 
@@ -150,8 +170,8 @@ const Form = ({
             marginTop: 10,
             width: "95%",
           }}
-          onChangeText={(Emp_Name) => {
-            setFsgrData({ ...fsgrData, Emp_Name });
+          onChangeText={(empName) => {
+            setFsgrData({ ...fsgrData, empName });
           }}
         />
         <TextInput
@@ -161,8 +181,8 @@ const Form = ({
             marginTop: 10,
             width: "95%",
           }}
-          onChangeText={(Emp_Designation) => {
-            setFsgrData({ ...fsgrData, Emp_Designation });
+          onChangeText={(empDesignation) => {
+            setFsgrData({ ...fsgrData, empDesignation });
           }}
         />
         <TextInput
@@ -172,8 +192,8 @@ const Form = ({
             marginTop: 10,
             width: "95%",
           }}
-          onChangeText={(Incharge_Name) => {
-            setFsgrData({ ...fsgrData, Incharge_Name });
+          onChangeText={(inchargeName) => {
+            setFsgrData({ ...fsgrData, inchargeName });
           }}
         />
         <TextInput
@@ -183,10 +203,44 @@ const Form = ({
             marginTop: 10,
             width: "95%",
           }}
-          onChangeText={(Site_Supervisior) => {
-            setFsgrData({ ...fsgrData, Site_Supervisior });
+          onChangeText={(siteSupervisor) => {
+            setFsgrData({ ...fsgrData, siteSupervisor });
           }}
         />
+
+        <View style={styles.container}>
+          {renderLabel("Priority", priorityFocus)}
+
+          <Dropdown
+            style={[styles.dropdown, priorityFocus && { borderColor: "blue" }]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={dataPriority}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={!priorityFocus ? "Priority" : "..."}
+            searchPlaceholder="Search..."
+            value={selectedPriority} // Use selectedLocation here
+            onFocus={() => setPriorityFocus(true)}
+            onBlur={() => setPriorityFocus(false)}
+            onChange={handlePriorityChange}
+            renderLeftIcon={() => (
+              <AntDesign
+                style={styles.icon}
+                color={priorityFocus ? "blue" : "black"}
+                name="Safety"
+                size={20}
+              />
+            )}
+            // onChangeText={(Priority) => {
+            //   setFsgrData({ ...fsgrData, Priority });
+            // }}
+          />
+        </View>
         <TextInput
           mode="outlined"
           label="What is your problem ?"
@@ -194,15 +248,15 @@ const Form = ({
             marginTop: 10,
             width: "95%",
           }}
-          onChangeText={(Message) => {
-            setFsgrData({ ...fsgrData, Message });
+          onChangeText={(message) => {
+            setFsgrData({ ...fsgrData, message });
           }}
           multiline
           numberOfLines={3}
         />
 
         <TouchableOpacity
-          onPress={console.log("")}
+          // onPress={console.log("")}
           style={{
             backgroundColor: "#4caf501a",
             height: 40,

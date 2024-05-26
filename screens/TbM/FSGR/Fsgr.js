@@ -50,14 +50,16 @@ const Fsgr = () => {
   const seconds = currentTime.getSeconds();
 
   const [fsgrData, setFsgrData] = useState({
-    Report_Date: `${year}-${month}-${day}`,
-    Report_Time: `${hours}:${minutes}:${seconds}`,
-    Location: "",
-    Emp_Name: "",
-    Emp_Designation: "",
-    Incharge_Name: "",
-    Site_Supervisior: "",
-    Message: "",
+    reportDate: `${year}-${month}-${day}`,
+    reportTime: `${hours}:${minutes}:${seconds}`,
+    location: "",
+    empName: "",
+    empDesignation: "",
+    inchargeName: "",
+    siteSupervisor: "",
+    priority: "",
+    status:"pending",
+    message: "",
   });
 
   useEffect(() => {
@@ -71,20 +73,24 @@ const Fsgr = () => {
   const handleSubmit = () => {
 
     if (
-      !fsgrData.Location ||
-      !fsgrData.Emp_Name ||
-      !fsgrData.Emp_Designation ||
-      !fsgrData.Incharge_Name ||
-      !fsgrData.Site_Supervisior ||
-      !fsgrData.Message
+      !fsgrData.location ||
+      !fsgrData.empName ||
+      !fsgrData.empDesignation ||
+      !fsgrData.inchargeName ||
+      !fsgrData.siteSupervisor ||
+      !fsgrData.priority ||
+      !fsgrData.status ||
+      !fsgrData.message
     ) {
       alert("All fields are mandatory");
       return;
     }
 
     setLoading(true);
+
+    console.log("data", fsgrData)
     axios
-      .post(`${serveraddress}fsgr/table`, fsgrData)
+      .post(`${serveraddress}fsgr/form`, fsgrData)
       .then((response) => {
         console.log("Data sent successfully:", response.data);
         // Handle success, such as displaying a success message or navigating to another screen
