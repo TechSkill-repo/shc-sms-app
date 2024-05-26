@@ -82,8 +82,8 @@ import SearchFsgr from "../../models/Search/SearchFsgr";
           </View>
         </View>
           <View>
-              {selectedCard === 1 && <Approved />}
-              {selectedCard === 2 && <Pending />}
+              {selectedCard === 1 && <Pending />}
+              {selectedCard === 2 && <Approved />}
               {selectedCard === 3 && <Progress />}
               {selectedCard === 4 && <Close />}
             </View>
