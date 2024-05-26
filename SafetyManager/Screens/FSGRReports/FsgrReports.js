@@ -1,42 +1,74 @@
 import {
-    View,
-    Text,
-    ScrollView,
-    StyleSheet,
-    TouchableOpacity,
-  } from "react-native";
-  import React, { useEffect, useState } from "react";
-  import { Appbar } from "react-native-paper";
-  import { useNavigation } from "@react-navigation/native";
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import { Appbar } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 import Close from "./FsgrStatusScreens/Close";
 import Pending from "./FsgrStatusScreens/Pending";
 import Progress from "./FsgrStatusScreens/Progress";
 import Approved from "./FsgrStatusScreens/Approved";
 import SearchFsgr from "../../models/Search/SearchFsgr";
-  
-  const FsgrReports = () => {
-    const [selectedCard, setSelectedCard] = useState(1);
-  
-    const [isVisible, setIsVisible] = useState(false);
-  
-    const handleCardSelect = (cardNumber) => {
-      setSelectedCard(cardNumber);
-    };
-  
-    const navigation = useNavigation()
+import {
+  GestureHandlerRootView,
+  PanGestureHandler,
+  State,
+} from "react-native-gesture-handler";
 
-    return (
+const FsgrReports = () => {
+  const [selectedCard, setSelectedCard] = useState(1);
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleCardSelect = (cardNumber) => {
+    setSelectedCard(cardNumber);
+  };
+
+  const handleGesture = ({ nativeEvent }) => {
+    if (nativeEvent.state === State.END) {
+      if (nativeEvent.translationX < -50) {
+        setSelectedCard((prev) => Math.min(prev + 1, 5));
+      } else if (nativeEvent.translationX > 50) {
+        setSelectedCard((prev) => Math.max(prev - 1, 1));
+      }
+    }
+  };
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.getParent()?.setOptions({
+      tabBarStyle: {
+        display: "none",
+      },
+    });
+  }, [navigation]);
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <PanGestureHandler onHandlerStateChange={handleGesture}>
       <ScrollView
         style={{
           backgroundColor: "white",
         }}
       >
         <Appbar.Header>
-          <Appbar.BackAction onPress={() => {navigation.goBack()}} />
+          <Appbar.BackAction
+            onPress={() => {
+              navigation.goBack();
+            }}
+          />
           <Appbar.Content title="FSGR Reports" />
-          <Appbar.Action icon="magnify" onPress={()=>{
-           setIsVisible(true)
-          }} />
+          <Appbar.Action
+            icon="magnify"
+            onPress={() => {
+              setIsVisible(true);
+            }}
+          />
         </Appbar.Header>
         <View>
           <View style={styles.container}>
@@ -78,46 +110,46 @@ import SearchFsgr from "../../models/Search/SearchFsgr";
                 <Text style={styles.buttonText}>Closed</Text>
               </TouchableOpacity>
             </ScrollView>
-              <SearchFsgr setIsVisible={setIsVisible} isVisible={isVisible} />
+            <SearchFsgr setIsVisible={setIsVisible} isVisible={isVisible} />
           </View>
         </View>
-          <View>
-              {selectedCard === 1 && <Pending />}
-              {selectedCard === 2 && <Approved />}
-              {selectedCard === 3 && <Progress />}
-              {selectedCard === 4 && <Close />}
-            </View>
-            
+        <View>
+          {selectedCard === 1 && <Pending />}
+          {selectedCard === 2 && <Approved />}
+          {selectedCard === 3 && <Progress />}
+          {selectedCard === 4 && <Close />}
+        </View>
       </ScrollView>
-    );
-  };
-  
-  const styles = StyleSheet.create({
-    container: {
-      width: "100%",
-    },
-    buttonsContainer: {
-      flexDirection: "row",
-      marginBottom: 20,
-      width: "100%",
-    },
-    button: {
-      width:105,
-      padding: 10,
-      borderBottomWidth: 2,
-      backgroundColor: "#fffbfe",
-      borderBottomColor: "lightgray",
-    },
-    selectedButton: {
-      borderBottomWidth: 2,
-      borderBottomColor: "#21005d",
-    },
-    buttonText: {
-      fontSize: 16,
-      color: "#21005d",
-      fontWeight: "500",
-    },
-  });
-  
-  export default FsgrReports;
-  
+      </PanGestureHandler>
+    </GestureHandlerRootView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+    width: "100%",
+  },
+  button: {
+    width: 95,
+    padding: 10,
+    borderBottomWidth: 2,
+    backgroundColor: "#fffbfe",
+    borderBottomColor: "lightgray",
+  },
+  selectedButton: {
+    borderBottomWidth: 2,
+    borderBottomColor: "#21005d",
+  },
+  buttonText: {
+    fontSize: 16,
+    color: "#21005d",
+    fontWeight: "500",
+  },
+});
+
+export default FsgrReports;
