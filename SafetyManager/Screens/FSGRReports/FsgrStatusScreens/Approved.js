@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import BottomPopup from "./BottomPopup";
 import axios from "axios";
 import { serveraddress } from "../../../../assets/values/Constants";
+import InitialInvestigationReport from "../../../models/ProcessForms/InitialInvestigationReport";
 
 const Approved = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -86,19 +87,19 @@ const Approved = () => {
                     </Text>
                   </View>
 
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  {/* <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Text style={styles.text}>Priority</Text>
                     <Text style={styles.textLocation}>
                       {item.priority === null ? "" : item.priority}
                     </Text>
-                  </View>
+                  </View> */}
                 </View>
               </View>
               <View style={{ width: "30%" }}>
                 <View
                   style={{
-                    backgroundColor: "#fff4e5",
-                    paddingHorizontal: 20,
+                    backgroundColor: "#4caf501a",
+                    paddingHorizontal: 2,
                     paddingVertical: 5,
                     borderRadius: 5,
                     display: "flex",
@@ -108,12 +109,12 @@ const Approved = () => {
                 >
                   <Text
                     style={{
-                      fontSize: 14,
+                      fontSize: 12,
                       fontWeight: 600,
-                      color: "#663c00",
+                      color: "#4caf50",
                     }}
                   >
-                    {item.status}
+                    Approved
                   </Text>
                 </View>
               </View>
@@ -121,7 +122,10 @@ const Approved = () => {
           </TouchableOpacity>
         ))
       )}
-      <BottomPopup isVisible={isVisible} setIsVisible={setIsVisible} id={id} />
+      <InitialInvestigationReport
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
     </View>
   );
 };

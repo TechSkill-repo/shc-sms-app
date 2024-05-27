@@ -58,7 +58,7 @@ const Fsgr = () => {
     inchargeName: "",
     siteSupervisor: "",
     priority: "",
-    status:"pending",
+    status: "pending",
     message: "",
   });
 
@@ -71,7 +71,6 @@ const Fsgr = () => {
   }, [navigation]);
 
   const handleSubmit = () => {
-
     if (
       !fsgrData.location ||
       !fsgrData.empName ||
@@ -88,7 +87,7 @@ const Fsgr = () => {
 
     setLoading(true);
 
-    console.log("data", fsgrData)
+    console.log("data", fsgrData);
     axios
       .post(`${serveraddress}fsgr/form`, fsgrData)
       .then((response) => {
@@ -106,7 +105,6 @@ const Fsgr = () => {
         // Handle error, such as displaying an error message to the user
       });
   };
-
 
   return (
     <ScrollView

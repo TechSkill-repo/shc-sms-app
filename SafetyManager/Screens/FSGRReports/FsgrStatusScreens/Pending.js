@@ -90,8 +90,13 @@ const Pending = () => {
                     <View
                       style={{ flexDirection: "row", alignItems: "center" }}
                     >
-                      <Text style={styles.text}>Priority</Text>
-                      <Text style={styles.textLocation}>
+                      <Text
+                        style={{
+                          fontSize: 12,
+                          fontWeight: "700",
+                          color: "#f44336",
+                        }}
+                      >
                         {item.priority === null ? "" : item.priority}
                       </Text>
                     </View>
@@ -101,7 +106,7 @@ const Pending = () => {
                   <View
                     style={{
                       backgroundColor: "#fff4e5",
-                      paddingHorizontal: 20,
+                      paddingHorizontal: 2,
                       paddingVertical: 5,
                       borderRadius: 5,
                       display: "flex",
@@ -111,12 +116,12 @@ const Pending = () => {
                   >
                     <Text
                       style={{
-                        fontSize: 14,
+                        fontSize: 12,
                         fontWeight: 600,
                         color: "#663c00",
                       }}
                     >
-                      {item.status}
+                      Pending
                     </Text>
                   </View>
                 </View>
@@ -135,6 +140,7 @@ const Pending = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
+    height: "100%",
     justifyContent: "center",
     alignItems: "center",
   },
