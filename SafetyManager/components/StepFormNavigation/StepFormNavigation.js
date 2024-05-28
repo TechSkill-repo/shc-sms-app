@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-const StepFormNavigation = () => {
+const StepFormNavigation = ({ activeColor = "#4caf50" }) => {
   const [currentStep, setCurrentStep] = useState(1);
 
   const steps = [
     { id: 1, label: "Investigation", content: <Text>Content for Step 1</Text> },
-    {
-      id: 2,
-      label: "Planning",
-      content: <Text>Content for Step 2</Text>,
-    },
+    { id: 2, label: "Planning", content: <Text>Content for Step 2</Text> },
     { id: 3, label: "SSI Close", content: <Text>Content for Step 3</Text> },
     { id: 4, label: "Close", content: <Text>Content for Step 4</Text> },
   ];
 
   const handleStepPress = (stepId) => {
     setCurrentStep(stepId);
+  };
+
+  const isStepActive = (stepId) => {
+    return stepId === 1 || stepId === 2;
   };
 
   return (
@@ -32,24 +32,23 @@ const StepFormNavigation = () => {
                 <View
                   style={[
                     styles.circle,
-                    currentStep === step.id
-                      ? styles.activeCircle
+                    isStepActive(step.id)
+                      ? {
+                          ...styles.activeCircle,
+                          backgroundColor: activeColor,
+                          borderColor: activeColor,
+                        }
                       : styles.inactiveCircle,
                   ]}
                 >
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: "white",
-                    }}
-                  >
+                  <Text style={{ fontSize: 12, color: "white" }}>
                     {step.id}
                   </Text>
                 </View>
                 <Text
                   style={
-                    currentStep === step.id
-                      ? styles.activeStepText
+                    isStepActive(step.id)
+                      ? { ...styles.activeStepText, color: activeColor }
                       : styles.inactiveStepText
                   }
                 >
@@ -98,8 +97,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#E8E8E8",
   },
   activeCircle: {
-    backgroundColor: "#4caf50",
-    borderColor: "#4caf50",
     borderWidth: 2,
   },
   stepNumber: {
@@ -111,7 +108,6 @@ const styles = StyleSheet.create({
   activeStepText: {
     marginTop: 4,
     fontWeight: "300",
-    color: "#4caf50",
   },
   inactiveStepText: {
     marginTop: 4,
