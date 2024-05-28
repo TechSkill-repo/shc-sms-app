@@ -6,13 +6,62 @@ import {
   Dimensions,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import StepFormNavigation from "../../components/StepFormNavigation/StepFormNavigation";
+import axios from "axios";
+import { serveraddress } from "../../../assets/values/Constants";
 
-const InitialInvestigationReport = ({ isVisible, setIsVisible }) => {
+const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
   const screenHeight = Dimensions.get("screen").height;
+
+  // State to hold form data
+  const [formData, setFormData] = useState({
+    issue: "",
+    fact: "",
+    trouble: "",
+    issueArises: "",
+    severity: "",
+    rating: "",
+    conclusion: "",
+    recommendation: "",
+    investigator: "",
+    approver: "",
+  });
+
+  // Handle form input changes
+  const handleInputChange = (name, value) => {
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // Handle form submission
+  const handleSubmit = () => {
+    axios
+      .post(`${serveraddress}fsgr/form`, {
+        id,
+        what_is_the_issue: formData.issue,
+        what_is_the_fact: formData.fact,
+        where_the_trouble_arrises: formData.trouble,
+        why_did_the_issue_arrises: formData.issueArises,
+        how_sevier_this_is: formData.severity,
+        how_sevier_rating_this_is: formData.rating,
+        conclusion: formData.conclusion,
+        recommendation: formData.recommendation,
+        investigation_done_by: formData.investigator,
+        approval_by: formData.approver,
+      })
+      .then((response) => {
+        Alert.alert("Success", "Form Submitted Successfully");
+        setIsVisible(false); // Close the modal
+      })
+      .catch((error) => {
+        Alert.alert("Error", "Failed to submit form");
+        console.error("Error:", error);
+      });
+  };
+
   return (
     <Modal
       visible={isVisible}
@@ -50,7 +99,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible }) => {
                   color: "#21005d",
                 }}
               >
-                Initial Investigation Report
+                Initial Investigation Report {id}
               </Text>
             </View>
             <TouchableOpacity
@@ -74,13 +123,15 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible }) => {
                   marginBottom: 5,
                 }}
               >
-                What is the issue ?
+                What is the issue?
               </Text>
               <TextInput
                 placeholder="Please mention the issue in detail..."
                 multiline
                 numberOfLines={3}
                 textAlignVertical="top"
+                value={formData.issue}
+                onChangeText={(text) => handleInputChange("issue", text)}
                 style={{
                   borderColor: "gray",
                   backgroundColor: "white",
@@ -104,13 +155,15 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible }) => {
                     marginBottom: 5,
                   }}
                 >
-                  What is the fact ?
+                  What is the fact?
                 </Text>
                 <TextInput
                   placeholder="Please mention the fact in detail..."
                   multiline
                   numberOfLines={3}
                   textAlignVertical="top"
+                  value={formData.fact}
+                  onChangeText={(text) => handleInputChange("fact", text)}
                   style={{
                     borderColor: "gray",
                     backgroundColor: "white",
@@ -135,13 +188,15 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible }) => {
                     marginBottom: 5,
                   }}
                 >
-                  What is the trouble arrises ?
+                  What is the trouble that arises?
                 </Text>
                 <TextInput
                   placeholder="Please mention the trouble in detail..."
                   multiline
                   numberOfLines={3}
                   textAlignVertical="top"
+                  value={formData.trouble}
+                  onChangeText={(text) => handleInputChange("trouble", text)}
                   style={{
                     borderColor: "gray",
                     backgroundColor: "white",
@@ -166,13 +221,17 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible }) => {
                     marginBottom: 5,
                   }}
                 >
-                  What is the issue arrises ?
+                  What is the issue that arises?
                 </Text>
                 <TextInput
                   placeholder="Please mention the issue in detail..."
                   multiline
                   numberOfLines={3}
                   textAlignVertical="top"
+                  value={formData.issueArises}
+                  onChangeText={(text) =>
+                    handleInputChange("issueArises", text)
+                  }
                   style={{
                     borderColor: "gray",
                     backgroundColor: "white",
@@ -197,13 +256,15 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible }) => {
                     marginBottom: 5,
                   }}
                 >
-                  How saviour this issue is ?
+                  How severe is this issue?
                 </Text>
                 <TextInput
-                  placeholder="Please mention how saviour issue is..."
+                  placeholder="Please mention how severe the issue is..."
                   multiline
                   numberOfLines={2}
                   textAlignVertical="top"
+                  value={formData.severity}
+                  onChangeText={(text) => handleInputChange("severity", text)}
                   style={{
                     borderColor: "gray",
                     backgroundColor: "white",
@@ -235,6 +296,8 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible }) => {
                   multiline
                   numberOfLines={2}
                   textAlignVertical="top"
+                  value={formData.rating}
+                  onChangeText={(text) => handleInputChange("rating", text)}
                   style={{
                     borderColor: "gray",
                     backgroundColor: "white",
@@ -266,6 +329,8 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible }) => {
                   multiline
                   numberOfLines={3}
                   textAlignVertical="top"
+                  value={formData.conclusion}
+                  onChangeText={(text) => handleInputChange("conclusion", text)}
                   style={{
                     borderColor: "gray",
                     backgroundColor: "white",
@@ -290,13 +355,17 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible }) => {
                     marginBottom: 5,
                   }}
                 >
-                  What is your Recommendation ?
+                  What is your recommendation?
                 </Text>
                 <TextInput
-                  placeholder="Please mention the Recommendation in detail..."
+                  placeholder="Please mention the recommendation in detail..."
                   multiline
                   numberOfLines={3}
                   textAlignVertical="top"
+                  value={formData.recommendation}
+                  onChangeText={(text) =>
+                    handleInputChange("recommendation", text)
+                  }
                   style={{
                     borderColor: "gray",
                     backgroundColor: "white",
@@ -321,13 +390,17 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible }) => {
                     marginBottom: 5,
                   }}
                 >
-                  Investigation Done by ?
+                  Investigation done by?
                 </Text>
                 <TextInput
-                  placeholder="Person Name ?."
+                  placeholder="Person Name"
                   multiline
                   numberOfLines={3}
                   textAlignVertical="top"
+                  value={formData.investigator}
+                  onChangeText={(text) =>
+                    handleInputChange("investigator", text)
+                  }
                   style={{
                     borderColor: "gray",
                     backgroundColor: "white",
@@ -352,13 +425,15 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible }) => {
                     marginBottom: 5,
                   }}
                 >
-                  Approval will be done by ?
+                  Approval will be done by?
                 </Text>
                 <TextInput
                   placeholder="Officer name"
                   multiline
                   numberOfLines={3}
                   textAlignVertical="top"
+                  value={formData.approver}
+                  onChangeText={(text) => handleInputChange("approver", text)}
                   style={{
                     borderColor: "gray",
                     backgroundColor: "white",
@@ -372,10 +447,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible }) => {
               </View>
             </View>
             <TouchableOpacity
-              onPress={() => {
-                // Handle submit action
-                alert("Form Submitted");
-              }}
+              onPress={handleSubmit}
               style={{
                 backgroundColor: "#21005d",
                 padding: 10,

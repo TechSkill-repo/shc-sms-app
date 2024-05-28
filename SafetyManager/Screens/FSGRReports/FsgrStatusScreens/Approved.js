@@ -25,7 +25,7 @@ const Approved = () => {
         const response = await axios.get(`${serveraddress}fsgr/approved`);
         if (response.data && response.data.length > 0) {
           setData(response.data);
-          console.log(response.data);
+          console.log(response.data, "--------------");
         } else {
           setDataNotFound(true);
         }
@@ -125,6 +125,7 @@ const Approved = () => {
       <InitialInvestigationReport
         isVisible={isVisible}
         setIsVisible={setIsVisible}
+        id={id}
       />
     </View>
   );
