@@ -39,7 +39,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
   // Handle form submission
   const handleSubmit = () => {
     axios
-      .post(`${serveraddress}fsgr/form`, {
+      .patch(`${serveraddress}fsgr/form/${id}`, {
         id,
         what_is_the_issue: formData.issue,
         what_is_the_fact: formData.fact,
@@ -51,8 +51,10 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
         recommendation: formData.recommendation,
         investigation_done_by: formData.investigator,
         approval_by: formData.approver,
+        status:"progress",
       })
       .then((response) => {
+        console.log("resp:", response);
         Alert.alert("Success", "Form Submitted Successfully");
         setIsVisible(false); // Close the modal
       })

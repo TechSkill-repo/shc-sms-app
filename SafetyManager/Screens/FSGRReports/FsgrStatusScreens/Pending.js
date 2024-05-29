@@ -21,7 +21,7 @@ const Pending = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${serveraddress}fsgr/pending`);
+        const response = await axios.get(`${serveraddress}fsgr/form/pending`);
         if (response.data) {
           setData(response.data);
           console.log(response.data);

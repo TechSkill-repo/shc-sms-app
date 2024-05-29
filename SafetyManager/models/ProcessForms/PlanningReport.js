@@ -35,7 +35,7 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
   // Handle form submission
   const handleSubmit = () => {
     axios
-      .post(`${serveraddress}fsgr/form`, {
+      .patch(`${serveraddress}fsgr/form/${id}`, {
         id,
         site_supervisor: formData.site_supervisor,
         initial_investigation_status: formData.initial_investigation_status,
@@ -43,6 +43,7 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
         resource_planning_done_by: formData.resource_planning_done_by,
         planning_date: formData.planning_date,
         resource_required: formData.resource_required,
+        status:"ssiclose"
       })
       .then((response) => {
         Alert.alert("Success", "Form Submitted Successfully");

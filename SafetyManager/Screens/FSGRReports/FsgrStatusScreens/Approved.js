@@ -22,7 +22,7 @@ const Approved = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${serveraddress}fsgr/approved`);
+        const response = await axios.get(`${serveraddress}fsgr/form/approved`);
         if (response.data && response.data.length > 0) {
           setData(response.data);
         } else {
@@ -62,6 +62,7 @@ const Approved = () => {
               }}
             >
               <View style={{ width: "70%" }}>
+                <Text style={{color:"green"}}>{item.id}</Text>
                 <Text
                   style={{
                     fontSize: 16,

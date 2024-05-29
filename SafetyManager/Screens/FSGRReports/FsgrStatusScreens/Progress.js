@@ -21,7 +21,7 @@ const Progress = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${serveraddress}fsgr/progress`);
+        const response = await axios.get(`${serveraddress}fsgr/form/progress`);
         if (response.data && response.data.length > 0) {
           setData(response.data);
         } else {
@@ -62,6 +62,7 @@ const Progress = () => {
               }}
             >
               <View style={{ width: "70%" }}>
+                <Text style={{color:"green"}}>{item.id}</Text>
                 <Text
                   style={{
                     fontSize: 16,
