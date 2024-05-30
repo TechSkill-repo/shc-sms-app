@@ -1,17 +1,10 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-  TouchableOpacity,
-} from "react-native";
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { serveraddress } from "../../../../assets/values/Constants";
 import SsiCloseReport from "../../../models/ProcessForms/SsiCloseReport";
-import CloseReport from "../../../models/ProcessForms/CloseReport";
 
-const Close = () => {
+const SsiClose = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [id, setId] = useState(0);
   const [data, setData] = useState([]);
@@ -22,7 +15,7 @@ const Close = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${serveraddress}fsgr/form/close`);
+        const response = await axios.get(`${serveraddress}fsgr/form/ssiclose`);
         if (response.data && response.data.length > 0) {
           setData(response.data);
         } else {
@@ -90,11 +83,11 @@ const Close = () => {
                   </View>
 
                   {/* <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Text style={styles.text}>Priority</Text>
-                  <Text style={styles.textLocation}>
-                    {item.priority === null ? "" : item.priority}
-                  </Text>
-                </View> */}
+                <Text style={styles.text}>Priority</Text>
+                <Text style={styles.textLocation}>
+                  {item.priority === null ? "" : item.priority}
+                </Text>
+              </View> */}
                 </View>
               </View>
               <View style={{ width: "30%" }}>
@@ -116,10 +109,9 @@ const Close = () => {
                       color: "#376fd0",
                     }}
                   >
-                    {/* {item.status === "progress"
+                    {item.status === "progress"
                       ? "Planning Phase"
-                      : "Close"} */}
-                      {item.status}
+                      : "SsI Close"}
                   </Text>
                 </View>
               </View>
@@ -127,10 +119,16 @@ const Close = () => {
           </TouchableOpacity>
         ))
       )}
-      <CloseReport isVisible={isVisible} setIsVisible={setIsVisible} id={id} />
+      <SsiCloseReport
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        id={id}
+      />
     </View>
   );
 };
+
+export default SsiClose;
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -165,5 +163,3 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
 });
-
-export default Close;

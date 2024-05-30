@@ -18,6 +18,7 @@ import {
   PanGestureHandler,
   State,
 } from "react-native-gesture-handler";
+import SsiClose from "./FsgrStatusScreens/SsiClose";
 
 const FsgrReports = () => {
   const [selectedCard, setSelectedCard] = useState(1);
@@ -98,7 +99,7 @@ const FsgrReports = () => {
                   ]}
                   onPress={() => handleCardSelect(3)}
                 >
-                  <Text style={styles.buttonText}>Progress</Text>
+                  <Text style={styles.buttonText}>Planning</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[
@@ -106,6 +107,15 @@ const FsgrReports = () => {
                     selectedCard === 4 && styles.selectedButton,
                   ]}
                   onPress={() => handleCardSelect(4)}
+                >
+                  <Text style={styles.buttonText}>SSI Close</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    selectedCard === 5 && styles.selectedButton,
+                  ]}
+                  onPress={() => handleCardSelect(5)}
                 >
                   <Text style={styles.buttonText}>Closed</Text>
                 </TouchableOpacity>
@@ -117,7 +127,8 @@ const FsgrReports = () => {
             {selectedCard === 1 && <Pending />}
             {selectedCard === 2 && <Approved />}
             {selectedCard === 3 && <Progress />}
-            {selectedCard === 4 && <Close />}
+            {selectedCard === 4 && <SsiClose />}
+            {selectedCard === 5 && <Close />}
           </ScrollView>
         </ScrollView>
       </PanGestureHandler>
@@ -128,14 +139,17 @@ const FsgrReports = () => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
+    // display:"flex",
+    // backgroundColor:"red"
   },
   buttonsContainer: {
     flexDirection: "row",
     marginBottom: 20,
     width: "100%",
+    // backgroundColor:"red"
   },
   button: {
-    width: 95,
+    width: 80,
     padding: 10,
     borderBottomWidth: 2,
     backgroundColor: "#fffbfe",
@@ -146,7 +160,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#21005d",
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#21005d",
     fontWeight: "500",
   },

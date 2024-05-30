@@ -15,8 +15,12 @@ const StepFormNavigation = ({ activeColor = "#4caf50" }) => {
     setCurrentStep(stepId);
   };
 
+  // const isStepActive = (stepId) => {
+  //   return stepId === 1 || stepId === 2;
+  // };
+
   const isStepActive = (stepId) => {
-    return stepId === 1 || stepId === 2;
+    return stepId === currentStep;
   };
 
   return (
@@ -60,9 +64,40 @@ const StepFormNavigation = ({ activeColor = "#4caf50" }) => {
           </React.Fragment>
         ))}
       </View>
+      <View style={styles.contentContainer}>
+        {steps.find((step) => step.id === currentStep)?.content}
+      </View>
     </View>
   );
 };
+
+const Step1 = () => (
+  <View>
+    <Text>Content for Step 1</Text>
+    {/* Add your form elements for Step 1 here */}
+  </View>
+);
+
+const Step2 = () => (
+  <View>
+    <Text>Content for Step 2</Text>
+    {/* Add your form elements for Step 2 here */}
+  </View>
+);
+
+const Step3 = () => (
+  <View>
+    <Text>Content for Step 3</Text>
+    {/* Add your form elements for Step 3 here */}
+  </View>
+);
+
+const Step4 = () => (
+  <View>
+    <Text>Content for Step 4</Text>
+    {/* Add your form elements for Step 4 here */}
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
