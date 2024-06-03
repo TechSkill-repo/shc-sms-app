@@ -4,8 +4,8 @@ import Medal from "../../../../assets/icons/medal.png";
 import fireExtinguisher from "../../../../assets/icons/fire-extinguisher.png";
 import policy from "../../../../assets/icons/compliant.png";
 import smokeDetector from "../../../../assets/icons/gas-sensor.png";
-import yellowCard from "../../../../assets/icons/yellow-card.png";
-import goodFeedback from "../../../../assets/icons/good-feedback.png";
+import yellowCard from "../../../../assets/icons/data.png";
+import goodFeedback from "../../../../assets/icons/satisfaction.png";
 import arrow from "../../../../assets/icons/arrows.png";
 import consequence from "../../../../assets/icons/consequence.png";
 import Cards from "../../../../components/Home/Cards";
@@ -31,7 +31,7 @@ const items = [
     id: 7,
     label: "Fire Ext.",
     icon: fireExtinguisher,
-    backgroundColor: "#cc9d98",
+    backgroundColor: "#fcdcd6",
   },
   { id: 8, label: "Conseq. Policy", icon: policy, backgroundColor: "#fbf1de" },
 ];
