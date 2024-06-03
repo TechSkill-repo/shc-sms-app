@@ -64,7 +64,6 @@ const Close = () => {
               }}
             >
               <View style={{ width: "70%" }}>
-                <Text style={{ color: "green" }}>{item.id}</Text>
                 <Text
                   style={{
                     fontSize: 16,
@@ -100,7 +99,7 @@ const Close = () => {
               <View style={{ width: "30%" }}>
                 <View
                   style={{
-                    backgroundColor: "#376fd01a",
+                    backgroundColor: "#f44336",
                     paddingHorizontal: 2,
                     paddingVertical: 5,
                     borderRadius: 5,
@@ -113,13 +112,10 @@ const Close = () => {
                     style={{
                       fontSize: 12,
                       fontWeight: 600,
-                      color: "#376fd0",
+                      color: "#fff",
                     }}
                   >
-                    {/* {item.status === "progress"
-                      ? "Planning Phase"
-                      : "Close"} */}
-                      {item.status}
+                    {item.status}
                   </Text>
                 </View>
               </View>

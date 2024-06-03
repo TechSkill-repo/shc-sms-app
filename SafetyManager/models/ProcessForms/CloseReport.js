@@ -36,13 +36,13 @@ const CloseReport = ({ isVisible, setIsVisible, id }) => {
     axios
       .patch(`${serveraddress}fsgr/form/${id}`, {
         id,
-        managment_and_assisment: formData.managment_and_assisment,
-        catpriority_of_cuncurnegory: formData.priority_of_cuncurn,
+        management_and_assessment: formData.managment_and_assisment,
+        priority_of_concern: formData.priority_of_cuncurn,
         completion_of_job: formData.completion_of_job,
-        accuricy: formData.accuricy,
+        accuracy: formData.accuricy,
         rate: formData.rate,
         currentStatus: formData.currentStatus,
-        status: "close",
+        status: "finalClose",
       })
       .then((response) => {
         console.log("close report:", response.data);
@@ -102,7 +102,7 @@ const CloseReport = ({ isVisible, setIsVisible, id }) => {
               <Entypo name="cross" size={30} color="red" />
             </TouchableOpacity>
           </View>
-          <StepFormNavigation activeColor="#4caf50" />
+          <StepFormNavigation stepNo={4} />
           <View style={{ marginBottom: 20 }}>
             <View style={{ marginBottom: 5 }}>
               <Text

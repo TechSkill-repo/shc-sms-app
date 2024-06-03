@@ -14,12 +14,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
 import Loading from "../../../assets/logo/Loading.png";
-import {
-  ALERT_TYPE,
-  Dialog,
-  AlertNotificationRoot,
-  Toast,
-} from "react-native-alert-notification";
 
 const Fsgr = () => {
   const [loading, setLoading] = useState(false);
@@ -52,6 +46,7 @@ const Fsgr = () => {
   const [fsgrData, setFsgrData] = useState({
     reportDate: `${year}-${month}-${day}`,
     reportTime: `${hours}:${minutes}:${seconds}`,
+    heading: "",
     location: "",
     empName: "",
     empDesignation: "",

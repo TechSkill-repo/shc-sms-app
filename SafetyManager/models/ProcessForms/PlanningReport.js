@@ -43,7 +43,7 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
         resource_planning_done_by: formData.resource_planning_done_by,
         planning_date: formData.planning_date,
         resource_required: formData.resource_required,
-        status:"ssiclose"
+        status: "ssiclose",
       })
       .then((response) => {
         Alert.alert("Success", "Form Submitted Successfully");
@@ -103,7 +103,7 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
               <Entypo name="cross" size={30} color="red" />
             </TouchableOpacity>
           </View>
-          <StepFormNavigation activeColor="#4caf50" />
+          <StepFormNavigation stepNo={2} />
           <View style={{ marginBottom: 20 }}>
             <View style={{ marginBottom: 5 }}>
               <Text

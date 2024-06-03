@@ -1,4 +1,10 @@
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { serveraddress } from "../../../../assets/values/Constants";
@@ -57,7 +63,6 @@ const SsiClose = () => {
               }}
             >
               <View style={{ width: "70%" }}>
-                <Text style={{ color: "green" }}>{item.id}</Text>
                 <Text
                   style={{
                     fontSize: 16,
@@ -81,19 +86,12 @@ const SsiClose = () => {
                       {item.location === null ? "" : item.location}
                     </Text>
                   </View>
-
-                  {/* <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text style={styles.text}>Priority</Text>
-                <Text style={styles.textLocation}>
-                  {item.priority === null ? "" : item.priority}
-                </Text>
-              </View> */}
                 </View>
               </View>
               <View style={{ width: "30%" }}>
                 <View
                   style={{
-                    backgroundColor: "#376fd01a",
+                    backgroundColor: "#f443361a",
                     paddingHorizontal: 2,
                     paddingVertical: 5,
                     borderRadius: 5,
@@ -106,7 +104,7 @@ const SsiClose = () => {
                     style={{
                       fontSize: 12,
                       fontWeight: 600,
-                      color: "#376fd0",
+                      color: "#f44336",
                     }}
                   >
                     {item.status === "progress"

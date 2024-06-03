@@ -1,5 +1,5 @@
 import {
-    Alert,
+  Alert,
   Dimensions,
   Modal,
   ScrollView,
@@ -28,7 +28,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
     date_of_ssi: "",
     duration_of_completion: "",
     after_image: "",
-    status:"close"
+    status: "close",
   });
 
   // Handle form input changes
@@ -108,7 +108,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
               <Entypo name="cross" size={30} color="red" />
             </TouchableOpacity>
           </View>
-          <StepFormNavigation activeColor="#4caf50" />
+          <StepFormNavigation stepNo={3} />
           <View style={{ marginBottom: 20 }}>
             <View style={{ marginBottom: 5 }}>
               <Text
@@ -283,7 +283,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
               <TextInput
                 placeholder="Date of ssi..."
                 multiline
-                numberOfLines={4}
+                numberOfLines={1}
                 textAlignVertical="top"
                 // value={formData.resource_required}
                 onChangeText={(text) => handleInputChange("date_of_ssi", text)}
@@ -314,7 +314,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
               <TextInput
                 placeholder="Duration of completion..."
                 multiline
-                numberOfLines={4}
+                numberOfLines={1}
                 textAlignVertical="top"
                 // value={formData.resource_required}
                 onChangeText={(text) =>
@@ -344,23 +344,6 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
               >
                 After Image
               </Text>
-              <TextInput
-                placeholder="After image..."
-                multiline
-                numberOfLines={4}
-                textAlignVertical="top"
-                // value={formData.resource_required}
-                onChangeText={(text) => handleInputChange("after_image", text)}
-                style={{
-                  borderColor: "gray",
-                  backgroundColor: "white",
-                  elevation: 4,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
             </View>
             <TouchableOpacity
               onPress={handleSubmit}

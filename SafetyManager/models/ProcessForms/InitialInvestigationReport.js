@@ -51,7 +51,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
         recommendation: formData.recommendation,
         investigation_done_by: formData.investigator,
         approval_by: formData.approver,
-        status:"progress",
+        status: "progress",
       })
       .then((response) => {
         console.log("resp:", response);
@@ -101,7 +101,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                   color: "#21005d",
                 }}
               >
-                Initial Investigation Report {id}
+                Initial Investigation Report
               </Text>
             </View>
             <TouchableOpacity
@@ -112,7 +112,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
               <Entypo name="cross" size={30} color="red" />
             </TouchableOpacity>
           </View>
-          <StepFormNavigation />
+          <StepFormNavigation stepNo={1} />
           <View style={{ marginBottom: 20 }}>
             <View style={{ marginBottom: 5 }}>
               <Text

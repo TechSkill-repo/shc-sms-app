@@ -68,7 +68,7 @@ const Pending = () => {
                       color: "#505050",
                     }}
                   >
-                    {item.createdAt.slice(0, 10)}
+                    {item.heading}
                   </Text>
                   <View
                     style={{
@@ -90,6 +90,16 @@ const Pending = () => {
                     <View
                       style={{ flexDirection: "row", alignItems: "center" }}
                     >
+                      <Text
+                        style={{
+                          marginRight: 10,
+                          fontSize: 13,
+                          fontWeight: "300",
+                          color: "black",
+                        }}
+                      >
+                        {item.createdAt.slice(0, 10)}
+                      </Text>
                       <Text
                         style={{
                           fontSize: 12,

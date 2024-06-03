@@ -62,7 +62,6 @@ const Progress = () => {
               }}
             >
               <View style={{ width: "70%" }}>
-                <Text style={{color:"green"}}>{item.id}</Text>
                 <Text
                   style={{
                     fontSize: 16,

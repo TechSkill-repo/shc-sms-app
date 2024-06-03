@@ -114,18 +114,6 @@ const Form = ({
           alignItems: "center",
         }}
       >
-        {/* <TextInput
-          mode="outlined"
-          label="Location"
-          style={{
-            marginTop: 20,
-            width: "95%",
-          }}
-          onChangeText={(Location) => {
-            setFsgrData({ ...fsgrData, Location });
-          }}
-        /> */}
-
         <View style={styles.container}>
           {renderLabel("Location", locationFocus)}
 
@@ -162,7 +150,17 @@ const Form = ({
             // }}
           />
         </View>
-
+        <TextInput
+          mode="outlined"
+          label="FSGR Title"
+          style={{
+            marginTop: 10,
+            width: "95%",
+          }}
+          onChangeText={(heading) => {
+            setFsgrData({ ...fsgrData, heading });
+          }}
+        />
         <TextInput
           mode="outlined"
           label="Employee Name"
@@ -254,63 +252,80 @@ const Form = ({
           multiline
           numberOfLines={3}
         />
-
-        <TouchableOpacity
-          // onPress={console.log("")}
+        <View
           style={{
-            backgroundColor: "#4caf501a",
-            height: 40,
-            borderRadius: 10,
-            marginTop: 10,
+            flexDirection: "row",
+            justifyContent: "space-around",
+            width: "100%",
             alignItems: "center",
-            justifyContent: "center",
-            width: "50%",
+            marginBottom: 10,
           }}
         >
-          <View
+          <TouchableOpacity
+            // onPress={console.log("")}
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
+              // backgroundColor: "#4caf501a",
+              // height: 40,
+              // borderRadius: 10,
+              // marginTop: 10,
+              // alignItems: "center",
+              // justifyContent: "center",
+              // width: "45%",
+              backgroundColor: "#4caf501a",
+              height: 45,
+              borderRadius: 50,
+              marginTop: 10,
               alignItems: "center",
+              justifyContent: "center",
+              width: "45%",
+              marginTop: 20,
             }}
           >
-            <Entypo name="camera" size={20} color="#4caf50" />
-            <Text
+            <View
               style={{
-                fontSize: 14,
-                marginLeft: 10,
-                fontWeight: "700",
-                color: "#4caf50",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
             >
-              Take Photo
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleSubmit}
-          style={{
-            backgroundColor: "#21005d",
-            height: 45,
-            borderRadius: 50,
-            marginTop: 10,
-            alignItems: "center",
-            justifyContent: "center",
-            elevation: 5,
-            width: "90%",
-            marginTop: 20,
-          }}
-        >
-          <Text
+              <Entypo name="camera" size={20} color="#4caf50" />
+              <Text
+                style={{
+                  fontSize: 14,
+                  marginLeft: 10,
+                  fontWeight: "700",
+                  color: "#4caf50",
+                }}
+              >
+                Take Photo
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleSubmit}
             style={{
-              fontSize: 15,
-              fontWeight: "500",
-              color: "white",
+              backgroundColor: "#21005d",
+              height: 45,
+              borderRadius: 50,
+              marginTop: 10,
+              alignItems: "center",
+              justifyContent: "center",
+              elevation: 4,
+              width: "45%",
+              marginTop: 20,
             }}
           >
-            Submit Report
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: "500",
+                color: "white",
+              }}
+            >
+              Submit Report
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );

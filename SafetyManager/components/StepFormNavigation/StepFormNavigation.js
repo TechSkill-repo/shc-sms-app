@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-const StepFormNavigation = ({ activeColor = "#4caf50" }) => {
-  const [currentStep, setCurrentStep] = useState(1);
+const StepFormNavigation = ({ activeColor = "#4caf50", stepNo }) => {
+  const [currentStep, setCurrentStep] = useState(stepNo);
+
+  useEffect(() => {
+    setCurrentStep(stepNo);
+  }, [stepNo]);
 
   const steps = [
-    { id: 1, label: "Investigation", content: <Text>Content for Step 1</Text> },
-    { id: 2, label: "Planning", content: <Text>Content for Step 2</Text> },
-    { id: 3, label: "SSI Close", content: <Text>Content for Step 3</Text> },
-    { id: 4, label: "Close", content: <Text>Content for Step 4</Text> },
+    { id: 1, label: "Investigation" },
+    { id: 2, label: "Planning" },
+    { id: 3, label: "SSI Close" },
+    { id: 4, label: "Close" },
   ];
 
   const handleStepPress = (stepId) => {
     setCurrentStep(stepId);
   };
-
-  // const isStepActive = (stepId) => {
-  //   return stepId === 1 || stepId === 2;
-  // };
 
   const isStepActive = (stepId) => {
     return stepId === currentStep;
