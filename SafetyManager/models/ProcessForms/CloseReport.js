@@ -91,7 +91,7 @@ const CloseReport = ({ isVisible, setIsVisible, id }) => {
                   color: "#21005d",
                 }}
               >
-                Requirements & Planning Report
+                Close Rewport
               </Text>
             </View>
             <TouchableOpacity
