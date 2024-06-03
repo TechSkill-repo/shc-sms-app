@@ -1,12 +1,16 @@
-import { View, Text, Button } from 'react-native';
-import React from 'react';
-import useAuthStore from '../../store/userAuthStore';
-import Home from '../../screens/Home';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Entypo, FontAwesome5, Foundation, MaterialIcons } from '@expo/vector-icons';
-import FsgrReports from '../Screens/FSGRReports/FsgrReports';
-import Violation from '../Screens/Violations/Violation';
-import More from '../Screens/More/More';
+import { View, Text, Button } from "react-native";
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  Entypo,
+  FontAwesome5,
+  Foundation,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import FsgrReports from "../Screens/FSGRReports/FsgrReports";
+import Violation from "../Screens/Violations/Violation";
+import More from "../Screens/More/More";
+import ManagerHome from "../Screens/SafetyManagerHome/ManagerHome";
 
 const TabNav = () => {
   const Tab = createBottomTabNavigator();
@@ -21,7 +25,7 @@ const TabNav = () => {
     >
       <Tab.Screen
         name="Home"
-        component={Home}
+        component={ManagerHome}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
