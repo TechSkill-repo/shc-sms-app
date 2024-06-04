@@ -7,11 +7,11 @@ import {
   Text,
   TouchableOpacity,
   View,
+  TextInput,
 } from "react-native";
 import React, { useState } from "react";
 import StepFormNavigation from "../../components/StepFormNavigation/StepFormNavigation";
 import { Entypo } from "@expo/vector-icons";
-import { TextInput } from "react-native-paper";
 import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
 
@@ -27,7 +27,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
     implementation: "",
     date_of_ssi: "",
     duration_of_completion: "",
-    after_image: "",
+    after_image: "none",
     status: "close",
   });
 
@@ -110,7 +110,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
                   color: "#21005d",
                 }}
               >
-                Requirements & Planning Report
+                SSI CLOSE Report
               </Text>
             </View>
             <TouchableOpacity
@@ -144,9 +144,8 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
                 // value={formData.site_supervisor}
                 onChangeText={(text) => handleInputChange("description", text)}
                 style={{
-                  borderColor: "gray",
                   backgroundColor: "white",
-                  elevation: 4,
+                  elevation: 2,
                   paddingHorizontal: 10,
                   paddingVertical: 10,
                   borderRadius: 5,
@@ -232,7 +231,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
               <TextInput
                 placeholder="Enter the benifits..."
                 multiline
-                numberOfLines={2}
+                numberOfLines={3}
                 textAlignVertical="top"
                 // value={formData.resource_planning_done_by}
                 onChangeText={(text) => handleInputChange("benifits", text)}
@@ -263,7 +262,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
               <TextInput
                 placeholder="Enter implementation..."
                 multiline
-                numberOfLines={1}
+                numberOfLines={3}
                 textAlignVertical="top"
                 // value={formData.planning_date}
                 onChangeText={(text) =>
@@ -345,18 +344,29 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
               />
             </View>
             <View style={{ marginBottom: 5 }}>
-              <Text
+              <TouchableOpacity
                 style={{
-                  fontSize: 14,
-                  paddingHorizontal: 10,
-                  fontWeight: "500",
-                  paddingVertical: 5,
-                  color: "#21005d",
-                  marginBottom: 5,
+                  marginTop: 10,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "#f443361a",
+                  padding: 6,
+                  borderRadius: 50,
                 }}
               >
-                After Image
-              </Text>
+                <Entypo name="camera" size={22} color="#f44336" />
+                <Text
+                  style={{
+                    marginLeft: 20,
+                    fontSize: 14,
+                    fontWeight: "500",
+                    color: "#f44336",
+                  }}
+                >
+                  After Image
+                </Text>
+              </TouchableOpacity>
             </View>
             <TouchableOpacity
               onPress={handleSubmit}

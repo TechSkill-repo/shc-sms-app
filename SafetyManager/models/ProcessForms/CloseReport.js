@@ -8,28 +8,41 @@ import {
   Alert,
 } from "react-native";
 import React, { useState } from "react";
-import { TextInput } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
 import StepFormNavigation from "../../components/StepFormNavigation/StepFormNavigation";
 import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
+import { Checkbox } from "react-native-paper";
+
+const screenHeight = Dimensions.get("screen").height;
+
+const CheckboxItemGroup = ({ title, check, setCheck }) => (
+  <View style={{ marginTop: 20 }}>
+    <Text style={styles.sectionTitle}>{title}</Text>
+    {["Excelent", "Good", "Average", "Poor"].map((label) => (
+      <Checkbox.Item
+        key={label}
+        label={label}
+        onPress={() => setCheck(label)}
+        status={check === label ? "checked" : "unchecked"}
+      />
+    ))}
+  </View>
+);
 
 const CloseReport = ({ isVisible, setIsVisible, id }) => {
-  const screenHeight = Dimensions.get("screen").height;
-
   const [formData, setFormData] = useState({
-    managment_and_assisment: "",
-    priority_of_cuncurn: "",
+    management_and_assessment: "",
+    priority_of_concern: "",
     completion_of_job: "",
-    accuricy: "",
+    accuracy: "",
     rate: "",
     currentStatus: "",
-    status: "close",
+    status: "finalClose",
   });
 
-  // Handle form input changes
   const handleInputChange = (name, value) => {
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const validateForm = () => {
@@ -43,30 +56,24 @@ const CloseReport = ({ isVisible, setIsVisible, id }) => {
   };
 
   const handleSubmit = () => {
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
+
     axios
       .patch(`${serveraddress}fsgr/form/${id}`, {
-        id,
-        management_and_assessment: formData.managment_and_assisment,
-        priority_of_concern: formData.priority_of_cuncurn,
-        completion_of_job: formData.completion_of_job,
-        accuracy: formData.accuricy,
-        rate: formData.rate,
-        currentStatus: formData.currentStatus,
+        ...formData,
         status: "finalClose",
       })
       .then((response) => {
         console.log("close report:", response.data);
         Alert.alert("Success", "Form Submitted Successfully");
-        setIsVisible(false); // Close the modal
+        setIsVisible(false);
       })
       .catch((error) => {
         Alert.alert("Error", "Failed to submit form");
         console.error("Error:", error);
       });
   };
+
   return (
     <Modal
       visible={isVisible}
@@ -74,266 +81,98 @@ const CloseReport = ({ isVisible, setIsVisible, id }) => {
       transparent
       animationType="slide"
     >
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-end",
-          alignItems: "center",
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
-        }}
-      >
-        <ScrollView
-          style={{
-            backgroundColor: "#FFF",
-            width: "100%",
-            height: screenHeight * 0.95,
-            marginTop: screenHeight * 0.05,
-            padding: 25,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-          }}
-        >
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <View>
-              <Text
-                style={{
-                  fontWeight: "500",
-                  fontSize: 18,
-                  color: "#21005d",
-                }}
-              >
-                Close Rewport
-              </Text>
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                setIsVisible(false);
-              }}
-            >
+      <View style={styles.modalOverlay}>
+        <ScrollView style={styles.modalContent}>
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Close Report</Text>
+            <TouchableOpacity onPress={() => setIsVisible(false)}>
               <Entypo name="cross" size={30} color="red" />
             </TouchableOpacity>
           </View>
           <StepFormNavigation stepNo={4} />
-          <View style={{ marginBottom: 20 }}>
-            <View style={{ marginBottom: 5 }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingHorizontal: 10,
-                  fontWeight: "500",
-                  paddingVertical: 5,
-                  color: "#21005d",
-                  marginBottom: 5,
-                }}
-              >
-                Managment and assisment
-              </Text>
-              <TextInput
-                placeholder="Managment and assisment..."
-                multiline
-                numberOfLines={2}
-                textAlignVertical="top"
-                // value={formData.site_supervisor}
-                onChangeText={(text) =>
-                  handleInputChange("managment_and_assisment", text)
-                }
-                style={{
-                  borderColor: "gray",
-                  backgroundColor: "white",
-                  elevation: 4,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 5 }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingHorizontal: 10,
-                  fontWeight: "500",
-                  paddingVertical: 5,
-                  color: "#21005d",
-                  marginBottom: 5,
-                }}
-              >
-                Priority of cuncurn
-              </Text>
-              <TextInput
-                placeholder="Priority of cuncurn..."
-                multiline
-                numberOfLines={2}
-                textAlignVertical="top"
-                // value={formData.initial_investigation_status}
-                onChangeText={(text) =>
-                  handleInputChange("priority_of_cuncurn", text)
-                }
-                style={{
-                  borderColor: "gray",
-                  backgroundColor: "white",
-                  elevation: 4,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 5 }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingHorizontal: 10,
-                  fontWeight: "500",
-                  paddingVertical: 5,
-                  color: "#21005d",
-                  marginBottom: 5,
-                }}
-              >
-                Completion of job
-              </Text>
-              <TextInput
-                placeholder="Completion of job..."
-                multiline
-                numberOfLines={1}
-                textAlignVertical="top"
-                // value={formData.initial_investigation_team}
-                onChangeText={(text) =>
-                  handleInputChange("completion_of_job", text)
-                }
-                style={{
-                  borderColor: "gray",
-                  backgroundColor: "white",
-                  elevation: 4,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 5 }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingHorizontal: 10,
-                  fontWeight: "500",
-                  paddingVertical: 5,
-                  color: "#21005d",
-                  marginBottom: 5,
-                }}
-              >
-                Accuricy
-              </Text>
-              <TextInput
-                placeholder="accuricy..."
-                multiline
-                numberOfLines={2}
-                textAlignVertical="top"
-                // value={formData.resource_planning_done_by}
-                onChangeText={(text) => handleInputChange("accuricy", text)}
-                style={{
-                  borderColor: "gray",
-                  backgroundColor: "white",
-                  elevation: 4,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 5 }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingHorizontal: 10,
-                  fontWeight: "500",
-                  paddingVertical: 5,
-                  color: "#21005d",
-                  marginBottom: 5,
-                }}
-              >
-                Rate
-              </Text>
-              <TextInput
-                placeholder="Enter rate..."
-                multiline
-                numberOfLines={1}
-                textAlignVertical="top"
-                // value={formData.planning_date}
-                onChangeText={(text) => handleInputChange("rate", text)}
-                style={{
-                  borderColor: "gray",
-                  backgroundColor: "white",
-                  elevation: 4,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 5 }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingHorizontal: 10,
-                  fontWeight: "500",
-                  paddingVertical: 5,
-                  color: "#21005d",
-                  marginBottom: 5,
-                }}
-              >
-                Current Status
-              </Text>
-              <TextInput
-                placeholder="Current Status..."
-                multiline
-                numberOfLines={1}
-                textAlignVertical="top"
-                // value={formData.resource_required}
-                onChangeText={(text) =>
-                  handleInputChange("currentStatus", text)
-                }
-                style={{
-                  borderColor: "gray",
-                  backgroundColor: "white",
-                  elevation: 4,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
-            </View>
-
-            <TouchableOpacity
-              onPress={handleSubmit}
-              style={{
-                backgroundColor: "#21005d",
-                padding: 10,
-                alignItems: "center",
-                marginTop: 10,
-                marginBottom: 30,
-                borderRadius: 5,
-              }}
-            >
-              <Text
-                style={{ color: "white", fontSize: 14, fontWeight: "bold" }}
-              >
-                Submit
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <Text>Your Feedback Details.</Text>
+          <CheckboxItemGroup
+            title="Supervisor Management and Assistance"
+            check={formData.management_and_assessment}
+            setCheck={(value) =>
+              handleInputChange("management_and_assessment", value)
+            }
+          />
+          <CheckboxItemGroup
+            title="Priority of Closing as per Severity"
+            check={formData.priority_of_concern}
+            setCheck={(value) =>
+              handleInputChange("priority_of_concern", value)
+            }
+          />
+          <CheckboxItemGroup
+            title="Completion of Job without Damage"
+            check={formData.completion_of_job}
+            setCheck={(value) => handleInputChange("completion_of_job", value)}
+          />
+          <CheckboxItemGroup
+            title="Was the Job done accurately"
+            check={formData.accuracy}
+            setCheck={(value) => handleInputChange("accuracy", value)}
+          />
+          <CheckboxItemGroup
+            title="How would you rate the overall Job"
+            check={formData.rate}
+            setCheck={(value) => handleInputChange("rate", value)}
+          />
+          <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}>
+            <Text style={styles.submitButtonText}>Submit</Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     </Modal>
   );
+};
+
+const styles = {
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "#FFF",
+    width: "100%",
+    height: screenHeight * 0.95,
+    marginTop: screenHeight * 0.05,
+    padding: 25,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  headerTitle: {
+    fontWeight: "500",
+    fontSize: 18,
+    color: "#21005d",
+  },
+  sectionTitle: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#21005d",
+    marginLeft: 10,
+  },
+  submitButton: {
+    backgroundColor: "#21005d",
+    padding: 10,
+    alignItems: "center",
+    marginTop: 10,
+    marginBottom: 30,
+    borderRadius: 5,
+  },
+  submitButtonText: {
+    color: "white",
+    fontSize: 14,
+    fontWeight: "bold",
+  },
 };
 
 export default CloseReport;

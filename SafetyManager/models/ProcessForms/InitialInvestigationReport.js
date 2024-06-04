@@ -49,7 +49,6 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
     }, 100);
   };
 
-
   const validateForm = () => {
     for (const key in formData) {
       if (formData[key].trim() === "") {
