@@ -8,15 +8,19 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import StepFormNavigation from "../../components/StepFormNavigation/StepFormNavigation";
 import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
   const screenHeight = Dimensions.get("screen").height;
+  const [dateOfSsi, setDateOfSsi] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   // State to hold form data
   const [formData, setFormData] = useState({
@@ -36,6 +40,18 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || dateOfSsi;
+    setShowDatePicker(Platform.OS === "ios");
+    setDateOfSsi(currentDate);
+
+    handleInputChange("date_of_ssi", currentDate.toISOString().split("T")[0]);
+  };
+
+  const showDatepicker = () => {
+    setShowDatePicker(true);
+  };
+
   const validateForm = () => {
     for (const key in formData) {
       if (formData[key].trim() === "") {
@@ -45,6 +61,8 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
     }
     return true;
   };
+
+  console.log("data ssi:", formData);
 
   // Handle form submission
   const handleSubmit = () => {
@@ -292,24 +310,34 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
               >
                 Date of ssi
               </Text>
-              <TextInput
-                placeholder="Date of ssi..."
-                multiline
-                numberOfLines={1}
-                textAlignVertical="top"
-                // value={formData.resource_required}
-                onChangeText={(text) => handleInputChange("date_of_ssi", text)}
-                style={{
-                  borderColor: "gray",
-                  backgroundColor: "white",
-                  elevation: 4,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
+              <TouchableOpacity onPress={showDatepicker}>
+                <TextInput
+                  mode="outlined"
+                  label="Planning Date"
+                  value={dateOfSsi.toLocaleDateString()}
+                  editable={false}
+                  style={{
+                    borderColor: "gray",
+                    backgroundColor: "white",
+                    elevation: 4,
+                    paddingHorizontal: 10,
+                    paddingVertical: 10,
+                    borderRadius: 5,
+                    marginHorizontal: 5,
+                  }}
+                />
+              </TouchableOpacity>
             </View>
+            {showDatePicker && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={dateOfSsi}
+                mode="date"
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+              />
+            )}
             <View style={{ marginBottom: 5 }}>
               <Text
                 style={{

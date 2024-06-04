@@ -80,6 +80,22 @@ const Fsgr = () => {
       return;
     }
 
+    // // Set current date and time just before making the API call
+    // const currentDate = new Date();
+    // const day = currentDate.getDate();
+    // const month = currentDate.getMonth() + 1;
+    // const year = currentDate.getFullYear();
+    // const hours = currentDate.getHours();
+    // const minutes = currentDate.getMinutes();
+    // const seconds = currentDate.getSeconds();
+
+    // // Update fsgrData with current date and time
+    // setFsgrData((prevData) => ({
+    //   ...prevData,
+    //   reportDate: `${year}-${month}-${day}`,
+    //   reportTime: `${hours}:${minutes}:${seconds}`,
+    // }));
+
     setLoading(true);
 
     console.log("data", fsgrData);

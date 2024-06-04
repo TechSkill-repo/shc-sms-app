@@ -37,7 +37,7 @@ const CloseReport = ({ isVisible, setIsVisible, id }) => {
     completion_of_job: "",
     accuracy: "",
     rate: "",
-    currentStatus: "",
+    currentStatus: "finalClose",
     status: "finalClose",
   });
 
@@ -54,6 +54,8 @@ const CloseReport = ({ isVisible, setIsVisible, id }) => {
     }
     return true;
   };
+
+  console.log("Close Report:", formData);
 
   const handleSubmit = () => {
     if (!validateForm()) return;

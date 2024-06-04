@@ -7,15 +7,19 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import StepFormNavigation from "../../components/StepFormNavigation/StepFormNavigation";
 import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const PlanningReport = ({ isVisible, setIsVisible, id }) => {
   const screenHeight = Dimensions.get("screen").height;
+  const [planningDate, setPlanningDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   // State to hold form data
   const [formData, setFormData] = useState({
@@ -31,7 +35,17 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
   const handleInputChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
   };
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || planningDate;
+    setShowDatePicker(Platform.OS === "ios");
+    setPlanningDate(currentDate);
 
+    handleInputChange("planning_date", currentDate.toISOString().split("T")[0]);
+  };
+
+  const showDatepicker = () => {
+    setShowDatePicker(true);
+  };
 
   const validateForm = () => {
     for (const key in formData) {
@@ -42,6 +56,8 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
     }
     return true;
   };
+
+  console.log("form data:", formData);
   // Handle form submission
   const handleSubmit = () => {
     if (!validateForm()) {
@@ -250,6 +266,7 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
                 }}
               />
             </View>
+
             <View style={{ marginBottom: 5 }}>
               <Text
                 style={{
@@ -263,26 +280,35 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
               >
                 Planning Date
               </Text>
-              <TextInput
-                placeholder="Enter the planning date..."
-                multiline
-                numberOfLines={1}
-                textAlignVertical="top"
-                value={formData.planning_date}
-                onChangeText={(text) =>
-                  handleInputChange("planning_date", text)
-                }
-                style={{
-                  borderColor: "gray",
-                  backgroundColor: "white",
-                  elevation: 4,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
+              <TouchableOpacity onPress={showDatepicker}>
+                <TextInput
+                  mode="outlined"
+                  label="Planning Date"
+                  value={planningDate.toLocaleDateString()}
+                  editable={false}
+                  style={{
+                    borderColor: "gray",
+                    backgroundColor: "white",
+                    elevation: 4,
+                    paddingHorizontal: 10,
+                    paddingVertical: 10,
+                    borderRadius: 5,
+                    marginHorizontal: 5,
+                  }}
+                />
+              </TouchableOpacity>
             </View>
+            {showDatePicker && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={planningDate}
+                mode="date"
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+              />
+            )}
+
             <View style={{ marginBottom: 5 }}>
               <Text
                 style={{
