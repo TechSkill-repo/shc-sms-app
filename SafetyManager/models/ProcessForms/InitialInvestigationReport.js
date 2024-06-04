@@ -13,6 +13,7 @@ import { Entypo } from "@expo/vector-icons";
 import StepFormNavigation from "../../components/StepFormNavigation/StepFormNavigation";
 import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
+import Toast from "react-native-toast-message";
 
 const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
   const screenHeight = Dimensions.get("screen").height;
@@ -36,8 +37,35 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const showToast = () => {
+    setTimeout(() => {
+      Toast.show({
+        type: "error",
+        text1: "Validation Error",
+        text2: "Please fill out the field.",
+        visibilityTimeout: 5000,
+        position: "top",
+      });
+    }, 100);
+  };
+
+
+  const validateForm = () => {
+    for (const key in formData) {
+      if (formData[key].trim() === "") {
+        Alert.alert("Validation Error", `Please fill out the ${key} field.`);
+        // showToast();
+        return false;
+      }
+    }
+    return true;
+  };
+
   // Handle form submission
   const handleSubmit = () => {
+    if (!validateForm()) {
+      return;
+    }
     axios
       .patch(`${serveraddress}fsgr/form/${id}`, {
         id,

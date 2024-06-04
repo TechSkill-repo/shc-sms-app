@@ -69,6 +69,7 @@ const Progress = () => {
                     color: "#505050",
                   }}
                 >
+                  <Text style={{color:"teal", marginRight:15}}>{item.id} - </Text>
                   {item.createdAt.slice(0, 10)}
                 </Text>
                 <View

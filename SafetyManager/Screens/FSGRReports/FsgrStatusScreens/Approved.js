@@ -69,6 +69,7 @@ const Approved = () => {
                     color: "#505050",
                   }}
                 >
+                  {item.id} - 
                   {item?.heading}
                 </Text>
                 <View

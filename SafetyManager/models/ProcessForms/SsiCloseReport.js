@@ -36,8 +36,21 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const validateForm = () => {
+    for (const key in formData) {
+      if (formData[key].trim() === "") {
+        Alert.alert("Validation Error", `Please fill out the ${key} field.`);
+        return false;
+      }
+    }
+    return true;
+  };
+
   // Handle form submission
   const handleSubmit = () => {
+    if (!validateForm()) {
+      return;
+    }
     axios
       .patch(`${serveraddress}fsgr/form/${id}`, {
         id,
