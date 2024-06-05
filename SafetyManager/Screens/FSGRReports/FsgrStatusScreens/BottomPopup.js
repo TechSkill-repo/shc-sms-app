@@ -65,7 +65,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
             <Text
               style={{
                 fontSize: 20,
-                fontWeight: "bold",
+                fontWeight: "500",
                 color: "#21005d",
               }}
             >
@@ -89,7 +89,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
             <Text
               style={{
                 fontSize: 20,
-                fontWeight: "bold",
+                fontWeight: "500",
                 color: "#505050",
               }}
             >
@@ -132,7 +132,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
                 <Text
                   style={{
                     fontSize: 12,
-                    fontWeight: "700",
+                    fontWeight: "500",
                     color: "#21005d",
                   }}
                 >
@@ -152,7 +152,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
                 <Text
                   style={{
                     fontSize: 12,
-                    fontWeight: "700",
+                    fontWeight: "500",
                     color: "#21005d",
                   }}
                 >
@@ -178,7 +178,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
             <Text
               style={{
                 fontSize: 14,
-                fontWeight: "700",
+                fontWeight: "500",
                 color: "#21005d",
               }}
             >

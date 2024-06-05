@@ -70,7 +70,7 @@ const SsiClose = () => {
                     color: "#505050",
                   }}
                 >
-                  {item.createdAt.slice(0, 10)}
+                  {item.heading}
                 </Text>
                 <View
                   style={{
@@ -86,6 +86,7 @@ const SsiClose = () => {
                       {item.location === null ? "" : item.location}
                     </Text>
                   </View>
+                  <Text> {item.createdAt.slice(0, 10)}</Text>
                 </View>
               </View>
               <View style={{ width: "30%" }}>

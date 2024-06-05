@@ -71,7 +71,7 @@ const Close = () => {
                     color: "#505050",
                   }}
                 >
-                  {item.createdAt.slice(0, 10)}
+                  {item.heading}
                 </Text>
                 <View
                   style={{
@@ -87,13 +87,7 @@ const Close = () => {
                       {item.location === null ? "" : item.location}
                     </Text>
                   </View>
-
-                  {/* <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Text style={styles.text}>Priority</Text>
-                  <Text style={styles.textLocation}>
-                    {item.priority === null ? "" : item.priority}
-                  </Text>
-                </View> */}
+                  <Text> {item.createdAt.slice(0, 10)}</Text>
                 </View>
               </View>
               <View style={{ width: "30%" }}>

@@ -21,6 +21,7 @@ const TabNav = () => {
         tabBarActiveTintColor: "rgb(120, 69, 172)", // Active tab icon color
         tabBarInactiveTintColor: "rgb(208, 193, 218)", // Inactive tab icon color
         tabBarShowLabel: false, // Hide tab labels
+        tabBarStyle: { height: 60 },
       }}
     >
       <Tab.Screen
