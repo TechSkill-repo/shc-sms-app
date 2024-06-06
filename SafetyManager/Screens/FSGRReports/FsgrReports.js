@@ -51,86 +51,87 @@ const FsgrReports = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <PanGestureHandler onHandlerStateChange={handleGesture}>
+      {/* 
         <ScrollView
           style={{
             backgroundColor: "white",
           }}
-        >
-          <Appbar.Header>
-            <Appbar.BackAction
-              onPress={() => {
-                navigation.goBack();
-              }}
-            />
-            <Appbar.Content title="FSGR Reports" />
-            <Appbar.Action
-              icon="magnify"
-              onPress={() => {
-                setIsVisible(true);
-              }}
-            />
-          </Appbar.Header>
-          <View>
-            <View style={styles.container}>
-              <ScrollView style={styles.buttonsContainer} horizontal={true}>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    selectedCard === 1 && styles.selectedButton,
-                  ]}
-                  onPress={() => handleCardSelect(1)}
-                >
-                  <Text style={styles.buttonText}>Pending</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    selectedCard === 2 && styles.selectedButton,
-                  ]}
-                  onPress={() => handleCardSelect(2)}
-                >
-                  <Text style={styles.buttonText}>Approved</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    selectedCard === 3 && styles.selectedButton,
-                  ]}
-                  onPress={() => handleCardSelect(3)}
-                >
-                  <Text style={styles.buttonText}>Planning</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    selectedCard === 4 && styles.selectedButton,
-                  ]}
-                  onPress={() => handleCardSelect(4)}
-                >
-                  <Text style={styles.buttonText}>SSI Close</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    selectedCard === 5 && styles.selectedButton,
-                  ]}
-                  onPress={() => handleCardSelect(5)}
-                >
-                  <Text style={styles.buttonText}>Closed</Text>
-                </TouchableOpacity>
-              </ScrollView>
-              <SearchFsgr setIsVisible={setIsVisible} isVisible={isVisible} />
-            </View>
-          </View>
-          <ScrollView>
-            {selectedCard === 1 && <Pending />}
-            {selectedCard === 2 && <Approved />}
-            {selectedCard === 3 && <Progress />}
-            {selectedCard === 4 && <SsiClose />}
-            {selectedCard === 5 && <Close />}
+        > */}
+      <Appbar.Header>
+        <Appbar.BackAction
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
+        <Appbar.Content title="FSGR Reports" />
+        <Appbar.Action
+          icon="magnify"
+          onPress={() => {
+            setIsVisible(true);
+          }}
+        />
+      </Appbar.Header>
+      <View>
+        <View style={styles.container}>
+          <ScrollView style={styles.buttonsContainer} horizontal={true}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                selectedCard === 1 && styles.selectedButton,
+              ]}
+              onPress={() => handleCardSelect(1)}
+            >
+              <Text style={styles.buttonText}>Pending</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                selectedCard === 2 && styles.selectedButton,
+              ]}
+              onPress={() => handleCardSelect(2)}
+            >
+              <Text style={styles.buttonText}>Approved</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                selectedCard === 3 && styles.selectedButton,
+              ]}
+              onPress={() => handleCardSelect(3)}
+            >
+              <Text style={styles.buttonText}>Planning</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                selectedCard === 4 && styles.selectedButton,
+              ]}
+              onPress={() => handleCardSelect(4)}
+            >
+              <Text style={styles.buttonText}>SSI Close</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                selectedCard === 5 && styles.selectedButton,
+              ]}
+              onPress={() => handleCardSelect(5)}
+            >
+              <Text style={styles.buttonText}>Closed</Text>
+            </TouchableOpacity>
           </ScrollView>
+          <SearchFsgr setIsVisible={setIsVisible} isVisible={isVisible} />
+        </View>
+      </View>
+      <PanGestureHandler onHandlerStateChange={handleGesture}>
+        <ScrollView>
+          {selectedCard === 1 && <Pending />}
+          {selectedCard === 2 && <Approved />}
+          {selectedCard === 3 && <Progress />}
+          {selectedCard === 4 && <SsiClose />}
+          {selectedCard === 5 && <Close />}
         </ScrollView>
+        {/* </ScrollView> */}
       </PanGestureHandler>
     </GestureHandlerRootView>
   );
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
     // backgroundColor:"red"
   },
   button: {
-    width: 90,
+    width: 82,
     padding: 10,
     borderBottomWidth: 2,
     backgroundColor: "#fffbfe",
