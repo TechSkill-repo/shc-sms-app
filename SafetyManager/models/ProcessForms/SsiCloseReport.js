@@ -9,6 +9,7 @@ import {
   View,
   TextInput,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import StepFormNavigation from "../../components/StepFormNavigation/StepFormNavigation";
@@ -21,6 +22,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
   const screenHeight = Dimensions.get("screen").height;
   const [dateOfSsi, setDateOfSsi] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // State to hold form data
   const [formData, setFormData] = useState({
@@ -45,7 +47,15 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
     setShowDatePicker(Platform.OS === "ios");
     setDateOfSsi(currentDate);
 
-    handleInputChange("date_of_ssi", currentDate.toISOString().split("T")[0]);
+    // Format the date as yyyy-mm-dd
+    const formattedDate = new Intl.DateTimeFormat("en-CA", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(currentDate);
+
+    handleInputChange("date_of_ssi", formattedDate);
+    console.log("date_of_ssi:", formattedDate);
   };
 
   const showDatepicker = () => {
@@ -66,6 +76,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
 
   // Handle form submission
   const handleSubmit = () => {
+    setLoading(true);
     if (!validateForm()) {
       return;
     }
@@ -83,10 +94,12 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
         status: "close",
       })
       .then((response) => {
+        setLoading(false);
         Alert.alert("Success", "Form Submitted Successfully");
         setIsVisible(false); // Close the modal
       })
       .catch((error) => {
+        setLoading(false);
         Alert.alert("Error", "Failed to submit form");
         console.error("Error:", error);
       });
@@ -406,12 +419,17 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
                 marginBottom: 30,
                 borderRadius: 5,
               }}
+              disabled={loading} // Disable the button when loading
             >
-              <Text
-                style={{ color: "white", fontSize: 14, fontWeight: "bold" }}
-              >
-                Submit
-              </Text>
+              {loading ? (
+                <ActivityIndicator size="small" color="#FFF" />
+              ) : (
+                <Text
+                  style={{ color: "white", fontSize: 14, fontWeight: "bold" }}
+                >
+                  Submit
+                </Text>
+              )}
             </TouchableOpacity>
           </View>
         </ScrollView>

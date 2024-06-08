@@ -6,6 +6,7 @@ import {
   Modal,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
@@ -31,6 +32,7 @@ const CheckboxItemGroup = ({ title, check, setCheck }) => (
 );
 
 const CloseReport = ({ isVisible, setIsVisible, id }) => {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     management_and_assessment: "",
     priority_of_concern: "",
@@ -58,6 +60,7 @@ const CloseReport = ({ isVisible, setIsVisible, id }) => {
   console.log("Close Report:", formData);
 
   const handleSubmit = () => {
+    setLoading(true);
     if (!validateForm()) return;
 
     axios
@@ -66,11 +69,13 @@ const CloseReport = ({ isVisible, setIsVisible, id }) => {
         status: "finalClose",
       })
       .then((response) => {
+        setLoading(false);
         console.log("close report:", response.data);
         Alert.alert("Success", "Form Submitted Successfully");
         setIsVisible(false);
       })
       .catch((error) => {
+        setLoading(false);
         Alert.alert("Error", "Failed to submit form");
         console.error("Error:", error);
       });
@@ -122,8 +127,16 @@ const CloseReport = ({ isVisible, setIsVisible, id }) => {
             check={formData.rate}
             setCheck={(value) => handleInputChange("rate", value)}
           />
-          <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}>
-            <Text style={styles.submitButtonText}>Submit</Text>
+          <TouchableOpacity
+            onPress={handleSubmit}
+            style={styles.submitButton}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator size="small" color="#FFF" />
+            ) : (
+              <Text style={styles.submitButtonText}>Submit</Text>
+            )}
           </TouchableOpacity>
         </ScrollView>
       </View>

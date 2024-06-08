@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
@@ -17,6 +18,7 @@ import Toast from "react-native-toast-message";
 
 const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
   const screenHeight = Dimensions.get("screen").height;
+  const [loading, setLoading] = useState(false);
 
   // State to hold form data
   const [formData, setFormData] = useState({
@@ -62,6 +64,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
 
   // Handle form submission
   const handleSubmit = () => {
+    setLoading(true);
     if (!validateForm()) {
       return;
     }
@@ -81,11 +84,13 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
         status: "progress",
       })
       .then((response) => {
+        setLoading(false);
         console.log("resp:", response);
         Alert.alert("Success", "Form Submitted Successfully");
         setIsVisible(false); // Close the modal
       })
       .catch((error) => {
+        setLoading(false);
         Alert.alert("Error", "Failed to submit form");
         console.error("Error:", error);
       });
@@ -485,12 +490,17 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                 marginBottom: 30,
                 borderRadius: 5,
               }}
+              disabled={loading} // Disable the button when loading
             >
-              <Text
-                style={{ color: "white", fontSize: 14, fontWeight: "bold" }}
-              >
-                Submit
-              </Text>
+              {loading ? (
+                <ActivityIndicator size="small" color="#FFF" />
+              ) : (
+                <Text
+                  style={{ color: "white", fontSize: 14, fontWeight: "bold" }}
+                >
+                  Submit
+                </Text>
+              )}
             </TouchableOpacity>
           </View>
         </ScrollView>
