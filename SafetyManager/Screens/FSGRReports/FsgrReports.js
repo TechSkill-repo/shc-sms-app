@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -16,6 +10,7 @@ import SearchFsgr from "../../models/Search/SearchFsgr";
 import {
   GestureHandlerRootView,
   PanGestureHandler,
+  ScrollView,
   State,
 } from "react-native-gesture-handler";
 import SsiClose from "./FsgrStatusScreens/SsiClose";
@@ -124,7 +119,14 @@ const FsgrReports = () => {
         </View>
       </View>
       <PanGestureHandler onHandlerStateChange={handleGesture}>
-        <ScrollView>
+        <ScrollView
+          style={{
+            backgroundColor: "white",
+            height: "100%",
+            marginTop: -20,
+            paddingTop: 20,
+          }}
+        >
           {selectedCard === 1 && <Pending />}
           {selectedCard === 2 && <Approved />}
           {selectedCard === 3 && <Progress />}
@@ -141,17 +143,17 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     // display:"flex",
-    // backgroundColor:"red"
+    // backgroundColor: "red",
   },
   buttonsContainer: {
     flexDirection: "row",
     marginBottom: 20,
     width: "100%",
-    // backgroundColor:"red"
+    // backgroundColor: "red",
   },
   button: {
-    width: 82,
-    padding: 10,
+    width: 100,
+    padding: 15,
     borderBottomWidth: 2,
     backgroundColor: "#fffbfe",
     borderBottomColor: "lightgray",
