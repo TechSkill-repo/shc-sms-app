@@ -5,6 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { TextInput } from "react-native-paper";
@@ -25,6 +26,7 @@ const Form = ({
   setFsgrData,
   currentDate,
   currentTime,
+  loadingSubmit,
 }) => {
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -32,6 +34,8 @@ const Form = ({
   const [selectedPriority, setSelectedPriority] = useState(null);
   const [locationFocus, setLocationFocus] = useState(false);
   const [priorityFocus, setPriorityFocus] = useState(false);
+
+
 
   useEffect(() => {
     async function fetchLocationsData() {
@@ -76,6 +80,15 @@ const Form = ({
     return null;
   };
 
+  // const enhancedHandleSubmit = async () => {
+  //   setLoading(true);
+  //   try {
+  //     await handleSubmit();
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   return (
     <ScrollView
       style={{
@@ -104,6 +117,7 @@ const Form = ({
           style={{
             width: "45%",
           }}
+          disabled={true}
         />
       </View>
       <View
@@ -313,17 +327,25 @@ const Form = ({
               elevation: 4,
               width: "45%",
               marginTop: 20,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
             }}
+            disabled={loadingSubmit}
           >
-            <Text
-              style={{
-                fontSize: 15,
-                fontWeight: "500",
-                color: "white",
-              }}
-            >
-              Submit Report
-            </Text>
+            {loadingSubmit ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontWeight: "500",
+                  color: "white",
+                }}
+              >
+                Submit Report
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>

@@ -16,36 +16,46 @@ import { serveraddress } from "../../../assets/values/Constants";
 import Loading from "../../../assets/logo/Loading.png";
 
 const Fsgr = () => {
-  const [loading, setLoading] = useState(false);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
   const navigation = useNavigation();
+  const formatDate = (date) => {
+    const day = String(date.getDate()).padStart(2, "0"); // Ensure day has 2 digits
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Ensure month has 2 digits
+    const year = date.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
+
+  // Format the current time as hh:mm:ss
+  const formatTime = (date) => {
+    const hours = String(date.getHours()).padStart(2, "0"); // Ensure hours have 2 digits
+    const minutes = String(date.getMinutes()).padStart(2, "0"); // Ensure minutes have 2 digits
+    const seconds = String(date.getSeconds()).padStart(2, "0"); // Ensure seconds have 2 digits
+    return `${hours}:${minutes}:${seconds}`;
+  };
 
   const currentDate = new Date();
+  const [currentTime, setCurrentTime] = useState(currentDate);
 
-  const day = currentDate.getDate(); // Returns the
-  const month = currentDate.getMonth() + 1; //
-  const year = currentDate.getFullYear(); // Returns
+  // useEffect(() => {
+  //   // Update the current time every second
+  //   const timerID = setInterval(() => {
+  //     setCurrentTime(new Date());
+  //   }, 1000);
 
-  const [currentTime, setCurrentTime] = useState(new Date());
-  useEffect(() => {
-    // Update the current time every second
-    const timerID = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
+  //   // Clean up the timer
+  //   return () => {
+  //     clearInterval(timerID);
+  //   };
+  // }, []);
 
-    // Clean up the timer
-    return () => {
-      clearInterval(timerID);
-    };
-  }, []);
-
-  // Extract hours, minutes, and seconds
-  const hours = currentTime.getHours();
-  const minutes = currentTime.getMinutes();
-  const seconds = currentTime.getSeconds();
+  // // Extract hours, minutes, and seconds
+  // const hours = currentTime.getHours();
+  // const minutes = currentTime.getMinutes();
+  // const seconds = currentTime.getSeconds();
 
   const [fsgrData, setFsgrData] = useState({
-    reportDate: `${year}-${month}-${day}`,
-    reportTime: `${hours}:${minutes}:${seconds}`,
+    reportDate: formatDate(currentDate),
+    reportTime: formatTime(currentDate),
     heading: "",
     location: "",
     empName: "",
@@ -63,9 +73,24 @@ const Fsgr = () => {
         display: "none",
       },
     });
+
+    const timerID = setInterval(() => {
+      const now = new Date();
+      setCurrentTime(now);
+      setFsgrData((prevData) => ({
+        ...prevData,
+        reportTime: formatTime(now), // Update reportTime every second
+      }));
+    }, 1000);
+
+    // Clean up the timer
+    return () => {
+      clearInterval(timerID);
+    };
   }, [navigation]);
 
   const handleSubmit = () => {
+    setLoadingSubmit(true);
     if (
       !fsgrData.location ||
       !fsgrData.empName ||
@@ -77,6 +102,7 @@ const Fsgr = () => {
       !fsgrData.message
     ) {
       alert("All fields are mandatory");
+      setLoadingSubmit(false);
       return;
     }
 
@@ -96,7 +122,7 @@ const Fsgr = () => {
     //   reportTime: `${hours}:${minutes}:${seconds}`,
     // }));
 
-    setLoading(true);
+    // setLoading(true);
 
     console.log("data", fsgrData);
     axios
@@ -104,16 +130,19 @@ const Fsgr = () => {
       .then((response) => {
         console.log("Data sent successfully:", response.data);
         // Handle success, such as displaying a success message or navigating to another screen
-        setLoading(false);
+        // setLoading(false);
 
         alert("Form Submited Successfully");
         // showDialog("Form Submitted Successfully");
         navigation.navigate("ToolBoxTalk");
       })
       .catch((error) => {
-        setLoading(false);
+        // setLoading(false);
         console.error("Error sending data:", error);
         // Handle error, such as displaying an error message to the user
+      })
+      .finally(() => {
+        setLoadingSubmit(false);
       });
   };
 
@@ -133,24 +162,15 @@ const Fsgr = () => {
         <Appbar.Content title="FSGR" />
         <Appbar.Action icon="dots-vertical" />
       </Appbar.Header>
-      {loading ? (
-        // <ActivityIndicator size="large" color="#0000ff" />
-        <Image
-          source={Loading}
-          style={{
-            height: 500,
-            width: "100%",
-          }}
-        />
-      ) : (
-        <Form
-          fsgrData={fsgrData}
-          setFsgrData={setFsgrData}
-          currentDate={`${day}/${month}/${year}`}
-          currentTime={`${hours}:${minutes}:${seconds}`}
-          handleSubmit={handleSubmit}
-        />
-      )}
+
+      <Form
+        fsgrData={fsgrData}
+        setFsgrData={setFsgrData}
+        currentDate={formatDate(currentDate)}
+        currentTime={formatTime(currentTime)}
+        handleSubmit={handleSubmit}
+        loadingSubmit={loadingSubmit}
+      />
     </ScrollView>
   );
 };
