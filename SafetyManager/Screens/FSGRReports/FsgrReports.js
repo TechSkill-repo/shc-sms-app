@@ -19,9 +19,14 @@ const FsgrReports = () => {
   const [selectedCard, setSelectedCard] = useState(1);
 
   const [isVisible, setIsVisible] = useState(false);
+  const [loadSearchBar, setLoadSearchBar] = useState(false);
 
   const handleCardSelect = (cardNumber) => {
     setSelectedCard(cardNumber);
+  };
+
+  const toggleSearchBar = () => {
+    setLoadSearchBar((prevState) => !prevState);
   };
 
   const handleGesture = ({ nativeEvent }) => {
@@ -61,9 +66,7 @@ const FsgrReports = () => {
         <Appbar.Content title="FSGR Reports" />
         <Appbar.Action
           icon="magnify"
-          onPress={() => {
-            setIsVisible(true);
-          }}
+          onPress={toggleSearchBar}
         />
       </Appbar.Header>
       <View>
@@ -127,7 +130,7 @@ const FsgrReports = () => {
             paddingTop: 20,
           }}
         >
-          {selectedCard === 1 && <Pending />}
+          {selectedCard === 1 && <Pending  loadSearchBar={loadSearchBar}/>}
           {selectedCard === 2 && <Approved />}
           {selectedCard === 3 && <Progress />}
           {selectedCard === 4 && <SsiClose />}

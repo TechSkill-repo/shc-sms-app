@@ -4,41 +4,97 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  TextInput,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { serveraddress } from "../../../../assets/values/Constants";
 import axios from "axios";
 import BottomPopup from "./BottomPopup";
+import { AntDesign, Entypo, SimpleLineIcons } from "@expo/vector-icons";
 
-const Pending = () => {
+const Pending = ({ loadSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [id, setId] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [dataNotFound, setDataNotFound] = useState(false);
+  const [searchLocation, setSearchLocation] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(`${serveraddress}fsgr/form/pending`);
-        if (response.data) {
-          setData(response.data);
-          console.log(response.data);
-        } else {
-          setDataNotFound(true);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchData();
-  }, []);
+  }, [searchLocation]);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${serveraddress}fsgr/form/pending/${searchLocation}`
+      //   , {
+      //   params: {
+      //     location: searchLocation, // Pass location as a query parameter
+      //   },
+      // }
+    );
+      if (response.data) {
+        setData(response.data);
+        console.log(response.data);
+      } else {
+        setDataNotFound(true);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <View style={styles.mainContainer}>
+      {loadSearchBar ? (
+        <View
+          style={{
+            flex: 1,
+            width: "100%",
+            marginBottom: 20,
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+          }}
+        >
+          <TextInput
+            style={{
+              width: "90%",
+              height: 42,
+              borderWidth: 0.5,
+              // alignSelf: "center",
+              borderRadius: 8,
+              paddingStart: 10,
+            }}
+            placeholder="Search by location"
+            onChangeText={(text) => setSearchLocation(text)}
+          />
+          <TouchableOpacity
+            style={{
+              display: "flex",
+              width: "10%",
+              position: "absolute",
+              left: 300,
+              marginTop: 8,
+              borderLeftWidth: 0.3,
+              borderLeftColor: "grey",
+              padding: 3,
+              alignSelf: "center",
+            }}
+            onPress={fetchData}
+          >
+            <SimpleLineIcons
+              name="magnifier"
+              size={20}
+              color="blue"
+              style={{ marginStart: 8 }}
+            />
+          </TouchableOpacity>
+        </View>
+      ) : null}
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : data ? (
