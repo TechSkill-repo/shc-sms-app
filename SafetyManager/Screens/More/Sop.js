@@ -11,11 +11,19 @@ import {
 import axios from "axios";
 import { Feather } from "@expo/vector-icons";
 import { serveraddress } from "../../../assets/values/Constants";
+import ViewSopPdf from "./ViewSopPdf";
 
 const Sop = () => {
   const [sopData, setSopData] = useState([]);
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [pdfId, setPdfId] = useState("");
+
+  const viewPdf = (id) => {
+    setVisible(true);
+    setPdfId(id);
+  };
 
   const fetchAllSop = async () => {
     setLoading(true);
@@ -59,15 +67,23 @@ const Sop = () => {
       ) : (
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
           {sopData.map((data) => (
-            <View key={data.createdAt} style={styles.card}>
+            <View key={data.id} style={styles.card}>
               <Text style={styles.cardTitle}>{data.sopTitle}</Text>
               <Text style={styles.cardDescription}>{data.sopDescription}</Text>
-              <TouchableOpacity style={styles.viewButton}>
+              <TouchableOpacity
+                style={styles.viewButton}
+                onPress={() => {
+                  viewPdf(data.id);
+                }}
+              >
                 <Text style={styles.viewButtonText}>View SOP</Text>
               </TouchableOpacity>
             </View>
           ))}
         </ScrollView>
+      )}
+      {visible && (
+        <ViewSopPdf visible={visible} setVisible={setVisible} pdfId={pdfId} />
       )}
     </View>
   );
@@ -94,7 +110,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#21005d",
     paddingVertical: 15,
     paddingHorizontal: 15,
-    marginLeft: 15,
+    marginLeft: 10,
     borderRadius: 100,
   },
   scrollViewContent: {
