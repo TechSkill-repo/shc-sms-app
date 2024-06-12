@@ -131,10 +131,10 @@ const FsgrReports = () => {
           }}
         >
           {selectedCard === 1 && <Pending  loadSearchBar={loadSearchBar}/>}
-          {selectedCard === 2 && <Approved />}
-          {selectedCard === 3 && <Progress />}
-          {selectedCard === 4 && <SsiClose />}
-          {selectedCard === 5 && <Close />}
+          {selectedCard === 2 && <Approved loadSearchBar={loadSearchBar}/>}
+          {selectedCard === 3 && <Progress loadSearchBar={loadSearchBar}/>}
+          {selectedCard === 4 && <SsiClose loadSearchBar={loadSearchBar}/>}
+          {selectedCard === 5 && <Close loadSearchBar={loadSearchBar}/>}
         </ScrollView>
         {/* </ScrollView> */}
       </PanGestureHandler>
