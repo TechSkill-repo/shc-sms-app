@@ -11,6 +11,7 @@ import FsgrReports from "../Screens/FSGRReports/FsgrReports";
 import More from "../Screens/More/More";
 import ManagerHome from "../Screens/SafetyManagerHome/ManagerHome";
 import ViewTbt from "../Screens/ViewTbt/ViewTbt";
+import Violation from "../Screens/Violation/Violation";
 
 const TabNav = () => {
   const Tab = createBottomTabNavigator();
@@ -46,7 +47,7 @@ const TabNav = () => {
       />
       <Tab.Screen
         name="Violation"
-        component={ViewTbt}
+        component={Violation}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
