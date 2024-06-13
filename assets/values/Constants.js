@@ -1,5 +1,3 @@
-
-const serveraddress = "http://192.168.211.49:8085/";
-
+const serveraddress = "http://192.168.1.4:8080/";
 
 export { serveraddress };

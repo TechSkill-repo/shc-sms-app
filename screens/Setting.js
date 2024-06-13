@@ -1,11 +1,12 @@
 import { View, Text } from "react-native";
 import React from "react";
-import UnderConstruction from "../components/Global/UnderConstruction/UnderConstruction";
+
+import FsgrInfo from "./FsgrInfo/FsgrInfo";
 
 const Setting = () => {
   return (
     <View>
-      <UnderConstruction />
+      <FsgrInfo />
     </View>
   );
 };
