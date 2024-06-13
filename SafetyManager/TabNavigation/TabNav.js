@@ -8,9 +8,9 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import FsgrReports from "../Screens/FSGRReports/FsgrReports";
-import Violation from "../Screens/Violations/Violation";
 import More from "../Screens/More/More";
 import ManagerHome from "../Screens/SafetyManagerHome/ManagerHome";
+import ViewTbt from "../Screens/ViewTbt/ViewTbt";
 
 const TabNav = () => {
   const Tab = createBottomTabNavigator();
@@ -46,7 +46,7 @@ const TabNav = () => {
       />
       <Tab.Screen
         name="Violation"
-        component={Violation}
+        component={ViewTbt}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ScrollView,
+  Image,
 } from "react-native";
 import { Appbar } from "react-native-paper";
 import axios from "axios";
@@ -15,6 +16,8 @@ import { serveraddress } from "../../assets/values/Constants";
 import BottomPopup from "../../components/Global/UnderConstruction/BottomPopup";
 import { fetchLocations } from "../../components/Global/Global";
 import SearchForm from "./FsgrSearch";
+import NotFound from "../../assets/icons/nodata.png";
+import { Feather } from "@expo/vector-icons";
 
 const FsgrInfo = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -150,7 +153,62 @@ const FsgrInfo = () => {
               </TouchableOpacity>
             ))
           ) : (
-            <Text>No data found</Text>
+            <View
+              style={{
+                flexDirection: "column",
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+                marginHorizontal: 10,
+                marginVertical: 20,
+              }}
+            >
+              <Image
+                source={NotFound}
+                style={{
+                  height: 300,
+                  width: "100%",
+                }}
+              />
+              <Text
+                style={{
+                  marginTop: 20,
+                  fontSize: 18,
+                  color: "gray",
+                }}
+              >
+                Please Search your Required FSGR
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setShowSearch((prevState) => !prevState);
+                }}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  backgroundColor: "#21005d1a",
+                  marginTop: 40,
+                  width: "80%",
+                  paddingVertical: 10,
+                  paddingHorizontal: 60,
+                  borderRadius: 50,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Feather name="search" size={22} color="#21005d" />
+                <Text
+                  style={{
+                    color: "#21005d",
+                    fontSize: 18,
+                    fontWeight: "400",
+                    marginLeft: 10,
+                  }}
+                >
+                  Search FSGR
+                </Text>
+              </TouchableOpacity>
+            </View>
           )}
           <BottomPopup
             isVisible={isVisible}
