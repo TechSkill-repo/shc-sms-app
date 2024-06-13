@@ -9,18 +9,38 @@ import goodFeedback from "../../../../assets/icons/satisfaction.png";
 import arrow from "../../../../assets/icons/arrows.png";
 import consequence from "../../../../assets/icons/consequence.png";
 import Cards from "../../../../components/Home/Cards";
+import { useNavigation } from "@react-navigation/native";
 
 const items = [
   { id: 1, label: "Rewards", icon: Medal, backgroundColor: "#fbf1de" },
   {
     id: 2,
-    label: "Consequences",
+    label: "TBM",
     icon: consequence,
     backgroundColor: "#ffddd5",
+    screen: "TBM",
   },
-  { id: 3, label: "Recognition", icon: arrow, backgroundColor: "#ffd0b0" },
-  { id: 4, label: "Feedback", icon: goodFeedback, backgroundColor: "#ffe1ed" },
-  { id: 5, label: "Violation", icon: yellowCard, backgroundColor: "#ebeaff" },
+  {
+    id: 3,
+    label: "DJP",
+    icon: arrow,
+    backgroundColor: "#ffd0b0",
+    screen: "DJP",
+  },
+  {
+    id: 4,
+    label: "PPE",
+    icon: goodFeedback,
+    backgroundColor: "#ffe1ed",
+    screen: "PPE",
+  },
+  {
+    id: 5,
+    label: "TNT",
+    icon: yellowCard,
+    backgroundColor: "#ebeaff",
+    screen: "TNT",
+  },
   {
     id: 6,
     label: "Gas Detect",
@@ -36,9 +56,12 @@ const items = [
   { id: 8, label: "Conseq. Policy", icon: policy, backgroundColor: "#fbf1de" },
 ];
 
-const Item = ({ label, icon, backgroundColor }) => (
+const Item = ({ label, icon, backgroundColor, onPress }) => (
   <View style={styles.itemContainer}>
-    <TouchableOpacity style={[styles.touchable, { backgroundColor }]}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.touchable, { backgroundColor }]}
+    >
       <Image source={icon} style={styles.icon} />
     </TouchableOpacity>
     <Text style={styles.text}>{label}</Text>
@@ -46,16 +69,33 @@ const Item = ({ label, icon, backgroundColor }) => (
 );
 
 const HomeNav = () => {
+  const navigation = useNavigation();
   return (
     <>
       <View style={styles.row}>
         {items.slice(0, 4).map((item) => (
-          <Item key={item.id} {...item} />
+          <Item
+            key={item.id}
+            {...item}
+            onPress={() => {
+              if (item.screen) {
+                navigation.navigate(item.screen);
+              }
+            }}
+          />
         ))}
       </View>
       <View style={styles.row}>
         {items.slice(4).map((item) => (
-          <Item key={item.id} {...item} />
+          <Item
+            key={item.id}
+            {...item}
+            onPress={() => {
+              if (item.screen) {
+                navigation.navigate(item.screen);
+              }
+            }}
+          />
         ))}
       </View>
       <Text
