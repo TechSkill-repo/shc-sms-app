@@ -24,6 +24,7 @@ const FsgrInfo = () => {
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(null);
   const [showSearch, setShowSearch] = useState(true);
 
   const navigation = useNavigation();
@@ -49,6 +50,10 @@ const FsgrInfo = () => {
     setSelectedMonth(selectedMonth);
   };
 
+  const handleYearChange = (item) => {
+    setSelectedYear(item);
+  };
+
   const monthData = [
     { label: "January", value: "01" },
     { label: "February", value: "02" },
@@ -64,21 +69,32 @@ const FsgrInfo = () => {
     { label: "December", value: "12" },
   ];
 
+  const yearData = [
+    { label: "2023", value: "2023" },
+    { label: "2024", value: "2024" },
+    { label: "2025", value: "2025" },
+    { label: "2026", value: "2026" },
+    { label: "2027", value: "2027" },
+    { label: "2028", value: "2028" },
+  ];
+
   const searchFsgr = async () => {
-    if (!selectedLocation || !selectedMonth) {
+    if (!selectedLocation || !selectedMonth || !selectedYear) {
       console.error("Location and month must be selected");
       return;
     }
     console.log(
       "Searching with location:",
       selectedLocation,
-      "and month:",
-      selectedMonth
+      "month:",
+      selectedMonth,
+      "year:",
+      selectedYear
     );
     setLoading(true);
     try {
       const response = await axios.get(
-        `${serveraddress}fsgr/${selectedLocation?.label}/${selectedMonth?.value}`
+        `${serveraddress}fsgr/${selectedYear.value}/${selectedMonth.value}/${selectedLocation.label}`
       );
       console.log("Response data:", response.data);
       setData(response.data || []);
@@ -177,6 +193,32 @@ const FsgrInfo = () => {
                   placeholder="Month"
                   value={selectedMonth} // Use selectedMonth here
                   onChange={handleMonthChange}
+                  renderLeftIcon={() => (
+                    <AntDesign
+                      style={styles.icon}
+                      color="black"
+                      name="calendar"
+                      size={20}
+                    />
+                  )}
+                />
+              </View>
+              <View
+                style={{ marginTop: 10, marginHorizontal: 20, width: "100%" }}
+              >
+                <Dropdown
+                  style={styles.dropdown}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  inputSearchStyle={styles.inputSearchStyle}
+                  iconStyle={styles.iconStyle}
+                  data={yearData}
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder="Year"
+                  value={selectedYear} // Use selectedYear here
+                  onChange={handleYearChange}
                   renderLeftIcon={() => (
                     <AntDesign
                       style={styles.icon}
