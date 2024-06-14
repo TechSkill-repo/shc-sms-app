@@ -127,7 +127,9 @@ const PpeChecklist = () => {
               >
                 <View style={styles.itemContainer}>
                   <View style={styles.itemDetails}>
-                    <Text style={styles.itemHeading}>{item.typeOfWork}</Text>
+                    <Text style={styles.itemHeading}>
+                      Permit No. {item.workOrderNumber}
+                    </Text>
                     <View style={styles.itemInfo}>
                       <View style={styles.itemRow}>
                         <Text style={styles.text}>Location</Text>
@@ -147,7 +149,7 @@ const PpeChecklist = () => {
                   </View>
                   <View style={styles.statusContainer}>
                     <View style={styles.statusBadge}>
-                      <Text style={styles.statusText}>{item.status}</Text>
+                      <Text style={styles.statusText}>View More</Text>
                     </View>
                   </View>
                 </View>
@@ -289,7 +291,7 @@ const styles = StyleSheet.create({
     width: "30%",
   },
   statusBadge: {
-    backgroundColor: "#fff4e5",
+    backgroundColor: "#4782da1a",
     paddingHorizontal: 2,
     paddingVertical: 5,
     borderRadius: 5,
@@ -299,7 +301,7 @@ const styles = StyleSheet.create({
   statusText: {
     fontSize: 12,
     fontWeight: "600",
-    color: "#663c00",
+    color: "#4782da",
   },
 });
 
