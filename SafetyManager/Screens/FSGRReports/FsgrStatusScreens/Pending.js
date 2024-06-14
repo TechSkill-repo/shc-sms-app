@@ -1,17 +1,16 @@
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
-  TextInput,
   Image,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import { serveraddress } from "../../../../assets/values/Constants";
 import axios from "axios";
+import { serveraddress } from "../../../../assets/values/Constants";
 import BottomPopup from "./BottomPopup";
-import { Feather, SimpleLineIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 import NoDataFound from "../../../../assets/icons/nodata.png";
@@ -25,7 +24,7 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
   const [selectedLocation, setSelectedLocation] = useState(null);
 
   useEffect(() => {
-    async function fetchLocationsData() {
+    const fetchLocationsData = async () => {
       try {
         const data = await fetchLocations();
         console.log("Locations fetched:", data);
@@ -33,7 +32,7 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
       } catch (error) {
         console.error("Error fetching locations:", error);
       }
-    }
+    };
     fetchLocationsData();
   }, []);
 
@@ -61,14 +60,7 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
   return (
     <View style={styles.mainContainer}>
       {loadSearchBar && (
-        <View
-          style={{
-            marginTop: 0,
-            marginHorizontal: 20,
-            width: "100%",
-            alignItems: "center",
-          }}
-        >
+        <View style={styles.searchBarContainer}>
           <Dropdown
             style={styles.dropdown}
             placeholderStyle={styles.placeholderStyle}
@@ -83,12 +75,10 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
             maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder={`Location`}
+            placeholder="Location"
             searchPlaceholder="Search..."
             value={selectedLocation}
-            onChange={(loc) => {
-              setSelectedLocation(loc.label);
-            }}
+            onChange={(loc) => setSelectedLocation(loc.label)}
           />
         </View>
       )}
@@ -133,58 +123,15 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
           </TouchableOpacity>
         ))
       ) : (
-        <View
-          style={{
-            flexDirection: "column",
-            width: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-            marginHorizontal: 10,
-            marginVertical: 20,
-          }}
-        >
-          <Image
-            source={NoDataFound}
-            style={{
-              height: 300,
-              width: "100%",
-            }}
-          />
-          <Text
-            style={{
-              marginTop: 20,
-              fontSize: 18,
-              color: "gray",
-            }}
-          >
-            Please Select Your Location
-          </Text>
+        <View style={styles.noDataContainer}>
+          <Image source={NoDataFound} style={styles.noDataImage} />
+          <Text style={styles.noDataText}>Please Select Your Location</Text>
           <TouchableOpacity
             onPress={toggleSearchBar}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              backgroundColor: "#21005d1a",
-              marginTop: 40,
-              width: "80%",
-              paddingVertical: 10,
-              paddingHorizontal: 60,
-              borderRadius: 50,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            style={styles.searchButtonContainer}
           >
             <Feather name="search" size={22} color="#21005d" />
-            <Text
-              style={{
-                color: "#21005d",
-                fontSize: 18,
-                fontWeight: "400",
-                marginLeft: 10,
-              }}
-            >
-              Search FSGR
-            </Text>
+            <Text style={styles.searchButtonText}>Search FSGR</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -200,33 +147,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   searchBarContainer: {
-    flex: 1,
+    marginTop: 0,
+    marginHorizontal: 20,
     width: "100%",
-    marginBottom: 20,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-  },
-  searchInput: {
-    width: "90%",
-    height: 42,
-    borderRadius: 8,
-    paddingStart: 10,
-    backgroundColor: "white",
-    elevation: 5,
-    marginTop: 5,
-  },
-  searchButton: {
-    width: "10%",
-    position: "absolute",
-    left: 300,
-    marginTop: 8,
-    borderLeftWidth: 0.3,
-    borderLeftColor: "grey",
-    padding: 5,
-    alignSelf: "center",
-  },
-  searchIcon: {
-    marginStart: 8,
+    alignItems: "center",
   },
   container: {
     backgroundColor: "#fffbfe",
@@ -255,7 +179,7 @@ const styles = StyleSheet.create({
   itemInfo: {
     flexDirection: "column",
     justifyContent: "flex-start",
-    alignItems: "start",
+    alignItems: "flex-start",
   },
   itemRow: {
     flexDirection: "row",
@@ -301,7 +225,40 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#663c00",
   },
-  // dropdown
+  noDataContainer: {
+    flexDirection: "column",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 10,
+    marginVertical: 20,
+  },
+  noDataImage: {
+    height: 300,
+    width: "100%",
+  },
+  noDataText: {
+    marginTop: 20,
+    fontSize: 18,
+    color: "gray",
+  },
+  searchButtonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#21005d1a",
+    marginTop: 40,
+    width: "80%",
+    paddingVertical: 10,
+    paddingHorizontal: 60,
+    borderRadius: 50,
+    justifyContent: "center",
+  },
+  searchButtonText: {
+    color: "#21005d",
+    fontSize: 18,
+    fontWeight: "400",
+    marginLeft: 10,
+  },
   dropdown: {
     width: "90%",
     margin: 10,
@@ -310,27 +267,10 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     padding: 12,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
-
     elevation: 2,
-  },
-  icon: {
-    marginRight: 5,
-  },
-  item: {
-    padding: 17,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  textItem: {
-    flex: 1,
-    fontSize: 16,
   },
   placeholderStyle: {
     fontSize: 16,
