@@ -4,7 +4,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
-  TextInput,
+  TextInput 
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import BottomPopup from "./BottomPopup";
@@ -12,8 +12,11 @@ import axios from "axios";
 import { serveraddress } from "../../../../assets/values/Constants";
 import InitialInvestigationReport from "../../../models/ProcessForms/InitialInvestigationReport";
 import { SimpleLineIcons } from "@expo/vector-icons";
+
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
+import useAuthStore from "../../../../store/userAuthStore";
+
 
 const Approved = ({ loadSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -22,33 +25,28 @@ const Approved = ({ loadSearchBar }) => {
   const [loading, setLoading] = useState(false);
   const [dataNotFound, setDataNotFound] = useState(false);
   const [searchLocation, setSearchLocation] = useState("");
+
   const [locations, setLocations] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  // const [selectedLocation, setSelectedLocation] = useState(null);
+
+
+  const selectedLocation = useAuthStore((state) => state.selectedLocation);
+  const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
+
 
   useEffect(() => {
-    async function fetchLocationsData() {
-      try {
-        const data = await fetchLocations();
-        console.log("Locations fetched:", data);
-        setLocations(data);
-      } catch (error) {
-        console.error("Error fetching locations:", error);
-      }
-    }
-    fetchLocationsData();
-  }, []);
-
-  useEffect(() => {
-    if (selectedLocation) {
-      fetchData();
-    }
-  }, [selectedLocation]);
+    fetchData();
+  }, [searchLocation]);
 
   const fetchData = async () => {
+
     setLoading(true);
+    console.log("approved location:", selectedLocation);
+
     try {
+      setLoading(true);
       const response = await axios.get(
-        `${serveraddress}fsgr/form/approved/${selectedLocation}`
+        `${serveraddress}fsgr/form/approved/${searchLocation}`
       );
       if (response.data && response.data.length > 0) {
         setData(response.data);
@@ -65,6 +63,12 @@ const Approved = ({ loadSearchBar }) => {
   return (
     <View style={styles.mainContainer}>
       {loadSearchBar && (
+
+        <View style={styles.searchBarContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search by location"
+
         <View
           style={{
             marginTop: 0,
@@ -93,7 +97,16 @@ const Approved = ({ loadSearchBar }) => {
             onChange={(loc) => {
               setSelectedLocation(loc.label);
             }}
+
           />
+          <TouchableOpacity style={styles.searchButton} onPress={fetchData}>
+            <SimpleLineIcons
+              name="magnifier"
+              size={20}
+              color="blue"
+              style={styles.searchIcon}
+            />
+          </TouchableOpacity>
         </View>
       )}
       {loading ? (
@@ -243,10 +256,11 @@ const styles = StyleSheet.create({
     color: "#21005d",
     marginLeft: 10,
   },
+
   // dropdown
   dropdown: {
     width: "90%",
-    margin: 10,
+    marginBottom: 10,
     height: 50,
     backgroundColor: "white",
     borderRadius: 7,
@@ -260,6 +274,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
 
     elevation: 2,
+    alignSelf:"center"
   },
   icon: {
     marginRight: 5,

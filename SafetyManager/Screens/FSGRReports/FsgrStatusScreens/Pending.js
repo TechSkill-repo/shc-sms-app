@@ -10,18 +10,35 @@ import {
 import axios from "axios";
 import { serveraddress } from "../../../../assets/values/Constants";
 import BottomPopup from "./BottomPopup";
+
+import { SimpleLineIcons } from "@expo/vector-icons";
+
+import { fetchLocations } from "../../../../components/Global/Global";
+import { Dropdown } from "react-native-element-dropdown";
+import useAuthStore from "../../../../store/userAuthStore";
+
+
+
 import { Feather } from "@expo/vector-icons";
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 import NoDataFound from "../../../../assets/icons/nodata.png";
+
 
 const Pending = ({ loadSearchBar, toggleSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [id, setId] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const [locations, setLocations] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  // const [selectedLocation, setSelectedLocation] = useState(null);
+
+  // Use Zustand store for selected location
+  const selectedLocation = useAuthStore((state) => state.selectedLocation);
+  const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
+
+  const [searchLocation, setSearchLocation] = useState("");
 
   useEffect(() => {
     const fetchLocationsData = async () => {
@@ -36,17 +53,16 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
     fetchLocationsData();
   }, []);
 
+
   useEffect(() => {
-    if (selectedLocation) {
-      fetchData();
-    }
-  }, [selectedLocation]);
+    fetchData();
+  }, [searchLocation]);
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${serveraddress}fsgr/form/pending/${selectedLocation}`
+        `${serveraddress}fsgr/form/pending/${searchLocation}`
       );
       setData(response.data || []);
     } catch (error) {
@@ -61,6 +77,12 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
     <View style={styles.mainContainer}>
       {loadSearchBar && (
         <View style={styles.searchBarContainer}>
+
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search by location"
+            onChangeText={setSearchLocation}
+
           <Dropdown
             style={styles.dropdown}
             placeholderStyle={styles.placeholderStyle}
@@ -79,7 +101,16 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
             searchPlaceholder="Search..."
             value={selectedLocation}
             onChange={(loc) => setSelectedLocation(loc.label)}
+
           />
+          <TouchableOpacity style={styles.searchButton} onPress={fetchData}>
+            <SimpleLineIcons
+              name="magnifier"
+              size={20}
+              color="blue"
+              style={styles.searchIcon}
+            />
+          </TouchableOpacity>
         </View>
       )}
       {loading ? (
@@ -225,6 +256,9 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#663c00",
   },
+
+  // dropdown
+
   noDataContainer: {
     flexDirection: "column",
     width: "100%",
@@ -259,9 +293,10 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     marginLeft: 10,
   },
+
   dropdown: {
     width: "90%",
-    margin: 10,
+    marginBottom: 10,
     height: 50,
     backgroundColor: "white",
     borderRadius: 7,
@@ -271,6 +306,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
     elevation: 2,
+    alignSelf:"center"
   },
   placeholderStyle: {
     fontSize: 16,
@@ -286,6 +322,7 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
+
 });
 
 export default Pending;

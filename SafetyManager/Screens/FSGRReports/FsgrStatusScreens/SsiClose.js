@@ -4,15 +4,18 @@ import {
   Text,
   TouchableOpacity,
   View,
-  TextInput,
+  TextInput
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { serveraddress } from "../../../../assets/values/Constants";
 import SsiCloseReport from "../../../models/ProcessForms/SsiCloseReport";
 import { SimpleLineIcons } from "@expo/vector-icons";
+
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
+import useAuthStore from "../../../../store/userAuthStore";
+
 
 const SsiClose = ({ loadSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -21,33 +24,23 @@ const SsiClose = ({ loadSearchBar }) => {
   const [loading, setLoading] = useState(false);
   const [dataNotFound, setDataNotFound] = useState(false);
   const [searchLocation, setSearchLocation] = useState("");
+
   const [locations, setLocations] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  // const [selectedLocation, setSelectedLocation] = useState(null);
+
+  const selectedLocation = useAuthStore((state) => state.selectedLocation);
+  const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
+
 
   useEffect(() => {
-    async function fetchLocationsData() {
-      try {
-        const data = await fetchLocations();
-        console.log("Locations fetched:", data);
-        setLocations(data);
-      } catch (error) {
-        console.error("Error fetching locations:", error);
-      }
-    }
-    fetchLocationsData();
-  }, []);
-
-  useEffect(() => {
-    if (selectedLocation) {
-      fetchData();
-    }
-  }, [selectedLocation]);
+    fetchData();
+  }, [searchLocation]);
 
   const fetchData = async () => {
-    setLoading(true);
     try {
+      setLoading(true);
       const response = await axios.get(
-        `${serveraddress}fsgr/form/ssiclose/${selectedLocation}`
+        `${serveraddress}fsgr/form/ssiclose/${searchLocation}`
       );
       if (response.data && response.data.length > 0) {
         setData(response.data);
@@ -65,6 +58,13 @@ const SsiClose = ({ loadSearchBar }) => {
   return (
     <View style={styles.mainContainer}>
       {loadSearchBar && (
+
+        <View style={styles.searchBarContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search by location"
+            onChangeText={setSearchLocation}
+
         <View
           style={{
             marginTop: 0,
@@ -94,7 +94,16 @@ const SsiClose = ({ loadSearchBar }) => {
               setSelectedLocation(loc.label);
               fetchData();
             }}
+
           />
+          <TouchableOpacity style={styles.searchButton} onPress={fetchData}>
+            <SimpleLineIcons
+              name="magnifier"
+              size={20}
+              color="blue"
+              style={styles.searchIcon}
+            />
+          </TouchableOpacity>
         </View>
       )}
       {loading ? (
@@ -247,10 +256,11 @@ const styles = StyleSheet.create({
     color: "#21005d",
     marginLeft: 10,
   },
+
   // dropdown
   dropdown: {
     width: "90%",
-    margin: 10,
+    marginBottom: 10,
     height: 50,
     backgroundColor: "white",
     borderRadius: 7,
@@ -264,6 +274,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
 
     elevation: 2,
+    alignSelf:"center"
   },
   icon: {
     marginRight: 5,
@@ -292,4 +303,5 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
+
 });
