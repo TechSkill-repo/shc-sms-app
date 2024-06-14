@@ -13,6 +13,7 @@ import PlanningReport from "../../../models/ProcessForms/PlanningReport";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
+import useAuthStore from "../../../../store/userAuthStore";
 
 const Progress = ({ loadSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -22,7 +23,10 @@ const Progress = ({ loadSearchBar }) => {
   const [dataNotFound, setDataNotFound] = useState(false);
   const [searchLocation, setSearchLocation] = useState("");
   const [locations, setLocations] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  // const [selectedLocation, setSelectedLocation] = useState(null);
+
+  const selectedLocation = useAuthStore((state) => state.selectedLocation);
+  const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
 
   useEffect(() => {
     async function fetchLocationsData() {
@@ -245,7 +249,7 @@ const styles = StyleSheet.create({
   // dropdown
   dropdown: {
     width: "90%",
-    margin: 10,
+    marginBottom: 10,
     height: 50,
     backgroundColor: "white",
     borderRadius: 7,
@@ -259,6 +263,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
 
     elevation: 2,
+    alignSelf:"center"
   },
   icon: {
     marginRight: 5,
