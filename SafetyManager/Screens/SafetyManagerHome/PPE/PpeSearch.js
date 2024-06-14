@@ -76,7 +76,7 @@ const PpeSearch = ({
         <ScrollView
           style={[
             styles.modalContent,
-            { height: windowHeight * 0.5, marginTop: windowHeight * 0.5 },
+            { height: windowHeight * 0.6, marginTop: windowHeight * 0.4 },
           ]}
         >
           <View style={styles.header}>

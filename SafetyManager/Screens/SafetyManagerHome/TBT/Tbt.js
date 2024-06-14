@@ -34,15 +34,14 @@ const Tbt = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    async function fetchLocationsData() {
+    const fetchLocationsData = async () => {
       try {
         const data = await fetchLocations();
-        console.log("Locations fetched:", data);
         setLocations(data);
       } catch (error) {
         console.error("Error fetching locations:", error);
       }
-    }
+    };
     fetchLocationsData();
   }, []);
 
@@ -51,20 +50,11 @@ const Tbt = () => {
       console.error("Location, month, and year must be selected");
       return;
     }
-    console.log(
-      "Searching with location:",
-      selectedLocation,
-      "month:",
-      selectedMonth,
-      "year:",
-      selectedYear
-    );
     setLoading(true);
     try {
       const response = await axios.get(
         `${serveraddress}forms/tbm-form/${selectedYear.value}/${selectedMonth.value}/${selectedLocation.label}`
       );
-      console.log("Response data:", response.data);
       setData(response.data || []);
       setShowSearch(false);
     } catch (error) {
@@ -76,24 +66,13 @@ const Tbt = () => {
   };
 
   return (
-    <View
-      style={{
-        backgroundColor: "white",
-        height: "100%",
-      }}
-    >
+    <View style={styles.container}>
       <Appbar.Header>
-        <Appbar.BackAction
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
+        <Appbar.BackAction onPress={navigation.goBack} />
         <Appbar.Content title="TBM" />
         <Appbar.Action
           icon="magnify"
-          onPress={() => {
-            setShowSearch((prevState) => !prevState);
-          }}
+          onPress={() => setShowSearch(!showSearch)}
         />
       </Appbar.Header>
       <ScrollView>
@@ -118,16 +97,18 @@ const Tbt = () => {
           ) : data.length > 0 ? (
             data.map((item) => (
               <TouchableOpacity
-                style={styles.container}
+                style={styles.itemContainer}
                 key={item.id}
                 onPress={() => {
                   setIsVisible(true);
                   setId(item.id);
                 }}
               >
-                <View style={styles.itemContainer}>
+                <View style={styles.itemContent}>
                   <View style={styles.itemDetails}>
-                    <Text style={styles.itemHeading}>{item.typeOfWork}</Text>
+                    <Text style={styles.itemHeading}>
+                      Permit.No {item.permitNumber}
+                    </Text>
                     <View style={styles.itemInfo}>
                       <View style={styles.itemRow}>
                         <Text style={styles.text}>Location</Text>
@@ -147,67 +128,24 @@ const Tbt = () => {
                   </View>
                   <View style={styles.statusContainer}>
                     <View style={styles.statusBadge}>
-                      <Text style={styles.statusText}>{item.status}</Text>
+                      <Text style={styles.statusText}>View More</Text>
                     </View>
                   </View>
                 </View>
               </TouchableOpacity>
             ))
           ) : (
-            <View
-              style={{
-                flexDirection: "column",
-                width: "100%",
-                alignItems: "center",
-                justifyContent: "center",
-                marginHorizontal: 10,
-                marginVertical: 20,
-              }}
-            >
-              <Image
-                source={NotFound}
-                style={{
-                  height: 300,
-                  width: "100%",
-                }}
-              />
-              <Text
-                style={{
-                  marginTop: 20,
-                  fontSize: 18,
-                  color: "gray",
-                }}
-              >
+            <View style={styles.noDataContainer}>
+              <Image source={NotFound} style={styles.noDataImage} />
+              <Text style={styles.noDataText}>
                 Please Search your Required TBM
               </Text>
               <TouchableOpacity
-                onPress={() => {
-                  setShowSearch((prevState) => !prevState);
-                }}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  backgroundColor: "#21005d1a",
-                  marginTop: 40,
-                  width: "80%",
-                  paddingVertical: 10,
-                  paddingHorizontal: 60,
-                  borderRadius: 50,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                onPress={() => setShowSearch(!showSearch)}
+                style={styles.searchButton}
               >
                 <Feather name="search" size={22} color="#21005d" />
-                <Text
-                  style={{
-                    color: "#21005d",
-                    fontSize: 18,
-                    fontWeight: "400",
-                    marginLeft: 10,
-                  }}
-                >
-                  Search TBM
-                </Text>
+                <Text style={styles.searchButtonText}>Search TBM</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -223,12 +161,16 @@ const Tbt = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "white",
+    height: "100%",
+  },
   mainContainer: {
     marginTop: 20,
     height: "100%",
     alignItems: "center",
   },
-  container: {
+  itemContainer: {
     backgroundColor: "#fffbfe",
     width: "90%",
     flexDirection: "row",
@@ -239,7 +181,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: 20,
   },
-  itemContainer: {
+  itemContent: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -289,7 +231,7 @@ const styles = StyleSheet.create({
     width: "30%",
   },
   statusBadge: {
-    backgroundColor: "#fff4e5",
+    backgroundColor: "#3764d01a",
     paddingHorizontal: 2,
     paddingVertical: 5,
     borderRadius: 5,
@@ -299,7 +241,41 @@ const styles = StyleSheet.create({
   statusText: {
     fontSize: 12,
     fontWeight: "600",
-    color: "#663c00",
+    color: "#3764d0",
+  },
+  noDataContainer: {
+    flexDirection: "column",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 10,
+    marginVertical: 20,
+  },
+  noDataImage: {
+    height: 300,
+    width: "100%",
+  },
+  noDataText: {
+    marginTop: 20,
+    fontSize: 18,
+    color: "gray",
+  },
+  searchButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#21005d1a",
+    marginTop: 40,
+    width: "80%",
+    paddingVertical: 10,
+    paddingHorizontal: 60,
+    borderRadius: 50,
+    justifyContent: "center",
+  },
+  searchButtonText: {
+    color: "#21005d",
+    fontSize: 18,
+    fontWeight: "400",
+    marginLeft: 10,
   },
 });
 

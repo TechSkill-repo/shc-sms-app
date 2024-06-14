@@ -12,12 +12,11 @@ import { serveraddress } from "../../../../assets/values/Constants";
 import SsiCloseReport from "../../../models/ProcessForms/SsiCloseReport";
 import CloseReport from "../../../models/ProcessForms/CloseReport";
 import { SimpleLineIcons } from "@expo/vector-icons";
-<<<<<<< HEAD
+
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 import useAuthStore from "../../../../store/userAuthStore";
-=======
->>>>>>> parent of e6c3fd4 (add location dropdown on fsgr reports screens)
+
 const Close = ({ loadSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [id, setId] = useState(0);
@@ -25,14 +24,13 @@ const Close = ({ loadSearchBar }) => {
   const [loading, setLoading] = useState(false);
   const [dataNotFound, setDataNotFound] = useState(false);
   const [searchLocation, setSearchLocation] = useState("");
-<<<<<<< HEAD
+
   const [locations, setLocations] = useState([]);
   // const [selectedLocation, setSelectedLocation] = useState(null);
 
   const selectedLocation = useAuthStore((state) => state.selectedLocation);
   const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
-=======
->>>>>>> parent of e6c3fd4 (add location dropdown on fsgr reports screens)
+
 
   useEffect(() => {
     fetchData();
@@ -60,11 +58,42 @@ const Close = ({ loadSearchBar }) => {
   return (
     <View style={styles.mainContainer}>
       {loadSearchBar && (
+
         <View style={styles.searchBarContainer}>
           <TextInput
             style={styles.searchInput}
             placeholder="Search by location"
             onChangeText={setSearchLocation}
+
+        <View
+          style={{
+            marginTop: 0,
+            marginHorizontal: 20,
+            width: "100%",
+            alignItems: "center",
+          }}
+        >
+          <Dropdown
+            style={styles.dropdown}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={locations.map((location) => ({
+              label: location.name,
+              value: location.id,
+            }))}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={`Location`}
+            searchPlaceholder="Search..."
+            value={selectedLocation}
+            onChange={(loc) => {
+              setSelectedLocation(loc.label);
+            }}
+
           />
           <TouchableOpacity style={styles.searchButton} onPress={fetchData}>
             <SimpleLineIcons
@@ -218,7 +247,7 @@ const styles = StyleSheet.create({
     color: "#21005d",
     marginLeft: 10,
   },
-<<<<<<< HEAD
+
   // dropdown
   dropdown: {
     width: "90%",
@@ -265,8 +294,7 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
-=======
->>>>>>> parent of e6c3fd4 (add location dropdown on fsgr reports screens)
+
 });
 
 export default Close;
