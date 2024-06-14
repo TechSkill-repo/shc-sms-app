@@ -28,24 +28,37 @@ const SsiClose = ({ loadSearchBar }) => {
   // const [selectedLocation, setSelectedLocation] = useState(null);
 
   const selectedLocation = useAuthStore((state) => state.selectedLocation);
-  const setSelectedLocation = useAuthStore(
-    (state) => state.setSelectedLocation
-  );
+  const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
 
   useEffect(() => {
-    fetchData();
-  }, [searchLocation]);
+    const fetchLocationsData = async () => {
+      try {
+        const data = await fetchLocations();
+        console.log("Locations fetched:", data);
+        setLocations(data);
+      } catch (error) {
+        console.error("Error fetching locations:", error);
+      }
+    };
+    fetchLocationsData();
+  }, []);
+
+  useEffect(() => {
+    if (selectedLocation) {
+      fetchData();
+    }
+  }, [selectedLocation]);
+
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${serveraddress}fsgr/form/ssiclose/${searchLocation}`
+        `${serveraddress}fsgr/form/ssiclose/${selectedLocation}`
       );
       if (response.data && response.data.length > 0) {
         setData(response.data);
       } else {
-        ``;
         setDataNotFound(true);
       }
     } catch (error) {
@@ -58,51 +71,36 @@ const SsiClose = ({ loadSearchBar }) => {
   return (
     <View style={styles.mainContainer}>
       {loadSearchBar && (
-        <View style={styles.searchBarContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search by location"
-            onChangeText={setSearchLocation}
-          />
-          <View
-            style={{
-              marginTop: 0,
-              marginHorizontal: 20,
-              width: "100%",
-              alignItems: "center",
+        <View
+          style={{
+            marginTop: 0,
+            marginHorizontal: 20,
+            width: "100%",
+            alignItems: "center",
+          }}
+        >
+          <Dropdown
+            style={styles.dropdown}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={locations.map((location) => ({
+              label: location.name,
+              value: location.id,
+            }))}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder="Location"
+            searchPlaceholder="Search..."
+            value={selectedLocation}
+            onChange={(loc) => {
+              setSelectedLocation(loc.label);
+              fetchData();
             }}
-          >
-            <Dropdown
-              style={styles.dropdown}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              data={locations.map((location) => ({
-                label: location.name,
-                value: location.id,
-              }))}
-              search
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              placeholder="Location"
-              searchPlaceholder="Search..."
-              value={selectedLocation}
-              onChange={(loc) => {
-                setSelectedLocation(loc.label);
-                fetchData();
-              }}
-            />
-            <TouchableOpacity style={styles.searchButton} onPress={fetchData}>
-              <SimpleLineIcons
-                name="magnifier"
-                size={20}
-                color="blue"
-                style={styles.searchIcon}
-              />
-            </TouchableOpacity>
-          </View>
+          />
         </View>
       )}
       {loading ? (

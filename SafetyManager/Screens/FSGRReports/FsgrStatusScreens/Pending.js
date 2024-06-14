@@ -1,46 +1,35 @@
-import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
-  Image,
+  TextInput,
 } from "react-native";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { serveraddress } from "../../../../assets/values/Constants";
+import axios from "axios";
 import BottomPopup from "./BottomPopup";
-
 import { SimpleLineIcons } from "@expo/vector-icons";
-
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 import useAuthStore from "../../../../store/userAuthStore";
 
-import { Feather } from "@expo/vector-icons";
-import { fetchLocations } from "../../../../components/Global/Global";
-import { Dropdown } from "react-native-element-dropdown";
-import NoDataFound from "../../../../assets/icons/nodata.png";
 
-const Pending = ({ loadSearchBar, toggleSearchBar }) => {
+const Pending = ({ loadSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [id, setId] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const [locations, setLocations] = useState([]);
   // const [selectedLocation, setSelectedLocation] = useState(null);
 
   // Use Zustand store for selected location
   const selectedLocation = useAuthStore((state) => state.selectedLocation);
-  const setSelectedLocation = useAuthStore(
-    (state) => state.setSelectedLocation
-  );
-
-  const [searchLocation, setSearchLocation] = useState("");
+  const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
 
   useEffect(() => {
-    const fetchLocationsData = async () => {
+    async function fetchLocationsData() {
       try {
         const data = await fetchLocations();
         console.log("Locations fetched:", data);
@@ -48,19 +37,21 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
       } catch (error) {
         console.error("Error fetching locations:", error);
       }
-    };
+    }
     fetchLocationsData();
   }, []);
 
   useEffect(() => {
-    fetchData();
-  }, [searchLocation]);
+    if (selectedLocation) {
+      fetchData();
+    }
+  }, [selectedLocation]);
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${serveraddress}fsgr/form/pending/${searchLocation}`
+        `${serveraddress}fsgr/form/pending/${selectedLocation}`
       );
       setData(response.data || []);
     } catch (error) {
@@ -74,13 +65,13 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
   return (
     <View style={styles.mainContainer}>
       {loadSearchBar && (
-        <View style={styles.searchBarContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search by location"
-            onChangeText={setSearchLocation}
-          />
-
+        <View
+          style={{
+            marginTop: 0,
+            marginHorizontal: 20,
+            width: "100%",
+          }}
+        >
           <Dropdown
             style={styles.dropdown}
             placeholderStyle={styles.placeholderStyle}
@@ -95,19 +86,13 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
             maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder="Location"
+            placeholder={`Location`}
             searchPlaceholder="Search..."
             value={selectedLocation}
-            onChange={(loc) => setSelectedLocation(loc.label)}
+            onChange={(loc) => {
+              setSelectedLocation(loc.label);
+            }}
           />
-          <TouchableOpacity style={styles.searchButton} onPress={fetchData}>
-            <SimpleLineIcons
-              name="magnifier"
-              size={20}
-              color="blue"
-              style={styles.searchIcon}
-            />
-          </TouchableOpacity>
         </View>
       )}
       {loading ? (
@@ -151,17 +136,7 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
           </TouchableOpacity>
         ))
       ) : (
-        <View style={styles.noDataContainer}>
-          <Image source={NoDataFound} style={styles.noDataImage} />
-          <Text style={styles.noDataText}>Please Select Your Location</Text>
-          <TouchableOpacity
-            onPress={toggleSearchBar}
-            style={styles.searchButtonContainer}
-          >
-            <Feather name="search" size={22} color="#21005d" />
-            <Text style={styles.searchButtonText}>Search FSGR</Text>
-          </TouchableOpacity>
-        </View>
+        <Text>No data found</Text>
       )}
       <BottomPopup isVisible={isVisible} setIsVisible={setIsVisible} id={id} />
     </View>
@@ -175,10 +150,33 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   searchBarContainer: {
-    marginTop: 0,
-    marginHorizontal: 20,
+    flex: 1,
     width: "100%",
-    alignItems: "center",
+    marginBottom: 20,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  searchInput: {
+    width: "90%",
+    height: 42,
+    borderRadius: 8,
+    paddingStart: 10,
+    backgroundColor: "white",
+    elevation: 5,
+    marginTop: 5,
+  },
+  searchButton: {
+    width: "10%",
+    position: "absolute",
+    left: 300,
+    marginTop: 8,
+    borderLeftWidth: 0.3,
+    borderLeftColor: "grey",
+    padding: 5,
+    alignSelf: "center",
+  },
+  searchIcon: {
+    marginStart: 8,
   },
   container: {
     backgroundColor: "#fffbfe",
@@ -207,7 +205,7 @@ const styles = StyleSheet.create({
   itemInfo: {
     flexDirection: "column",
     justifyContent: "flex-start",
-    alignItems: "flex-start",
+    alignItems: "start",
   },
   itemRow: {
     flexDirection: "row",
@@ -253,57 +251,36 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#663c00",
   },
-
   // dropdown
-
-  noDataContainer: {
-    flexDirection: "column",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    marginHorizontal: 10,
-    marginVertical: 20,
-  },
-  noDataImage: {
-    height: 300,
-    width: "100%",
-  },
-  noDataText: {
-    marginTop: 20,
-    fontSize: 18,
-    color: "gray",
-  },
-  searchButtonContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#21005d1a",
-    marginTop: 40,
-    width: "80%",
-    paddingVertical: 10,
-    paddingHorizontal: 60,
-    borderRadius: 50,
-    justifyContent: "center",
-  },
-  searchButtonText: {
-    color: "#21005d",
-    fontSize: 18,
-    fontWeight: "400",
-    marginLeft: 10,
-  },
-
   dropdown: {
     width: "90%",
-    marginBottom: 10,
+    margin: 10,
     height: 50,
     backgroundColor: "white",
     borderRadius: 7,
     padding: 12,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
+
     elevation: 2,
-    alignSelf: "center",
+  },
+  icon: {
+    marginRight: 5,
+  },
+  item: {
+    padding: 17,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  textItem: {
+    flex: 1,
+    fontSize: 16,
   },
   placeholderStyle: {
     fontSize: 16,

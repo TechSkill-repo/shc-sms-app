@@ -4,7 +4,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
-  TextInput
+  TextInput,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -16,14 +16,13 @@ import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 import useAuthStore from "../../../../store/userAuthStore";
 
-
 const Progress = ({ loadSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [id, setId] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [dataNotFound, setDataNotFound] = useState(false);
-  const [searchLocation, setSearchLocation] = useState("");
+  // const [searchLocation, setSearchLocation] = useState("");
 
   const [locations, setLocations] = useState([]);
   // const [selectedLocation, setSelectedLocation] = useState(null);
@@ -31,21 +30,34 @@ const Progress = ({ loadSearchBar }) => {
   const selectedLocation = useAuthStore((state) => state.selectedLocation);
   const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
 
+  useEffect(() => {
+    const fetchLocationsData = async () => {
+      try {
+        const data = await fetchLocations();
+        console.log("Locations fetched:", data);
+        setLocations(data);
+      } catch (error) {
+        console.error("Error fetching locations:", error);
+      }
+    };
+    fetchLocationsData();
+  }, []);
 
   useEffect(() => {
-    fetchData();
-  }, [searchLocation]);
+    if (selectedLocation) {
+      fetchData();
+    }
+  }, [selectedLocation]);
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${serveraddress}fsgr/form/progress/${searchLocation}`
+        `${serveraddress}fsgr/form/progress/${selectedLocation}`
       );
       if (response.data && response.data.length > 0) {
         setData(response.data);
       } else {
-        ``;
         setDataNotFound(true);
       }
     } catch (error) {
@@ -57,19 +69,11 @@ const Progress = ({ loadSearchBar }) => {
   return (
     <View style={styles.mainContainer}>
       {loadSearchBar && (
-
-        <View style={styles.searchBarContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search by location"
-            onChangeText={setSearchLocation}
-
         <View
           style={{
             marginTop: 0,
             marginHorizontal: 20,
             width: "100%",
-            alignItems: "center",
           }}
         >
           <Dropdown
@@ -92,16 +96,7 @@ const Progress = ({ loadSearchBar }) => {
             onChange={(loc) => {
               setSelectedLocation(loc.label);
             }}
-
           />
-          <TouchableOpacity style={styles.searchButton} onPress={fetchData}>
-            <SimpleLineIcons
-              name="magnifier"
-              size={20}
-              color="blue"
-              style={styles.searchIcon}
-            />
-          </TouchableOpacity>
         </View>
       )}
       {loading ? (
@@ -118,60 +113,22 @@ const Progress = ({ loadSearchBar }) => {
               setId(item.id);
             }}
           >
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <View style={{ width: "70%" }}>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: "500",
-                    color: "#505050",
-                  }}
-                >
-                  {item.heading}
-                </Text>
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "flex-start",
-                    alignItems: "start",
-                  }}
-                >
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Text style={styles.text}>Location</Text>
-                    <Text style={styles.textLocation}>
-                      {item.location === null ? "" : item.location}
-                    </Text>
-                  </View>
-                  <Text> {item.createdAt.slice(0, 10)}</Text>
+            <View style={styles.itemContainer}>
+              <View style={styles.textContainer}>
+                <Text style={styles.heading}>{item.heading}</Text>
+                <View style={styles.subContainer}>
+                  <Text style={styles.text}>Location:</Text>
+                  <Text style={styles.textLocation}>
+                    {item.location === null ? "" : item.location}
+                  </Text>
                 </View>
+                <Text style={styles.createdAt}>
+                  {item.createdAt.slice(0, 10)}
+                </Text>
               </View>
-              <View style={{ width: "30%" }}>
-                <View
-                  style={{
-                    backgroundColor: "#376fd01a",
-                    paddingHorizontal: 2,
-                    paddingVertical: 5,
-                    borderRadius: 5,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 600,
-                      color: "#376fd0",
-                    }}
-                  >
+              <View style={styles.statusContainer}>
+                <View style={styles.status}>
+                  <Text style={styles.statusText}>
                     {item.status === "progress"
                       ? "Planning Phase"
                       : "SsI Close"}
@@ -236,6 +193,11 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: 20,
   },
+  itemContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   color: {
     color: "#21005d",
   },
@@ -270,7 +232,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
 
     elevation: 2,
-    alignSelf:"center"
+    alignSelf: "center",
   },
   icon: {
     marginRight: 5,
