@@ -70,6 +70,7 @@ const Approved = ({ loadSearchBar }) => {
             marginTop: 0,
             marginHorizontal: 20,
             width: "100%",
+            alignItems: "center",
           }}
         >
           <Dropdown

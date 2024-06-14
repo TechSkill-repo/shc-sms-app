@@ -64,10 +64,7 @@ const FsgrReports = () => {
           }}
         />
         <Appbar.Content title="FSGR Reports" />
-        <Appbar.Action
-          icon="magnify"
-          onPress={toggleSearchBar}
-        />
+        <Appbar.Action icon="magnify" onPress={toggleSearchBar} />
       </Appbar.Header>
       <View>
         <View style={styles.container}>
@@ -130,11 +127,16 @@ const FsgrReports = () => {
             paddingTop: 20,
           }}
         >
-          {selectedCard === 1 && <Pending  loadSearchBar={loadSearchBar}/>}
-          {selectedCard === 2 && <Approved loadSearchBar={loadSearchBar}/>}
-          {selectedCard === 3 && <Progress loadSearchBar={loadSearchBar}/>}
-          {selectedCard === 4 && <SsiClose loadSearchBar={loadSearchBar}/>}
-          {selectedCard === 5 && <Close loadSearchBar={loadSearchBar}/>}
+          {selectedCard === 1 && (
+            <Pending
+              toggleSearchBar={toggleSearchBar}
+              loadSearchBar={loadSearchBar}
+            />
+          )}
+          {selectedCard === 2 && <Approved loadSearchBar={loadSearchBar} />}
+          {selectedCard === 3 && <Progress loadSearchBar={loadSearchBar} />}
+          {selectedCard === 4 && <SsiClose loadSearchBar={loadSearchBar} />}
+          {selectedCard === 5 && <Close loadSearchBar={loadSearchBar} />}
         </ScrollView>
         {/* </ScrollView> */}
       </PanGestureHandler>

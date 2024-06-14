@@ -5,16 +5,18 @@ import {
   StyleSheet,
   ActivityIndicator,
   TextInput,
+  Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { serveraddress } from "../../../../assets/values/Constants";
 import axios from "axios";
 import BottomPopup from "./BottomPopup";
-import { SimpleLineIcons } from "@expo/vector-icons";
+import { Feather, SimpleLineIcons } from "@expo/vector-icons";
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
+import NoDataFound from "../../../../assets/icons/nodata.png";
 
-const Pending = ({ loadSearchBar }) => {
+const Pending = ({ loadSearchBar, toggleSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [id, setId] = useState(0);
   const [data, setData] = useState([]);
@@ -64,6 +66,7 @@ const Pending = ({ loadSearchBar }) => {
             marginTop: 0,
             marginHorizontal: 20,
             width: "100%",
+            alignItems: "center",
           }}
         >
           <Dropdown
@@ -130,7 +133,60 @@ const Pending = ({ loadSearchBar }) => {
           </TouchableOpacity>
         ))
       ) : (
-        <Text>No data found</Text>
+        <View
+          style={{
+            flexDirection: "column",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+            marginHorizontal: 10,
+            marginVertical: 20,
+          }}
+        >
+          <Image
+            source={NoDataFound}
+            style={{
+              height: 300,
+              width: "100%",
+            }}
+          />
+          <Text
+            style={{
+              marginTop: 20,
+              fontSize: 18,
+              color: "gray",
+            }}
+          >
+            Please Select Your Location
+          </Text>
+          <TouchableOpacity
+            onPress={toggleSearchBar}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              backgroundColor: "#21005d1a",
+              marginTop: 40,
+              width: "80%",
+              paddingVertical: 10,
+              paddingHorizontal: 60,
+              borderRadius: 50,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Feather name="search" size={22} color="#21005d" />
+            <Text
+              style={{
+                color: "#21005d",
+                fontSize: 18,
+                fontWeight: "400",
+                marginLeft: 10,
+              }}
+            >
+              Search FSGR
+            </Text>
+          </TouchableOpacity>
+        </View>
       )}
       <BottomPopup isVisible={isVisible} setIsVisible={setIsVisible} id={id} />
     </View>

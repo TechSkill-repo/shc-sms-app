@@ -70,6 +70,7 @@ const SsiClose = ({ loadSearchBar }) => {
             marginTop: 0,
             marginHorizontal: 20,
             width: "100%",
+            alignItems: "center",
           }}
         >
           <Dropdown
@@ -91,7 +92,7 @@ const SsiClose = ({ loadSearchBar }) => {
             value={selectedLocation}
             onChange={(loc) => {
               setSelectedLocation(loc.label);
-              fetchData(); 
+              fetchData();
             }}
           />
         </View>
