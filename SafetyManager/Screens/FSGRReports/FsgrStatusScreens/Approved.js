@@ -4,7 +4,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
-  TextInput 
+  TextInput,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import BottomPopup from "./BottomPopup";
@@ -17,7 +17,6 @@ import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 import useAuthStore from "../../../../store/userAuthStore";
 
-
 const Approved = ({ loadSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [id, setId] = useState(0);
@@ -29,17 +28,16 @@ const Approved = ({ loadSearchBar }) => {
   const [locations, setLocations] = useState([]);
   // const [selectedLocation, setSelectedLocation] = useState(null);
 
-
   const selectedLocation = useAuthStore((state) => state.selectedLocation);
-  const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
-
+  const setSelectedLocation = useAuthStore(
+    (state) => state.setSelectedLocation
+  );
 
   useEffect(() => {
     fetchData();
   }, [searchLocation]);
 
   const fetchData = async () => {
-
     setLoading(true);
     console.log("approved location:", selectedLocation);
 
@@ -63,56 +61,50 @@ const Approved = ({ loadSearchBar }) => {
   return (
     <View style={styles.mainContainer}>
       {loadSearchBar && (
-
         <View style={styles.searchBarContainer}>
           <TextInput
             style={styles.searchInput}
             placeholder="Search by location"
-
-        <View
-          style={{
-            marginTop: 0,
-            marginHorizontal: 20,
-            width: "100%",
-            alignItems: "center",
-          }}
-        >
-          <Dropdown
-            style={styles.dropdown}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={locations.map((location) => ({
-              label: location.name,
-              value: location.id,
-            }))}
-            search
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={`Location`}
-            searchPlaceholder="Search..."
-            value={selectedLocation}
-            onChange={(loc) => {
-              setSelectedLocation(loc.label);
-            }}
-
+            onChangeText={setSearchLocation}
           />
-          <TouchableOpacity style={styles.searchButton} onPress={fetchData}>
-            <SimpleLineIcons
-              name="magnifier"
-              size={20}
-              color="blue"
-              style={styles.searchIcon}
+          <View style={styles.dropdownContainer}>
+            <Dropdown
+              style={styles.dropdown}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={locations.map((location) => ({
+                label: location.name,
+                value: location.id,
+              }))}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder="Location"
+              searchPlaceholder="Search..."
+              value={selectedLocation}
+              onChange={(loc) => {
+                setSelectedLocation(loc.label);
+                setSearchLocation(loc.label); // Update searchLocation state
+              }}
             />
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.searchButton} onPress={fetchData}>
+              <SimpleLineIcons
+                name="magnifier"
+                size={20}
+                color="blue"
+                style={styles.searchIcon}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       )}
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : dataNotFound ? (
-        <Text>No data found</Text>
+        <Text style={styles.noDataText}>No data found</Text>
       ) : (
         data.map((item) => (
           <TouchableOpacity
@@ -123,63 +115,20 @@ const Approved = ({ loadSearchBar }) => {
               setId(item.id);
             }}
           >
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <View style={{ width: "70%" }}>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: "500",
-                    color: "#505050",
-                  }}
-                >
-                  {item?.heading}
-                </Text>
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "flex-start",
-                    alignItems: "start",
-                  }}
-                >
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Text style={styles.text}>Location</Text>
-                    <Text style={styles.textLocation}>
-                      {item.location === null ? "" : item.location}
-                    </Text>
-                  </View>
-
-                  <Text> {item.createdAt.slice(0, 10)}</Text>
+            <View style={styles.itemContainer}>
+              <View style={styles.textContainer}>
+                <Text style={styles.heading}>{item.heading}</Text>
+                <View style={styles.subContainer}>
+                  <Text style={styles.text}>Location:</Text>
+                  <Text style={styles.textLocation}>{item.location || ""}</Text>
                 </View>
+                <Text style={styles.createdAt}>
+                  {item.createdAt.slice(0, 10)}
+                </Text>
               </View>
-              <View style={{ width: "30%" }}>
-                <View
-                  style={{
-                    backgroundColor: "#4caf501a",
-                    paddingHorizontal: 2,
-                    paddingVertical: 5,
-                    borderRadius: 5,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 600,
-                      color: "#4caf50",
-                    }}
-                  >
-                    Approved
-                  </Text>
+              <View style={styles.statusContainer}>
+                <View style={styles.status}>
+                  <Text style={styles.statusText}>Approved</Text>
                 </View>
               </View>
             </View>
@@ -274,7 +223,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
 
     elevation: 2,
-    alignSelf:"center"
+    alignSelf: "center",
   },
   icon: {
     marginRight: 5,

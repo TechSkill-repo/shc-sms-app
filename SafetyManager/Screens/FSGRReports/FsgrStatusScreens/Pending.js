@@ -17,13 +17,10 @@ import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 import useAuthStore from "../../../../store/userAuthStore";
 
-
-
 import { Feather } from "@expo/vector-icons";
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 import NoDataFound from "../../../../assets/icons/nodata.png";
-
 
 const Pending = ({ loadSearchBar, toggleSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -36,7 +33,9 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
 
   // Use Zustand store for selected location
   const selectedLocation = useAuthStore((state) => state.selectedLocation);
-  const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
+  const setSelectedLocation = useAuthStore(
+    (state) => state.setSelectedLocation
+  );
 
   const [searchLocation, setSearchLocation] = useState("");
 
@@ -52,7 +51,6 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
     };
     fetchLocationsData();
   }, []);
-
 
   useEffect(() => {
     fetchData();
@@ -77,11 +75,11 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
     <View style={styles.mainContainer}>
       {loadSearchBar && (
         <View style={styles.searchBarContainer}>
-
           <TextInput
             style={styles.searchInput}
             placeholder="Search by location"
             onChangeText={setSearchLocation}
+          />
 
           <Dropdown
             style={styles.dropdown}
@@ -101,7 +99,6 @@ const Pending = ({ loadSearchBar, toggleSearchBar }) => {
             searchPlaceholder="Search..."
             value={selectedLocation}
             onChange={(loc) => setSelectedLocation(loc.label)}
-
           />
           <TouchableOpacity style={styles.searchButton} onPress={fetchData}>
             <SimpleLineIcons
@@ -306,7 +303,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
     elevation: 2,
-    alignSelf:"center"
+    alignSelf: "center",
   },
   placeholderStyle: {
     fontSize: 16,
@@ -322,7 +319,6 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
-
 });
 
 export default Pending;

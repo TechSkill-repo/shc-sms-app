@@ -4,7 +4,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-  TextInput
+  TextInput,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -15,7 +15,6 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 import useAuthStore from "../../../../store/userAuthStore";
-
 
 const SsiClose = ({ loadSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -29,8 +28,9 @@ const SsiClose = ({ loadSearchBar }) => {
   // const [selectedLocation, setSelectedLocation] = useState(null);
 
   const selectedLocation = useAuthStore((state) => state.selectedLocation);
-  const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
-
+  const setSelectedLocation = useAuthStore(
+    (state) => state.setSelectedLocation
+  );
 
   useEffect(() => {
     fetchData();
@@ -58,52 +58,51 @@ const SsiClose = ({ loadSearchBar }) => {
   return (
     <View style={styles.mainContainer}>
       {loadSearchBar && (
-
         <View style={styles.searchBarContainer}>
           <TextInput
             style={styles.searchInput}
             placeholder="Search by location"
             onChangeText={setSearchLocation}
-
-        <View
-          style={{
-            marginTop: 0,
-            marginHorizontal: 20,
-            width: "100%",
-            alignItems: "center",
-          }}
-        >
-          <Dropdown
-            style={styles.dropdown}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={locations.map((location) => ({
-              label: location.name,
-              value: location.id,
-            }))}
-            search
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={`Location`}
-            searchPlaceholder="Search..."
-            value={selectedLocation}
-            onChange={(loc) => {
-              setSelectedLocation(loc.label);
-              fetchData();
-            }}
-
           />
-          <TouchableOpacity style={styles.searchButton} onPress={fetchData}>
-            <SimpleLineIcons
-              name="magnifier"
-              size={20}
-              color="blue"
-              style={styles.searchIcon}
+          <View
+            style={{
+              marginTop: 0,
+              marginHorizontal: 20,
+              width: "100%",
+              alignItems: "center",
+            }}
+          >
+            <Dropdown
+              style={styles.dropdown}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={locations.map((location) => ({
+                label: location.name,
+                value: location.id,
+              }))}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder="Location"
+              searchPlaceholder="Search..."
+              value={selectedLocation}
+              onChange={(loc) => {
+                setSelectedLocation(loc.label);
+                fetchData();
+              }}
             />
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.searchButton} onPress={fetchData}>
+              <SimpleLineIcons
+                name="magnifier"
+                size={20}
+                color="blue"
+                style={styles.searchIcon}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       )}
       {loading ? (
@@ -130,11 +129,7 @@ const SsiClose = ({ loadSearchBar }) => {
             >
               <View style={{ width: "70%" }}>
                 <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: "500",
-                    color: "#505050",
-                  }}
+                  style={{ fontSize: 16, fontWeight: "500", color: "#505050" }}
                 >
                   {item.heading}
                 </Text>
@@ -152,7 +147,7 @@ const SsiClose = ({ loadSearchBar }) => {
                       {item.location === null ? "" : item.location}
                     </Text>
                   </View>
-                  <Text> {item.createdAt.slice(0, 10)}</Text>
+                  <Text>{item.createdAt.slice(0, 10)}</Text>
                 </View>
               </View>
               <View style={{ width: "30%" }}>
@@ -168,11 +163,7 @@ const SsiClose = ({ loadSearchBar }) => {
                   }}
                 >
                   <Text
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 600,
-                      color: "#f44336",
-                    }}
+                    style={{ fontSize: 12, fontWeight: 600, color: "#f44336" }}
                   >
                     {item.status === "progress"
                       ? "Planning Phase"
@@ -274,7 +265,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
 
     elevation: 2,
-    alignSelf:"center"
+    alignSelf: "center",
   },
   icon: {
     marginRight: 5,
@@ -303,5 +294,4 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
-
 });
