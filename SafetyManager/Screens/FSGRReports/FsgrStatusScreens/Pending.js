@@ -11,47 +11,39 @@ import { serveraddress } from "../../../../assets/values/Constants";
 import axios from "axios";
 import BottomPopup from "./BottomPopup";
 import { SimpleLineIcons } from "@expo/vector-icons";
+<<<<<<< HEAD
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 import useAuthStore from "../../../../store/userAuthStore";
 
+=======
+>>>>>>> parent of e6c3fd4 (add location dropdown on fsgr reports screens)
 
 const Pending = ({ loadSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [id, setId] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+<<<<<<< HEAD
   const [locations, setLocations] = useState([]);
   // const [selectedLocation, setSelectedLocation] = useState(null);
 
   // Use Zustand store for selected location
   const selectedLocation = useAuthStore((state) => state.selectedLocation);
   const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
+=======
+  const [searchLocation, setSearchLocation] = useState("");
+>>>>>>> parent of e6c3fd4 (add location dropdown on fsgr reports screens)
 
   useEffect(() => {
-    async function fetchLocationsData() {
-      try {
-        const data = await fetchLocations();
-        console.log("Locations fetched:", data);
-        setLocations(data);
-      } catch (error) {
-        console.error("Error fetching locations:", error);
-      }
-    }
-    fetchLocationsData();
-  }, []);
-
-  useEffect(() => {
-    if (selectedLocation) {
-      fetchData();
-    }
-  }, [selectedLocation]);
+    fetchData();
+  }, [searchLocation]);
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${serveraddress}fsgr/form/pending/${selectedLocation}`
+        `${serveraddress}fsgr/form/pending/${searchLocation}`
       );
       setData(response.data || []);
     } catch (error) {
@@ -65,34 +57,20 @@ const Pending = ({ loadSearchBar }) => {
   return (
     <View style={styles.mainContainer}>
       {loadSearchBar && (
-        <View
-          style={{
-            marginTop: 0,
-            marginHorizontal: 20,
-            width: "100%",
-          }}
-        >
-          <Dropdown
-            style={styles.dropdown}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={locations.map((location) => ({
-              label: location.name,
-              value: location.id,
-            }))}
-            search
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={`Location`}
-            searchPlaceholder="Search..."
-            value={selectedLocation}
-            onChange={(loc) => {
-              setSelectedLocation(loc.label);
-            }}
+        <View style={styles.searchBarContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search by location"
+            onChangeText={setSearchLocation}
           />
+          <TouchableOpacity style={styles.searchButton} onPress={fetchData}>
+            <SimpleLineIcons
+              name="magnifier"
+              size={20}
+              color="blue"
+              style={styles.searchIcon}
+            />
+          </TouchableOpacity>
         </View>
       )}
       {loading ? (
@@ -251,6 +229,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#663c00",
   },
+<<<<<<< HEAD
   // dropdown
   dropdown: {
     width: "90%",
@@ -297,6 +276,8 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
+=======
+>>>>>>> parent of e6c3fd4 (add location dropdown on fsgr reports screens)
 });
 
 export default Pending;
