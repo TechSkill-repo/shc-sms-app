@@ -24,9 +24,9 @@ const items = [
   { id: 6, label: "Gas Detect", icon: smokeDetector },
   { id: 7, label: "Fire Ext.", icon: fireExtinguisher },
   { id: 8, label: "Conseq. Policy", icon: policy },
-  { id: 9, label: "Training Test", icon: training },
-  { id: 10, label: "Training", icon: exam },
-  { id: 11, label: "Test Result", icon: result },
+  { id: 9, label: "Training Test", icon: training, screen:"TrainingTest" },
+  { id: 10, label: "Training", icon: exam, screen:"Training" },
+  { id: 11, label: "Test Result", icon: result, screen:"TestResult" },
   { id: 12, label: "upcoming", icon: policy },
 ];
 

@@ -7,6 +7,9 @@ import Tbt from "../../SafetyManager/Screens/SafetyManagerHome/TBT/Tbt";
 import PpeChecklist from "../../SafetyManager/Screens/SafetyManagerHome/PPE/PpeChecklist";
 import DailyJobPlans from "../../SafetyManager/Screens/SafetyManagerHome/DJP/DailyJobPlans";
 import ToolsAndTackles from "../../SafetyManager/Screens/SafetyManagerHome/TNT/ToolsAndTackles";
+import TrainingTest from "../../SafetyManager/Screens/SafetyManagerHome/TrainingTest/TrainingTest";
+import Training from "../../SafetyManager/Screens/SafetyManagerHome/Training/Training";
+import TestResult from "../../SafetyManager/Screens/SafetyManagerHome/TestResult/TestResult";
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +53,21 @@ const AppRouter = () => {
       <Stack.Screen
         name="TNT"
         component={ToolsAndTackles}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TrainingTest"
+        component={TrainingTest}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Training"
+        component={Training}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TestResult"
+        component={TestResult}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
