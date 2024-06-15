@@ -81,7 +81,7 @@ const ManagerHome = () => {
                 color: "#21005da1",
               }}
             >
-              {role === "sm" ? "Safety Manager" : "Site Incharge"}
+              {role === "ss" ? "Safety Supervisor" : "Site Incharge"}
             </Text>
           </View>
           <View

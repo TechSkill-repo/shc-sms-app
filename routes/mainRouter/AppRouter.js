@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabNavigation from "../../Navigation/TabNavigation";
 import useAuthStore from "../../store/userAuthStore";
 import TabNav from "../../SafetyManager/TabNavigation/TabNav";
+import AdminTab from "../../Admin/AdminTab";
 import Tbt from "../../SafetyManager/Screens/SafetyManagerHome/TBT/Tbt";
 import PpeChecklist from "../../SafetyManager/Screens/SafetyManagerHome/PPE/PpeChecklist";
 import DailyJobPlans from "../../SafetyManager/Screens/SafetyManagerHome/DJP/DailyJobPlans";
@@ -15,26 +16,23 @@ const Stack = createNativeStackNavigator();
 
 const AppRouter = () => {
   const role = useAuthStore((state) => state.role);
-  console.log(role, "--------------------RRRROOOOLLLLLEEEE--------------");
+
+  let initialRoute;
+  if (role === "si") {
+    initialRoute = TabNavigation;
+  } else if (role === "ss") {
+    initialRoute = TabNav;
+  } else if (role === "admin") {
+    initialRoute = AdminTab;
+  }
+
   return (
     <Stack.Navigator>
-      {role === "si" ? (
-        <>
-          <Stack.Screen
-            name="TabNavigation"
-            component={TabNavigation}
-            options={{ headerShown: false }}
-          />
-        </>
-      ) : (
-        <>
-          <Stack.Screen
-            name="TabNavigation"
-            component={TabNav}
-            options={{ headerShown: false }}
-          />
-        </>
-      )}
+      <Stack.Screen
+        name="InitialRoute"
+        component={initialRoute}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="TBM"
         component={Tbt}

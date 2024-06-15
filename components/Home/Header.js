@@ -8,7 +8,7 @@ import useAuthStore from "../../store/userAuthStore";
 
 const Header = () => {
   const setUser = useAuthStore((state) => state.setUser);
-  const { token, removeToken,removeRole, username, role } = useAuthStore();
+  const { token, removeToken, removeRole, username, role } = useAuthStore();
   // Sample user details
 
   // Function to handle notification screen navigation
