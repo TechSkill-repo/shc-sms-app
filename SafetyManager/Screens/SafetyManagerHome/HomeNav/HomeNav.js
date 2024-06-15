@@ -12,6 +12,7 @@ import job from "../../../../assets/icons/job.png";
 import consequence from "../../../../assets/icons/consequence.png";
 import training from "../../../../assets/icons/training.png";
 import exam from "../../../../assets/icons/exam.png";
+import result from "../../../../assets/icons/result.png";
 import Cards from "../../../../components/Home/Cards";
 
 const items = [
@@ -25,7 +26,7 @@ const items = [
   { id: 8, label: "Conseq. Policy", icon: policy },
   { id: 9, label: "Training Test", icon: training },
   { id: 10, label: "Training", icon: exam },
-  { id: 11, label: "upcoming", icon: policy },
+  { id: 11, label: "Test Result", icon: result },
   { id: 12, label: "upcoming", icon: policy },
 ];
 
