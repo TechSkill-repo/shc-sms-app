@@ -28,7 +28,9 @@ const SsiClose = ({ loadSearchBar }) => {
   // const [selectedLocation, setSelectedLocation] = useState(null);
 
   const selectedLocation = useAuthStore((state) => state.selectedLocation);
-  const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
+  const setSelectedLocation = useAuthStore(
+    (state) => state.setSelectedLocation
+  );
 
   useEffect(() => {
     const fetchLocationsData = async () => {
@@ -48,7 +50,6 @@ const SsiClose = ({ loadSearchBar }) => {
       fetchData();
     }
   }, [selectedLocation]);
-
 
   const fetchData = async () => {
     try {
@@ -93,7 +94,7 @@ const SsiClose = ({ loadSearchBar }) => {
             maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder="Location"
+            placeholder={`${selectedLocation}`}
             searchPlaceholder="Search..."
             value={selectedLocation}
             onChange={(loc) => {

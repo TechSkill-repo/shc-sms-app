@@ -26,7 +26,9 @@ const Close = ({ loadSearchBar }) => {
   // const [selectedLocation, setSelectedLocation] = useState(null);
 
   const selectedLocation = useAuthStore((state) => state.selectedLocation);
-  const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
+  const setSelectedLocation = useAuthStore(
+    (state) => state.setSelectedLocation
+  );
 
   useEffect(() => {
     async function fetchLocationsData() {
@@ -73,6 +75,7 @@ const Close = ({ loadSearchBar }) => {
             marginTop: 0,
             marginHorizontal: 20,
             width: "100%",
+            alignItems: "center",
           }}
         >
           <Dropdown
@@ -89,7 +92,7 @@ const Close = ({ loadSearchBar }) => {
             maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder={`Location`}
+            placeholder={`${selectedLocation}`}
             searchPlaceholder="Search..."
             value={selectedLocation}
             onChange={(loc) => {
@@ -258,7 +261,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
 
     elevation: 2,
-    alignSelf:"center"
+    alignSelf: "center",
   },
   icon: {
     marginRight: 5,

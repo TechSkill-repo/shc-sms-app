@@ -127,7 +127,9 @@ const ToolsAndTackles = () => {
               >
                 <View style={styles.itemContainer}>
                   <View style={styles.itemDetails}>
-                    <Text style={styles.itemHeading}>{item.typeOfWork}</Text>
+                    <Text style={styles.itemHeading}>
+                      Permit No. {item.permitNumber}
+                    </Text>
                     <View style={styles.itemInfo}>
                       <View style={styles.itemRow}>
                         <Text style={styles.text}>Location</Text>
@@ -139,15 +141,12 @@ const ToolsAndTackles = () => {
                         <Text style={styles.itemDate}>
                           {item.createdAt.slice(0, 10)}
                         </Text>
-                        <Text style={styles.itemPriority}>
-                          {item.priority || ""}
-                        </Text>
                       </View>
                     </View>
                   </View>
                   <View style={styles.statusContainer}>
                     <View style={styles.statusBadge}>
-                      <Text style={styles.statusText}>{item.status}</Text>
+                      <Text style={styles.statusText}>View More</Text>
                     </View>
                   </View>
                 </View>
@@ -289,7 +288,7 @@ const styles = StyleSheet.create({
     width: "30%",
   },
   statusBadge: {
-    backgroundColor: "#fff4e5",
+    backgroundColor: "#3764d01a",
     paddingHorizontal: 2,
     paddingVertical: 5,
     borderRadius: 5,
@@ -299,7 +298,7 @@ const styles = StyleSheet.create({
   statusText: {
     fontSize: 12,
     fontWeight: "600",
-    color: "#663c00",
+    color: "#3764d0",
   },
 });
 

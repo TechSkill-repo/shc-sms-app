@@ -1,62 +1,50 @@
+import React, { memo } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import React from "react";
+import { useNavigation } from "@react-navigation/native";
+
 import Medal from "../../../../assets/icons/medal.png";
 import fireExtinguisher from "../../../../assets/icons/fire-extinguisher.png";
 import policy from "../../../../assets/icons/compliant.png";
 import smokeDetector from "../../../../assets/icons/gas-sensor.png";
-import yellowCard from "../../../../assets/icons/data.png";
-import goodFeedback from "../../../../assets/icons/satisfaction.png";
-import arrow from "../../../../assets/icons/arrows.png";
+import yellowCard from "../../../../assets/icons/tools.png";
+import ppe from "../../../../assets/icons/ppe.png";
+import job from "../../../../assets/icons/job.png";
 import consequence from "../../../../assets/icons/consequence.png";
+import training from "../../../../assets/icons/training.png";
+import exam from "../../../../assets/icons/exam.png";
 import Cards from "../../../../components/Home/Cards";
-import { useNavigation } from "@react-navigation/native";
 
 const items = [
-  { id: 1, label: "Rewards", icon: Medal, backgroundColor: "#fbf1de" },
-  {
-    id: 2,
-    label: "TBM",
-    icon: consequence,
-    backgroundColor: "#ffddd5",
-    screen: "TBM",
-  },
-  {
-    id: 3,
-    label: "DJP",
-    icon: arrow,
-    backgroundColor: "#ffd0b0",
-    screen: "DJP",
-  },
-  {
-    id: 4,
-    label: "PPE",
-    icon: goodFeedback,
-    backgroundColor: "#ffe1ed",
-    screen: "PPE",
-  },
-  {
-    id: 5,
-    label: "TNT",
-    icon: yellowCard,
-    backgroundColor: "#ebeaff",
-    screen: "TNT",
-  },
-  {
-    id: 6,
-    label: "Gas Detect",
-    icon: smokeDetector,
-    backgroundColor: "#e8eaeb",
-  },
-  {
-    id: 7,
-    label: "Fire Ext.",
-    icon: fireExtinguisher,
-    backgroundColor: "#fcdcd6",
-  },
-  { id: 8, label: "Conseq. Policy", icon: policy, backgroundColor: "#fbf1de" },
+  { id: 1, label: "Rewards", icon: Medal },
+  { id: 2, label: "Tool Box", icon: consequence, screen: "TBM" },
+  { id: 3, label: "DJP", icon: job, screen: "DJP" },
+  { id: 4, label: "PPE Check", icon: ppe, screen: "PPE" },
+  { id: 5, label: "Tool & Tackle", icon: yellowCard, screen: "TNT" },
+  { id: 6, label: "Gas Detect", icon: smokeDetector },
+  { id: 7, label: "Fire Ext.", icon: fireExtinguisher },
+  { id: 8, label: "Conseq. Policy", icon: policy },
+  { id: 9, label: "Training Test", icon: training },
+  { id: 10, label: "Training", icon: exam },
+  { id: 11, label: "upcoming", icon: policy },
+  { id: 12, label: "upcoming", icon: policy },
 ];
 
-const Item = ({ label, icon, backgroundColor, onPress }) => (
+const backgroundColors = [
+  "#fbf1de",
+  "#ffddd5",
+  "#ffd0b0",
+  "#ffe1ed",
+  "#ebeaff",
+  "#e8eaeb",
+  "#fcdcd6",
+  "#fbf1de",
+  "#d1e7dd",
+  "#e2e3e9",
+  "#f8d7da",
+  "#d1ecf1",
+];
+
+const Item = memo(({ label, icon, backgroundColor, onPress }) => (
   <View style={styles.itemContainer}>
     <TouchableOpacity
       onPress={onPress}
@@ -66,50 +54,40 @@ const Item = ({ label, icon, backgroundColor, onPress }) => (
     </TouchableOpacity>
     <Text style={styles.text}>{label}</Text>
   </View>
-);
+));
 
 const HomeNav = () => {
   const navigation = useNavigation();
+  const handlePress = (screen) => {
+    if (screen) {
+      navigation.navigate(screen);
+    }
+  };
+
+  const renderRows = () => {
+    const rows = [];
+    for (let i = 0; i < items.length; i += 4) {
+      const rowItems = items.slice(i, i + 4);
+      rows.push(
+        <View style={styles.row} key={i}>
+          {rowItems.map((item, index) => (
+            <Item
+              key={item.id}
+              {...item}
+              backgroundColor={backgroundColors[i + index]}
+              onPress={() => handlePress(item.screen)}
+            />
+          ))}
+        </View>
+      );
+    }
+    return rows;
+  };
+
   return (
     <>
-      <View style={styles.row}>
-        {items.slice(0, 4).map((item) => (
-          <Item
-            key={item.id}
-            {...item}
-            onPress={() => {
-              if (item.screen) {
-                navigation.navigate(item.screen);
-              }
-            }}
-          />
-        ))}
-      </View>
-      <View style={styles.row}>
-        {items.slice(4).map((item) => (
-          <Item
-            key={item.id}
-            {...item}
-            onPress={() => {
-              if (item.screen) {
-                navigation.navigate(item.screen);
-              }
-            }}
-          />
-        ))}
-      </View>
-      <Text
-        style={{
-          marginHorizontal: 25,
-          marginTop: 20,
-          fontSize: 20,
-          fontWeight: "bold",
-          color: "#21005d",
-          marginBottom: 10,
-        }}
-      >
-        Data Visulization
-      </Text>
+      {renderRows()}
+      <Text style={styles.title}>Data Visualization</Text>
       <Cards text="Rewards" bgColor="#4caf501a" color="#4caf50" />
       <Cards text="Total Violation" bgColor="#f443361a" color="#f44336" />
       <Cards text="Total FSGR" bgColor="#fff4e5" color="#ffaa00" />
@@ -123,11 +101,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    marginTop: 20,
-    padding: 10,
+    marginTop: 8,
+    padding: 8,
   },
   itemContainer: {
-    alignContent: "center",
     alignItems: "center",
     flexDirection: "column",
   },
@@ -144,6 +121,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "bold",
     color: "#21005d",
+  },
+  title: {
+    marginHorizontal: 25,
+    marginTop: 20,
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#21005d",
+    marginBottom: 10,
   },
 });
 

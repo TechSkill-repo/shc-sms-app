@@ -5,16 +5,17 @@ import {
   StyleSheet,
   ActivityIndicator,
   TextInput,
+  Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { serveraddress } from "../../../../assets/values/Constants";
 import axios from "axios";
 import BottomPopup from "./BottomPopup";
-import { SimpleLineIcons } from "@expo/vector-icons";
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 import useAuthStore from "../../../../store/userAuthStore";
-
+import NotFound from "../../../../assets/icons/nodata.png";
+import { Feather } from "@expo/vector-icons";
 
 const Pending = ({ loadSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -26,7 +27,9 @@ const Pending = ({ loadSearchBar }) => {
 
   // Use Zustand store for selected location
   const selectedLocation = useAuthStore((state) => state.selectedLocation);
-  const setSelectedLocation = useAuthStore((state) => state.setSelectedLocation);
+  const setSelectedLocation = useAuthStore(
+    (state) => state.setSelectedLocation
+  );
 
   useEffect(() => {
     async function fetchLocationsData() {
@@ -70,6 +73,7 @@ const Pending = ({ loadSearchBar }) => {
             marginTop: 0,
             marginHorizontal: 20,
             width: "100%",
+            alignItems: "center",
           }}
         >
           <Dropdown
@@ -86,7 +90,7 @@ const Pending = ({ loadSearchBar }) => {
             maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder={`Location`}
+            placeholder={`${selectedLocation}`}
             searchPlaceholder="Search..."
             value={selectedLocation}
             onChange={(loc) => {
@@ -136,7 +140,62 @@ const Pending = ({ loadSearchBar }) => {
           </TouchableOpacity>
         ))
       ) : (
-        <Text>No data found</Text>
+        <View
+          style={{
+            flexDirection: "column",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+            marginHorizontal: 10,
+            marginVertical: 20,
+          }}
+        >
+          <Image
+            source={NotFound}
+            style={{
+              height: 300,
+              width: "100%",
+            }}
+          />
+          <Text
+            style={{
+              marginTop: 20,
+              fontSize: 18,
+              color: "gray",
+            }}
+          >
+            Please Search your Required DJP
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              setShowSearch((prevState) => !prevState);
+            }}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              backgroundColor: "#21005d1a",
+              marginTop: 40,
+              width: "80%",
+              paddingVertical: 10,
+              paddingHorizontal: 60,
+              borderRadius: 50,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Feather name="search" size={22} color="#21005d" />
+            <Text
+              style={{
+                color: "#21005d",
+                fontSize: 18,
+                fontWeight: "400",
+                marginLeft: 10,
+              }}
+            >
+              Search DJP
+            </Text>
+          </TouchableOpacity>
+        </View>
       )}
       <BottomPopup isVisible={isVisible} setIsVisible={setIsVisible} id={id} />
     </View>
