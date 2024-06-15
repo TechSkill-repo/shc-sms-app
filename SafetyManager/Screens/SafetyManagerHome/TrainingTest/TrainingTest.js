@@ -92,7 +92,7 @@ const TrainingTest = () => {
         style={styles.studentInput}
       />
       <TextInput
-        label="Status"
+        label="Pass/Fail"
         mode="outlined"
         value={student.testStatus}
         onChangeText={(text) => handleInputChange(index, "testStatus", text)}
