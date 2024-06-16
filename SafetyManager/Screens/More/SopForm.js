@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -12,6 +12,8 @@ import { TextInput } from "react-native-paper";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
 import { serveraddress } from "../../../assets/values/Constants";
+import { fetchLocations } from "../../../components/Global/Global";
+import { Dropdown } from "react-native-element-dropdown";
 
 const SopForm = ({ isVisible, setIsVisible }) => {
   const windowHeight = Dimensions.get("window").height;
@@ -20,6 +22,24 @@ const SopForm = ({ isVisible, setIsVisible }) => {
   const [sopDescription, setSopDescription] = useState("");
   const [location, setLocation] = useState("");
   const [file, setFile] = useState(null);
+  const [locations, setLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
+  useEffect(() => {
+    async function fetchLocationsData() {
+      try {
+        const data = await fetchLocations();
+        setLocations(data);
+      } catch (error) {
+        console.error("Error fetching locations:", error);
+      }
+    }
+    fetchLocationsData();
+  }, []);
+
+  const handleLocationChange = (selectedLocation) => {
+    setSelectedLocation(selectedLocation.label);
+  };
 
   const handleDocumentPick = useCallback(async () => {
     try {
@@ -44,7 +64,7 @@ const SopForm = ({ isVisible, setIsVisible }) => {
   }, []);
 
   const handleSubmit = useCallback(async () => {
-    if (!sopTitle || !sopDescription || !location || !file) {
+    if (!sopTitle || !sopDescription || !selectedLocation || !file) {
       Alert.alert("Error", "Please fill all fields and upload a PDF.");
       return;
     }
@@ -52,7 +72,7 @@ const SopForm = ({ isVisible, setIsVisible }) => {
     const formData = new FormData();
     formData.append("sopTitle", sopTitle);
     formData.append("sopDescription", sopDescription);
-    formData.append("location", location);
+    formData.append("location", selectedLocation);
     formData.append("file", {
       uri: file.uri,
       name: file.name,
@@ -61,6 +81,7 @@ const SopForm = ({ isVisible, setIsVisible }) => {
 
     try {
       setLoading(true);
+      console.log("form data sop:", formData);
       const response = await fetch(`${serveraddress}sop/send`, {
         method: "POST",
         headers: {
@@ -73,16 +94,18 @@ const SopForm = ({ isVisible, setIsVisible }) => {
         Alert.alert("Success", "SOP submitted successfully.");
         setIsVisible(false);
       } else {
-        const errorData = await response.json();
+        const errorData = await response.json(); // Attempt to parse JSON error response
+        console.log("Error data:", errorData);
         Alert.alert("Error", `Failed to submit SOP: ${errorData.message}`);
       }
     } catch (error) {
       console.error("Error submitting SOP:", error);
+      console.log("Error response:", error.response);
       Alert.alert("Error", "An error occurred while submitting SOP.");
     } finally {
       setLoading(false);
     }
-  }, [sopTitle, sopDescription, location, file, setIsVisible]);
+  }, [sopTitle, sopDescription, selectedLocation, file, setIsVisible]);
 
   return (
     <Modal
@@ -121,14 +144,35 @@ const SopForm = ({ isVisible, setIsVisible }) => {
               onChangeText={setSopDescription}
             />
           </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              mode="outlined"
-              label="Location"
-              value={location}
-              onChangeText={setLocation}
-            />
-          </View>
+
+          <Dropdown
+            style={styles.dropdown}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={locations.map((location) => ({
+              label: location.name,
+              value: location.id,
+            }))}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder="Location"
+            searchPlaceholder="Search..."
+            value={selectedLocation} // Use selectedLocation here
+            onChange={handleLocationChange}
+            renderLeftIcon={() => (
+              <AntDesign
+                style={styles.icon}
+                color="black"
+                name="Safety"
+                size={20}
+              />
+            )}
+          />
+
           <TouchableOpacity
             style={styles.uploadButton}
             onPress={handleDocumentPick}
@@ -211,6 +255,43 @@ const styles = {
   submitButtonText: {
     color: "white",
     fontWeight: "500",
+    fontSize: 16,
+  },
+
+  dropdown: {
+    width: "100%",
+    height: 50,
+    borderRadius: 7,
+    padding: 12,
+    borderColor: "#212121",
+    borderWidth: 0.8,
+    marginTop: 20,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  item: {
+    padding: 17,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  textItem: {
+    flex: 1,
+    fontSize: 16,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
     fontSize: 16,
   },
 };

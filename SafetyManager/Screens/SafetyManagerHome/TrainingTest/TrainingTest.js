@@ -1,4 +1,4 @@
-import { Entypo, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, Entypo, MaterialIcons } from "@expo/vector-icons";
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -12,6 +12,13 @@ import {
 import { Appbar, TextInput } from "react-native-paper";
 import { serveraddress } from "../../../../assets/values/Constants";
 import { useNavigation } from "@react-navigation/native";
+import { fetchLocations } from "../../../../components/Global/Global";
+import { Dropdown } from "react-native-element-dropdown";
+
+const passData = [
+  { label: "Pass", value: "pass" },
+  { label: "Fail", value: "fail" },
+];
 
 const TrainingTest = () => {
   const [testName, setTestName] = useState("");
@@ -22,17 +29,37 @@ const TrainingTest = () => {
   ]);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [locations, setLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const navigation = useNavigation();
+  const [passFocus, setPassFocus] = useState(false);
+  const [selectedPass, setSelectedPass] = useState(null);
+
+  useEffect(() => {
+    async function fetchLocationsData() {
+      try {
+        const data = await fetchLocations();
+        setLocations(data);
+      } catch (error) {
+        console.error("Error fetching locations:", error);
+      }
+    }
+    fetchLocationsData();
+  }, []);
+
+  const handleLocationChange = (selectedLocation) => {
+    setSelectedLocation(selectedLocation.label);
+  };
 
   useEffect(() => {
     const isFormValid = () => {
-      if (!testName || !location || !aboutTest) return false;
+      if (!testName || !selectedLocation || !aboutTest) return false;
       return students.every(
         (student) => student.empName && student.empMarks && student.testStatus
       );
     };
     setIsSubmitDisabled(!isFormValid());
-  }, [testName, location, aboutTest, students]);
+  }, [testName, selectedLocation, aboutTest, students]);
 
   const addStudent = () => {
     setStudents([...students, { empName: "", empMarks: "", testStatus: "" }]);
@@ -52,11 +79,12 @@ const TrainingTest = () => {
     setIsLoading(true);
     const payload = {
       testName,
-      location,
+      selectedLocation,
       aboutTest,
       marks: students,
     };
 
+    console.log(JSON.stringify(payload));
     try {
       const response = await fetch(`${serveraddress}training/test`, {
         method: "POST",
@@ -69,7 +97,7 @@ const TrainingTest = () => {
       if (response.ok) {
         Alert.alert("Success", "Exam data submitted successfully");
         setTestName("");
-        setLocation("");
+        setSelectedLocation("");
         setAboutTest("");
         setStudents([{ empName: "", empMarks: "", testStatus: "" }]);
         navigation.goBack();
@@ -82,6 +110,12 @@ const TrainingTest = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handlePassChange = (value, index) => {
+    const newStudents = [...students];
+    newStudents[index].testStatus = value; // Update testStatus for the selected student
+    setStudents(newStudents);
   };
 
   const renderStudentInput = (student, index) => (
@@ -107,6 +141,47 @@ const TrainingTest = () => {
         onChangeText={(text) => handleInputChange(index, "testStatus", text)}
         style={styles.studentInput}
       />
+      {/* <Dropdown
+        style={[
+          {
+            width: 100,
+            height: 50,
+            borderRadius: 7,
+            padding: 12,
+            borderColor: "#212121",
+            borderWidth: 0.8,
+            // marginBottom: 15,
+            // alignSelf:"center"
+          },
+          passFocus && { borderColor: "blue" },
+        ]}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        iconStyle={styles.iconStyle}
+        data={passData}
+        search
+        maxHeight={300}
+        labelField="label"
+        valueField="value"
+        placeholder={!passFocus ? "P/F" : "..."}
+        searchPlaceholder="Search..."
+        value={selectedPass} // Use selectedLocation here
+        onFocus={() => setPassFocus(true)}
+        onBlur={() => setPassFocus(false)}
+        onChangeText={(text) => handleInputChange(index, "testStatus", text)}
+        // renderLeftIcon={() => (
+        //   <AntDesign
+        //     style={styles.icon}
+        //     color={priorityFocus ? "blue" : "black"}
+        //     name="Safety"
+        //     size={20}
+        //   />
+        // )}
+        // onChangeText={(Priority) => {
+        //   setFsgrData({ ...fsgrData, Priority });
+        // }}
+      /> */}
       <MaterialIcons
         name="delete"
         size={25}
@@ -131,12 +206,39 @@ const TrainingTest = () => {
           onChangeText={(text) => setTestName(text)}
           style={styles.input}
         />
-        <TextInput
+        {/* <TextInput
           label="Locations"
           mode="outlined"
           value={location}
           onChangeText={(text) => setLocation(text)}
           style={styles.input}
+        /> */}
+        <Dropdown
+          style={styles.dropdown}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={locations.map((location) => ({
+            label: location.name,
+            value: location.id,
+          }))}
+          search
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder="Location"
+          searchPlaceholder="Search..."
+          value={selectedLocation} // Use selectedLocation here
+          onChange={handleLocationChange}
+          renderLeftIcon={() => (
+            <AntDesign
+              style={styles.icon}
+              color="black"
+              name="Safety"
+              size={20}
+            />
+          )}
         />
         <TextInput
           label="About Test"
@@ -238,6 +340,42 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#fff",
     fontWeight: "600",
+  },
+  dropdown: {
+    width: "100%",
+    height: 50,
+    borderRadius: 7,
+    padding: 12,
+    borderColor: "#212121",
+    borderWidth: 0.8,
+    marginBottom: 15,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  item: {
+    padding: 17,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  textItem: {
+    flex: 1,
+    fontSize: 16,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
   },
 });
 
