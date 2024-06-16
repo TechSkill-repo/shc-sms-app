@@ -14,6 +14,7 @@ import training from "../../../../assets/icons/training.png";
 import exam from "../../../../assets/icons/exam.png";
 import result from "../../../../assets/icons/result.png";
 import Cards from "../../../../components/Home/Cards";
+import useAuthStore from "../../../../store/userAuthStore";
 
 const items = [
   { id: 1, label: "Rewards", icon: Medal },
@@ -59,16 +60,36 @@ const Item = memo(({ label, icon, backgroundColor, onPress }) => (
 
 const HomeNav = () => {
   const navigation = useNavigation();
+  const { role } = useAuthStore((state) => ({
+    role: state.role,
+  }));
+
   const handlePress = (screen) => {
     if (screen) {
       navigation.navigate(screen);
     }
   };
 
+  const filterItemsByRole = (items, role) => {
+    if (role === "admin") {
+      return items.filter(
+        (item) =>
+          item.label !== "Training Test" &&
+          item.label !== "Conseq. Policy" &&
+          item.label !== "Training" &&
+          item.label !== "upcoming"
+      );
+    }
+    // Add more role-based filtering logic if needed
+    return items;
+  };
+
+  const filteredItems = filterItemsByRole(items, role);
+
   const renderRows = () => {
     const rows = [];
-    for (let i = 0; i < items.length; i += 4) {
-      const rowItems = items.slice(i, i + 4);
+    for (let i = 0; i < filteredItems.length; i += 4) {
+      const rowItems = filteredItems.slice(i, i + 4);
       rows.push(
         <View style={styles.row} key={i}>
           {rowItems.map((item, index) => (

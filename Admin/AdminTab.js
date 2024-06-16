@@ -11,6 +11,7 @@ import ManagerHome from "../SafetyManager/Screens/SafetyManagerHome/ManagerHome"
 import FsgrReports from "../SafetyManager/Screens/FSGRReports/FsgrReports";
 import Violation from "../SafetyManager/Screens/Violation/Violation";
 import More from "../SafetyManager/Screens/More/More";
+import User from "../SafetyManager/Screens/User/User";
 
 const TabNav = () => {
   const Tab = createBottomTabNavigator();
@@ -61,6 +62,16 @@ const TabNav = () => {
           headerShown: false,
           tabBarIcon: ({ color }) => (
             <Foundation name="indent-more" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="User"
+        component={User}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <FontAwesome5 name="user-alt" size={24} color={color}/>
           ),
         }}
       />
