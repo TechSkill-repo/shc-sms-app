@@ -7,9 +7,11 @@ import {
   TouchableOpacity,
   Alert,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { Appbar, TextInput } from "react-native-paper";
 import { serveraddress } from "../../../../assets/values/Constants";
+import { useNavigation } from "@react-navigation/native";
 
 const TrainingTest = () => {
   const [testName, setTestName] = useState("");
@@ -19,6 +21,8 @@ const TrainingTest = () => {
     { empName: "", empMarks: "", testStatus: "" },
   ]);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const isFormValid = () => {
@@ -45,6 +49,7 @@ const TrainingTest = () => {
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     const payload = {
       testName,
       location,
@@ -67,11 +72,15 @@ const TrainingTest = () => {
         setLocation("");
         setAboutTest("");
         setStudents([{ empName: "", empMarks: "", testStatus: "" }]);
+        navigation.goBack();
       } else {
         Alert.alert("Error", "Failed to submit exam data");
       }
     } catch (error) {
+      setIsLoading(false);
       Alert.alert("Error", "An error occurred while submitting the data");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -148,13 +157,20 @@ const TrainingTest = () => {
       <View style={styles.submitContainer}>
         <TouchableOpacity
           onPress={handleSubmit}
-          disabled={isSubmitDisabled}
+          disabled={isSubmitDisabled || isLoading} // Disable while loading
           style={[
             styles.submitButton,
-            { backgroundColor: isSubmitDisabled ? "#ccc" : "#21005d" },
+            {
+              backgroundColor:
+                isSubmitDisabled || isLoading ? "#ccc" : "#21005d",
+            },
           ]}
         >
-          <Text style={styles.submitButtonText}>Submit Exam</Text>
+          {isLoading ? (
+            <ActivityIndicator color="#fff" /> // Show loading spinner
+          ) : (
+            <Text style={styles.submitButtonText}>Submit Exam</Text>
+          )}
         </TouchableOpacity>
       </View>
     </ScrollView>

@@ -8,17 +8,28 @@ import {
   TextInput,
   Alert,
   ActivityIndicator,
+  StyleSheet,
 } from "react-native";
 import React, { useState } from "react";
-import { Entypo } from "@expo/vector-icons";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 import StepFormNavigation from "../../components/StepFormNavigation/StepFormNavigation";
 import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
 import Toast from "react-native-toast-message";
+import { Dropdown } from "react-native-element-dropdown";
+
+const dataRating = [
+  { label: "Critical", value: "critical" },
+  { label: "High", value: "high" },
+  { label: "Low", value: "low" },
+  { label: "Medium", value: "medium" },
+];
 
 const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
   const screenHeight = Dimensions.get("screen").height;
   const [loading, setLoading] = useState(false);
+  const [selectedRating, setSelectedRating] = useState(null);
+  const [ratingFocus, setRatingFocus] = useState(false);
 
   // State to hold form data
   const [formData, setFormData] = useState({
@@ -33,6 +44,8 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
     investigator: "",
     approver: "",
   });
+
+  console.log("form data:", formData);
 
   // Handle form input changes
   const handleInputChange = (name, value) => {
@@ -177,309 +190,359 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                 }}
               />
             </View>
+            {/* <View style={{ marginBottom: 5 }}> */}
             <View style={{ marginBottom: 5 }}>
-              <View style={{ marginBottom: 5 }}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    paddingHorizontal: 10,
-                    fontWeight: "500",
-                    paddingVertical: 5,
-                    color: "#21005d",
-                    marginBottom: 5,
-                  }}
-                >
-                  What is the fact?
-                </Text>
-                <TextInput
-                  placeholder="Please mention the fact in detail..."
-                  multiline
-                  numberOfLines={3}
-                  textAlignVertical="top"
-                  value={formData.fact}
-                  onChangeText={(text) => handleInputChange("fact", text)}
-                  style={{
-                    borderColor: "gray",
-                    backgroundColor: "white",
-                    elevation: 4,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                    borderRadius: 5,
-                    marginHorizontal: 5,
-                  }}
-                />
-              </View>
+              <Text
+                style={{
+                  fontSize: 14,
+                  paddingHorizontal: 10,
+                  fontWeight: "500",
+                  paddingVertical: 5,
+                  color: "#21005d",
+                  marginBottom: 5,
+                }}
+              >
+                What is the fact?
+              </Text>
+              <TextInput
+                placeholder="Please mention the fact in detail..."
+                multiline
+                numberOfLines={3}
+                textAlignVertical="top"
+                value={formData.fact}
+                onChangeText={(text) => handleInputChange("fact", text)}
+                style={{
+                  borderColor: "gray",
+                  backgroundColor: "white",
+                  elevation: 4,
+                  paddingHorizontal: 10,
+                  paddingVertical: 10,
+                  borderRadius: 5,
+                  marginHorizontal: 5,
+                }}
+              />
             </View>
+            {/* </View> */}
+            {/* <View style={{ marginBottom: 5 }}> */}
             <View style={{ marginBottom: 5 }}>
-              <View style={{ marginBottom: 5 }}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    paddingHorizontal: 10,
-                    fontWeight: "500",
-                    paddingVertical: 5,
-                    color: "#21005d",
-                    marginBottom: 5,
-                  }}
-                >
-                  What is the trouble that arises?
-                </Text>
-                <TextInput
-                  placeholder="Please mention the trouble in detail..."
-                  multiline
-                  numberOfLines={3}
-                  textAlignVertical="top"
-                  value={formData.trouble}
-                  onChangeText={(text) => handleInputChange("trouble", text)}
-                  style={{
-                    borderColor: "gray",
-                    backgroundColor: "white",
-                    elevation: 4,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                    borderRadius: 5,
-                    marginHorizontal: 5,
-                  }}
-                />
-              </View>
+              <Text
+                style={{
+                  fontSize: 14,
+                  paddingHorizontal: 10,
+                  fontWeight: "500",
+                  paddingVertical: 5,
+                  color: "#21005d",
+                  marginBottom: 5,
+                }}
+              >
+                What is the trouble that arises?
+              </Text>
+              <TextInput
+                placeholder="Please mention the trouble in detail..."
+                multiline
+                numberOfLines={3}
+                textAlignVertical="top"
+                value={formData.trouble}
+                onChangeText={(text) => handleInputChange("trouble", text)}
+                style={{
+                  borderColor: "gray",
+                  backgroundColor: "white",
+                  elevation: 4,
+                  paddingHorizontal: 10,
+                  paddingVertical: 10,
+                  borderRadius: 5,
+                  marginHorizontal: 5,
+                }}
+              />
             </View>
+            {/* </View> */}
+            {/* <View style={{ marginBottom: 5 }}> */}
             <View style={{ marginBottom: 5 }}>
-              <View style={{ marginBottom: 5 }}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    paddingHorizontal: 10,
-                    fontWeight: "500",
-                    paddingVertical: 5,
-                    color: "#21005d",
-                    marginBottom: 5,
-                  }}
-                >
-                  What is the issue that arises?
-                </Text>
-                <TextInput
-                  placeholder="Please mention the issue in detail..."
-                  multiline
-                  numberOfLines={3}
-                  textAlignVertical="top"
-                  value={formData.issueArises}
-                  onChangeText={(text) =>
-                    handleInputChange("issueArises", text)
-                  }
-                  style={{
-                    borderColor: "gray",
-                    backgroundColor: "white",
-                    elevation: 4,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                    borderRadius: 5,
-                    marginHorizontal: 5,
-                  }}
-                />
-              </View>
+              <Text
+                style={{
+                  fontSize: 14,
+                  paddingHorizontal: 10,
+                  fontWeight: "500",
+                  paddingVertical: 5,
+                  color: "#21005d",
+                  marginBottom: 5,
+                }}
+              >
+                What is the issue that arises?
+              </Text>
+              <TextInput
+                placeholder="Please mention the issue in detail..."
+                multiline
+                numberOfLines={3}
+                textAlignVertical="top"
+                value={formData.issueArises}
+                onChangeText={(text) => handleInputChange("issueArises", text)}
+                style={{
+                  borderColor: "gray",
+                  backgroundColor: "white",
+                  elevation: 4,
+                  paddingHorizontal: 10,
+                  paddingVertical: 10,
+                  borderRadius: 5,
+                  marginHorizontal: 5,
+                }}
+              />
             </View>
+            {/* </View> */}
+            {/* <View style={{ marginBottom: 5 }}> */}
             <View style={{ marginBottom: 5 }}>
-              <View style={{ marginBottom: 5 }}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    paddingHorizontal: 10,
-                    fontWeight: "500",
-                    paddingVertical: 5,
-                    color: "#21005d",
-                    marginBottom: 5,
-                  }}
-                >
-                  How severe is this issue?
-                </Text>
-                <TextInput
-                  placeholder="Please mention how severe the issue is..."
-                  multiline
-                  numberOfLines={2}
-                  textAlignVertical="top"
-                  value={formData.severity}
-                  onChangeText={(text) => handleInputChange("severity", text)}
-                  style={{
-                    borderColor: "gray",
-                    backgroundColor: "white",
-                    elevation: 4,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                    borderRadius: 5,
-                    marginHorizontal: 5,
-                  }}
-                />
-              </View>
+              <Text
+                style={{
+                  fontSize: 14,
+                  paddingHorizontal: 10,
+                  fontWeight: "500",
+                  paddingVertical: 5,
+                  color: "#21005d",
+                  marginBottom: 5,
+                }}
+              >
+                How severe is this issue?
+              </Text>
+              <TextInput
+                placeholder="Please mention how severe the issue is..."
+                multiline
+                numberOfLines={2}
+                textAlignVertical="top"
+                value={formData.severity}
+                onChangeText={(text) => handleInputChange("severity", text)}
+                style={{
+                  borderColor: "gray",
+                  backgroundColor: "white",
+                  elevation: 4,
+                  paddingHorizontal: 10,
+                  paddingVertical: 10,
+                  borderRadius: 5,
+                  marginHorizontal: 5,
+                }}
+              />
             </View>
+            {/* </View> */}
+            {/* <View style={{ marginBottom: 5 }}> */}
+
+            {/* rate */}
+            {/* <View style={{ marginBottom: 5 }}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  paddingHorizontal: 10,
+                  fontWeight: "500",
+                  paddingVertical: 5,
+                  color: "#21005d",
+                  marginBottom: 5,
+                }}
+              >
+                Rate the issue!
+              </Text>
+              <TextInput
+                placeholder="Rating"
+                multiline
+                numberOfLines={2}
+                textAlignVertical="top"
+                value={formData.rating}
+                onChangeText={(text) => handleInputChange("rating", text)}
+                style={{
+                  borderColor: "gray",
+                  backgroundColor: "white",
+                  elevation: 4,
+                  paddingHorizontal: 10,
+                  paddingVertical: 10,
+                  borderRadius: 5,
+                  marginHorizontal: 5,
+                }}
+              />
+            </View> */}
+
+            <View style={styles.container}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  // paddingHorizontal: 10,
+                  fontWeight: "500",
+                  // paddingVertical: 5,
+                  color: "#21005d",
+                  marginBottom: 5,
+                }}
+              >
+                Rate the issue!
+              </Text>
+              <Dropdown
+                style={[
+                  styles.dropdown,
+                  ratingFocus && { borderColor: "blue" },
+                ]}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                data={dataRating}
+                search
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={!ratingFocus ? "Rating" : "Rating"}
+                searchPlaceholder="Search..."
+                value={selectedRating} // Use selectedLocation here
+                onFocus={() => setRatingFocus(true)}
+                onBlur={() => setRatingFocus(false)}
+                onChange={(item) => {
+                  setFormData({ ...formData, rating: item.value }); // Update formData with rating
+                  setSelectedRating(item); // Update selected rating for display
+                  setRatingFocus(false);
+                }}
+                renderLeftIcon={() => (
+                  <AntDesign
+                    style={styles.icon}
+                    color={ratingFocus ? "blue" : "black"}
+                    name="Safety"
+                    size={20}
+                  />
+                )}
+                // onChangeText={(Priority) => {
+                //   setFsgrData({ ...fsgrData, Priority });
+                // }}
+              />
+            </View>
+
+            {/* </View> */}
+            {/* <View style={{ marginBottom: 5 }}> */}
             <View style={{ marginBottom: 5 }}>
-              <View style={{ marginBottom: 5 }}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    paddingHorizontal: 10,
-                    fontWeight: "500",
-                    paddingVertical: 5,
-                    color: "#21005d",
-                    marginBottom: 5,
-                  }}
-                >
-                  Rate the issue!
-                </Text>
-                <TextInput
-                  placeholder="Rating"
-                  multiline
-                  numberOfLines={2}
-                  textAlignVertical="top"
-                  value={formData.rating}
-                  onChangeText={(text) => handleInputChange("rating", text)}
-                  style={{
-                    borderColor: "gray",
-                    backgroundColor: "white",
-                    elevation: 4,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                    borderRadius: 5,
-                    marginHorizontal: 5,
-                  }}
-                />
-              </View>
+              <Text
+                style={{
+                  fontSize: 14,
+                  paddingHorizontal: 10,
+                  fontWeight: "500",
+                  paddingVertical: 5,
+                  color: "#21005d",
+                  marginBottom: 5,
+                }}
+              >
+                Conclusion
+              </Text>
+              <TextInput
+                placeholder="Please write the conclusion..."
+                multiline
+                numberOfLines={3}
+                textAlignVertical="top"
+                value={formData.conclusion}
+                onChangeText={(text) => handleInputChange("conclusion", text)}
+                style={{
+                  borderColor: "gray",
+                  backgroundColor: "white",
+                  elevation: 4,
+                  paddingHorizontal: 10,
+                  paddingVertical: 10,
+                  borderRadius: 5,
+                  marginHorizontal: 5,
+                }}
+              />
             </View>
+            {/* </View> */}
+            {/* <View style={{ marginBottom: 5 }}> */}
             <View style={{ marginBottom: 5 }}>
-              <View style={{ marginBottom: 5 }}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    paddingHorizontal: 10,
-                    fontWeight: "500",
-                    paddingVertical: 5,
-                    color: "#21005d",
-                    marginBottom: 5,
-                  }}
-                >
-                  Conclusion
-                </Text>
-                <TextInput
-                  placeholder="Please write the conclusion..."
-                  multiline
-                  numberOfLines={3}
-                  textAlignVertical="top"
-                  value={formData.conclusion}
-                  onChangeText={(text) => handleInputChange("conclusion", text)}
-                  style={{
-                    borderColor: "gray",
-                    backgroundColor: "white",
-                    elevation: 4,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                    borderRadius: 5,
-                    marginHorizontal: 5,
-                  }}
-                />
-              </View>
+              <Text
+                style={{
+                  fontSize: 14,
+                  paddingHorizontal: 10,
+                  fontWeight: "500",
+                  paddingVertical: 5,
+                  color: "#21005d",
+                  marginBottom: 5,
+                }}
+              >
+                What is your recommendation?
+              </Text>
+              <TextInput
+                placeholder="Please mention the recommendation in detail..."
+                multiline
+                numberOfLines={3}
+                textAlignVertical="top"
+                value={formData.recommendation}
+                onChangeText={(text) =>
+                  handleInputChange("recommendation", text)
+                }
+                style={{
+                  borderColor: "gray",
+                  backgroundColor: "white",
+                  elevation: 4,
+                  paddingHorizontal: 10,
+                  paddingVertical: 10,
+                  borderRadius: 5,
+                  marginHorizontal: 5,
+                }}
+              />
             </View>
+            {/* </View> */}
+            {/* <View style={{ marginBottom: 5 }}> */}
             <View style={{ marginBottom: 5 }}>
-              <View style={{ marginBottom: 5 }}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    paddingHorizontal: 10,
-                    fontWeight: "500",
-                    paddingVertical: 5,
-                    color: "#21005d",
-                    marginBottom: 5,
-                  }}
-                >
-                  What is your recommendation?
-                </Text>
-                <TextInput
-                  placeholder="Please mention the recommendation in detail..."
-                  multiline
-                  numberOfLines={3}
-                  textAlignVertical="top"
-                  value={formData.recommendation}
-                  onChangeText={(text) =>
-                    handleInputChange("recommendation", text)
-                  }
-                  style={{
-                    borderColor: "gray",
-                    backgroundColor: "white",
-                    elevation: 4,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                    borderRadius: 5,
-                    marginHorizontal: 5,
-                  }}
-                />
-              </View>
+              <Text
+                style={{
+                  fontSize: 14,
+                  paddingHorizontal: 10,
+                  fontWeight: "500",
+                  paddingVertical: 5,
+                  color: "#21005d",
+                  marginBottom: 5,
+                }}
+              >
+                Investigation done by?
+              </Text>
+              <TextInput
+                placeholder="Person Name"
+                multiline
+                numberOfLines={3}
+                textAlignVertical="top"
+                value={formData.investigator}
+                onChangeText={(text) => handleInputChange("investigator", text)}
+                style={{
+                  borderColor: "gray",
+                  backgroundColor: "white",
+                  elevation: 4,
+                  paddingHorizontal: 10,
+                  paddingVertical: 10,
+                  borderRadius: 5,
+                  marginHorizontal: 5,
+                }}
+              />
             </View>
+            {/* </View> */}
+            {/* <View style={{ marginBottom: 5 }}> */}
             <View style={{ marginBottom: 5 }}>
-              <View style={{ marginBottom: 5 }}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    paddingHorizontal: 10,
-                    fontWeight: "500",
-                    paddingVertical: 5,
-                    color: "#21005d",
-                    marginBottom: 5,
-                  }}
-                >
-                  Investigation done by?
-                </Text>
-                <TextInput
-                  placeholder="Person Name"
-                  multiline
-                  numberOfLines={3}
-                  textAlignVertical="top"
-                  value={formData.investigator}
-                  onChangeText={(text) =>
-                    handleInputChange("investigator", text)
-                  }
-                  style={{
-                    borderColor: "gray",
-                    backgroundColor: "white",
-                    elevation: 4,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                    borderRadius: 5,
-                    marginHorizontal: 5,
-                  }}
-                />
-              </View>
+              <Text
+                style={{
+                  fontSize: 14,
+                  paddingHorizontal: 10,
+                  fontWeight: "500",
+                  paddingVertical: 5,
+                  color: "#21005d",
+                  marginBottom: 5,
+                }}
+              >
+                Approval will be done by?
+              </Text>
+              <TextInput
+                placeholder="Officer name"
+                multiline
+                numberOfLines={3}
+                textAlignVertical="top"
+                value={formData.approver}
+                onChangeText={(text) => handleInputChange("approver", text)}
+                style={{
+                  borderColor: "gray",
+                  backgroundColor: "white",
+                  elevation: 4,
+                  paddingHorizontal: 10,
+                  paddingVertical: 10,
+                  borderRadius: 5,
+                  marginHorizontal: 5,
+                }}
+              />
             </View>
-            <View style={{ marginBottom: 5 }}>
-              <View style={{ marginBottom: 5 }}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    paddingHorizontal: 10,
-                    fontWeight: "500",
-                    paddingVertical: 5,
-                    color: "#21005d",
-                    marginBottom: 5,
-                  }}
-                >
-                  Approval will be done by?
-                </Text>
-                <TextInput
-                  placeholder="Officer name"
-                  multiline
-                  numberOfLines={3}
-                  textAlignVertical="top"
-                  value={formData.approver}
-                  onChangeText={(text) => handleInputChange("approver", text)}
-                  style={{
-                    borderColor: "gray",
-                    backgroundColor: "white",
-                    elevation: 4,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                    borderRadius: 5,
-                    marginHorizontal: 5,
-                  }}
-                />
-              </View>
-            </View>
+            {/* </View> */}
             <TouchableOpacity
               onPress={handleSubmit}
               style={{
@@ -508,5 +571,55 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
     </Modal>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "white",
+    padding: 16,
+    width: "107%",
+    alignSelf: "center",
+  },
+  dropdown: {
+    width: "100%",
+    height: 50,
+    backgroundColor: "white",
+    borderRadius: 7,
+    padding: 12,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  label: {
+    position: "absolute",
+    backgroundColor: "white",
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+});
 
 export default InitialInvestigationReport;

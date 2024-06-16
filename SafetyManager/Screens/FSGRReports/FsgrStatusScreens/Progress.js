@@ -153,6 +153,7 @@ const Progress = ({ loadSearchBar }) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
+    flex:1,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -195,11 +196,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     elevation: 5,
     marginBottom: 20,
+    // backgroundColor:"teal"
   },
   itemContainer: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
+    // backgroundColor:"tomato",
+    width:"90%"
   },
   color: {
     color: "#21005d",
@@ -263,6 +267,22 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
+  },
+  statusContainer: {
+    width: "30%",
+  },
+  status: {
+    backgroundColor: "#fff4e5",
+    paddingHorizontal: 2,
+    paddingVertical: 5,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  statusText: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#663c00",
   },
 });
 
