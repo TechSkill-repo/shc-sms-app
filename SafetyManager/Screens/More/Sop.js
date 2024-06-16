@@ -62,12 +62,6 @@ const Sop = () => {
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
-        {/* <TextInput
-          value={location}
-          onChangeText={setLocation}
-          placeholder="Enter location"
-          style={styles.textInput}
-        /> */}
         <Dropdown
           style={styles.dropdown}
           placeholderStyle={styles.placeholderStyle}
@@ -82,10 +76,10 @@ const Sop = () => {
           maxHeight={300}
           labelField="label"
           valueField={selectedLocation}
-          placeholder={'location'}
+          placeholder={`${selectedLocation}`}
           searchPlaceholder="Search..."
           value={selectedLocation} // Use selectedLocation here
-          onChange={(item) => setSelectedLocation(item.label)} 
+          onChange={(item) => setSelectedLocation(item.label)}
           renderLeftIcon={() => (
             <AntDesign
               style={styles.icon}
@@ -96,7 +90,12 @@ const Sop = () => {
           )}
         />
         <TouchableOpacity onPress={fetchAllSop} style={styles.searchButton}>
-          <Feather name="search" size={20} color="white" style={{alignSelf:"center", marginTop:10}}/>
+          <Feather
+            name="search"
+            size={20}
+            color="white"
+            style={{ alignSelf: "center", marginTop: 10 }}
+          />
         </TouchableOpacity>
       </View>
       {loading ? (
@@ -139,8 +138,8 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flexDirection: "row",
-    justifyContent:"space-between",
-    alignItems:"center",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 20,
   },
   textInput: {
@@ -153,8 +152,8 @@ const styles = StyleSheet.create({
   },
   searchButton: {
     backgroundColor: "#21005d",
-    height:45,
-    width:45,
+    height: 45,
+    width: 45,
     borderRadius: 100,
   },
   scrollViewContent: {

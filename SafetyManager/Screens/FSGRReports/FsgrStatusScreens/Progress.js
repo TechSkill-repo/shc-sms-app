@@ -105,7 +105,14 @@ const Progress = ({ loadSearchBar }) => {
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : dataNotFound ? (
-        <Text>No data found</Text>
+        <Text
+          style={{
+            fontSize: 18,
+            color: "#999",
+          }}
+        >
+          No data found in this Location
+        </Text>
       ) : (
         data.map((item) => (
           <TouchableOpacity
@@ -153,7 +160,7 @@ const Progress = ({ loadSearchBar }) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex:1,
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -203,7 +210,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     // backgroundColor:"tomato",
-    width:"90%"
+    width: "90%",
   },
   color: {
     color: "#21005d",
@@ -283,6 +290,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "600",
     color: "#663c00",
+  },
+  heading: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#505050",
+  },
+  subContainer: {
+    flexDirection: "row",
   },
 });
 

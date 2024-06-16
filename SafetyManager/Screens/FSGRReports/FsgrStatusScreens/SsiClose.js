@@ -107,7 +107,14 @@ const SsiClose = ({ loadSearchBar }) => {
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : dataNotFound ? (
-        <Text>No data found</Text>
+        <Text
+          style={{
+            fontSize: 18,
+            color: "#999",
+          }}
+        >
+          No data found in this Location
+        </Text>
       ) : (
         data.map((item) => (
           <TouchableOpacity

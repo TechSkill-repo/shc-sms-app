@@ -20,7 +20,9 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
     const fetchData = async () => {
       if (serveraddress && id) {
         try {
-          const response = await axios.get(`${serveraddress}training/test/${id}`);
+          const response = await axios.get(
+            `${serveraddress}training/test/${id}`
+          );
           console.log("test:", response.data);
           setData(response.data);
         } catch (err) {
@@ -50,20 +52,81 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
             />
           </View>
           <View style={styles.subHeader}>
-            <Text style={styles.subHeaderTitle}>
-              About Test - {data?.aboutTest}
-            </Text>
+            <Text style={styles.subHeaderTitle}>{data?.aboutTest}</Text>
             <Text style={styles.subHeaderDate}>
               {data?.createdAt.slice(0, 10)}
             </Text>
           </View>
           <View style={styles.hazardsContainer}>
             <View>
-              <Text style={styles.hazardsTitle}>Marks</Text>
+              <Text style={styles.hazardsTitle}>Marks Obtained</Text>
               {data?.marks?.map((mark, index) => (
-                <Text key={index} style={styles.hazardItem}>
-                  {index + 1}. {mark.empName} - Marks: {mark.empMarks}, Status: {mark.testStatus}
-                </Text>
+                <View key={index}>
+                  {/* {index + 1}. {mark.empName} - Marks: {mark.empMarks}, Status: {mark.testStatus} */}
+                  <View
+                    style={{
+                      padding: 10,
+                      width: "100%",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: "65%",
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          fontWeight: "600",
+                          color: "#505050",
+                        }}
+                      >
+                        {index + 1}. {mark.empName}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          fontWeight: "600",
+                          color: "#407ad6",
+                        }}
+                      >
+                        {mark.empMarks}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          fontWeight: "600",
+                          color: "#407ad6",
+                        }}
+                      >
+                        {mark.testStatus === "Fail" ? (
+                          <Text
+                            style={{
+                              color: "#f44336",
+                            }}
+                          >
+                            F
+                          </Text>
+                        ) : (
+                          <Text
+                            style={{
+                              color: "#4caf50",
+                            }}
+                          >
+                            P
+                          </Text>
+                        )}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
               ))}
             </View>
           </View>
@@ -110,7 +173,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   subHeaderTitle: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "500",
     color: "#505050",
   },
@@ -124,9 +187,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   hazardsTitle: {
-    fontSize: 14,
+    fontSize: 20,
     fontWeight: "600",
-    color: "#f44336",
+    color: "#21005d",
   },
   hazardItem: {
     margin: 2,

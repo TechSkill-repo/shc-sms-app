@@ -227,7 +227,7 @@ const TrainingTest = () => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder="Location"
+          placeholder={`${selectedLocation}`}
           searchPlaceholder="Search..."
           value={selectedLocation} // Use selectedLocation here
           onChange={handleLocationChange}

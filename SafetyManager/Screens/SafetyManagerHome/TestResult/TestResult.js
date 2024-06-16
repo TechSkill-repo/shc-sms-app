@@ -1,4 +1,4 @@
-// FsgrInfo.js
+// TestResult.js
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -12,11 +12,11 @@ import {
 import { Appbar } from "react-native-paper";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
 
 import BottomPopup from "./BottomPopup";
 import SearchForm from "./TestResultSearch";
 import NotFound from "../../../../assets/icons/nodata.png";
-import { Feather } from "@expo/vector-icons";
 import { serveraddress } from "../../../../assets/values/Constants";
 import { fetchLocations } from "../../../../components/Global/Global";
 
@@ -76,158 +76,109 @@ const TestResult = () => {
   };
 
   return (
-    <View
-      style={{
-        backgroundColor: "white",
-        height: "100%",
-      }}
-    >
+    <View style={styles.screen}>
       <Appbar.Header>
-        <Appbar.BackAction
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
+        <Appbar.BackAction onPress={navigation.goBack} />
         <Appbar.Content title="Test Result" />
         <Appbar.Action
           icon="magnify"
-          onPress={() => {
-            setShowSearch((prevState) => !prevState);
-          }}
+          onPress={() => setShowSearch(!showSearch)}
         />
       </Appbar.Header>
-      <ScrollView>
-        <View style={styles.mainContainer}>
-          {showSearch && (
-            <SearchForm
-              locations={locations}
-              selectedLocation={selectedLocation}
-              setSelectedLocation={setSelectedLocation}
-              selectedMonth={selectedMonth}
-              setSelectedMonth={setSelectedMonth}
-              selectedYear={selectedYear}
-              setSelectedYear={setSelectedYear}
-              searchFsgr={searchFsgr}
-              isVisible={isVisible}
-              setIsVisible={setIsVisible}
-              setShowSearch={setShowSearch}
-            />
-          )}
-          {loading ? (
-            <ActivityIndicator size="large" color="#0000ff" />
-          ) : data.length > 0 ? (
-            data.map((item) => (
-              <TouchableOpacity
-                style={styles.container}
-                key={item.id}
-                onPress={() => {
-                  setIsVisible(true);
-                  setId(item.id);
-                }}
-              >
-                <View style={styles.itemContainer}>
-                  <View style={styles.itemDetails}>
-                    <Text style={styles.itemHeading}>
-                      Test Name. {item.testName}
-                    </Text>
-                    <View style={styles.itemInfo}>
-                      <View style={styles.itemRow}>
-                        <Text style={styles.text}>Location</Text>
-                        <Text style={styles.textLocation}>
-                          {item.location || ""}
-                        </Text>
-                      </View>
-                      <View style={styles.itemRow}>
-                        <Text style={styles.itemDate}>
-                          {item.createdAt.slice(0, 10)}
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                  <View style={styles.statusContainer}>
-                    <View style={styles.statusBadge}>
-                      <Text style={styles.statusText}>View More</Text>
-                    </View>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            ))
-          ) : (
-            <View
-              style={{
-                flexDirection: "column",
-                width: "100%",
-                alignItems: "center",
-                justifyContent: "center",
-                marginHorizontal: 10,
-                marginVertical: 20,
-              }}
-            >
-              <Image
-                source={NotFound}
-                style={{
-                  height: 300,
-                  width: "100%",
-                }}
-              />
-              <Text
-                style={{
-                  marginTop: 20,
-                  fontSize: 18,
-                  color: "gray",
-                }}
-              >
-                Please Search your test result
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  setShowSearch((prevState) => !prevState);
-                }}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  backgroundColor: "#21005d1a",
-                  marginTop: 40,
-                  width: "80%",
-                  paddingVertical: 10,
-                  paddingHorizontal: 60,
-                  borderRadius: 50,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Feather name="search" size={22} color="#21005d" />
-                <Text
-                  style={{
-                    color: "#21005d",
-                    fontSize: 16,
-                    fontWeight: "400",
-                    marginLeft: 10,
-                  }}
-                >
-                  Search Test Result
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-          <BottomPopup
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        {showSearch && (
+          <SearchForm
+            locations={locations}
+            selectedLocation={selectedLocation}
+            setSelectedLocation={setSelectedLocation}
+            selectedMonth={selectedMonth}
+            setSelectedMonth={setSelectedMonth}
+            selectedYear={selectedYear}
+            setSelectedYear={setSelectedYear}
+            searchFsgr={searchFsgr}
             isVisible={isVisible}
             setIsVisible={setIsVisible}
-            id={id}
+            setShowSearch={setShowSearch}
           />
-        </View>
+        )}
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : data.length > 0 ? (
+          data.map((item) => (
+            <TestResultItem
+              key={item.id}
+              item={item}
+              setIsVisible={setIsVisible}
+              setId={setId}
+            />
+          ))
+        ) : (
+          <NoDataView setShowSearch={setShowSearch} />
+        )}
+        <BottomPopup
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+          id={id}
+        />
       </ScrollView>
     </View>
   );
 };
 
+const TestResultItem = ({ item, setIsVisible, setId }) => (
+  <TouchableOpacity
+    style={styles.itemContainer}
+    onPress={() => {
+      setIsVisible(true);
+      setId(item.id);
+    }}
+  >
+    <View style={styles.itemContent}>
+      <View style={styles.itemDetails}>
+        <Text style={styles.itemHeading}>Test Name: {item.testName}</Text>
+        <View style={styles.itemInfo}>
+          <View style={styles.itemRow}>
+            <Text style={styles.text}>Location</Text>
+            <Text style={styles.textLocation}>{item.location || ""}</Text>
+          </View>
+          <View style={styles.itemRow}>
+            <Text style={styles.itemDate}>{item.createdAt.slice(0, 10)}</Text>
+          </View>
+        </View>
+      </View>
+      <View style={styles.statusContainer}>
+        <View style={styles.statusBadge}>
+          <Text style={styles.statusText}>View More</Text>
+        </View>
+      </View>
+    </View>
+  </TouchableOpacity>
+);
+
+const NoDataView = ({ setShowSearch }) => (
+  <View style={styles.noDataContainer}>
+    <Image source={NotFound} style={styles.noDataImage} />
+    <Text style={styles.noDataText}>Please Search your test result</Text>
+    <TouchableOpacity
+      onPress={() => setShowSearch(true)}
+      style={styles.searchButton}
+    >
+      <Feather name="search" size={22} color="#21005d" />
+      <Text style={styles.searchButtonText}>Search Test Result</Text>
+    </TouchableOpacity>
+  </View>
+);
+
 const styles = StyleSheet.create({
-  mainContainer: {
-    marginTop: 20,
+  screen: {
+    backgroundColor: "white",
     height: "100%",
-    alignItems: "center",
   },
-  container: {
+  scrollView: {
+    alignItems: "center",
+    paddingVertical: 20,
+  },
+  itemContainer: {
     backgroundColor: "#fffbfe",
     width: "90%",
     flexDirection: "row",
@@ -238,7 +189,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: 20,
   },
-  itemContainer: {
+  itemContent: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -279,11 +230,6 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     color: "black",
   },
-  itemPriority: {
-    fontSize: 12,
-    fontWeight: "700",
-    color: "#f44336",
-  },
   statusContainer: {
     width: "30%",
   },
@@ -299,6 +245,40 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "600",
     color: "#4782da",
+  },
+  noDataContainer: {
+    flexDirection: "column",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 10,
+    marginVertical: 20,
+  },
+  noDataImage: {
+    height: 300,
+    width: "100%",
+  },
+  noDataText: {
+    marginTop: 20,
+    fontSize: 18,
+    color: "gray",
+  },
+  searchButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#21005d1a",
+    marginTop: 40,
+    width: "80%",
+    paddingVertical: 10,
+    paddingHorizontal: 60,
+    borderRadius: 50,
+    justifyContent: "center",
+  },
+  searchButtonText: {
+    color: "#21005d",
+    fontSize: 16,
+    fontWeight: "400",
+    marginLeft: 10,
   },
 });
 
