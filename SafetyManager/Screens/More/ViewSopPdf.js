@@ -23,6 +23,9 @@ const ViewSopPdf = ({ visible, setVisible, pdfId }) => {
       const uri = `${serveraddress}sop/viewpdf/${pdfId}`;
       axios.get(uri).then((res) => {
         setPdfUri(res);
+        console.log("sop:", res);
+      }).catch((error)=>{
+        console.log(error);
       });
     };
 

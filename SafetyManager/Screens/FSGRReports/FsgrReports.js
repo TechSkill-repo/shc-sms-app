@@ -14,12 +14,17 @@ import {
   State,
 } from "react-native-gesture-handler";
 import SsiClose from "./FsgrStatusScreens/SsiClose";
+import useAuthStore from "../../../store/userAuthStore";
 
 const FsgrReports = () => {
   const [selectedCard, setSelectedCard] = useState(1);
 
   const [isVisible, setIsVisible] = useState(false);
   const [loadSearchBar, setLoadSearchBar] = useState(false);
+
+  const { role } = useAuthStore((state) => ({
+    role: state.role,
+  }));
 
   const handleCardSelect = (cardNumber) => {
     setSelectedCard(cardNumber);
@@ -78,15 +83,18 @@ const FsgrReports = () => {
             >
               <Text style={styles.buttonText}>Pending</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                selectedCard === 2 && styles.selectedButton,
-              ]}
-              onPress={() => handleCardSelect(2)}
-            >
-              <Text style={styles.buttonText}>Approved</Text>
-            </TouchableOpacity>
+            {role !== "admin" && (
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  selectedCard === 2 && styles.selectedButton,
+                ]}
+                onPress={() => handleCardSelect(2)}
+              >
+                <Text style={styles.buttonText}>Approved</Text>
+              </TouchableOpacity>
+            )}
+
             <TouchableOpacity
               style={[
                 styles.button,
@@ -94,7 +102,11 @@ const FsgrReports = () => {
               ]}
               onPress={() => handleCardSelect(3)}
             >
-              <Text style={styles.buttonText}>Planning</Text>
+              {role === "admin" ? (
+                <Text style={styles.buttonText}>Investigation</Text>
+              ) : (
+                <Text style={styles.buttonText}>Planning</Text>
+              )}
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -133,7 +145,9 @@ const FsgrReports = () => {
               loadSearchBar={loadSearchBar}
             />
           )}
-          {selectedCard === 2 && <Approved loadSearchBar={loadSearchBar} />}
+          {selectedCard === 2 && role !== "admin" && (
+            <Approved loadSearchBar={loadSearchBar} />
+          )}
           {selectedCard === 3 && <Progress loadSearchBar={loadSearchBar} />}
           {selectedCard === 4 && <SsiClose loadSearchBar={loadSearchBar} />}
           {selectedCard === 5 && <Close loadSearchBar={loadSearchBar} />}
@@ -157,11 +171,15 @@ const styles = StyleSheet.create({
     // backgroundColor: "red",
   },
   button: {
-    width: 101,
-    padding: 15,
+    flex: 1,
+    minWidth: 100,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
     borderBottomWidth: 2,
     backgroundColor: "#fffbfe",
     borderBottomColor: "lightgray",
+    justifyContent: "center",
+    alignItems: "center",
   },
   selectedButton: {
     borderBottomWidth: 2,

@@ -1,81 +1,91 @@
 import {
-  View,
-  Text,
-  Modal,
-  ScrollView,
-  Dimensions,
-  StyleSheet,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import { Entypo } from "@expo/vector-icons";
-import axios from "axios";
+    View,
+    Text,
+    Modal,
+    ScrollView,
+    Dimensions,
+    StyleSheet,
+    TouchableOpacity,
+    Alert,
+    ActivityIndicator,
+  } from "react-native";
+  import React, { useEffect, useState } from "react";
+  import { Entypo } from "@expo/vector-icons";
+  import axios from "axios";
 import useAuthStore from "../../../../../store/userAuthStore";
 import { serveraddress } from "../../../../../assets/values/Constants";
-
-const ApprovedReport = ({ isVisible, setIsVisible, id }) => {
-  const screenHeight = Dimensions.get("screen").height;
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const { role } = useAuthStore((state) => ({
-    role: state.role,
-  }));
-
-  useEffect(() => {
-    if (serveraddress && id) {
-      fetchData();
-    }
-  }, [id]);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`${serveraddress}fsgr/${id}/approved`);
-      setData(response.data);
-      setLoading(false);
-    } catch (err) {
-      setError(err);
-      setLoading(false);
-      console.error("Error fetching data:", err);
-    }
-  };
-
-  if (loading) {
+  
+  const ApprovedReport = ({ isVisible, setIsVisible, id }) => {
+    const screenHeight = Dimensions.get("screen").height;
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [verifiedLoading, setVerifiedLoading] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+  
+    const { role } = useAuthStore((state) => ({
+      role: state.role,
+    }));
+  
+    console.log("role:", role);
+  
+    useEffect(() => {
+      if (serveraddress && id) {
+        fetchData();
+      }
+    }, [id, refresh]);
+  
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${serveraddress}fsgr/${id}`);
+        console.log("approved data:", response.data);
+        setData(response.data);
+      } catch (err) {
+        setError(err);
+        console.error("Error fetching data:", err);
+      }
+    };
     return (
-      <Modal visible={isVisible} transparent animationType="slide">
-        <View style={styles.modalContainer}>
-          <View style={[styles.container, { height: screenHeight * 0.6 }]}>
-            <Text style={styles.loadingText}>Loading...</Text>
-          </View>
-        </View>
-      </Modal>
-    );
-  }
+      <Modal
+        visible={isVisible}
+        onRequestClose={() => setIsVisible(false)}
+        transparent
+        animationType="slide"
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "flex-end",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+          }}
+        >
+          <ScrollView
+            style={{
+              backgroundColor: "#FFF",
+              width: "100%",
+              height: screenHeight * 0.6,
+              marginTop: screenHeight * 0.4,
+              padding: 25,
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+            }}
+          >
 
-  if (error) {
-    return (
-      <Modal visible={isVisible} transparent animationType="slide">
-        <View style={styles.modalContainer}>
-          <View style={[styles.container, { height: screenHeight * 0.6 }]}>
-            <Text style={styles.errorText}>Error: {error.message}</Text>
-          </View>
-        </View>
-      </Modal>
-    );
-  }
-
-  return (
-    <Modal
-      visible={isVisible}
-      onRequestClose={() => setIsVisible(false)}
-      transparent
-      animationType="slide"
-    >
-      <View style={styles.modalContainer}>
-        <View style={[styles.container, { height: screenHeight * 0.92 }]}>
-          <ScrollView contentContainerStyle={styles.contentContainer}>
-            <View style={styles.header}>
-              <Text style={styles.headerText}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "500",
+                  color: "#21005d",
+                }}
+              >
                 FSGR Report - {data?.location}
               </Text>
               <Entypo
@@ -85,133 +95,161 @@ const ApprovedReport = ({ isVisible, setIsVisible, id }) => {
                 onPress={() => setIsVisible(false)}
               />
             </View>
-            <View style={styles.subHeader}>
-              <Text style={styles.subHeaderText}>{data?.heading}</Text>
-              <Text style={styles.dateText}>
+
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingVertical: 10,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "500",
+                  color: "#505050",
+                }}
+              >
+                {data?.heading}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: "500",
+                }}
+              >
                 {data?.reportDate.slice(0, 10)}
               </Text>
             </View>
+
             <View>
-              <Text style={styles.nameText}>{data?.empName}</Text>
-              <Text style={styles.designationText}>{data?.empDesignation}</Text>
-              <View style={styles.infoContainer}>
+              <Text
+                style={{
+                  fontSize: 22,
+                  paddingTop: 10,
+                }}
+              >
+                {data?.empName}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 13,
+                }}
+              >
+                {data?.empDesignation}
+              </Text>
+
+              <View
+                style={{
+                  marginTop: 20,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
                 <View>
-                  <Text style={styles.infoLabel}>Incharge Name</Text>
-                  <Text style={styles.infoText}>{data?.inchargeName}</Text>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontWeight: "500",
+                      color: "#21005d",
+                    }}
+                  >
+                    Incharge Name
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: "600",
+                      color: "#505050",
+                    }}
+                  >
+                    {data?.inchargeName}
+                  </Text>
                 </View>
                 <View>
-                  <Text style={styles.infoLabel}>Site Supervisor Name</Text>
-                  <Text style={styles.infoText}>{data?.siteSupervisor}</Text>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontWeight: "500",
+                      color: "#21005d",
+                    }}
+                  >
+                    Site Supervisor Name
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: "600",
+                      color: "#505050",
+                    }}
+                  >
+                    {data?.siteSupervisor}
+                  </Text>
                 </View>
               </View>
             </View>
-            <View style={styles.messageContainer}>
-              <Text style={styles.messageLabel}>What is the issue</Text>
-              <Text style={styles.messageText}>{data?.what_is_the_issue}</Text>
-            </View>
-            <View style={styles.messageContainer}>
-              <Text style={styles.messageLabel}>What is the fact</Text>
-              <Text style={styles.messageText}>{data?.what_is_the_fact}</Text>
-            </View>
-            <View style={styles.messageContainer}>
-              <Text style={styles.messageLabel}>Where the trouble arises</Text>
-              <Text style={styles.messageText}>
-                {data?.where_the_trouble_arrises}
+            <View
+              style={{
+                marginTop: 20,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: "500",
+                  color: "#21005d",
+                }}
+              >
+                Reporting Message/Issue
               </Text>
+              <Text style={{ marginTop: 10 }}>{data?.message}</Text>
+            </View>
+            <View
+              style={{
+                marginTop: 20,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: "500",
+                  color: "#21005d",
+                }}
+              >
+                what is_the_issue
+              </Text>
+              <Text style={{ marginTop: 10 }}>{data?.what_is_the_issue}</Text>
             </View>
           </ScrollView>
         </View>
-      </View>
-    </Modal>
-  );
-};
-
-const styles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  container: {
-    backgroundColor: "#FFF",
-    width: "100%",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 25,
-  },
-  contentContainer: {
-    paddingBottom: 25,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: "500",
-    color: "#21005d",
-  },
-  subHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 10,
-  },
-  subHeaderText: {
-    fontSize: 20,
-    fontWeight: "500",
-    color: "#505050",
-  },
-  dateText: {
-    fontSize: 16,
-    fontWeight: "500",
-  },
-  nameText: {
-    fontSize: 22,
-    paddingTop: 10,
-  },
-  designationText: {
-    fontSize: 13,
-  },
-  infoContainer: {
-    marginTop: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  infoLabel: {
-    fontSize: 12,
-    fontWeight: "500",
-    color: "#21005d",
-  },
-  infoText: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#505050",
-  },
-  messageContainer: {
-    marginTop: 20,
-  },
-  messageLabel: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#21005d",
-  },
-  messageText: {
-    marginTop: 10,
-  },
-  loadingText: {
-    fontSize: 20,
-    color: "#21005d",
-    textAlign: "center",
-  },
-  errorText: {
-    fontSize: 20,
-    color: "red",
-    textAlign: "center",
-  },
-});
-
-export default ApprovedReport;
+      </Modal>
+    );
+  };
+  
+  const styles = StyleSheet.create({
+    buttonContainer: {
+      marginTop: 20,
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: 50,
+    },
+    button: {
+      width: "90%",
+      backgroundColor: "#4caf50",
+      paddingVertical: 10,
+      borderRadius: 50,
+      elevation: 5,
+      marginTop: 10,
+    },
+    buttonText: {
+      textAlign: "center",
+      fontSize: 16,
+      fontWeight: "600",
+      color: "#fff",
+    },
+  });
+  
+  export default ApprovedReport;
+  

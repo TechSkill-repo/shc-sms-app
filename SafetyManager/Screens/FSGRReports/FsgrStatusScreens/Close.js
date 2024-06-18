@@ -191,7 +191,7 @@ const Close = ({ loadSearchBar }) => {
       )}
       {role === "admin" ? (
         <CloseReportGet
-          sVisible={isVisible}
+          isVisible={isVisible}
           setIsVisible={setIsVisible}
           id={id}
         />
