@@ -5,6 +5,7 @@ import {
   ScrollView,
   Dimensions,
   StyleSheet,
+  TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Entypo } from "@expo/vector-icons";
@@ -12,37 +13,58 @@ import axios from "axios";
 import useAuthStore from "../../../../../store/userAuthStore";
 import { serveraddress } from "../../../../../assets/values/Constants";
 
-
 const PlanningReportsGet = ({ isVisible, setIsVisible, id }) => {
   const screenHeight = Dimensions.get("screen").height;
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [verifiedLoading, setVerifiedLoading] = useState(false);
-  const [refresh, setRefresh] = useState(false);
 
   const { role } = useAuthStore((state) => ({
     role: state.role,
   }));
 
-  console.log("role:", role);
-
   useEffect(() => {
     if (serveraddress && id) {
       fetchData();
     }
-  }, [id, refresh]);
+  }, [id]);
 
   const fetchData = async () => {
     try {
       const response = await axios.get(`${serveraddress}fsgr/${id}/progress`);
-      console.log("approved data:", response.data);
       setData(response.data);
+      setLoading(false);
     } catch (err) {
       setError(err);
+      setLoading(false);
       console.error("Error fetching data:", err);
     }
   };
+
+  if (loading) {
+    return (
+      <Modal visible={isVisible} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={[styles.container, { height: screenHeight * 0.9 }]}>
+            <Text style={styles.loadingText}>Loading...</Text>
+          </View>
+        </View>
+      </Modal>
+    );
+  }
+
+  if (error) {
+    return (
+      <Modal visible={isVisible} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={[styles.container, { height: screenHeight * 0.9 }]}>
+            <Text style={styles.errorText}>Error: {error.message}</Text>
+          </View>
+        </View>
+      </Modal>
+    );
+  }
+
   return (
     <Modal
       visible={isVisible}
@@ -50,235 +72,209 @@ const PlanningReportsGet = ({ isVisible, setIsVisible, id }) => {
       transparent
       animationType="slide"
     >
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-end",
-          alignItems: "center",
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
-        }}
-      >
-        <ScrollView
-          style={{
-            backgroundColor: "#FFF",
-            width: "100%",
-            height: screenHeight * 0.6,
-            marginTop: screenHeight * 0.4,
-            padding: 25,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: "500",
-                color: "#21005d",
-              }}
-            >
-              FSGR Report - {data?.location}
-            </Text>
-            <Entypo
-              name="cross"
-              size={30}
-              color="red"
-              onPress={() => setIsVisible(false)}
-            />
-          </View>
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              paddingVertical: 10,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: "500",
-                color: "#505050",
-              }}
-            >
-              {data?.heading}
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: "500",
-              }}
-            >
-              {data?.reportDate.slice(0, 10)}
-            </Text>
-          </View>
-
-          <View>
-            <Text
-              style={{
-                fontSize: 22,
-                paddingTop: 10,
-              }}
-            >
-              {data?.empName}
-            </Text>
-            <Text
-              style={{
-                fontSize: 13,
-              }}
-            >
-              {data?.empDesignation}
-            </Text>
-
-            <View
-              style={{
-                marginTop: 20,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <View>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    fontWeight: "500",
-                    color: "#21005d",
-                  }}
-                >
-                  Incharge Name
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "600",
-                    color: "#505050",
-                  }}
-                >
-                  {data?.inchargeName}
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    fontWeight: "500",
-                    color: "#21005d",
-                  }}
-                >
-                  Site Supervisor Name
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "600",
-                    color: "#505050",
-                  }}
-                >
-                  {data?.siteSupervisor}
-                </Text>
+      <View style={styles.modalContainer}>
+        <View style={[styles.container, { height: screenHeight * 0.9 }]}>
+          <ScrollView contentContainerStyle={styles.contentContainer}>
+            <View style={styles.header}>
+              <Text style={styles.headerText}>
+                Investigation Report - {data?.location}
+              </Text>
+              <Entypo
+                name="cross"
+                size={30}
+                color="red"
+                onPress={() => setIsVisible(false)}
+              />
+            </View>
+            <View style={styles.subHeader}>
+              <Text style={styles.subHeaderText}>{data?.heading}</Text>
+              <Text style={styles.dateText}>
+                {data?.reportDate.slice(0, 10)}
+              </Text>
+            </View>
+            <View>
+              <View style={styles.infoContainer}>
+                <View>
+                  <Text style={styles.infoLabel}>Site Supervisor Name</Text>
+                  <Text style={styles.infoText}>{data?.siteSupervisor}</Text>
+                </View>
               </View>
             </View>
-          </View>
-          <View
-            style={{
-              marginTop: 20,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: "500",
-                color: "#21005d",
+            <View style={styles.messageContainer}>
+              <Text style={styles.messageLabel}>What is the issue</Text>
+              <Text style={styles.messageText}>{data?.what_is_the_issue}</Text>
+            </View>
+            <View style={styles.messageContainer}>
+              <Text style={styles.messageLabel}>What is the fact</Text>
+              <Text style={styles.messageText}>{data?.what_is_the_fact}</Text>
+            </View>
+            <View style={styles.messageContainer}>
+              <Text style={styles.messageLabel}>Where the trouble arises</Text>
+              <Text style={styles.messageText}>
+                {data?.where_the_trouble_arrises}
+              </Text>
+            </View>
+            <View style={styles.messageContainer}>
+              <Text style={styles.messageLabel}>Why did the issue arise</Text>
+              <Text style={styles.messageText}>
+                {data?.why_did_the_issue_arrises}
+              </Text>
+            </View>
+            <View style={styles.messageContainer}>
+              <Text style={styles.messageLabel}>How severe is this</Text>
+              <Text style={styles.messageText}>{data?.how_sevier_this_is}</Text>
+            </View>
+            <View style={styles.messageContainer}>
+              <Text style={styles.messageLabel}>Severity rating</Text>
+              <Text style={styles.messageText}>
+                {data?.how_sevier_rating_this_is}
+              </Text>
+            </View>
+            <View style={styles.messageContainer}>
+              <Text style={styles.messageLabel}>Conclusion</Text>
+              <Text style={styles.messageText}>{data?.conclusion}</Text>
+            </View>
+            <View style={styles.messageContainer}>
+              <Text style={styles.messageLabel}>Recommendation</Text>
+              <Text style={styles.messageText}>{data?.recommendation}</Text>
+            </View>
+            <View style={styles.messageContainer}>
+              <Text style={styles.messageLabel}>Investigation done by</Text>
+              <Text style={styles.messageText}>
+                {data?.investigation_done_by}
+              </Text>
+            </View>
+            <View style={styles.messageContainer}>
+              <Text style={styles.messageLabel}>Approval by</Text>
+              <Text style={styles.messageText}>{data?.approval_by}</Text>
+            </View>
+          </ScrollView>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={[styles.button, { backgroundColor: "#4782da1a" }]}
+              onPress={() => {
+                /* Handle edit action */
               }}
             >
-              Reporting Message/Issue
-            </Text>
-            <Text style={{ marginTop: 10 }}>{data?.message}</Text>
-          </View>
-          <View
-            style={{
-              marginTop: 20,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: "500",
-                color: "#21005d",
-              }}
+              <Text style={[styles.buttonText, { color: "#4782da" }]}>
+                Edit
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, { backgroundColor: "#4caf501a" }]}
+              onPress={() => setIsVisible(false)}
             >
-              what is the issue
-            </Text>
-            <Text style={{ marginTop: 10 }}>{data?.what_is_the_issue}</Text>
+              <Text style={[styles.buttonText, { color: "#4caf50" }]}>OK</Text>
+            </TouchableOpacity>
           </View>
-          <View
-            style={{
-              marginTop: 20,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: "500",
-                color: "#21005d",
-              }}
-            >
-              what is the fact
-            </Text>
-            <Text style={{ marginTop: 10 }}>{data?.what_is_the_fact}</Text>
-          </View>
-          <View
-            style={{
-              marginTop: 20,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: "500",
-                color: "#21005d",
-              }}
-            >
-              where the trouble arrises
-            </Text>
-            <Text style={{ marginTop: 10 }}>
-              {data?.where_the_trouble_arrises}
-            </Text>
-          </View>
-        </ScrollView>
+        </View>
       </View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    marginTop: 20,
-    justifyContent: "center",
+  modalContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
     alignItems: "center",
-    marginBottom: 50,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  button: {
-    width: "90%",
-    backgroundColor: "#4caf50",
+  container: {
+    backgroundColor: "#FFF",
+    width: "100%",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 25,
+  },
+  contentContainer: {
+    paddingBottom: 25,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: "500",
+    color: "#21005d",
+  },
+  subHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 10,
-    borderRadius: 50,
-    elevation: 5,
+  },
+  subHeaderText: {
+    fontSize: 20,
+    fontWeight: "500",
+    color: "#505050",
+  },
+  dateText: {
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  nameText: {
+    fontSize: 22,
+    paddingTop: 10,
+  },
+  designationText: {
+    fontSize: 13,
+  },
+  infoContainer: {
+    marginTop: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  infoLabel: {
+    fontSize: 12,
+    fontWeight: "500",
+    color: "#21005d",
+  },
+  infoText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#505050",
+  },
+  messageContainer: {
+    marginTop: 20,
+  },
+  messageLabel: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#21005d",
+  },
+  messageText: {
     marginTop: 10,
   },
-  buttonText: {
+  loadingText: {
+    fontSize: 20,
+    color: "#21005d",
     textAlign: "center",
+  },
+  errorText: {
+    fontSize: 20,
+    color: "red",
+    textAlign: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 20,
+  },
+  button: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 5,
+    marginHorizontal: 5,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#fff",
     fontSize: 16,
     fontWeight: "600",
-    color: "#fff",
   },
 });
 

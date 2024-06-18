@@ -27,8 +27,6 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
     role: state.role,
   }));
 
-  console.log("role:", role);
-
   useEffect(() => {
     if (serveraddress && id) {
       fetchData();
@@ -39,15 +37,13 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
     try {
       const response = await axios.get(`${serveraddress}fsgr/${id}`);
       setData(response.data);
+      setLoading(false);
     } catch (err) {
       setError(err);
+      setLoading(false);
       console.error("Error fetching data:", err);
     }
   };
-
-  // if (error) {
-  //   return <div>Error: {error.message}</div>;
-  // }
 
   const handleVerified = () => {
     Alert.alert(
@@ -68,7 +64,6 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
                 status: "approved",
               })
               .then((res) => {
-                console.log("response:", res);
                 setVerifiedLoading(false);
                 Alert.alert("Success", "Report verified successfully.");
                 setIsVisible(false);
@@ -76,7 +71,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
               })
               .catch((error) => {
                 setVerifiedLoading(false);
-                Alert.alert("Error", "Failed to verify the report.", error);
+                Alert.alert("Error", "Failed to verify the report.");
               });
           },
         },
@@ -91,194 +86,179 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
       transparent
       animationType="slide"
     >
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-end",
-          alignItems: "center",
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
-        }}
-      >
-        <ScrollView
-          style={{
-            backgroundColor: "#FFF",
-            width: "100%",
-            height: screenHeight * 0.6,
-            marginTop: screenHeight * 0.4,
-            padding: 25,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: "500",
-                color: "#21005d",
-              }}
-            >
-              FSGR Report - {data?.location}
-            </Text>
-            <Entypo
-              name="cross"
-              size={30}
-              color="red"
-              onPress={() => setIsVisible(false)}
-            />
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              paddingVertical: 10,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: "500",
-                color: "#505050",
-              }}
-            >
-              {data?.heading}
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: "500",
-              }}
-            >
-              {data?.reportDate.slice(0, 10)}
-            </Text>
-          </View>
-          <View>
-            <Text
-              style={{
-                fontSize: 22,
-                paddingTop: 10,
-              }}
-            >
-              {data?.empName}
-            </Text>
-            <Text
-              style={{
-                fontSize: 13,
-              }}
-            >
-              {data?.empDesignation}
-            </Text>
-            <View
-              style={{
-                marginTop: 20,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <View>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    fontWeight: "500",
-                    color: "#21005d",
-                  }}
-                >
-                  Incharge Name
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "600",
-                    color: "#505050",
-                  }}
-                >
-                  {data?.inchargeName}
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    fontWeight: "500",
-                    color: "#21005d",
-                  }}
-                >
-                  Site Supervisor Name
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "600",
-                    color: "#505050",
-                  }}
-                >
-                  {data?.siteSupervisor}
-                </Text>
+      <View style={styles.modalContainer}>
+        <View style={[styles.scrollContainer, { height: screenHeight * 0.6 }]}>
+          <ScrollView contentContainerStyle={styles.contentContainer}>
+            <View style={styles.header}>
+              <Text style={styles.headerText}>
+                FSGR Report - {data?.location}
+              </Text>
+              <Entypo
+                name="cross"
+                size={30}
+                color="red"
+                onPress={() => setIsVisible(false)}
+              />
+            </View>
+            <View style={styles.subHeader}>
+              <Text style={styles.subHeaderText}>{data?.heading}</Text>
+              <Text style={styles.dateText}>
+                {data?.reportDate?.slice(0, 10)}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.nameText}>{data?.empName}</Text>
+              <Text style={styles.designationText}>{data?.empDesignation}</Text>
+              <View style={styles.infoContainer}>
+                <View>
+                  <Text style={styles.infoLabel}>Incharge Name</Text>
+                  <Text style={styles.infoText}>{data?.inchargeName}</Text>
+                </View>
+                <View>
+                  <Text style={styles.infoLabel}>Site Supervisor Name</Text>
+                  <Text style={styles.infoText}>{data?.siteSupervisor}</Text>
+                </View>
               </View>
             </View>
-          </View>
-          <View
-            style={{
-              marginTop: 20,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: "500",
-                color: "#21005d",
-              }}
-            >
-              Reporting Message/Issue
-            </Text>
-            <Text style={{ marginTop: 10 }}>{data?.message}</Text>
-          </View>
+            <View style={styles.messageContainer}>
+              <Text style={styles.messageLabel}>Reporting Message/Issue</Text>
+              <Text style={styles.messageText}>{data?.message}</Text>
+            </View>
+          </ScrollView>
           {role === "admin" && (
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={[
-                  styles.button,
-                  verifiedLoading && styles.buttonDisabled, // Change style if loading
+                  styles.cancelButton,
+                  verifiedLoading && styles.buttonDisabled,
                 ]}
-                onPress={handleVerified}
-                disabled={verifiedLoading} // Disable if loading
+                disabled={verifiedLoading}
               >
                 {verifiedLoading ? (
-                  <ActivityIndicator size="small" color="#fff" /> // Show loader
+                  <ActivityIndicator size="small" color="#fff" />
                 ) : (
-                  <Text style={styles.buttonText}>Verify</Text>
+                  <Text style={styles.buttonText}>Canceled</Text>
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.approveButton,
+                  verifiedLoading && styles.buttonDisabled,
+                ]}
+                onPress={handleVerified}
+                disabled={verifiedLoading}
+              >
+                {verifiedLoading ? (
+                  <ActivityIndicator size="small" color="#fff" />
+                ) : (
+                  <Text style={styles.buttonText}>Approved</Text>
                 )}
               </TouchableOpacity>
             </View>
           )}
-        </ScrollView>
+        </View>
       </View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    marginTop: 20,
-    justifyContent: "center",
+  modalContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
     alignItems: "center",
-    marginBottom: 50,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  button: {
-    width: "90%",
+  scrollContainer: {
+    backgroundColor: "#FFF",
+    width: "100%",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  contentContainer: {
+    padding: 25,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: "500",
+    color: "#21005d",
+  },
+  subHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 10,
+  },
+  subHeaderText: {
+    fontSize: 20,
+    fontWeight: "500",
+    color: "#505050",
+  },
+  dateText: {
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  nameText: {
+    fontSize: 22,
+    paddingTop: 10,
+  },
+  designationText: {
+    fontSize: 13,
+  },
+  infoContainer: {
+    marginTop: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  infoLabel: {
+    fontSize: 12,
+    fontWeight: "500",
+    color: "#21005d",
+  },
+  infoText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#505050",
+  },
+  messageContainer: {
+    marginTop: 20,
+  },
+  messageLabel: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#21005d",
+  },
+  messageText: {
+    marginTop: 10,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 25,
+    paddingVertical: 10,
+  },
+  cancelButton: {
+    marginHorizontal: 6,
+    width: "45%",
+    backgroundColor: "#f44336",
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
+  approveButton: {
+    marginHorizontal: 6,
+    width: "45%",
     backgroundColor: "#4caf50",
     paddingVertical: 10,
-    borderRadius: 50,
-    elevation: 5,
-    marginTop: 10,
+    borderRadius: 10,
+  },
+  buttonDisabled: {
+    opacity: 0.7,
   },
   buttonText: {
     textAlign: "center",
