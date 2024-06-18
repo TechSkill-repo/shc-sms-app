@@ -40,6 +40,10 @@ const AddUserModal = ({ visible, hideModal }) => {
         setSnackbarMessage("User registered successfully");
         setSnackbarVisible(true);
         hideModal();
+        setEmail("");
+        setRole("");
+        setUsername("");
+        setPassword("");
       } else {
         setSnackbarMessage("Email alredy Exist");
         setSnackbarVisible(true);
