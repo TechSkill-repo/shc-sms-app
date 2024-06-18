@@ -15,6 +15,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 import useAuthStore from "../../../../store/userAuthStore";
+import SsiCloseReportGet from "./FsgrReportsGet/SsiCloseReportGet";
 
 const SsiClose = ({ loadSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -31,6 +32,9 @@ const SsiClose = ({ loadSearchBar }) => {
   const setSelectedLocation = useAuthStore(
     (state) => state.setSelectedLocation
   );
+  const { role } = useAuthStore((state) => ({
+    role: state.role,
+  }));
 
   useEffect(() => {
     const fetchLocationsData = async () => {
@@ -181,11 +185,19 @@ const SsiClose = ({ loadSearchBar }) => {
           </TouchableOpacity>
         ))
       )}
-      <SsiCloseReport
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
-        id={id}
-      />
+      {role === "admin" ? (
+        <SsiCloseReportGet
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+          id={id}
+        />
+      ) : (
+        <SsiCloseReport
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+          id={id}
+        />
+      )}
     </View>
   );
 };

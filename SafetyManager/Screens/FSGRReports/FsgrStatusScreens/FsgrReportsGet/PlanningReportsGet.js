@@ -5,17 +5,15 @@ import {
   ScrollView,
   Dimensions,
   StyleSheet,
-  TouchableOpacity,
-  Alert,
-  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
-import { serveraddress } from "../../../../assets/values/Constants";
-import useAuthStore from "../../../../store/userAuthStore";
+import useAuthStore from "../../../../../store/userAuthStore";
+import { serveraddress } from "../../../../../assets/values/Constants";
 
-const BottomPopup = ({ isVisible, setIsVisible, id }) => {
+
+const PlanningReportsGet = ({ isVisible, setIsVisible, id }) => {
   const screenHeight = Dimensions.get("screen").height;
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -37,53 +35,14 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${serveraddress}fsgr/${id}`);
+      const response = await axios.get(`${serveraddress}fsgr/${id}/progress`);
+      console.log("approved data:", response.data);
       setData(response.data);
     } catch (err) {
       setError(err);
       console.error("Error fetching data:", err);
     }
   };
-
-  // if (error) {
-  //   return <div>Error: {error.message}</div>;
-  // }
-
-  const handleVerified = () => {
-    Alert.alert(
-      "Confirm Verification",
-      "Are you sure you want to verify this report?",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Yes",
-          onPress: () => {
-            setVerifiedLoading(true);
-            axios
-              .patch(`${serveraddress}fsgr/form/${id}`, {
-                id,
-                status: "approved",
-              })
-              .then((res) => {
-                console.log("response:", res);
-                setVerifiedLoading(false);
-                Alert.alert("Success", "Report verified successfully.");
-                setIsVisible(false);
-                setRefresh((prev) => !prev);
-              })
-              .catch((error) => {
-                setVerifiedLoading(false);
-                Alert.alert("Error", "Failed to verify the report.", error);
-              });
-          },
-        },
-      ]
-    );
-  };
-
   return (
     <Modal
       visible={isVisible}
@@ -133,6 +92,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
               onPress={() => setIsVisible(false)}
             />
           </View>
+
           <View
             style={{
               flexDirection: "row",
@@ -159,6 +119,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
               {data?.reportDate.slice(0, 10)}
             </Text>
           </View>
+
           <View>
             <Text
               style={{
@@ -175,6 +136,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
             >
               {data?.empDesignation}
             </Text>
+
             <View
               style={{
                 marginTop: 20,
@@ -241,24 +203,56 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
             </Text>
             <Text style={{ marginTop: 10 }}>{data?.message}</Text>
           </View>
-          {role === "admin" && (
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={[
-                  styles.button,
-                  verifiedLoading && styles.buttonDisabled, // Change style if loading
-                ]}
-                onPress={handleVerified}
-                disabled={verifiedLoading} // Disable if loading
-              >
-                {verifiedLoading ? (
-                  <ActivityIndicator size="small" color="#fff" /> // Show loader
-                ) : (
-                  <Text style={styles.buttonText}>Verify</Text>
-                )}
-              </TouchableOpacity>
-            </View>
-          )}
+          <View
+            style={{
+              marginTop: 20,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: "500",
+                color: "#21005d",
+              }}
+            >
+              what is the issue
+            </Text>
+            <Text style={{ marginTop: 10 }}>{data?.what_is_the_issue}</Text>
+          </View>
+          <View
+            style={{
+              marginTop: 20,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: "500",
+                color: "#21005d",
+              }}
+            >
+              what is the fact
+            </Text>
+            <Text style={{ marginTop: 10 }}>{data?.what_is_the_fact}</Text>
+          </View>
+          <View
+            style={{
+              marginTop: 20,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: "500",
+                color: "#21005d",
+              }}
+            >
+              where the trouble arrises
+            </Text>
+            <Text style={{ marginTop: 10 }}>
+              {data?.where_the_trouble_arrises}
+            </Text>
+          </View>
         </ScrollView>
       </View>
     </Modal>
@@ -288,4 +282,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomPopup;
+export default PlanningReportsGet;

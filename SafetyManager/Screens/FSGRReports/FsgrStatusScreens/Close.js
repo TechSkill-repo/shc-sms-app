@@ -15,6 +15,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 import useAuthStore from "../../../../store/userAuthStore";
+import CloseReportGet from "./FsgrReportsGet/CloseReportGet";
 const Close = ({ loadSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [id, setId] = useState(0);
@@ -29,6 +30,9 @@ const Close = ({ loadSearchBar }) => {
   const setSelectedLocation = useAuthStore(
     (state) => state.setSelectedLocation
   );
+  const { role } = useAuthStore((state) => ({
+    role: state.role,
+  }));
 
   useEffect(() => {
     async function fetchLocationsData() {
@@ -185,7 +189,19 @@ const Close = ({ loadSearchBar }) => {
           </TouchableOpacity>
         ))
       )}
-      <CloseReport isVisible={isVisible} setIsVisible={setIsVisible} id={id} />
+      {role === "admin" ? (
+        <CloseReportGet
+          sVisible={isVisible}
+          setIsVisible={setIsVisible}
+          id={id}
+        />
+      ) : (
+        <CloseReport
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+          id={id}
+        />
+      )}
     </View>
   );
 };

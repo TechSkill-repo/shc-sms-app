@@ -15,6 +15,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { fetchLocations } from "../../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 import useAuthStore from "../../../../store/userAuthStore";
+import PlanningReportsGet from "./FsgrReportsGet/PlanningReportsGet";
 
 const Progress = ({ loadSearchBar }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -31,6 +32,9 @@ const Progress = ({ loadSearchBar }) => {
   const setSelectedLocation = useAuthStore(
     (state) => state.setSelectedLocation
   );
+  const { role } = useAuthStore((state) => ({
+    role: state.role,
+  }));
 
   useEffect(() => {
     const fetchLocationsData = async () => {
@@ -149,11 +153,19 @@ const Progress = ({ loadSearchBar }) => {
           </TouchableOpacity>
         ))
       )}
-      <PlanningReport
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
-        id={id}
-      />
+      {role === "admin" ? (
+        <PlanningReportsGet
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+          id={id}
+        />
+      ) : (
+        <PlanningReport
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+          id={id}
+        />
+      )}
     </View>
   );
 };
