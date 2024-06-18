@@ -1,8 +1,9 @@
-import { View, Text, Button } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
+  AntDesign,
   Entypo,
+  FontAwesome,
   FontAwesome5,
   Foundation,
   MaterialIcons,
@@ -11,7 +12,7 @@ import ManagerHome from "../SafetyManager/Screens/SafetyManagerHome/ManagerHome"
 import FsgrReports from "../SafetyManager/Screens/FSGRReports/FsgrReports";
 import Violation from "../SafetyManager/Screens/Violation/Violation";
 import More from "../SafetyManager/Screens/More/More";
-import User from "../SafetyManager/Screens/User/User";
+import User from "./Users/User";
 
 const TabNav = () => {
   const Tab = createBottomTabNavigator();
@@ -71,7 +72,7 @@ const TabNav = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="user-alt" size={24} color={color}/>
+            <AntDesign name="adduser" size={24} color={color} />
           ),
         }}
       />
