@@ -11,6 +11,7 @@ import ToolsAndTackles from "../../SafetyManager/Screens/SafetyManagerHome/TNT/T
 import TrainingTest from "../../SafetyManager/Screens/SafetyManagerHome/TrainingTest/TrainingTest";
 import Training from "../../SafetyManager/Screens/SafetyManagerHome/Training/Training";
 import TestResult from "../../SafetyManager/Screens/SafetyManagerHome/TestResult/TestResult";
+import Rewards from "../../Admin/Rewards/Rewards";
 
 const Stack = createNativeStackNavigator();
 
@@ -66,6 +67,11 @@ const AppRouter = () => {
       <Stack.Screen
         name="TestResult"
         component={TestResult}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Rewards"
+        component={Rewards}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

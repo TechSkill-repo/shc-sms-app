@@ -17,7 +17,7 @@ import Cards from "../../../../components/Home/Cards";
 import useAuthStore from "../../../../store/userAuthStore";
 
 const items = [
-  { id: 1, label: "Rewards", icon: Medal },
+  { id: 1, label: "Rewards", icon: Medal, screen:"Rewards" },
   { id: 2, label: "Tool Box", icon: consequence, screen: "TBM" },
   { id: 3, label: "DJP", icon: job, screen: "DJP" },
   { id: 4, label: "PPE Check", icon: ppe, screen: "PPE" },

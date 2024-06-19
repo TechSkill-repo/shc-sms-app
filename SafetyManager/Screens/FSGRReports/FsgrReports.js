@@ -115,7 +115,11 @@ const FsgrReports = () => {
               ]}
               onPress={() => handleCardSelect(4)}
             >
-              <Text style={styles.buttonText}>SSI Close</Text>
+              {role === "admin" ? (
+                <Text style={styles.buttonText}>Planning</Text>
+              ) : (
+                <Text style={styles.buttonText}>SSI Close</Text>
+              )}
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -124,7 +128,11 @@ const FsgrReports = () => {
               ]}
               onPress={() => handleCardSelect(5)}
             >
-              <Text style={styles.buttonText}>Closed</Text>
+              {role === "admin" ? (
+                <Text style={styles.buttonText}>Ssi Closed</Text>
+              ) : (
+                <Text style={styles.buttonText}>Closed</Text>
+              )}
             </TouchableOpacity>
           </ScrollView>
           <SearchFsgr setIsVisible={setIsVisible} isVisible={isVisible} />
