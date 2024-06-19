@@ -24,8 +24,6 @@ const CloseReportGet = ({ isVisible, setIsVisible, id }) => {
     role: state.role,
   }));
 
-  console.log("role:", role);
-
   useEffect(() => {
     if (serveraddress && id) {
       fetchData();
@@ -35,7 +33,6 @@ const CloseReportGet = ({ isVisible, setIsVisible, id }) => {
   const fetchData = async () => {
     try {
       const response = await axios.get(`${serveraddress}fsgr/${id}`);
-      console.log("close data", response.data);
       setData(response.data);
       setLoading(false);
     } catch (err) {
@@ -80,7 +77,9 @@ const CloseReportGet = ({ isVisible, setIsVisible, id }) => {
         <View style={[styles.container, { height: screenHeight * 0.9 }]}>
           <ScrollView contentContainerStyle={styles.contentContainer}>
             <View style={styles.header}>
-              <Text style={styles.headerText}>Close - {data?.location}</Text>
+              <Text style={styles.headerText}>
+                SSI Close - {data?.location}
+              </Text>
               <Entypo
                 name="cross"
                 size={30}
@@ -95,44 +94,34 @@ const CloseReportGet = ({ isVisible, setIsVisible, id }) => {
               </Text>
             </View>
             <View>
-              <View style={styles.infoContainer}>
-                <View>
-                  <Text style={styles.infoLabel}>Site Supervisor Name</Text>
-                  <Text style={styles.infoText}>{data?.site_supervisor}</Text>
-                </View>
-              </View>
+              <Text style={styles.label}>Description</Text>
+              <Text style={styles.value}>{data?.description}</Text>
             </View>
-            <View style={styles.messageContainer}>
-              <Text style={styles.messageLabel}>
-                Initial Investigation Status
-              </Text>
-              <Text style={styles.messageText}>
-                {data?.initial_investigation_status}
-              </Text>
+            <View>
+              <Text style={styles.label}>Category</Text>
+              <Text style={styles.value}>{data?.category}</Text>
             </View>
-            <View style={styles.messageContainer}>
-              <Text style={styles.messageLabel}>
-                Initial Investigation Team
-              </Text>
-              <Text style={styles.messageText}>
-                {data?.initial_investigation_team}
-              </Text>
+            <View>
+              <Text style={styles.label}>Suggestion</Text>
+              <Text style={styles.value}>{data?.suggestion}</Text>
             </View>
-            <View style={styles.messageContainer}>
-              <Text style={styles.messageLabel}>Resource Planning Done By</Text>
-              <Text style={styles.messageText}>
-                {data?.resource_planning_done_by}
+            <View>
+              <Text style={styles.label}>Benefits</Text>
+              <Text style={styles.value}>{data?.benifits}</Text>
+            </View>
+            <View>
+              <Text style={styles.label}>Implementation</Text>
+              <Text style={styles.value}>{data?.implementation}</Text>
+            </View>
+            <View>
+              <Text style={styles.label}>Date of SSI</Text>
+              <Text style={styles.value}>
+                {data?.date_of_ssi?.slice(0, 10)}
               </Text>
             </View>
-            <View style={styles.messageContainer}>
-              <Text style={styles.messageLabel}>Planning Date</Text>
-              <Text style={styles.messageText}>
-                {data?.planning_date.slice(0, 10)}
-              </Text>
-            </View>
-            <View style={styles.messageContainer}>
-              <Text style={styles.messageLabel}>Resource Required</Text>
-              <Text style={styles.messageText}>{data?.resource_required}</Text>
+            <View>
+              <Text style={styles.label}>Duration of Completion</Text>
+              <Text style={styles.value}>{data?.duration_of_completion}</Text>
             </View>
           </ScrollView>
           <View style={styles.buttonContainer}>
@@ -201,32 +190,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
   },
-  infoContainer: {
-    marginTop: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  infoLabel: {
-    fontSize: 12,
-    fontWeight: "500",
-    color: "#21005d",
-  },
-  infoText: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#505050",
-  },
-  messageContainer: {
-    marginTop: 20,
-  },
-  messageLabel: {
+  label: {
     fontSize: 14,
     fontWeight: "500",
     color: "#21005d",
+    marginTop: 20,
   },
-  messageText: {
-    marginTop: 10,
+  value: {
+    fontSize: 16,
+    color: "#505050",
+    marginTop: 5,
   },
   loadingText: {
     fontSize: 20,

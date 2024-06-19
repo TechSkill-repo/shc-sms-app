@@ -21,16 +21,19 @@ const ViewSopPdf = ({ visible, setVisible, pdfId }) => {
   useEffect(() => {
     const fetchPdf = async () => {
       const uri = `${serveraddress}sop/viewpdf/${pdfId}`;
-      axios.get(uri).then((res) => {
-        setPdfUri(res);
-        console.log("sop:", res);
-      }).catch((error)=>{
-        console.log(error);
-      });
+      axios
+        .get(uri)
+        .then((res) => {
+          setPdfUri(res);
+          console.log("sop:", res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
 
     fetchPdf();
-  }, []);
+  }, [pdfId]);
   return (
     <Modal
       visible={visible}

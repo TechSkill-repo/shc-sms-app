@@ -19,6 +19,7 @@
     "expo": "^51.0.8",
     "expo-av": "~14.0.5",
     "expo-document-picker": "~12.0.1",
+    "expo-image-picker": "~15.0.5",
     "expo-status-bar": "~1.12.1",
     "font-awesome": "^4.7.0",
     "heroicons": "^2.1.1",
@@ -36,6 +37,7 @@
     "react-native-table-component": "^1.2.2",
     "react-native-toast-message": "^2.2.0",
     "react-native-vector-image": "^0.4.5",
+    "react-pdf": "^9.0.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

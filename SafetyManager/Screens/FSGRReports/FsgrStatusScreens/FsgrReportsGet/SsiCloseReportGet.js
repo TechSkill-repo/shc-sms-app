@@ -82,7 +82,7 @@ const SsiCloseReportGet = ({ isVisible, setIsVisible, id }) => {
           <ScrollView contentContainerStyle={styles.contentContainer}>
             <View style={styles.header}>
               <Text style={styles.headerText}>
-                SSI Close - {data?.location}
+                Planing Report - {data?.location}
               </Text>
               <Entypo
                 name="cross"

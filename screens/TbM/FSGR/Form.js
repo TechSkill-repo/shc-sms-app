@@ -1,17 +1,18 @@
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  Alert,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from "react-native";
-import React, { useEffect, useState } from "react";
 import { TextInput } from "react-native-paper";
 import { fetchLocations } from "../../../components/Global/Global";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { Dropdown } from "react-native-element-dropdown";
+import * as ImagePicker from "expo-image-picker";
 
 const dataPriority = [
   { label: "Critical", value: "critical" },
@@ -29,48 +30,48 @@ const Form = ({
   loadingSubmit,
 }) => {
   const [locations, setLocations] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(null);
-  const [value, setValue] = useState(null);
-  const [selectedPriority, setSelectedPriority] = useState(null);
   const [locationFocus, setLocationFocus] = useState(false);
   const [priorityFocus, setPriorityFocus] = useState(false);
 
-
-
   useEffect(() => {
-    async function fetchLocationsData() {
+    const fetchLocationsData = async () => {
       try {
         const data = await fetchLocations();
-        setLocations(data);
+        setLocations(
+          data.map((location) => ({
+            label: location.name,
+            value: location.id,
+          }))
+        );
       } catch (error) {
         console.error("Error fetching locations:", error);
       }
-    }
+    };
+
     fetchLocationsData();
   }, []);
 
-  // console.log("priority", priorityFocus);
-
-  const handleLocationChange = (selectedLocation) => {
-    setSelectedLocation(selectedLocation);
-    setFsgrData((prevState) => ({
-      ...prevState,
-      location: selectedLocation.label,
-    }));
-    setLocationFocus(false);
+  const handleInputChange = (field, value) => {
+    setFsgrData((prevState) => ({ ...prevState, [field]: value }));
   };
 
-  const handlePriorityChange = (selectedPriority) => {
-    setSelectedPriority(selectedPriority);
-    setFsgrData((prevState) => ({
-      ...prevState,
-      priority: selectedPriority.value,
-    }));
-    setPriorityFocus(false);
+  const openCamera = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert(
+        "Permission Denied",
+        "Camera permissions are required to take a photo."
+      );
+      return;
+    }
+    const result = await ImagePicker.launchCameraAsync();
+    if (!result.cancelled) {
+      handleInputChange("photoUri", result.uri);
+    }
   };
 
   const renderLabel = (label, isFocus) => {
-    if (priorityFocus || locationFocus || isFocus) {
+    if (locationFocus || priorityFocus || isFocus) {
       return (
         <Text style={[styles.label, isFocus && { color: "blue" }]}>
           {label}
@@ -80,77 +81,44 @@ const Form = ({
     return null;
   };
 
-  // const enhancedHandleSubmit = async () => {
-  //   setLoading(true);
-  //   try {
-  //     await handleSubmit();
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   return (
-    <ScrollView
-      style={{
-        width: "100%",
-      }}
-    >
-      <View
-        style={{
-          justifyContent: "space-evenly",
-          flexDirection: "row",
-        }}
-      >
+    <ScrollView style={styles.scrollView}>
+      <View style={styles.inputRow}>
         <TextInput
           mode="outlined"
-          label="Report Time"
+          label="Report Date"
           value={currentDate}
           editable={false}
-          style={{
-            width: "45%",
-          }}
+          style={styles.halfWidth}
         />
         <TextInput
           mode="outlined"
+          label="Time of Report"
           value={currentTime}
-          label="Time of report"
-          style={{
-            width: "45%",
-          }}
-          disabled={true}
+          editable={false}
+          style={styles.halfWidth}
         />
       </View>
-      <View
-        style={{
-          width: "100%",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+
+      <View style={styles.centerContainer}>
         <View style={styles.container}>
           {renderLabel("Location", locationFocus)}
-
           <Dropdown
             style={[styles.dropdown, locationFocus && { borderColor: "blue" }]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}
             iconStyle={styles.iconStyle}
-            data={locations.map((Location) => ({
-              label: Location.name,
-              value: Location.id,
-            }))}
+            data={locations}
             search
             maxHeight={300}
             labelField="label"
             valueField="value"
             placeholder={!locationFocus ? "Location" : "..."}
             searchPlaceholder="Search..."
-            value={selectedLocation} // Use selectedLocation here
             onFocus={() => setLocationFocus(true)}
             onBlur={() => setLocationFocus(false)}
-            onChange={handleLocationChange}
+            onChange={(item) => handleInputChange("location", item.label)}
             renderLeftIcon={() => (
               <AntDesign
                 style={styles.icon}
@@ -159,70 +127,29 @@ const Form = ({
                 size={20}
               />
             )}
-            // onChangeText={(Location) => {
-            //   setFsgrData({ ...fsgrData, Location });
-            // }}
           />
         </View>
-        <TextInput
-          mode="outlined"
-          label="FSGR Title"
-          style={{
-            marginTop: 10,
-            width: "95%",
-          }}
-          onChangeText={(heading) => {
-            setFsgrData({ ...fsgrData, heading });
-          }}
-        />
-        <TextInput
-          mode="outlined"
-          label="Employee Name"
-          style={{
-            marginTop: 10,
-            width: "95%",
-          }}
-          onChangeText={(empName) => {
-            setFsgrData({ ...fsgrData, empName });
-          }}
-        />
-        <TextInput
-          mode="outlined"
-          label="Employee Designation"
-          style={{
-            marginTop: 10,
-            width: "95%",
-          }}
-          onChangeText={(empDesignation) => {
-            setFsgrData({ ...fsgrData, empDesignation });
-          }}
-        />
-        <TextInput
-          mode="outlined"
-          label="Incharge Name"
-          style={{
-            marginTop: 10,
-            width: "95%",
-          }}
-          onChangeText={(inchargeName) => {
-            setFsgrData({ ...fsgrData, inchargeName });
-          }}
-        />
-        <TextInput
-          mode="outlined"
-          label="Safety Supervisor Name"
-          style={{
-            marginTop: 10,
-            width: "95%",
-          }}
-          onChangeText={(siteSupervisor) => {
-            setFsgrData({ ...fsgrData, siteSupervisor });
-          }}
-        />
+
+        {[
+          "FSGR Title",
+          "Employee Name",
+          "Employee Designation",
+          "Incharge Name",
+          "Safety Supervisor Name",
+        ].map((label, index) => (
+          <TextInput
+            key={index}
+            mode="outlined"
+            label={label}
+            style={styles.fullWidth}
+            onChangeText={(text) =>
+              handleInputChange(label.toLowerCase().replace(/ /g, ""), text)
+            }
+          />
+        ))}
 
         <View style={styles.container}>
           {renderLabel("Priority", priorityFocus)}
-
           <Dropdown
             style={[styles.dropdown, priorityFocus && { borderColor: "blue" }]}
             placeholderStyle={styles.placeholderStyle}
@@ -236,10 +163,9 @@ const Form = ({
             valueField="value"
             placeholder={!priorityFocus ? "Priority" : "..."}
             searchPlaceholder="Search..."
-            value={selectedPriority} // Use selectedLocation here
             onFocus={() => setPriorityFocus(true)}
             onBlur={() => setPriorityFocus(false)}
-            onChange={handlePriorityChange}
+            onChange={(item) => handleInputChange("priority", item.value)}
             renderLeftIcon={() => (
               <AntDesign
                 style={styles.icon}
@@ -248,103 +174,33 @@ const Form = ({
                 size={20}
               />
             )}
-            // onChangeText={(Priority) => {
-            //   setFsgrData({ ...fsgrData, Priority });
-            // }}
           />
         </View>
+
         <TextInput
           mode="outlined"
-          label="What is your problem ?"
-          style={{
-            marginTop: 10,
-            width: "95%",
-          }}
-          onChangeText={(message) => {
-            setFsgrData({ ...fsgrData, message });
-          }}
+          label="What is your problem?"
+          style={styles.fullWidth}
+          onChangeText={(text) => handleInputChange("message", text)}
           multiline
           numberOfLines={3}
         />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
-            width: "100%",
-            alignItems: "center",
-            marginBottom: 10,
-          }}
-        >
-          <TouchableOpacity
-            // onPress={console.log("")}
-            style={{
-              // backgroundColor: "#4caf501a",
-              // height: 40,
-              // borderRadius: 10,
-              // marginTop: 10,
-              // alignItems: "center",
-              // justifyContent: "center",
-              // width: "45%",
-              backgroundColor: "#4caf501a",
-              height: 45,
-              borderRadius: 50,
-              marginTop: 10,
-              alignItems: "center",
-              justifyContent: "center",
-              width: "45%",
-              marginTop: 20,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Entypo name="camera" size={20} color="#4caf50" />
-              <Text
-                style={{
-                  fontSize: 14,
-                  marginLeft: 10,
-                  fontWeight: "700",
-                  color: "#4caf50",
-                }}
-              >
-                Take Photo
-              </Text>
-            </View>
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={openCamera} style={styles.photoButton}>
+            <Entypo name="camera" size={20} color="#4caf50" />
+            <Text style={styles.photoButtonText}>Take Photo</Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             onPress={handleSubmit}
-            style={{
-              backgroundColor: "#21005d",
-              height: 45,
-              borderRadius: 50,
-              marginTop: 10,
-              alignItems: "center",
-              justifyContent: "center",
-              elevation: 4,
-              width: "45%",
-              marginTop: 20,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
+            style={styles.submitButton}
             disabled={loadingSubmit}
           >
             {loadingSubmit ? (
               <ActivityIndicator size="small" color="#fff" />
             ) : (
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontWeight: "500",
-                  color: "white",
-                }}
-              >
-                Submit Report
-              </Text>
+              <Text style={styles.submitButtonText}>Submit Report</Text>
             )}
           </TouchableOpacity>
         </View>
@@ -353,14 +209,30 @@ const Form = ({
   );
 };
 
-export default Form;
-
 const styles = StyleSheet.create({
+  scrollView: {
+    width: "100%",
+    padding: 8,
+  },
+  inputRow: {
+    justifyContent: "space-evenly",
+    flexDirection: "row",
+  },
+  halfWidth: {
+    width: "45%",
+  },
+  centerContainer: {
+    width: "100%",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   container: {
     backgroundColor: "white",
-    padding: 16,
-    width: "103%",
-    marginBottom: -15,
+    paddingHorizontal: 12,
+    width: "100%",
+    marginBottom: 0,
+    marginTop: 10,
   },
   dropdown: {
     height: 50,
@@ -395,4 +267,50 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
+  fullWidth: {
+    marginTop: 10,
+    width: "95%",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  photoButton: {
+    backgroundColor: "#4caf501a",
+    height: 45,
+    borderRadius: 50,
+    marginTop: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "45%",
+    flexDirection: "row",
+  },
+  photoButtonText: {
+    fontSize: 14,
+    marginLeft: 10,
+    fontWeight: "700",
+    color: "#4caf50",
+  },
+  submitButton: {
+    backgroundColor: "#21005d",
+    height: 45,
+    borderRadius: 50,
+    marginTop: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 4,
+    width: "45%",
+    flexDirection: "row",
+  },
+  submitButtonText: {
+    fontSize: 15,
+    fontWeight: "500",
+    color: "white",
+  },
 });
+
+export default Form;
