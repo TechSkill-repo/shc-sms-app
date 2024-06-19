@@ -5,7 +5,12 @@ import FsgrInfo from "./FsgrInfo/FsgrInfo";
 
 const Setting = () => {
   return (
-    <View>
+    <View
+      style={{
+        height: "100%",
+        backgroundColor: "white",
+      }}
+    >
       <FsgrInfo />
     </View>
   );

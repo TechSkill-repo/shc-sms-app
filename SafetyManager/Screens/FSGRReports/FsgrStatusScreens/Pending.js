@@ -167,9 +167,6 @@ const Pending = ({ loadSearchBar }) => {
             Please Search your Required DJP
           </Text>
           <TouchableOpacity
-            onPress={() => {
-              setShowSearch((prevState) => !prevState);
-            }}
             style={{
               flexDirection: "row",
               alignItems: "center",
