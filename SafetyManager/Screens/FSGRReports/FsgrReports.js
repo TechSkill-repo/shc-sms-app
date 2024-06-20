@@ -15,6 +15,7 @@ import {
 } from "react-native-gesture-handler";
 import SsiClose from "./FsgrStatusScreens/SsiClose";
 import useAuthStore from "../../../store/userAuthStore";
+import FinalClose from "./FsgrStatusScreens/FinalClose";
 
 const FsgrReports = () => {
   const [selectedCard, setSelectedCard] = useState(1);
@@ -37,7 +38,7 @@ const FsgrReports = () => {
   const handleGesture = ({ nativeEvent }) => {
     if (nativeEvent.state === State.END) {
       if (nativeEvent.translationX < -50) {
-        setSelectedCard((prev) => Math.min(prev + 1, 5));
+        setSelectedCard((prev) => Math.min(prev + 1, 6));
       } else if (nativeEvent.translationX > 50) {
         setSelectedCard((prev) => Math.max(prev - 1, 1));
       }
@@ -134,6 +135,17 @@ const FsgrReports = () => {
                 <Text style={styles.buttonText}>Closed</Text>
               )}
             </TouchableOpacity>
+            {role === "admin" ? (
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  selectedCard === 6 && styles.selectedButton,
+                ]}
+                onPress={() => handleCardSelect(6)}
+              >
+                <Text style={styles.buttonText}>Final Closed</Text>
+              </TouchableOpacity>
+            ) : null}
           </ScrollView>
           <SearchFsgr setIsVisible={setIsVisible} isVisible={isVisible} />
         </View>
@@ -159,6 +171,7 @@ const FsgrReports = () => {
           {selectedCard === 3 && <Progress loadSearchBar={loadSearchBar} />}
           {selectedCard === 4 && <SsiClose loadSearchBar={loadSearchBar} />}
           {selectedCard === 5 && <Close loadSearchBar={loadSearchBar} />}
+          {selectedCard === 6 && <FinalClose loadSearchBar={loadSearchBar} />}
         </ScrollView>
         {/* </ScrollView> */}
       </PanGestureHandler>
