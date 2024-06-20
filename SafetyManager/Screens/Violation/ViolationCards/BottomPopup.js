@@ -18,6 +18,7 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
   const windowHeight = Dimensions.get("window").height;
   const [loading, setLoading] = useState(true);
   const [violationDetails, setViolationDetails] = useState(null);
+  const [imageLoading, setImageLoading] = useState(true);
 
   useEffect(() => {
     if (visible) {
@@ -37,9 +38,8 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
 
   const getImageUrl = (imagePath) => {
     if (imagePath) {
-      const url = "";
-      // const url = `${serveraddress}${imagePath}`;
-      // console.log("Image URL:", url); // Debugging log
+      const url = `https://shconstruction.co.in/violation/${imagePath}`;
+      console.log("Image URL:", url);
       return url;
     }
     return null;
@@ -75,7 +75,9 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
             <View style={styles.detailContainer}>
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Date:</Text>
-                <Text style={styles.detailValue}>{violationDetails?.date}</Text>
+                <Text style={styles.detailValue}>
+                  {violationDetails?.createdAt.slice(0, 10)}
+                </Text>
               </View>
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Location:</Text>
@@ -122,13 +124,22 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
               <View style={{ marginTop: 10 }}>
                 <Text style={styles.detailLabel}>Before Image:</Text>
                 {violationDetails?.violationBeforeImage ? (
-                  <Image
-                    source={{
-                      uri: getImageUrl(violationDetails.violationBeforeImage),
-                    }}
-                    style={styles.image}
-                    onError={() => console.error("Failed to load image")} // Handle image load failure
-                  />
+                  <View>
+                    {imageLoading && (
+                      <ActivityIndicator size="small" color="#21005d" />
+                    )}
+                    <Image
+                      source={{
+                        uri: getImageUrl(violationDetails.violationBeforeImage),
+                      }}
+                      style={styles.image}
+                      onLoadEnd={() => setImageLoading(false)}
+                      onError={() => {
+                        console.error("Failed to load image");
+                        setImageLoading(false);
+                      }}
+                    />
+                  </View>
                 ) : (
                   <Text style={styles.detailValue}>No image available</Text>
                 )}
