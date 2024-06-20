@@ -6,13 +6,45 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { Entypo } from "@expo/vector-icons";
+import axios from "axios";
+import { serveraddress } from "../../../../assets/values/Constants";
 
-const BottomPopup = ({ visible, setVisible }) => {
+const BottomPopup = ({ visible, setVisible, cardId }) => {
   const windowHeight = Dimensions.get("window").height;
+  const [loading, setLoading] = useState(true);
+  const [violationDetails, setViolationDetails] = useState(null);
+
+  useEffect(() => {
+    if (visible) {
+      setLoading(true);
+      axios
+        .get(`${serveraddress}violation/${cardId}`)
+        .then((response) => {
+          setViolationDetails(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          setLoading(false);
+        });
+    }
+  }, [visible, cardId]);
+
+  const getImageUrl = (imagePath) => {
+    if (imagePath) {
+      const url = "";
+      // const url = `${serveraddress}${imagePath}`;
+      // console.log("Image URL:", url); // Debugging log
+      return url;
+    }
+    return null;
+  };
+
   return (
     <Modal
       visible={visible}
@@ -24,8 +56,8 @@ const BottomPopup = ({ visible, setVisible }) => {
         <ScrollView
           style={{
             ...styles.scrollView,
-            height: windowHeight * 0.8,
-            marginTop: windowHeight * 0.2,
+            height: windowHeight * 0.9,
+            marginTop: windowHeight * 0.1,
           }}
         >
           <View style={styles.header}>
@@ -37,74 +69,84 @@ const BottomPopup = ({ visible, setVisible }) => {
               onPress={() => setVisible(false)}
             />
           </View>
-          <View style={styles.detailContainer}>
-            <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Date:</Text>
-              <Text style={styles.detailValue}>12.06.2024</Text>
+          {loading ? (
+            <ActivityIndicator size="large" color="#21005d" />
+          ) : (
+            <View style={styles.detailContainer}>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Date:</Text>
+                <Text style={styles.detailValue}>{violationDetails?.date}</Text>
+              </View>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Location:</Text>
+                <Text style={styles.detailValue}>
+                  {violationDetails?.location}
+                </Text>
+              </View>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>During:</Text>
+                <Text style={styles.detailValue}>
+                  {violationDetails?.during}
+                </Text>
+              </View>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Severity:</Text>
+                <Text style={styles.detailValue}>
+                  {violationDetails?.severity}
+                </Text>
+              </View>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Type:</Text>
+                <Text style={styles.detailValue}>{violationDetails?.type}</Text>
+              </View>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>
+                  Responsibility Of Closure:
+                </Text>
+                <Text style={styles.detailValue}>
+                  {violationDetails?.responsiblePerson}
+                </Text>
+              </View>
+              <View style={{ marginTop: 10 }}>
+                <Text style={styles.detailLabel}>Description:</Text>
+                <Text style={[styles.detailValue, { marginTop: 10 }]}>
+                  {violationDetails?.discription}
+                </Text>
+              </View>
+              <View style={{ marginTop: 10 }}>
+                <Text style={styles.detailLabel}>Comment:</Text>
+                <Text style={[styles.detailValue, { marginTop: 10 }]}>
+                  {violationDetails?.comment}
+                </Text>
+              </View>
+              <View style={{ marginTop: 10 }}>
+                <Text style={styles.detailLabel}>Before Image:</Text>
+                {violationDetails?.violationBeforeImage ? (
+                  <Image
+                    source={{
+                      uri: getImageUrl(violationDetails.violationBeforeImage),
+                    }}
+                    style={styles.image}
+                    onError={() => console.error("Failed to load image")} // Handle image load failure
+                  />
+                ) : (
+                  <Text style={styles.detailValue}>No image available</Text>
+                )}
+              </View>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.imageButton}>
+                  <Entypo name="camera" size={20} color="#4caf50" />
+                  <Text style={styles.imageButtonText}>After Image</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setVisible(false)}
+                >
+                  <Text style={styles.closeButtonText}>Close</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Location:</Text>
-              <Text style={styles.detailValue}>RMM</Text>
-            </View>
-            <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>During:</Text>
-              <Text style={styles.detailValue}>Option 1</Text>
-            </View>
-            <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Severity:</Text>
-              <Text style={styles.detailValue}>High</Text>
-            </View>
-            <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Type:</Text>
-              <Text style={styles.detailValue}>Violation</Text>
-            </View>
-            <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Responsibility Of Closure:</Text>
-              <Text style={styles.detailValue}>Fahad Mahmood</Text>
-            </View>
-            <View
-              style={{
-                marginTop: 10,
-              }}
-            >
-              <Text style={styles.detailLabel}>Description:</Text>
-              <Text
-                style={[
-                  styles.detailValue,
-                  {
-                    marginTop: 10,
-                  },
-                ]}
-              >
-                This is the description of the violation. This is the
-                description of the violation. This is the description of the
-                violation.
-              </Text>
-            </View>
-            <View
-              style={{
-                marginTop: 10,
-              }}
-            >
-              <Text style={styles.detailLabel}>Before Image:</Text>
-              <Image
-                source={{ uri: "https://via.placeholder.com/150" }}
-                style={styles.image}
-              />
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.imageButton}>
-                <Entypo name="camera" size={20} color="#4caf50" />
-                <Text style={styles.imageButtonText}>After Image</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.closeButton}
-                onPress={() => setVisible(false)}
-              >
-                <Text style={styles.closeButtonText}>Close</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          )}
         </ScrollView>
       </View>
     </Modal>

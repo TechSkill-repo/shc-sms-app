@@ -4,43 +4,84 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import BottomPopup from "./BottomPopup";
+import { serveraddress } from "../../../../assets/values/Constants";
 
 const ViolationCard = () => {
+  const [violations, setViolations] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
+  const [cardId, setCardId] = useState("");
+
+  useEffect(() => {
+    axios
+      .get(`${serveraddress}violation/violation/pending`)
+      .then((response) => {
+        setViolations(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#21005d" />
+      </View>
+    );
+  }
+
   return (
     <ScrollView>
-      <TouchableOpacity
-        onPress={() => {
-          setVisible(true);
-        }}
-        style={styles.container}
-      >
-        <View style={styles.card}>
-          <View style={styles.row}>
-            <View style={styles.detailColumn}>
-              <Text style={styles.date}>12.06.2024</Text>
-              <Text style={styles.label}>
-                Location <Text style={styles.value}>RMM</Text>
-              </Text>
-              <Text style={styles.label}>
-                Responsibility: <Text style={styles.value}>Fahad Mahmood</Text>
-              </Text>
-            </View>
-            <View style={styles.statusContainer}>
-              <Text style={styles.status}>Pending</Text>
+      {violations.map((violation, index) => (
+        <TouchableOpacity
+          key={index}
+          onPress={() => {
+            setVisible(true);
+            setCardId(violation.id);
+          }}
+          style={styles.container}
+        >
+          <View style={styles.card}>
+            <View style={styles.row}>
+              <View style={styles.detailColumn}>
+                <Text style={styles.date}>
+                  {violation.createdAt?.slice(0, 10)}
+                </Text>
+                <Text style={styles.label}>
+                  Location:{" "}
+                  <Text style={styles.value}>{violation.location}</Text>
+                </Text>
+                <Text style={styles.label}>
+                  Responsibility:{" "}
+                  <Text style={styles.value}>{violation.responsibility}</Text>
+                </Text>
+              </View>
+              <View style={styles.statusContainer}>
+                <Text style={styles.status}>{violation.status}</Text>
+              </View>
             </View>
           </View>
-        </View>
-      </TouchableOpacity>
-      <BottomPopup visible={visible} setVisible={setVisible} />
+        </TouchableOpacity>
+      ))}
+      <BottomPopup visible={visible} setVisible={setVisible} cardId={cardId} />
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   container: {
     justifyContent: "center",
     alignItems: "center",

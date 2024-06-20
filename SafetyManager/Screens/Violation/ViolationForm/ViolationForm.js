@@ -98,6 +98,7 @@ const ViolationForm = ({ visible, setVisible }) => {
       formData.append("comment", comment);
       formData.append("discription", description);
       formData.append("responsiblePerson", responsibilityOfClosure);
+      formData.append("status", "pending");
 
       // Append the image file
       if (photoUri) {
@@ -349,6 +350,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     marginVertical: 10,
+    marginBottom: 40,
   },
   photoButton: {
     backgroundColor: "#4caf501a",
@@ -383,8 +385,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   photoPreview: {
-    width: 100,
-    height: 100,
+    width: "100%",
+    height: 200,
     borderRadius: 10,
   },
 });
