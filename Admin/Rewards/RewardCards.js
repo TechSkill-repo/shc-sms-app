@@ -1,11 +1,34 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
+import noData from "../../assets/icons/nodata.png";
 
 const RewardCards = ({ rewards }) => {
   return (
     <View style={styles.rewardsContainer}>
       {rewards?.length === 0 ? (
-        <Text style={styles.noRewardsText}>No rewards found.</Text>
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Image
+            source={noData}
+            style={{
+              width: "100%",
+              height: 400,
+            }}
+          />
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: "600",
+              color: "gray",
+            }}
+          >
+            Please Search the Data
+          </Text>
+        </View>
       ) : (
         rewards.map((reward, index) => (
           <View key={index} style={styles.card}>

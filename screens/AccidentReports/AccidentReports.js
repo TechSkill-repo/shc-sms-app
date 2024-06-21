@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -17,6 +11,7 @@ import DangerousIncident from "./AccidentScreens/DangerousIncident";
 import {
   GestureHandlerRootView,
   PanGestureHandler,
+  ScrollView,
   State,
 } from "react-native-gesture-handler";
 

@@ -7,6 +7,7 @@ import RewardSearch from "./RewardSearch";
 
 const Rewards = () => {
   const [visible, setVisible] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
   const [rewards, setRewards] = useState([]);
 
   return (
@@ -27,10 +28,11 @@ const Rewards = () => {
         <Appbar.Action
           icon="plus"
           onPress={() => {
-            setVisible(true);
+            setFormVisible(true);
           }}
         />
       </Appbar.Header>
+      <RewardForm formVisible={formVisible} setFormVisible={setFormVisible} />
       <RewardSearch
         visible={visible}
         setVisible={setVisible}

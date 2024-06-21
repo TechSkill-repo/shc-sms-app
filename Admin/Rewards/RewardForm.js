@@ -15,7 +15,7 @@ import { TextInput, Button } from "react-native-paper";
 import axios from "axios";
 import { serveraddress } from "../../assets/values/Constants";
 
-const RewardForm = ({ visible, setVisible }) => {
+const RewardForm = ({ formVisible, setFormVisible }) => {
   const windowHeight = Dimensions.get("window").height;
   const [empName, setEmpName] = useState("");
   const [empId, setEmpId] = useState("");
@@ -45,14 +45,14 @@ const RewardForm = ({ visible, setVisible }) => {
       console.error("Error submitting reward:", error);
     } finally {
       setLoading(false);
-      setVisible(false);
+      setFormVisible(false);
     }
   };
 
   return (
     <Modal
-      visible={visible}
-      onRequestClose={() => setVisible(false)}
+      visible={formVisible}
+      onRequestClose={() => setFormVisible(false)}
       transparent
       animationType="slide"
     >
@@ -65,7 +65,7 @@ const RewardForm = ({ visible, setVisible }) => {
         >
           <View style={styles.header}>
             <Text style={styles.title}>Rewards Form</Text>
-            <TouchableOpacity onPress={() => setVisible(false)}>
+            <TouchableOpacity onPress={() => setFormVisible(false)}>
               <Entypo name="cross" size={30} color="red" />
             </TouchableOpacity>
           </View>
