@@ -70,7 +70,7 @@ const ViolationCard = () => {
                       },
                     ]}
                   >
-                    {violation.responsiblePerson}
+                    {violation?.responsiblePerson}
                   </Text>
                 </Text>
               </View>

@@ -62,7 +62,16 @@ const ViolationClose = () => {
                 </Text>
                 <Text style={styles.label}>
                   Responsibility:{" "}
-                  <Text style={styles.value}>{violation.responsibility}</Text>
+                  <Text
+                    style={[
+                      styles.value,
+                      {
+                        fontSize: 12,
+                      },
+                    ]}
+                  >
+                    {violation.responsiblePerson}
+                  </Text>
                 </Text>
               </View>
               <View style={styles.statusContainer}>

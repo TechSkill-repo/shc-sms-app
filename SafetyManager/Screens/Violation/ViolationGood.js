@@ -10,6 +10,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
 import BottomPopup from "./ViolationCards/BottomPopup";
+import GoodObservationPopup from "./ViolationCards/GoodObservationPopup";
 
 const ViolationGood = () => {
   const [violations, setViolations] = useState([]);
@@ -61,17 +62,23 @@ const ViolationGood = () => {
                 </Text>
                 <Text style={styles.label}>
                   Responsibility:{" "}
-                  <Text style={styles.value}>{violation.responsibility}</Text>
+                  <Text style={styles.value}>
+                    {violation.responsiblePerson}
+                  </Text>
                 </Text>
               </View>
               <View style={styles.statusContainer}>
-                <Text style={styles.status}>{violation.status}</Text>
+                <Text style={styles.status}>Good Observation</Text>
               </View>
             </View>
           </View>
         </TouchableOpacity>
       ))}
-      <BottomPopup visible={visible} setVisible={setVisible} cardId={cardId} />
+      <GoodObservationPopup
+        visible={visible}
+        setVisible={setVisible}
+        cardId={cardId}
+      />
     </ScrollView>
   );
 };
@@ -121,14 +128,14 @@ const styles = StyleSheet.create({
   statusContainer: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FFCDD2",
+    backgroundColor: "#4782da2a",
     paddingHorizontal: 20,
     paddingVertical: 5,
     borderRadius: 5,
   },
   status: {
     fontWeight: "600",
-    color: "#D32F2F",
+    color: "#4782da",
     fontSize: 12,
   },
 });
