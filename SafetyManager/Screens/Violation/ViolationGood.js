@@ -11,7 +11,6 @@ import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
 import BottomPopup from "./ViolationCards/BottomPopup";
 
-
 const ViolationGood = () => {
   const [violations, setViolations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,7 +19,7 @@ const ViolationGood = () => {
 
   useEffect(() => {
     axios
-      .get(`${serveraddress}violation/violation/goodovservation`)
+      .get(`${serveraddress}violation/good_observation/pending`)
       .then((response) => {
         setViolations(response.data);
         setLoading(false);

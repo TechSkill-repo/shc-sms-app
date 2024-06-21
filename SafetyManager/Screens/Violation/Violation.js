@@ -102,8 +102,8 @@ const Violation = () => {
             // />
             <ViolationCard />
           )}
-          {selectedCard === 2 && <VioloationClose/>}
-          {selectedCard === 3 && <ViolationGood/>}
+          {selectedCard === 2 && <VioloationClose />}
+          {selectedCard === 3 && <ViolationGood />}
           {/* {selectedCard === 4 && <SsiClose loadSearchBar={loadSearchBar} />}
           {selectedCard === 5 && <Close loadSearchBar={loadSearchBar} />}
           {selectedCard === 6 && <FinalClose loadSearchBar={loadSearchBar} />} */}

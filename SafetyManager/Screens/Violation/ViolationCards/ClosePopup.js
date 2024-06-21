@@ -16,12 +16,12 @@ import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import { serveraddress } from "../../../../assets/values/Constants";
 
-const BottomPopup = ({ visible, setVisible, cardId }) => {
+const ClosePopup = ({ visible, setVisible, cardId }) => {
   const windowHeight = Dimensions.get("window").height;
   const [loading, setLoading] = useState(true);
   const [violationDetails, setViolationDetails] = useState(null);
-  const [imageLoading, setImageLoading] = useState(true);
-  const [photoUri, setPhotoUri] = useState(null);
+  const [imageLoadingBefore, setImageLoadingBefore] = useState(true);
+  const [imageLoadingAfter, setImageLoadingAfter] = useState(true);
 
   useEffect(() => {
     if (visible) {
@@ -29,6 +29,7 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
       axios
         .get(`${serveraddress}violation/${cardId}`)
         .then((response) => {
+          console.log(response.data);
           setViolationDetails(response.data);
           setLoading(false);
         })
@@ -46,75 +47,6 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
       return url;
     }
     return null;
-  };
-
-  const handleCameraPress = async () => {
-    try {
-      const { status } = await ImagePicker.requestCameraPermissionsAsync();
-      if (status !== "granted") {
-        alert("Sorry, we need camera permissions to make this work!");
-        return;
-      }
-
-      const result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
-
-      if (!result.canceled) {
-        setPhotoUri(result.assets[0].uri);
-        console.log("Photo URI:", result.assets[0].uri);
-      }
-    } catch (error) {
-      console.error("Error taking photo:", error);
-    }
-  };
-
-  const handleSubmit = async () => {
-    try {
-      const formData = new FormData();
-
-      // Append form fields to FormData
-      formData.append("status", "close");
-
-      // Append the image file
-      if (photoUri) {
-        const filename = photoUri.split("/").pop();
-        const match = /\.(\w+)$/.exec(filename);
-        const type = match ? `image/${match[1]}` : `image`;
-
-        formData.append("violationAfterImage", {
-          uri: photoUri,
-          name: filename,
-          type: type,
-        });
-      }
-
-      // Send the form data
-      const response = await fetch(`${serveraddress}violation/${cardId}`, {
-        method: "PATCH",
-        body: formData,
-        headers: {
-          "Content-Type": "multipart/form-data", // Ensure correct content type
-        },
-      });
-
-      console.log("response violation:", response);
-
-      if (!response.ok) {
-        const responseData = await response.text();
-        console.error("Server response:", responseData);
-        throw new Error("Network response was not ok");
-      }
-
-      Alert.alert("Success", "Form submitted successfully!");
-      setVisible(false); // Close the modal after successful submission
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      Alert.alert("Error", "Failed to submit the form. Please try again.");
-    }
   };
 
   return (
@@ -197,7 +129,7 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
                 <Text style={styles.detailLabel}>Before Image:</Text>
                 {violationDetails?.violationBeforeImage ? (
                   <View>
-                    {imageLoading && (
+                    {imageLoadingBefore && (
                       <ActivityIndicator size="small" color="#21005d" />
                     )}
                     <Image
@@ -205,46 +137,48 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
                         uri: getImageUrl(violationDetails.violationBeforeImage),
                       }}
                       style={styles.image}
-                      onLoadEnd={() => setImageLoading(false)}
+                      onLoadEnd={() => setImageLoadingBefore(false)}
                       onError={() => {
                         console.error("Failed to load image");
-                        setImageLoading(false);
+                        setImageLoadingBefore(false);
                       }}
                     />
                   </View>
                 ) : (
                   <Text style={styles.detailValue}>No image available</Text>
                 )}
-                <View style={{ marginTop: 10 }}>
-                  <Text style={styles.detailLabel}>After Image:</Text>
-                  {photoUri ? (
+              </View>
+              <View style={{ marginTop: 10 }}>
+                <Text style={styles.detailLabel}>After Image:</Text>
+                {violationDetails?.violationAfterImage ? (
+                  <View>
+                    {imageLoadingAfter && (
+                      <ActivityIndicator size="small" color="#21005d" />
+                    )}
                     <Image
                       source={{
-                        uri: photoUri,
+                        uri: getImageUrl(violationDetails.violationAfterImage),
                       }}
                       style={styles.image}
-                      // onLoadEnd={() => setImageLoading(false)}
-                      // onError={() => {
-                      //   console.error("Failed to load image");
-                      //   setImageLoading(false);
-                      // }}
+                      onLoadEnd={() => setImageLoadingAfter(false)}
+                      onError={() => {
+                        console.error("Failed to load image");
+                        setImageLoadingAfter(false);
+                      }}
                     />
-                  ) : null}
-                </View>
+                  </View>
+                ) : (
+                  <Text style={styles.detailValue}>No image available</Text>
+                )}
               </View>
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                  style={styles.imageButton}
-                  onPress={handleCameraPress}
-                >
-                  <Entypo name="camera" size={20} color="#4caf50" />
-                  <Text style={styles.imageButtonText}>After Image</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                  onPress={() => {
+                    setVisible(false);
+                  }}
                   style={styles.closeButton}
-                  onPress={handleSubmit}
                 >
-                  <Text style={styles.closeButtonText}>Close</Text>
+                  <Text style={styles.closeButtonText}>Closed</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -327,12 +261,12 @@ const styles = StyleSheet.create({
     color: "#4caf50",
   },
   closeButton: {
-    backgroundColor: "#21005d",
+    backgroundColor: "#f44336",
     height: 45,
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
-    width: "45%",
+    width: "100%",
   },
   closeButtonText: {
     fontSize: 15,
@@ -341,4 +275,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomPopup;
+export default ClosePopup;

@@ -62,11 +62,22 @@ const ViolationCard = () => {
                 </Text>
                 <Text style={styles.label}>
                   Responsibility:{" "}
-                  <Text style={styles.value}>{violation.responsibility}</Text>
+                  <Text
+                    style={[
+                      styles.value,
+                      {
+                        fontSize: 12,
+                      },
+                    ]}
+                  >
+                    {violation.responsiblePerson}
+                  </Text>
                 </Text>
               </View>
               <View style={styles.statusContainer}>
-                <Text style={styles.status}>{violation.status}</Text>
+                <Text style={styles.status}>
+                  {violation.status === "pending" && <Text>Pending</Text>}
+                </Text>
               </View>
             </View>
           </View>

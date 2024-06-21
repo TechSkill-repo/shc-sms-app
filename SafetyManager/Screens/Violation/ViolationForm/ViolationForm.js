@@ -18,7 +18,7 @@ import * as ImagePicker from "expo-image-picker";
 import { serveraddress } from "../../../../assets/values/Constants";
 
 const duringOptions = [
-  { label: "Option 1", value: "option1" },
+  { label: "Line Walk", value: "LineWalk" },
   { label: "Option 2", value: "option2" },
 ];
 
@@ -191,7 +191,9 @@ const ViolationForm = ({ visible, setVisible }) => {
               placeholder={`Location`}
               searchPlaceholder="Search..."
               value={selectedLocation}
-              onChange={(location) => setSelectedLocation(location.value)}
+              onChange={(location) => {
+                setSelectedLocation(location.label);
+              }}
               renderLeftIcon={() => (
                 <AntDesign
                   style={styles.icon}
