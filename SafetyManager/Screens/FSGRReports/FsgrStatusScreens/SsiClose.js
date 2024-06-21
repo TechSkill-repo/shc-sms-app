@@ -161,25 +161,31 @@ const SsiClose = ({ loadSearchBar }) => {
                 </View>
               </View>
               <View style={{ width: "30%" }}>
-                <View
-                  style={{
-                    backgroundColor: "#f443361a",
-                    paddingHorizontal: 2,
-                    paddingVertical: 5,
-                    borderRadius: 5,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
-                    style={{ fontSize: 12, fontWeight: 600, color: "#f44336" }}
+                {role !== "admin" && (
+                  <View
+                    style={{
+                      backgroundColor: "#f443361a",
+                      paddingHorizontal: 2,
+                      paddingVertical: 5,
+                      borderRadius: 5,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
                   >
-                    {item.status === "progress"
-                      ? "Planning Phase"
-                      : "SsI Close"}
-                  </Text>
-                </View>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 600,
+                        color: "#f44336",
+                      }}
+                    >
+                      {item.status === "progress"
+                        ? "Planning Phase"
+                        : "SsI Close"}
+                    </Text>
+                  </View>
+                )}
               </View>
             </View>
           </TouchableOpacity>

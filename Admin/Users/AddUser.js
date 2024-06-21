@@ -10,6 +10,13 @@ import {
 import axios from "axios";
 import { serveraddress } from "../../assets/values/Constants";
 import { Entypo } from "@expo/vector-icons";
+import { Dropdown } from "react-native-element-dropdown";
+
+const roleOptions = [
+  { label: "Site Incharge", value: "si" },
+  { label: "Safety Supervisor", value: "ss" },
+  { label: "Safety Manager", value: "admin" },
+];
 
 const AddUserModal = ({ visible, hideModal }) => {
   const [email, setEmail] = useState("");
@@ -25,10 +32,12 @@ const AddUserModal = ({ visible, hideModal }) => {
 
       const payload = {
         email: email,
-        role: role,
+        role: role.value,
         username: username,
         password: password,
       };
+
+      console.log("payload:", payload);
 
       const response = await axios.post(url, payload, {
         headers: {
@@ -86,12 +95,26 @@ const AddUserModal = ({ visible, hideModal }) => {
               onChangeText={(text) => setEmail(text)}
               style={styles.input}
             />
-            <TextInput
+            {/* <TextInput
               mode="outlined"
               label="Role"
               value={role}
               onChangeText={(text) => setRole(text)}
               style={styles.input}
+            /> */}
+            <Dropdown
+              style={styles.dropdown}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={roleOptions}
+              labelField="label"
+              valueField="value"
+              placeholder="Role"
+              searchPlaceholder="Search..."
+              value={role}
+              onChange={(item) => setRole(item)}
             />
             <TextInput
               mode="outlined"
@@ -154,6 +177,24 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10,
+  },
+  dropdown: {
+    height: 50,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 8,
+    marginVertical: 5,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
   },
 });
 

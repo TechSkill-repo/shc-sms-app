@@ -40,9 +40,20 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
     }
   }, [visible, cardId]);
 
+  // const getImageUrl = (imagePath) => {
+  //   if (imagePath) {
+  //     const url = `https://shconstruction.co.in/violation/${imagePath}`;
+  //     console.log("Image URL:", url);
+  //     return url;
+  //   }
+  //   return null;
+  // };
+
   const getImageUrl = (imagePath) => {
     if (imagePath) {
-      const url = `https://shconstruction.co.in/violation/${imagePath}`;
+      const url = `https://shconstruction.co.in/violation/${encodeURIComponent(
+        imagePath
+      )}`;
       console.log("Image URL:", url);
       return url;
     }
@@ -206,8 +217,7 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
                     )}
                     <Image
                       source={{
-                        // uri: getImageUrl(violationDetails.violationBeforeImage),
-                        uri: `https://shconstruction.co.in/violation/${violationDetails.violationBeforeImage}`,
+                        uri: getImageUrl(violationDetails.violationBeforeImage),
                       }}
                       style={styles.image}
                       onLoadEnd={() => setImageLoading(false)}
@@ -220,6 +230,22 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
                 ) : (
                   <Text style={styles.detailValue}>No image available</Text>
                 )}
+                <View style={{ marginTop: 10 }}>
+                  <Text style={styles.detailLabel}>After Image:</Text>
+                  {photoUri ? (
+                    <Image
+                      source={{
+                        uri: photoUri,
+                      }}
+                      style={styles.image}
+                      // onLoadEnd={() => setImageLoading(false)}
+                      // onError={() => {
+                      //   console.error("Failed to load image");
+                      //   setImageLoading(false);
+                      // }}
+                    />
+                  ) : null}
+                </View>
               </View>
               <View style={styles.buttonContainer}>
                 <TouchableOpacity

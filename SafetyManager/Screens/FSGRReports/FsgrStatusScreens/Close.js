@@ -163,27 +163,29 @@ const Close = ({ loadSearchBar }) => {
                 </View>
               </View>
               <View style={{ width: "30%" }}>
-                <View
-                  style={{
-                    backgroundColor: "#f44336",
-                    paddingHorizontal: 2,
-                    paddingVertical: 5,
-                    borderRadius: 5,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
+                {role !== "admin" && (
+                  <View
                     style={{
-                      fontSize: 12,
-                      fontWeight: 600,
-                      color: "#fff",
+                      backgroundColor: "#f44336",
+                      paddingHorizontal: 2,
+                      paddingVertical: 5,
+                      borderRadius: 5,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
-                    {item.status}
-                  </Text>
-                </View>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 600,
+                        color: "#fff",
+                      }}
+                    >
+                      {item.status}
+                    </Text>
+                  </View>
+                )}
               </View>
             </View>
           </TouchableOpacity>

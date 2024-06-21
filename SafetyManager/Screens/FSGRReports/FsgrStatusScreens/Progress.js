@@ -140,15 +140,17 @@ const Progress = ({ loadSearchBar }) => {
                   {item.createdAt.slice(0, 10)}
                 </Text>
               </View>
-              <View style={styles.statusContainer}>
-                <View style={styles.status}>
-                  <Text style={styles.statusText}>
-                    {item.status === "progress"
-                      ? "Planning Phase"
-                      : "SsI Close"}
-                  </Text>
+              {role !== "admin" && (
+                <View style={styles.statusContainer}>
+                  <View style={styles.status}>
+                    <Text style={styles.statusText}>
+                      {item.status === "progress"
+                        ? "Planning Phase"
+                        : "SsI Close"}
+                    </Text>
+                  </View>
                 </View>
-              </View>
+              )}
             </View>
           </TouchableOpacity>
         ))

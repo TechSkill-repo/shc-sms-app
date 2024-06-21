@@ -31,6 +31,10 @@ const Pending = ({ loadSearchBar }) => {
     (state) => state.setSelectedLocation
   );
 
+  const { role } = useAuthStore((state) => ({
+    role: state.role,
+  }));
+
   useEffect(() => {
     async function fetchLocationsData() {
       try {
@@ -131,11 +135,13 @@ const Pending = ({ loadSearchBar }) => {
                   </View>
                 </View>
               </View>
-              <View style={styles.statusContainer}>
-                <View style={styles.statusBadge}>
-                  <Text style={styles.statusText}>Pending</Text>
+              {role !== "admin" && (
+                <View style={styles.statusContainer}>
+                  <View style={styles.statusBadge}>
+                    <Text style={styles.statusText}>Pending</Text>
+                  </View>
                 </View>
-              </View>
+              )}
             </View>
           </TouchableOpacity>
         ))

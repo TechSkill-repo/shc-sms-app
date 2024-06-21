@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,18 +14,37 @@ import { TextInput } from "react-native-paper";
 import { Dropdown } from "react-native-element-dropdown";
 import axios from "axios";
 import { serveraddress } from "../../assets/values/Constants";
-import { Entypo } from "@expo/vector-icons";
+import { AntDesign, Entypo } from "@expo/vector-icons";
+import { fetchLocations } from "../../components/Global/Global";
 
 const RewardSearch = ({ visible, setVisible, setRewards }) => {
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
+  const [locations, setLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   const windowHeight = Dimensions.get("window").height;
 
+  console.log("year:", year);
+  console.log("month:", month);
+  console.log("location:", selectedLocation);
+  useEffect(() => {
+    async function fetchLocationsData() {
+      try {
+        const data = await fetchLocations();
+        // console.log(data);
+        setLocations(data);
+      } catch (error) {
+        console.error("Error fetching locations:", error);
+      }
+    }
+    fetchLocationsData();
+  }, []);
+
   const handleSubmit = async () => {
-    if (!year || !month || !location) {
+    if (!year || !month || !selectedLocation) {
       Alert.alert("Error", "Please select all fields");
       return;
     }
@@ -33,7 +52,7 @@ const RewardSearch = ({ visible, setVisible, setRewards }) => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${serveraddress}rewards/${year}/${month}/${location}`
+        `${serveraddress}rewards/${year}/${month}/${selectedLocation}`
       );
       setRewards(response.data);
       setVisible(false);
@@ -107,11 +126,41 @@ const RewardSearch = ({ visible, setVisible, setRewards }) => {
             style={styles.dropdown}
           />
 
-          <TextInput
+          {/* <TextInput
             label="Location"
             value={location}
             onChangeText={setLocation}
             style={styles.input}
+          /> */}
+
+          <Dropdown
+            style={styles.dropdown}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={locations.map((location) => ({
+              label: location.name,
+              value: location.id,
+            }))}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={`Location`}
+            searchPlaceholder="Search..."
+            value={selectedLocation}
+            onChange={(location) => {
+              setSelectedLocation(location.label);
+            }}
+            renderLeftIcon={() => (
+              <AntDesign
+                style={styles.icon}
+                color="black"
+                name="Safety"
+                size={20}
+              />
+            )}
           />
 
           <TouchableOpacity

@@ -22,7 +22,6 @@ const passData = [
 
 const TrainingTest = () => {
   const [testName, setTestName] = useState("");
-  const [location, setLocation] = useState("");
   const [aboutTest, setAboutTest] = useState("");
   const [students, setStudents] = useState([
     { empName: "", empMarks: "", testStatus: "" },
@@ -77,11 +76,17 @@ const TrainingTest = () => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
+
+    const transformedStudents = students.map((student) => ({
+      ...student,
+      testStatus: student.testStatus.value, // Extract only the value of testStatus
+    }));
+
     const payload = {
       testName,
       selectedLocation,
       aboutTest,
-      marks: students,
+      marks: transformedStudents,
     };
 
     console.log(JSON.stringify(payload));
@@ -112,11 +117,11 @@ const TrainingTest = () => {
     }
   };
 
-  const handlePassChange = (value, index) => {
-    const newStudents = [...students];
-    newStudents[index].testStatus = value; // Update testStatus for the selected student
-    setStudents(newStudents);
-  };
+  // const handlePassChange = (value, index) => {
+  //   const newStudents = [...students];
+  //   newStudents[index].testStatus = value; // Update testStatus for the selected student
+  //   setStudents(newStudents);
+  // };
 
   const renderStudentInput = (student, index) => (
     <View key={index} style={styles.studentInputContainer}>
@@ -134,54 +139,35 @@ const TrainingTest = () => {
         onChangeText={(text) => handleInputChange(index, "empMarks", text)}
         style={styles.studentInput}
       />
-      <TextInput
+      {/* <TextInput
         label="Pass/Fail"
         mode="outlined"
         value={student.testStatus}
         onChangeText={(text) => handleInputChange(index, "testStatus", text)}
         style={styles.studentInput}
-      />
-      {/* <Dropdown
-        style={[
-          {
-            width: 100,
-            height: 50,
-            borderRadius: 7,
-            padding: 12,
-            borderColor: "#212121",
-            borderWidth: 0.8,
-            // marginBottom: 15,
-            // alignSelf:"center"
-          },
-          passFocus && { borderColor: "blue" },
-        ]}
+      /> */}
+      <Dropdown
+        style={{
+          width: "30%",
+          height: 50,
+          borderRadius: 7,
+          padding: 12,
+          borderColor: "#212121",
+          borderWidth: 0.8,
+        }}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
         data={passData}
-        search
-        maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder={!passFocus ? "P/F" : "..."}
+        placeholder="P/F"
         searchPlaceholder="Search..."
-        value={selectedPass} // Use selectedLocation here
-        onFocus={() => setPassFocus(true)}
-        onBlur={() => setPassFocus(false)}
-        onChangeText={(text) => handleInputChange(index, "testStatus", text)}
-        // renderLeftIcon={() => (
-        //   <AntDesign
-        //     style={styles.icon}
-        //     color={priorityFocus ? "blue" : "black"}
-        //     name="Safety"
-        //     size={20}
-        //   />
-        // )}
-        // onChangeText={(Priority) => {
-        //   setFsgrData({ ...fsgrData, Priority });
-        // }}
-      /> */}
+        value={student.testStatus}
+        onChange={(item) => handleInputChange(index, "testStatus", item)}
+      />
+
       <MaterialIcons
         name="delete"
         size={25}
@@ -227,10 +213,12 @@ const TrainingTest = () => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={`${selectedLocation}`}
+          placeholder={`Location`}
           searchPlaceholder="Search..."
-          value={selectedLocation} // Use selectedLocation here
-          onChange={handleLocationChange}
+          value={selectedLocation}
+          onChange={(location) => {
+            setSelectedLocation(location.label);
+          }}
           renderLeftIcon={() => (
             <AntDesign
               style={styles.icon}
