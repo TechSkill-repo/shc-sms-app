@@ -10,6 +10,7 @@ import {
   TextInput,
   Platform,
   ActivityIndicator,
+  Image,
 } from "react-native";
 import React, { useState } from "react";
 import StepFormNavigation from "../../components/StepFormNavigation/StepFormNavigation";
@@ -17,6 +18,7 @@ import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import * as ImagePicker from "expo-image-picker";
 
 const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
   const screenHeight = Dimensions.get("screen").height;
@@ -24,7 +26,6 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // State to hold form data
   const [formData, setFormData] = useState({
     description: "",
     category: "",
@@ -33,11 +34,10 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
     implementation: "",
     date_of_ssi: "",
     duration_of_completion: "",
-    after_image: "none",
+    after_image: null,
     status: "close",
   });
 
-  // Handle form input changes
   const handleInputChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
   };
@@ -47,7 +47,6 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
     setShowDatePicker(Platform.OS === "ios");
     setDateOfSsi(currentDate);
 
-    // Format the date as yyyy-mm-dd
     const formattedDate = new Intl.DateTimeFormat("en-CA", {
       year: "numeric",
       month: "2-digit",
@@ -55,7 +54,6 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
     }).format(currentDate);
 
     handleInputChange("date_of_ssi", formattedDate);
-    console.log("date_of_ssi:", formattedDate);
   };
 
   const showDatepicker = () => {
@@ -64,7 +62,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
 
   const validateForm = () => {
     for (const key in formData) {
-      if (formData[key].trim() === "") {
+      if (formData[key] === null || formData[key].trim() === "") {
         Alert.alert("Validation Error", `Please fill out the ${key} field.`);
         return false;
       }
@@ -72,38 +70,44 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
     return true;
   };
 
-  console.log("data ssi:", formData);
-
-  // Handle form submission
   const handleSubmit = () => {
     setLoading(true);
     if (!validateForm()) {
+      setLoading(false);
       return;
     }
     axios
-      .patch(`${serveraddress}fsgr/form/${id}`, {
-        id,
-        description: formData.description,
-        category: formData.category,
-        suggestion: formData.suggestion,
-        benifits: formData.benifits,
-        implementation: formData.implementation,
-        date_of_ssi: formData.date_of_ssi,
-        duration_of_completion: formData.duration_of_completion,
-        after_image: formData.after_image,
-        status: "close",
-      })
+      .patch(`${serveraddress}fsgr/form/${id}`, formData)
       .then((response) => {
         setLoading(false);
         Alert.alert("Success", "Form Submitted Successfully");
-        setIsVisible(false); // Close the modal
+        setIsVisible(false);
       })
       .catch((error) => {
         setLoading(false);
         Alert.alert("Error", "Failed to submit form");
-        console.error("Error:", error);
       });
   };
+
+  const pickImage = async () => {
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      Alert.alert("Permission to access camera is required!");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      handleInputChange("after_image", result.assets[0].uri);
+    }
+  };
+
   return (
     <Modal
       visible={isVisible}
@@ -111,233 +115,56 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
       transparent
       animationType="slide"
     >
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-end",
-          alignItems: "center",
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
-        }}
-      >
+      <View style={styles.modalContainer}>
         <ScrollView
-          style={{
-            backgroundColor: "#FFF",
-            width: "100%",
-            height: screenHeight * 0.95,
-            marginTop: screenHeight * 0.05,
-            padding: 25,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-          }}
+          style={[
+            styles.scrollView,
+            { height: screenHeight * 0.95, marginTop: screenHeight * 0.05 },
+          ]}
         >
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <View>
-              <Text
-                style={{
-                  fontWeight: "500",
-                  fontSize: 18,
-                  color: "#21005d",
-                }}
-              >
-                SSI CLOSE Report
-              </Text>
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                setIsVisible(false);
-              }}
-            >
+          <View style={styles.header}>
+            <Text style={styles.headerText}>SSI CLOSE Report</Text>
+            <TouchableOpacity onPress={() => setIsVisible(false)}>
               <Entypo name="cross" size={30} color="red" />
             </TouchableOpacity>
           </View>
           <StepFormNavigation stepNo={3} />
-          <View style={{ marginBottom: 20 }}>
-            <View style={{ marginBottom: 5 }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingHorizontal: 10,
-                  fontWeight: "500",
-                  paddingVertical: 5,
-                  color: "#21005d",
-                  marginBottom: 5,
-                }}
-              >
-                Description
-              </Text>
-              <TextInput
-                placeholder="Enter the description..."
-                multiline
-                numberOfLines={3}
-                textAlignVertical="top"
-                // value={formData.site_supervisor}
-                onChangeText={(text) => handleInputChange("description", text)}
-                style={{
-                  backgroundColor: "white",
-                  elevation: 2,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 5 }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingHorizontal: 10,
-                  fontWeight: "500",
-                  paddingVertical: 5,
-                  color: "#21005d",
-                  marginBottom: 5,
-                }}
-              >
-                Category
-              </Text>
-              <TextInput
-                placeholder="Category..."
-                multiline
-                numberOfLines={3}
-                textAlignVertical="top"
-                // value={formData.initial_investigation_status}
-                onChangeText={(text) => handleInputChange("category", text)}
-                style={{
-                  borderColor: "gray",
-                  backgroundColor: "white",
-                  elevation: 4,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 5 }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingHorizontal: 10,
-                  fontWeight: "500",
-                  paddingVertical: 5,
-                  color: "#21005d",
-                  marginBottom: 5,
-                }}
-              >
-                Suggestion
-              </Text>
-              <TextInput
-                placeholder="Suggestion..."
-                multiline
-                numberOfLines={3}
-                textAlignVertical="top"
-                // value={formData.initial_investigation_team}
-                onChangeText={(text) => handleInputChange("suggestion", text)}
-                style={{
-                  borderColor: "gray",
-                  backgroundColor: "white",
-                  elevation: 4,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 5 }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingHorizontal: 10,
-                  fontWeight: "500",
-                  paddingVertical: 5,
-                  color: "#21005d",
-                  marginBottom: 5,
-                }}
-              >
-                Benifits
-              </Text>
-              <TextInput
-                placeholder="Enter the benifits..."
-                multiline
-                numberOfLines={3}
-                textAlignVertical="top"
-                // value={formData.resource_planning_done_by}
-                onChangeText={(text) => handleInputChange("benifits", text)}
-                style={{
-                  borderColor: "gray",
-                  backgroundColor: "white",
-                  elevation: 4,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 5 }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingHorizontal: 10,
-                  fontWeight: "500",
-                  paddingVertical: 5,
-                  color: "#21005d",
-                  marginBottom: 5,
-                }}
-              >
-                Implementation
-              </Text>
-              <TextInput
-                placeholder="Enter implementation..."
-                multiline
-                numberOfLines={3}
-                textAlignVertical="top"
-                // value={formData.planning_date}
-                onChangeText={(text) =>
-                  handleInputChange("implementation", text)
-                }
-                style={{
-                  borderColor: "gray",
-                  backgroundColor: "white",
-                  elevation: 4,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 5 }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingHorizontal: 10,
-                  fontWeight: "500",
-                  paddingVertical: 5,
-                  color: "#21005d",
-                  marginBottom: 5,
-                }}
-              >
-                Date of ssi
-              </Text>
+          <View style={styles.formContainer}>
+            {[
+              { label: "Description", name: "description", multiline: true },
+              { label: "Category", name: "category", multiline: true },
+              { label: "Suggestion", name: "suggestion", multiline: true },
+              { label: "Benifits", name: "benifits", multiline: true },
+              {
+                label: "Implementation",
+                name: "implementation",
+                multiline: true,
+              },
+              {
+                label: "Duration of completion",
+                name: "duration_of_completion",
+                multiline: false,
+              },
+            ].map((field, index) => (
+              <View key={index} style={styles.inputGroup}>
+                <Text style={styles.label}>{field.label}</Text>
+                <TextInput
+                  placeholder={`Enter the ${field.label.toLowerCase()}...`}
+                  multiline={field.multiline}
+                  numberOfLines={field.multiline ? 3 : 1}
+                  textAlignVertical="top"
+                  onChangeText={(text) => handleInputChange(field.name, text)}
+                  style={styles.textInput}
+                />
+              </View>
+            ))}
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Date of SSI</Text>
               <TouchableOpacity onPress={showDatepicker}>
                 <TextInput
-                  mode="outlined"
-                  label="Planning Date"
                   value={dateOfSsi.toLocaleDateString()}
                   editable={false}
-                  style={{
-                    borderColor: "gray",
-                    backgroundColor: "white",
-                    elevation: 4,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                    borderRadius: 5,
-                    marginHorizontal: 5,
-                  }}
+                  style={styles.textInput}
                 />
               </TouchableOpacity>
             </View>
@@ -351,84 +178,29 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
                 onChange={onChange}
               />
             )}
-            <View style={{ marginBottom: 5 }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingHorizontal: 10,
-                  fontWeight: "500",
-                  paddingVertical: 5,
-                  color: "#21005d",
-                  marginBottom: 5,
-                }}
-              >
-                Duration of completion
-              </Text>
-              <TextInput
-                placeholder="Duration of completion..."
-                multiline
-                numberOfLines={1}
-                textAlignVertical="top"
-                // value={formData.resource_required}
-                onChangeText={(text) =>
-                  handleInputChange("duration_of_completion", text)
-                }
-                style={{
-                  borderColor: "gray",
-                  backgroundColor: "white",
-                  elevation: 4,
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 5,
-                  marginHorizontal: 5,
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 5 }}>
-              <TouchableOpacity
-                style={{
-                  marginTop: 10,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "#f443361a",
-                  padding: 6,
-                  borderRadius: 50,
-                }}
-              >
+            <View style={styles.cameraButtonContainer}>
+              <TouchableOpacity style={styles.cameraButton} onPress={pickImage}>
                 <Entypo name="camera" size={22} color="#f44336" />
-                <Text
-                  style={{
-                    marginLeft: 20,
-                    fontSize: 14,
-                    fontWeight: "500",
-                    color: "#f44336",
-                  }}
-                >
-                  After Image
-                </Text>
+                <Text style={styles.cameraButtonText}>After Image</Text>
               </TouchableOpacity>
             </View>
+            {formData.after_image && (
+              <View style={styles.imagePreviewContainer}>
+                <Image
+                  source={{ uri: formData.after_image }}
+                  style={styles.imagePreview}
+                />
+              </View>
+            )}
             <TouchableOpacity
               onPress={handleSubmit}
-              style={{
-                backgroundColor: "#21005d",
-                padding: 10,
-                alignItems: "center",
-                marginTop: 10,
-                marginBottom: 30,
-                borderRadius: 5,
-              }}
-              disabled={loading} // Disable the button when loading
+              style={styles.submitButton}
+              disabled={loading}
             >
               {loading ? (
                 <ActivityIndicator size="small" color="#FFF" />
               ) : (
-                <Text
-                  style={{ color: "white", fontSize: 14, fontWeight: "bold" }}
-                >
-                  Submit
-                </Text>
+                <Text style={styles.submitButtonText}>Submit</Text>
               )}
             </TouchableOpacity>
           </View>
@@ -440,4 +212,89 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
 
 export default SsiCloseReport;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  scrollView: {
+    backgroundColor: "#FFF",
+    width: "100%",
+    padding: 25,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  headerText: {
+    fontWeight: "500",
+    fontSize: 18,
+    color: "#21005d",
+  },
+  formContainer: {
+    marginBottom: 20,
+  },
+  inputGroup: {
+    marginBottom: 15,
+  },
+  label: {
+    fontSize: 14,
+    paddingHorizontal: 10,
+    fontWeight: "500",
+    paddingVertical: 5,
+    color: "#21005d",
+    marginBottom: 5,
+  },
+  textInput: {
+    backgroundColor: "white",
+    elevation: 2,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderRadius: 5,
+    marginHorizontal: 5,
+  },
+  cameraButtonContainer: {
+    marginBottom: 15,
+  },
+  cameraButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#f443361a",
+    padding: 6,
+    borderRadius: 50,
+  },
+  cameraButtonText: {
+    marginLeft: 20,
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#f44336",
+  },
+  imagePreviewContainer: {
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  imagePreview: {
+    width: "100%",
+    height: 200,
+    borderRadius: 10,
+  },
+  submitButton: {
+    backgroundColor: "#21005d",
+    padding: 10,
+    alignItems: "center",
+    marginTop: 10,
+    marginBottom: 30,
+    borderRadius: 5,
+  },
+  submitButtonText: {
+    color: "white",
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+});
