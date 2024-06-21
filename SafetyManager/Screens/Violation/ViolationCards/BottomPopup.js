@@ -12,6 +12,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
+import * as ImagePicker from "expo-image-picker";
 import { serveraddress } from "../../../../assets/values/Constants";
 
 const BottomPopup = ({ visible, setVisible, cardId }) => {
@@ -19,6 +20,7 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
   const [loading, setLoading] = useState(true);
   const [violationDetails, setViolationDetails] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
+  const [photoUri, setPhotoUri] = useState(null);
 
   useEffect(() => {
     if (visible) {
@@ -44,6 +46,76 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
     }
     return null;
   };
+
+  const handleCameraPress = async () => {
+    try {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== "granted") {
+        alert("Sorry, we need camera permissions to make this work!");
+        return;
+      }
+
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        setPhotoUri(result.assets[0].uri);
+        console.log("Photo URI:", result.assets[0].uri);
+      }
+    } catch (error) {
+      console.error("Error taking photo:", error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const formData = new FormData();
+  
+      // Append form fields to FormData
+      formData.append("status", "close");
+  
+      // Append the image file
+      if (photoUri) {
+        const filename = photoUri.split("/").pop();
+        const match = /\.(\w+)$/.exec(filename);
+        const type = match ? `image/${match[1]}` : `image`;
+  
+        formData.append("violationAfterImage", {
+          uri: photoUri,
+          name: filename,
+          type: type,
+        });
+      }
+  
+      // Send the form data
+      const response = await fetch(`${serveraddress}violation/${cardId}`, {
+        method: "PATCH",
+        body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data", // Ensure correct content type
+        },
+      });
+  
+      console.log("response violation:", response);
+  
+      if (!response.ok) {
+        const responseData = await response.text();
+        console.error("Server response:", responseData);
+        throw new Error("Network response was not ok");
+      }
+  
+      Alert.alert("Success", "Form submitted successfully!");
+      setVisible(false); // Close the modal after successful submission
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      Alert.alert("Error", "Failed to submit the form. Please try again.");
+    }
+  };
+  
 
   return (
     <Modal
@@ -143,15 +215,34 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
                 ) : (
                   <Text style={styles.detailValue}>No image available</Text>
                 )}
+                <View style={{ marginTop: 10 }}>
+                  <Text style={styles.detailLabel}>After Image:</Text>
+                  {photoUri ? (
+                    <Image
+                      source={{
+                        uri: photoUri,
+                      }}
+                      style={styles.image}
+                      // onLoadEnd={() => setImageLoading(false)}
+                      // onError={() => {
+                      //   console.error("Failed to load image");
+                      //   setImageLoading(false);
+                      // }}
+                    />
+                  ) : null}
+                </View>
               </View>
               <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.imageButton}>
+                <TouchableOpacity
+                  style={styles.imageButton}
+                  onPress={handleCameraPress}
+                >
                   <Entypo name="camera" size={20} color="#4caf50" />
                   <Text style={styles.imageButtonText}>After Image</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.closeButton}
-                  onPress={() => setVisible(false)}
+                  onPress={() => handleSubmit}
                 >
                   <Text style={styles.closeButtonText}>Close</Text>
                 </TouchableOpacity>

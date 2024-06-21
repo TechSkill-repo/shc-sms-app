@@ -8,10 +8,11 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import BottomPopup from "./BottomPopup";
-import { serveraddress } from "../../../../assets/values/Constants";
+import { serveraddress } from "../../../assets/values/Constants";
+import BottomPopup from "./ViolationCards/BottomPopup";
 
-const ViolationCard = () => {
+
+const ViolationGood = () => {
   const [violations, setViolations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
@@ -19,9 +20,8 @@ const ViolationCard = () => {
 
   useEffect(() => {
     axios
-      .get(`${serveraddress}violation/violation/pending`)
+      .get(`${serveraddress}violation/violation/goodovservation`)
       .then((response) => {
-        console.log("response:", response.data);
         setViolations(response.data);
         setLoading(false);
       })
@@ -134,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ViolationCard;
+export default ViolationGood;

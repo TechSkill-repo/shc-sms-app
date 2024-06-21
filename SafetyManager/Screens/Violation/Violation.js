@@ -1,32 +1,151 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { Appbar } from "react-native-paper";
 import ViolationForm from "./ViolationForm/ViolationForm";
 import ViolationCard from "./ViolationCards/ViolationCard";
+import {
+  GestureHandlerRootView,
+  PanGestureHandler,
+  ScrollView,
+  State,
+} from "react-native-gesture-handler";
+import VioloationClose from "./VioloationClose";
+import ViolationGood from "./ViolationGood";
 
 const Violation = () => {
   const [visible, setVisible] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(1);
+
+  const handleGesture = ({ nativeEvent }) => {
+    if (nativeEvent.state === State.END) {
+      if (nativeEvent.translationX < -50) {
+        setSelectedCard((prev) => Math.min(prev + 1, 6));
+      } else if (nativeEvent.translationX > 50) {
+        setSelectedCard((prev) => Math.max(prev - 1, 1));
+      }
+    }
+  };
+
+  const handleCardSelect = (cardNumber) => {
+    setSelectedCard(cardNumber);
+  };
+
+  const toggleSearchBar = () => {
+    setLoadSearchBar((prevState) => !prevState);
+  };
   return (
-    <ScrollView
-      style={{
-        backgroundColor: "white",
-      }}
-    >
-      <Appbar.Header>
-        <Appbar.BackAction />
-        <Appbar.Content title="VIOLATION & OBSERVATION" />
-        <Appbar.Action icon="magnify" />
-        <Appbar.Action
-          icon="plus"
-          onPress={() => {
-            setVisible(true);
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ScrollView
+        style={{
+          backgroundColor: "white",
+        }}
+      >
+        <Appbar.Header>
+          <Appbar.BackAction />
+          <Appbar.Content title="VIOLATION & OBSERVATION" />
+          <Appbar.Action icon="magnify" />
+          <Appbar.Action
+            icon="plus"
+            onPress={() => {
+              setVisible(true);
+            }}
+          />
+        </Appbar.Header>
+        <View>
+          <View style={styles.container}>
+            <ScrollView style={styles.buttonsContainer} horizontal={true}>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  selectedCard === 1 && styles.selectedButton,
+                ]}
+                onPress={() => handleCardSelect(1)}
+              >
+                <Text style={styles.buttonText}>Pending</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  selectedCard === 2 && styles.selectedButton,
+                ]}
+                onPress={() => handleCardSelect(2)}
+              >
+                <Text style={styles.buttonText}>Close</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  selectedCard === 3 && styles.selectedButton,
+                ]}
+                onPress={() => handleCardSelect(3)}
+              >
+                <Text style={styles.buttonText}>Good Ovservation</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </View>
+        <ViolationForm visible={visible} setVisible={setVisible} />
+      </ScrollView>
+      <PanGestureHandler onHandlerStateChange={handleGesture}>
+        <ScrollView
+          style={{
+            backgroundColor: "white",
+            height: "100%",
+            marginTop: -20,
+            paddingTop: 20,
           }}
-        />
-      </Appbar.Header>
-      <ViolationForm visible={visible} setVisible={setVisible} />
-      <ViolationCard />
-    </ScrollView>
+        >
+          {selectedCard === 1 && (
+            // <Pending
+            //   toggleSearchBar={toggleSearchBar}
+            //   loadSearchBar={loadSearchBar}
+            // />
+            <ViolationCard />
+          )}
+          {selectedCard === 2 && <VioloationClose/>}
+          {selectedCard === 3 && <ViolationGood/>}
+          {/* {selectedCard === 4 && <SsiClose loadSearchBar={loadSearchBar} />}
+          {selectedCard === 5 && <Close loadSearchBar={loadSearchBar} />}
+          {selectedCard === 6 && <FinalClose loadSearchBar={loadSearchBar} />} */}
+        </ScrollView>
+        {/* </ScrollView> */}
+      </PanGestureHandler>
+    </GestureHandlerRootView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    // display:"flex",
+    // backgroundColor: "red",
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+    width: "100%",
+    // backgroundColor: "red",
+  },
+  button: {
+    flex: 1,
+    minWidth: 100,
+    paddingHorizontal: 15,
+    paddingVertical: 30,
+    borderBottomWidth: 2,
+    backgroundColor: "#fffbfe",
+    borderBottomColor: "lightgray",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  selectedButton: {
+    borderBottomWidth: 2,
+    borderBottomColor: "#21005d",
+  },
+  buttonText: {
+    fontSize: 14,
+    color: "#21005d",
+    fontWeight: "500",
+  },
+});
 
 export default Violation;
