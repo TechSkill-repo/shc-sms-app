@@ -13,11 +13,12 @@ import consequence from "../../../../assets/icons/consequence.png";
 import training from "../../../../assets/icons/training.png";
 import exam from "../../../../assets/icons/exam.png";
 import result from "../../../../assets/icons/result.png";
+import meeting from "../../../../assets/icons/meeting.png";
 import Cards from "../../../../components/Home/Cards";
 import useAuthStore from "../../../../store/userAuthStore";
 
 const items = [
-  { id: 1, label: "Rewards", icon: Medal, screen:"Rewards" },
+  { id: 1, label: "Rewards", icon: Medal, screen: "Rewards" },
   { id: 2, label: "Tool Box", icon: consequence, screen: "TBM" },
   { id: 3, label: "DJP", icon: job, screen: "DJP" },
   { id: 4, label: "PPE Check", icon: ppe, screen: "PPE" },
@@ -28,7 +29,7 @@ const items = [
   { id: 9, label: "Training Test", icon: exam, screen: "TrainingTest" },
   { id: 10, label: "Training", icon: training, screen: "Training" },
   { id: 11, label: "Test Result", icon: result, screen: "TestResult" },
-  { id: 12, label: "upcoming", icon: policy },
+  { id: 12, label: "Mass Meating", icon: meeting },
 ];
 
 const backgroundColors = [
