@@ -22,6 +22,7 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
   const [violationDetails, setViolationDetails] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
   const [photoUri, setPhotoUri] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (visible) {
@@ -73,6 +74,7 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
   };
 
   const handleSubmit = async () => {
+    setIsSubmitting(true);
     try {
       const formData = new FormData();
 
@@ -111,7 +113,9 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
 
       Alert.alert("Success", "Form submitted successfully!");
       setVisible(false); // Close the modal after successful submission
+      setIsSubmitting(false);
     } catch (error) {
+      setIsSubmitting(false);
       console.error("Error submitting form:", error);
       Alert.alert("Error", "Failed to submit the form. Please try again.");
     }
@@ -244,7 +248,11 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
                   style={styles.closeButton}
                   onPress={handleSubmit}
                 >
-                  <Text style={styles.closeButtonText}>Close</Text>
+                  {isSubmitting ? (
+                    <ActivityIndicator size="small" color="#FFF" />
+                  ) : (
+                    <Text style={styles.closeButtonText}>Close</Text>
+                  )}
                 </TouchableOpacity>
               </View>
             </View>

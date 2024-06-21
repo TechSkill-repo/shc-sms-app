@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Image,
   Alert,
+  ActivityIndicator, 
 } from "react-native";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { TextInput } from "react-native-paper";
@@ -48,6 +49,7 @@ const ViolationForm = ({ visible, setVisible }) => {
   const [description, setDescription] = useState("");
   const [responsibilityOfClosure, setResponsibilityOfClosure] = useState("");
   const [photoUri, setPhotoUri] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     async function fetchLocationsData() {
@@ -86,6 +88,7 @@ const ViolationForm = ({ visible, setVisible }) => {
   };
 
   const handleSubmit = async () => {
+    setIsSubmitting(true);
     try {
       const formData = new FormData();
 
@@ -143,7 +146,9 @@ const ViolationForm = ({ visible, setVisible }) => {
       setResponsibilityOfClosure("");
       setPhotoUri(null);
       setVisible(false);
+      setIsSubmitting(false);
     } catch (error) {
+      setIsSubmitting(false);
       console.error("Error submitting form:", error);
       Alert.alert("Error", "Failed to submit the form. Please try again.");
     }
@@ -290,7 +295,11 @@ const ViolationForm = ({ visible, setVisible }) => {
                 onPress={handleSubmit}
                 style={styles.submitButton}
               >
-                <Text style={styles.submitButtonText}>Submit</Text>
+                {isSubmitting ? (
+                  <ActivityIndicator size="small" color="#FFF" />
+                ) : (
+                  <Text style={styles.submitButtonText}>Submit</Text>
+                )}
               </TouchableOpacity>
             </View>
           </View>
