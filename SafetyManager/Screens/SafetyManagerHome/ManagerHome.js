@@ -10,6 +10,7 @@ import {
   Animated,
   Modal,
   TouchableWithoutFeedback,
+  ScrollView,
 } from "react-native";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -49,39 +50,39 @@ const ManagerHome = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar backgroundColor="#fffbfe" barStyle="dark-content" />
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.profileImageContainer}>
-            <Image
-              source={{
-                uri: "https://media.istockphoto.com/id/1346124870/photo/happy-mixed-race-construction-site-worker-looking-at-camera.jpg?s=612x612&w=0&k=20&c=xoTSYyxwPLbHquvUecUJM6RPzWULeAP2O2q7U8IUmyY=",
-              }}
-              style={styles.profileImage}
-            />
-          </View>
-          <View>
-            <Text style={styles.username}>{username}</Text>
-            <Text style={styles.userRole}>
-              {role === "ss" ? "Safety Supervisor" : "Site Incharge"}
-            </Text>
-          </View>
-          <View style={styles.iconContainer}>
-            <TouchableOpacity
-              onPress={navigateToNotifications}
-              style={styles.iconButton}
-            >
-              <Feather name="bell" size={25} color="#21005d" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={removeTokenFromStorage}
-              style={styles.iconButton}
-            >
-              <AntDesign name="logout" size={25} color="red" />
-            </TouchableOpacity>
-          </View>
+      <View style={styles.header}>
+        <View style={styles.profileImageContainer}>
+          <Image
+            source={{
+              uri: "https://media.istockphoto.com/id/1346124870/photo/happy-mixed-race-construction-site-worker-looking-at-camera.jpg?s=612x612&w=0&k=20&c=xoTSYyxwPLbHquvUecUJM6RPzWULeAP2O2q7U8IUmyY=",
+            }}
+            style={styles.profileImage}
+          />
+        </View>
+        <View>
+          <Text style={styles.username}>{username}</Text>
+          <Text style={styles.userRole}>
+            {role === "ss" ? "Safety Supervisor" : "Site Incharge"}
+          </Text>
+        </View>
+        <View style={styles.iconContainer}>
+          <TouchableOpacity
+            onPress={navigateToNotifications}
+            style={styles.iconButton}
+          >
+            <Feather name="bell" size={25} color="#21005d" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={removeTokenFromStorage}
+            style={styles.iconButton}
+          >
+            <AntDesign name="logout" size={25} color="red" />
+          </TouchableOpacity>
         </View>
       </View>
-      <HomeNav />
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <HomeNav />
+      </ScrollView>
       {sidebarVisible && (
         <Modal transparent={true} animationType="none" visible={sidebarVisible}>
           <TouchableWithoutFeedback onPress={closeSidebar}>
@@ -104,11 +105,8 @@ const ManagerHome = () => {
 
 const styles = StyleSheet.create({
   safeArea: {
-    height: "100%",
-    backgroundColor: "white",
-  },
-  container: {
     flex: 1,
+    backgroundColor: "white",
   },
   header: {
     flexDirection: "row",
@@ -118,6 +116,14 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     backgroundColor: "#fffbfe",
     paddingBottom: 20,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+  },
+  contentContainer: {
+    paddingTop: 100, // Ensure content is visible below the fixed header
   },
   profileImageContainer: {
     width: 40,
