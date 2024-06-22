@@ -9,7 +9,7 @@ import {
   StyleSheet,
   Image,
   Alert,
-  ActivityIndicator, 
+  ActivityIndicator,
 } from "react-native";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { TextInput } from "react-native-paper";
@@ -20,7 +20,7 @@ import { serveraddress } from "../../../../assets/values/Constants";
 
 const duringOptions = [
   { label: "Line Walk", value: "LineWalk" },
-  { label: "Option 2", value: "option2" },
+  { label: "Daily Observation", value: "DailyObservation" },
 ];
 
 const severityOptions = [
@@ -193,7 +193,7 @@ const ViolationForm = ({ visible, setVisible }) => {
               maxHeight={300}
               labelField="label"
               valueField="value"
-              placeholder={`Location`}
+              placeholder={`${selectedLocation}`}
               searchPlaceholder="Search..."
               value={selectedLocation}
               onChange={(location) => {

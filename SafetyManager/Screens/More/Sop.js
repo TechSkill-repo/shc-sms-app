@@ -102,9 +102,7 @@ const Sop = () => {
         <ActivityIndicator size="large" color="#0000ff" />
       ) : sopData.length === 0 ? (
         <View style={styles.promptContainer}>
-          <Text style={styles.promptText}>
-            Please enter a location to search
-          </Text>
+          <Text style={styles.promptText}>No Data Fround In This Location</Text>
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.scrollViewContent}>

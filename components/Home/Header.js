@@ -1,25 +1,37 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import React, { useState, useRef } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Animated,
+  Dimensions,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { AntDesign, Feather } from "@expo/vector-icons";
-// import { MaterialIcons } from '@expo/vector-icons';
 import Cards from "./Cards";
 import { useNavigation } from "@react-navigation/native";
 import useAuthStore from "../../store/userAuthStore";
 
-const Header = () => {
-  const setUser = useAuthStore((state) => state.setUser);
-  const { token, removeToken, removeRole, username, role } = useAuthStore();
-  // Sample user details
+const { width } = Dimensions.get("window");
 
-  // Function to handle notification screen navigation
-  const navigateToNotifications = () => {
-    // Code to navigate to notifications screen
-    console.log("Navigating to notifications screen...");
+const Header = () => {
+  const { removeToken, removeRole, username, role } = useAuthStore();
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+  const slideAnim = useRef(new Animated.Value(-width)).current; // Initial position is off-screen to the left
+
+  const toggleNotificationSlider = () => {
+    const toValue = isNotificationVisible ? -width : 0;
+    Animated.timing(slideAnim, {
+      toValue,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => {
+      setIsNotificationVisible(!isNotificationVisible);
+    });
   };
 
-  const navigation = useNavigation();
-
-  // Function to remove token from AsyncStorage
   const removeTokenFromStorage = async () => {
     removeToken();
     removeRole();
@@ -27,122 +39,61 @@ const Header = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
-        <View
-          style={{
-            width: 40,
-            height: 40,
-            borderWidth: 0.5,
-            borderRadius: 9,
-            borderColor: "#e9ecef",
-          }}
-        >
-          {/* <FontAwesome6 name="gripfire" size={40} color="red" /> */}
+        <View style={styles.profileImageContainer}>
           <Image
             source={{
               uri: "https://media.istockphoto.com/id/1346124870/photo/happy-mixed-race-construction-site-worker-looking-at-camera.jpg?s=612x612&w=0&k=20&c=xoTSYyxwPLbHquvUecUJM6RPzWULeAP2O2q7U8IUmyY=",
             }}
-            style={{
-              height: 40,
-              width: 40,
-              borderRadius: 9,
-            }}
+            style={styles.profileImage}
           />
         </View>
 
         <View>
-          <Text
-            style={{
-              fontSize: 18,
-              fontWeight: "600",
-              color: "#21005d",
-            }}
-          >
-            {username}
-          </Text>
-          <Text
-            style={{
-              fontSize: 12,
-              fontWeight: "600",
-              color: "#21005da1",
-            }}
-          >
+          <Text style={styles.username}>{username}</Text>
+          <Text style={styles.userRole}>
             {role === "sm" ? "Safety Manager" : "Site Incharge"}
           </Text>
         </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: 70,
-            marginRight: 12,
-          }}
-        >
-          <View
-            style={{
-              width: 40,
-              height: 40,
-              borderWidth: 0.5,
-              borderRadius: 9,
-              borderColor: "#e9ecef",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
+
+        <View style={styles.iconContainer}>
+          <TouchableOpacity
+            onPress={toggleNotificationSlider}
+            style={styles.iconWrapper}
           >
-            <TouchableOpacity
-              onPress={() => navigateToNotifications()}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {/* Your notification icon component */}
-              <Feather name="bell" size={25} color="#21005d" />
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              width: 40,
-              height: 40,
-              borderWidth: 0.5,
-              borderRadius: 9,
-              borderColor: "#e9ecef",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginHorizontal: 7,
-            }}
+            <Feather name="bell" size={25} color="#21005d" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={removeTokenFromStorage}
+            style={[styles.iconWrapper, styles.logoutIcon]}
           >
-            <TouchableOpacity
-              onPress={removeTokenFromStorage}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {/* Your notification icon component */}
-              <AntDesign name="logout" size={25} color="red" />
-            </TouchableOpacity>
-          </View>
+            <AntDesign name="logout" size={25} color="red" />
+          </TouchableOpacity>
         </View>
       </View>
 
-      <View
-        style={{
-          marginTop: 20,
-        }}
-      >
+      <View style={styles.cardsContainer}>
         <Cards text="Rewards" bgColor="#4caf501a" color="#4caf50" />
         <Cards text="Total Violation" bgColor="#f443361a" color="#f44336" />
         <Cards text="Total FSGR" bgColor="#fff4e5" color="#ffaa00" />
         <Cards text="Current FSGR" bgColor="#407ad61a" color="#407ad6" />
       </View>
+
+      {isNotificationVisible && (
+        <TouchableWithoutFeedback onPress={toggleNotificationSlider}>
+          <View style={styles.overlay}>
+            <Animated.View
+              style={[
+                styles.notificationSlider,
+                { transform: [{ translateX: slideAnim }] },
+              ]}
+            >
+              <Text style={styles.notificationText}>Notifications</Text>
+              {/* Add your notification items here */}
+            </Animated.View>
+          </View>
+        </TouchableWithoutFeedback>
+      )}
     </View>
   );
 };
@@ -160,26 +111,74 @@ const styles = StyleSheet.create({
     backgroundColor: "#fffbfe",
     paddingBottom: 20,
   },
-
-  body: {
-    flex: 1,
+  profileImageContainer: {
+    width: 40,
+    height: 40,
+    borderWidth: 0.5,
+    borderRadius: 9,
+    borderColor: "#e9ecef",
+  },
+  profileImage: {
+    height: 40,
+    width: 40,
+    borderRadius: 9,
+  },
+  username: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#21005d",
+  },
+  userRole: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#21005da1",
+  },
+  iconContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: 90,
+  },
+  iconWrapper: {
+    width: 40,
+    height: 40,
+    borderWidth: 0.5,
+    borderRadius: 9,
+    borderColor: "#e9ecef",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f0f0f0",
   },
-  userDetails: {
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 10,
-    elevation: 5,
+  logoutIcon: {
+    marginHorizontal: 7,
   },
-  notificationScreen: {
+  cardsContainer: {
+    marginTop: 20,
+  },
+  overlay: {
     position: "absolute",
-    bottom: 20,
-    right: 20,
-    backgroundColor: "lightblue",
-    padding: 10,
-    borderRadius: 20,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    zIndex: 1000,
+  },
+  notificationSlider: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: width * 0.8,
+    height: "100%",
+    backgroundColor: "#fffbfe",
+    padding: 20,
+    elevation: 5,
+    zIndex: 1001,
+  },
+  notificationText: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#21005d",
+    marginBottom: 10,
   },
 });
 
