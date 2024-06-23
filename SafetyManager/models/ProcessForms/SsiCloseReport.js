@@ -122,38 +122,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
       setLoading(false);
       Alert.alert("Error", "Failed to submit form");
     }
-
-    // axios
-    //   .patch(`${serveraddress}fsgr/form/${id}`, formData)
-    //   .then((response) => {
-    //     setLoading(false);
-    //     Alert.alert("Success", "Form Submitted Successfully");
-    //     setIsVisible(false);
-    //   })
-    //   .catch((error) => {
-    //     setLoading(false);
-    //     Alert.alert("Error", "Failed to submit form");
-    //   });
   };
-
-  // const pickImage = async () => {
-  //   const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-
-  //   if (permissionResult.granted === false) {
-  //     Alert.alert("Permission to access camera is required!");
-  //     return;
-  //   }
-
-  //   const result = await ImagePicker.launchCameraAsync({
-  //     allowsEditing: true,
-  //     aspect: [4, 3],
-  //     quality: 1,
-  //   });
-
-  //   if (!result.canceled) {
-  //     handleInputChange("after_image", result.assets[0].uri);
-  //   }
-  // };
 
   const handleCameraPress = async () => {
     try {

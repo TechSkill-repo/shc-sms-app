@@ -36,23 +36,6 @@ const Fsgr = () => {
   const currentDate = new Date();
   const [currentTime, setCurrentTime] = useState(currentDate);
 
-  // useEffect(() => {
-  //   // Update the current time every second
-  //   const timerID = setInterval(() => {
-  //     setCurrentTime(new Date());
-  //   }, 1000);
-
-  //   // Clean up the timer
-  //   return () => {
-  //     clearInterval(timerID);
-  //   };
-  // }, []);
-
-  // // Extract hours, minutes, and seconds
-  // const hours = currentTime.getHours();
-  // const minutes = currentTime.getMinutes();
-  // const seconds = currentTime.getSeconds();
-
   const [fsgrData, setFsgrData] = useState({
     reportDate: formatDate(currentDate),
     reportTime: formatTime(currentDate),
@@ -71,7 +54,7 @@ const Fsgr = () => {
   useEffect(() => {
     navigation.getParent()?.setOptions({
       tabBarStyle: {
-        display: "none",
+        display: "flex",
       },
     });
 

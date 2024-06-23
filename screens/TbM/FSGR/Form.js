@@ -165,7 +165,7 @@ const Form = ({
           mode="outlined"
           label="FSGR Title"
           style={styles.fullWidth}
-          value={fsgrData.fsgrtitle}
+          value={fsgrData.title}
           onChangeText={(text) => handleInputChange("heading", text)}
         />
 
