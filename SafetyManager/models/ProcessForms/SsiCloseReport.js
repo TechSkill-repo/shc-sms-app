@@ -25,6 +25,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
   const [dateOfSsi, setDateOfSsi] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [photoUri, setPhotoUri] = useState(null);
 
   const [formData, setFormData] = useState({
     description: "",
@@ -34,7 +35,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
     implementation: "",
     date_of_ssi: "",
     duration_of_completion: "",
-    after_image: null,
+    afterImage: null,
     status: "close",
   });
 
@@ -70,41 +71,115 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
     return true;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
     if (!validateForm()) {
       setLoading(false);
       return;
     }
-    axios
-      .patch(`${serveraddress}fsgr/form/${id}`, formData)
-      .then((response) => {
-        setLoading(false);
-        Alert.alert("Success", "Form Submitted Successfully");
-        setIsVisible(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        Alert.alert("Error", "Failed to submit form");
+    try {
+      const formDataNew = new FormData();
+
+      formDataNew.append("description", formData.description);
+      formDataNew.append("category", formData.category);
+      formDataNew.append("suggestion", formData.suggestion);
+      formDataNew.append("benifits", formData.benifits);
+      formDataNew.append("implementation", formData.implementation);
+      formDataNew.append("date_of_ssi", formData.date_of_ssi);
+      formDataNew.append(
+        "duration_of_completion",
+        formData.duration_of_completion
+      );
+      formDataNew.append("status", "close");
+
+      if (photoUri) {
+        const filename = photoUri.split("/").pop();
+        const match = /\.(\w+)$/.exec(filename);
+        const type = match ? `image/${match[1]}` : `image`;
+
+        formDataNew.append("afterImage", {
+          uri: photoUri,
+          name: filename,
+          type: type,
+        });
+      }
+      const response = await fetch(`${serveraddress}fsgr/form/${id}/`, {
+        method: "PATCH",
+        body: formDataNew,
+        headers: {
+          "Content-Type": "multipart/form-data", // Ensure correct content type
+        },
       });
-  };
-
-  const pickImage = async () => {
-    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      Alert.alert("Permission to access camera is required!");
-      return;
+      if (!response.ok) {
+        const responseData = await response.text();
+        console.error("Server response:", responseData);
+        throw new Error("Network response was not ok");
+      }
+      setLoading(false);
+      Alert.alert("Success", "Form Submitted Successfully");
+      setIsVisible(false);
+    } catch (error) {
+      setLoading(false);
+      Alert.alert("Error", "Failed to submit form");
     }
 
-    const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+    // axios
+    //   .patch(`${serveraddress}fsgr/form/${id}`, formData)
+    //   .then((response) => {
+    //     setLoading(false);
+    //     Alert.alert("Success", "Form Submitted Successfully");
+    //     setIsVisible(false);
+    //   })
+    //   .catch((error) => {
+    //     setLoading(false);
+    //     Alert.alert("Error", "Failed to submit form");
+    //   });
+  };
 
-    if (!result.canceled) {
-      handleInputChange("after_image", result.assets[0].uri);
+  // const pickImage = async () => {
+  //   const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+  //   if (permissionResult.granted === false) {
+  //     Alert.alert("Permission to access camera is required!");
+  //     return;
+  //   }
+
+  //   const result = await ImagePicker.launchCameraAsync({
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
+
+  //   if (!result.canceled) {
+  //     handleInputChange("after_image", result.assets[0].uri);
+  //   }
+  // };
+
+  const handleCameraPress = async () => {
+    try {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== "granted") {
+        alert("Sorry, we need camera permissions to make this work!");
+        return;
+      }
+
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        // setPhotoUri(result.assets[0].uri);
+
+        const uri = result.assets[0].uri;
+        setPhotoUri(uri);
+        handleInputChange("afterImage", uri);
+        console.log("Photo URI:", uri);
+      }
+    } catch (error) {
+      console.error("Error taking photo:", error);
     }
   };
 
@@ -179,7 +254,10 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
               />
             )}
             <View style={styles.cameraButtonContainer}>
-              <TouchableOpacity style={styles.cameraButton} onPress={pickImage}>
+              <TouchableOpacity
+                style={styles.cameraButton}
+                onPress={handleCameraPress}
+              >
                 <Entypo name="camera" size={22} color="#f44336" />
                 <Text style={styles.cameraButtonText}>After Image</Text>
               </TouchableOpacity>

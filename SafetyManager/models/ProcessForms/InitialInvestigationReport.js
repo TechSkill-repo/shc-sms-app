@@ -76,37 +76,74 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
   };
 
   // Handle form submission
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
     if (!validateForm()) {
       return;
     }
-    axios
-      .patch(`${serveraddress}fsgr/form/${id}`, {
-        id,
-        what_is_the_issue: formData.issue,
-        what_is_the_fact: formData.fact,
-        where_the_trouble_arrises: formData.trouble,
-        why_did_the_issue_arrises: formData.issueArises,
-        how_sevier_this_is: formData.severity,
-        how_sevier_rating_this_is: formData.rating,
-        conclusion: formData.conclusion,
-        recommendation: formData.recommendation,
-        investigation_done_by: formData.investigator,
-        approval_by: formData.approver,
-        status: "progress",
-      })
-      .then((response) => {
-        setLoading(false);
-        console.log("resp:", response);
-        Alert.alert("Success", "Form Submitted Successfully");
-        setIsVisible(false); // Close the modal
-      })
-      .catch((error) => {
-        setLoading(false);
-        Alert.alert("Error", "Failed to submit form");
-        console.error("Error:", error);
+    try {
+      const formDataNew = new FormData();
+      formDataNew.append("id", id);
+      formDataNew.append("what_is_the_issue", formData.issue);
+      formDataNew.append("what_is_the_fact", formData.fact)
+      formDataNew.append("where_the_trouble_arrises", formData.trouble);
+      formDataNew.append("why_did_the_issue_arrises", formData.issueArises);
+      formDataNew.append("how_sevier_this_is", formData.severity);
+      formDataNew.append("how_sevier_rating_this_is", formData.rating);
+      formDataNew.append("conclusion", formData.conclusion);
+      formDataNew.append("recommendation", formData.recommendation);
+      formDataNew.append("investigation_done_by", formData.investigator);
+      formDataNew.append("approval_by", formData.approver);
+      formDataNew.append("status", "progress");
+
+      const response = await fetch(`${serveraddress}fsgr/form/${id}`, {
+        method: "PATCH",
+        body: formDataNew,
+        headers: {
+          "Content-Type": "multipart/form-data", // Ensure correct content type
+        },
       });
+      if (!response.ok) {
+        const responseData = await response.text();
+        console.error("Server response:", responseData);
+        throw new Error("Network response was not ok");
+      }
+      setLoading(false);
+      console.log("resp:", response);
+      Alert.alert("Success", "Form Submitted Successfully");
+      setIsVisible(false); // Close the modal
+    } catch (error) {
+      setLoading(false);
+      Alert.alert("Error", "Failed to submit form");
+      console.error("Error:", error);
+    }
+
+    // axios
+    //   .patch(`${serveraddress}fsgr/form/${id}`, {
+    //     id,
+    //     what_is_the_issue: formData.issue,
+    //     what_is_the_fact: formData.fact,
+    //     where_the_trouble_arrises: formData.trouble,
+    //     why_did_the_issue_arrises: formData.issueArises,
+    //     how_sevier_this_is: formData.severity,
+    //     how_sevier_rating_this_is: formData.rating,
+    //     conclusion: formData.conclusion,
+    //     recommendation: formData.recommendation,
+    //     investigation_done_by: formData.investigator,
+    //     approval_by: formData.approver,
+    //     status: "progress",
+    //   })
+    //   .then((response) => {
+    //     setLoading(false);
+    //     console.log("resp:", response);
+    //     Alert.alert("Success", "Form Submitted Successfully");
+    //     setIsVisible(false); // Close the modal
+    //   })
+    //   .catch((error) => {
+    //     setLoading(false);
+    //     Alert.alert("Error", "Failed to submit form");
+    //     console.error("Error:", error);
+    //   });
   };
 
   return (

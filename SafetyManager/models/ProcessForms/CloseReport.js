@@ -14,6 +14,7 @@ import StepFormNavigation from "../../components/StepFormNavigation/StepFormNavi
 import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
 import { Checkbox } from "react-native-paper";
+// import { managePanProps } from "react-native-gesture-handler/lib/typescript/handlers/PanGestureHandler";
 
 const screenHeight = Dimensions.get("screen").height;
 
@@ -59,26 +60,63 @@ const CloseReport = ({ isVisible, setIsVisible, id }) => {
 
   console.log("Close Report:", formData);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
     if (!validateForm()) return;
 
-    axios
-      .patch(`${serveraddress}fsgr/form/${id}`, {
-        ...formData,
-        status: "finalClose",
-      })
-      .then((response) => {
-        setLoading(false);
-        console.log("close report:", response.data);
-        Alert.alert("Success", "Form Submitted Successfully");
-        setIsVisible(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        Alert.alert("Error", "Failed to submit form");
-        console.error("Error:", error);
+    try {
+      const formDataNew = new FormData();
+
+      formDataNew.append(
+        "management_and_assessment",
+        formData.management_and_assessment
+      );
+      formDataNew.append("priority_of_concern", formData.priority_of_concern);
+      formDataNew.append("completion_of_job", formData.completion_of_job);
+      formDataNew.append("accuracy", formData.accuracy);
+      formDataNew.append("rate", formData.rate);
+      formDataNew.append("currentStatus", "finalClose");
+      formDataNew.append("status", "finalClose");
+
+      const response = await fetch(`${serveraddress}fsgr/form/${id}`, {
+        method: "PATCH",
+        body: formDataNew,
+        headers: {
+          "Content-Type": "multipart/form-data", // Ensure correct content type
+        },
       });
+      if (!response.ok) {
+        const responseData = await response.text();
+        console.error("Server response:", responseData);
+        throw new Error("Network response was not ok");
+      }
+
+      setLoading(false);
+      console.log("close report:", response.data);
+      Alert.alert("Success", "Form Submitted Successfully");
+      setIsVisible(false);
+    } catch (error) {
+      setLoading(false);
+      Alert.alert("Error", "Failed to submit form");
+      console.error("Error:", error);
+    }
+
+    // axios
+    //   .patch(`${serveraddress}fsgr/form/${id}`, {
+    //     ...formData,
+    //     status: "finalClose",
+    //   })
+    //   .then((response) => {
+    //     setLoading(false);
+    //     console.log("close report:", response.data);
+    //     Alert.alert("Success", "Form Submitted Successfully");
+    //     setIsVisible(false);
+    //   })
+    //   .catch((error) => {
+    //     setLoading(false);
+    //     Alert.alert("Error", "Failed to submit form");
+    //     console.error("Error:", error);
+    //   });
   };
 
   return (

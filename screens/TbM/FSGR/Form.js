@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
+  Image,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { fetchLocations } from "../../../components/Global/Global";
@@ -32,6 +33,7 @@ const Form = ({
   const [locations, setLocations] = useState([]);
   const [locationFocus, setLocationFocus] = useState(false);
   const [priorityFocus, setPriorityFocus] = useState(false);
+  const [photoUri, setPhotoUri] = useState(null);
 
   useEffect(() => {
     const fetchLocationsData = async () => {
@@ -55,18 +57,46 @@ const Form = ({
     setFsgrData((prevState) => ({ ...prevState, [field]: value }));
   };
 
-  const openCamera = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    if (status !== "granted") {
-      Alert.alert(
-        "Permission Denied",
-        "Camera permissions are required to take a photo."
-      );
-      return;
-    }
-    const result = await ImagePicker.launchCameraAsync();
-    if (!result.cancelled) {
-      handleInputChange("photoUri", result.uri);
+  // const openCamera = async () => {
+  //   const { status } = await ImagePicker.requestCameraPermissionsAsync();
+  //   if (status !== "granted") {
+  //     Alert.alert(
+  //       "Permission Denied",
+  //       "Camera permissions are required to take a photo."
+  //     );
+  //     return;
+  //   }
+  //   const result = await ImagePicker.launchCameraAsync();
+  //   if (!result.cancelled) {
+  //     handleInputChange("photoUri", result.uri);
+  //   }
+  // };
+
+  const handleCameraPress = async () => {
+    try {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== "granted") {
+        alert("Sorry, we need camera permissions to make this work!");
+        return;
+      }
+
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        // setPhotoUri(result.assets[0].uri);
+        
+        const uri = result.assets[0].uri;
+        setPhotoUri(uri);
+        handleInputChange("beforeImage", uri);
+        console.log("Photo URI:", uri);
+      }
+    } catch (error) {
+      console.error("Error taking photo:", error);
     }
   };
 
@@ -118,6 +148,7 @@ const Form = ({
             searchPlaceholder="Search..."
             onFocus={() => setLocationFocus(true)}
             onBlur={() => setLocationFocus(false)}
+            value={fsgrData.location}
             onChange={(item) => handleInputChange("location", item.label)}
             renderLeftIcon={() => (
               <AntDesign
@@ -130,7 +161,7 @@ const Form = ({
           />
         </View>
 
-        {[
+        {/* {[
           "FSGR Title",
           "Employee Name",
           "Employee Designation",
@@ -142,11 +173,52 @@ const Form = ({
             mode="outlined"
             label={label}
             style={styles.fullWidth}
+            value={fsgrData[label.toLowerCase().replace(/ /g, "")]}
             onChangeText={(text) =>
               handleInputChange(label.toLowerCase().replace(/ /g, ""), text)
             }
           />
-        ))}
+        ))} */}
+
+        <TextInput
+          mode="outlined"
+          label="FSGR Title"
+          style={styles.fullWidth}
+          value={fsgrData.fsgrtitle}
+          onChangeText={(text) => handleInputChange("heading", text)}
+        />
+
+        <TextInput
+          mode="outlined"
+          label="Employee Name"
+          style={styles.fullWidth}
+          value={fsgrData.employeename}
+          onChangeText={(text) => handleInputChange("empName", text)}
+        />
+
+        <TextInput
+          mode="outlined"
+          label="Employee Designation"
+          style={styles.fullWidth}
+          value={fsgrData.employeedesignation}
+          onChangeText={(text) => handleInputChange("empDesignation", text)}
+        />
+
+        <TextInput
+          mode="outlined"
+          label="Incharge Name"
+          style={styles.fullWidth}
+          value={fsgrData.inchargename}
+          onChangeText={(text) => handleInputChange("inchargeName", text)}
+        />
+
+        <TextInput
+          mode="outlined"
+          label="Safety Supervisor Name"
+          style={styles.fullWidth}
+          value={fsgrData.safetysupervisorname}
+          onChangeText={(text) => handleInputChange("siteSupervisor", text)}
+        />
 
         <View style={styles.container}>
           {renderLabel("Priority", priorityFocus)}
@@ -165,6 +237,7 @@ const Form = ({
             searchPlaceholder="Search..."
             onFocus={() => setPriorityFocus(true)}
             onBlur={() => setPriorityFocus(false)}
+            value={fsgrData.priority}
             onChange={(item) => handleInputChange("priority", item.value)}
             renderLeftIcon={() => (
               <AntDesign
@@ -181,13 +254,19 @@ const Form = ({
           mode="outlined"
           label="What is your problem?"
           style={styles.fullWidth}
+          value={fsgrData.message}
           onChangeText={(text) => handleInputChange("message", text)}
           multiline
           numberOfLines={3}
         />
+         {photoUri ? ( // Show image preview if photoUri is available
+          <View style={styles.imagePreviewContainer}>
+            <Image source={{ uri: photoUri }} style={styles.imagePreview} />
+          </View>
+        ) : null}
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={openCamera} style={styles.photoButton}>
+          <TouchableOpacity onPress={handleCameraPress} style={styles.photoButton}>
             <Entypo name="camera" size={20} color="#4caf50" />
             <Text style={styles.photoButtonText}>Take Photo</Text>
           </TouchableOpacity>

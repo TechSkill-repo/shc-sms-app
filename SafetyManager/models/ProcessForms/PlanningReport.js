@@ -69,32 +69,74 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
 
   console.log("form data:", formData);
   // Handle form submission
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
     if (!validateForm()) {
       return;
     }
-    axios
-      .patch(`${serveraddress}fsgr/form/${id}`, {
-        id,
-        site_supervisor: formData.site_supervisor,
-        initial_investigation_status: formData.initial_investigation_status,
-        initial_investigation_team: formData.initial_investigation_team,
-        resource_planning_done_by: formData.resource_planning_done_by,
-        planning_date: formData.planning_date,
-        resource_required: formData.resource_required,
-        status: "ssiclose",
-      })
-      .then((response) => {
-        setLoading(false);
-        Alert.alert("Success", "Form Submitted Successfully");
-        setIsVisible(false); // Close the modal
-      })
-      .catch((error) => {
-        setLoading(false);
-        Alert.alert("Error", "Failed to submit form");
-        console.error("Error:", error);
+    try {
+      // const formDataNew = new FormData();
+      const formDataNew = new FormData();
+      formDataNew.append("id", id);
+      formDataNew.append("site_supervisor", formData.site_supervisor);
+      formDataNew.append(
+        "initial_investigation_status",
+        formData.initial_investigation_status
+      );
+      formDataNew.append(
+        "initial_investigation_team",
+        formData.initial_investigation_team
+      );
+      formDataNew.append(
+        "resource_planning_done_by",
+        formData.resource_planning_done_by
+      );
+      formDataNew.append("planning_date", formData.planning_date);
+      formDataNew.append("resource_required", formData.resource_required);
+      formDataNew.append("status", "ssiclose");
+
+      const response = await fetch(`${serveraddress}fsgr/form/${id}`, {
+        method: "PATCH",
+        body: formDataNew,
+        headers: {
+          "Content-Type": "multipart/form-data", // Ensure correct content type
+        },
       });
+      if (!response.ok) {
+        const responseData = await response.text();
+        console.error("Server response:", responseData);
+        throw new Error("Network response was not ok");
+      }
+      setLoading(false);
+      Alert.alert("Success", "Form Submitted Successfully");
+      setIsVisible(false); // Close the modal
+    } catch (error) {
+      setLoading(false);
+      Alert.alert("Error", "Failed to submit form");
+      console.error("Error:", error);
+    }
+
+    // axios
+    //   .patch(`${serveraddress}fsgr/form/${id}`, {
+    //     id,
+    //     site_supervisor: formData.site_supervisor,
+    //     initial_investigation_status: formData.initial_investigation_status,
+    //     initial_investigation_team: formData.initial_investigation_team,
+    //     resource_planning_done_by: formData.resource_planning_done_by,
+    //     planning_date: formData.planning_date,
+    //     resource_required: formData.resource_required,
+    //     status: "ssiclose",
+    //   })
+    //   .then((response) => {
+    //     setLoading(false);
+    //     Alert.alert("Success", "Form Submitted Successfully");
+    //     setIsVisible(false); // Close the modal
+    //   })
+    //   .catch((error) => {
+    //     setLoading(false);
+    //     Alert.alert("Error", "Failed to submit form");
+    //     console.error("Error:", error);
+    //   });
   };
 
   return (
