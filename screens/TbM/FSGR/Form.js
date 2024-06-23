@@ -89,7 +89,7 @@ const Form = ({
 
       if (!result.canceled) {
         // setPhotoUri(result.assets[0].uri);
-        
+
         const uri = result.assets[0].uri;
         setPhotoUri(uri);
         handleInputChange("beforeImage", uri);
@@ -160,25 +160,6 @@ const Form = ({
             )}
           />
         </View>
-
-        {/* {[
-          "FSGR Title",
-          "Employee Name",
-          "Employee Designation",
-          "Incharge Name",
-          "Safety Supervisor Name",
-        ].map((label, index) => (
-          <TextInput
-            key={index}
-            mode="outlined"
-            label={label}
-            style={styles.fullWidth}
-            value={fsgrData[label.toLowerCase().replace(/ /g, "")]}
-            onChangeText={(text) =>
-              handleInputChange(label.toLowerCase().replace(/ /g, ""), text)
-            }
-          />
-        ))} */}
 
         <TextInput
           mode="outlined"
@@ -259,15 +240,18 @@ const Form = ({
           multiline
           numberOfLines={3}
         />
-         {photoUri ? ( // Show image preview if photoUri is available
+        {photoUri ? ( // Show image preview if photoUri is available
           <View style={styles.imagePreviewContainer}>
             <Image source={{ uri: photoUri }} style={styles.imagePreview} />
           </View>
         ) : null}
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={handleCameraPress} style={styles.photoButton}>
-            <Entypo name="camera" size={20} color="#4caf50" />
+          <TouchableOpacity
+            onPress={handleCameraPress}
+            style={styles.photoButton}
+          >
+            <Entypo name="camera" size={20} color="#6750a4" />
             <Text style={styles.photoButtonText}>Take Photo</Text>
           </TouchableOpacity>
 
@@ -359,9 +343,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   photoButton: {
-    backgroundColor: "#4caf501a",
+    backgroundColor: "#6750a41a",
     height: 45,
-    borderRadius: 50,
+    borderRadius: 5,
     marginTop: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -372,12 +356,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginLeft: 10,
     fontWeight: "700",
-    color: "#4caf50",
+    color: "#6750a4",
   },
   submitButton: {
     backgroundColor: "#21005d",
     height: 45,
-    borderRadius: 50,
+    borderRadius: 5,
     marginTop: 10,
     alignItems: "center",
     justifyContent: "center",

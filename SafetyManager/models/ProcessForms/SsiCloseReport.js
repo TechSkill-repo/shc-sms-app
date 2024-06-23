@@ -258,7 +258,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id }) => {
                 style={styles.cameraButton}
                 onPress={handleCameraPress}
               >
-                <Entypo name="camera" size={22} color="#f44336" />
+                <Entypo name="camera" size={22} color="#6750a4" />
                 <Text style={styles.cameraButtonText}>After Image</Text>
               </TouchableOpacity>
             </View>
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#f443361a",
+    backgroundColor: "#6750a41a",
     padding: 6,
     borderRadius: 50,
   },
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontSize: 14,
     fontWeight: "500",
-    color: "#f44336",
+    color: "#6750a4",
   },
   imagePreviewContainer: {
     alignItems: "center",

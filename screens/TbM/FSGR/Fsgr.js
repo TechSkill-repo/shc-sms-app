@@ -68,8 +68,6 @@ const Fsgr = () => {
     beforeImage: "",
   });
 
-  console.log("send-data:", fsgrData);
-
   useEffect(() => {
     navigation.getParent()?.setOptions({
       tabBarStyle: {
@@ -90,23 +88,13 @@ const Fsgr = () => {
     return () => {
       clearInterval(timerID);
     };
-  }, [navigation]);
+  }, []);
 
-  console.log("before image",fsgrData.beforeImage);
+  // console.log("before image", fsgrData.beforeImage);
 
   const handleSubmit = async () => {
     setLoadingSubmit(true);
-    if (
-      !fsgrData.location ||
-      !fsgrData.empName ||
-      !fsgrData.empDesignation ||
-      !fsgrData.inchargeName ||
-      !fsgrData.siteSupervisor ||
-      !fsgrData.priority ||
-      !fsgrData.status ||
-      !fsgrData.message ||
-      !fsgrData.beforeImage
-    ) {
+    if (!fsgrData.location || !fsgrData.empName) {
       alert("All fields are mandatory");
       setLoadingSubmit(false);
       return;
@@ -120,6 +108,7 @@ const Fsgr = () => {
       formData.append("reportTime", formatTime(currentDate));
       formData.append("location", fsgrData.location);
       formData.append("empName", fsgrData.empName);
+      formData.append("heading", formData.heading);
       formData.append("empDesignation", fsgrData.empDesignation);
       formData.append("inchargeName", fsgrData.inchargeName);
       formData.append("siteSupervisor", fsgrData.siteSupervisor);
@@ -140,9 +129,9 @@ const Fsgr = () => {
       }
 
       // Send the form data using Axios
-      const response = await fetch(`${serveraddress}fsgr/form/`,{
-        method:"POST",
-        body:formData,
+      const response = await fetch(`${serveraddress}fsgr/form/`, {
+        method: "POST",
+        body: formData,
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -154,41 +143,8 @@ const Fsgr = () => {
     } catch (error) {
       setLoadingSubmit(false);
       console.error("Error sending data:", error);
-      console.log("Error response:", error.response); 
+      console.log("Error response:", error.response);
     }
-
-    // Create FormData and append fsgrData fields
-    // const formData = new FormData();
-
-    // Object.entries(fsgrData).forEach(([key, value]) => {
-    //   formData.append(key, value);
-    // });
-
-    // console.log("json-data", fsgrData);
-    // console.log("form-data", formData);
-    // axios
-    //   .post(`${serveraddress}fsgr/form`, formData, {
-    //     headers:{
-    //       "Content-Type":"multipart/form-data",
-    //     }
-    //   })
-    //   .then((response) => {
-    //     console.log("Data sent successfully:", response.data);
-    //     // Handle success, such as displaying a success message or navigating to another screen
-    //     // setLoading(false);
-
-    //     alert("Form Submited Successfully");
-    //     // showDialog("Form Submitted Successfully");
-    //     navigation.navigate("ToolBoxTalk");
-    //   })
-    //   .catch((error) => {
-    //     // setLoading(false);
-    //     console.error("Error sending data:", error);
-    //     // Handle error, such as displaying an error message to the user
-    //   })
-    //   .finally(() => {
-    //     setLoadingSubmit(false);
-    //   });
   };
 
   return (
