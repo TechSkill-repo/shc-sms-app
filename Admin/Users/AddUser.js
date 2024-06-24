@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Modal, StyleSheet } from "react-native";
+import { View, Modal, StyleSheet, ActivityIndicator } from "react-native";
 import {
   TextInput,
   Button,
@@ -18,15 +18,53 @@ const roleOptions = [
   { label: "Safety Manager", value: "admin" },
 ];
 
-const AddUserModal = ({ visible, hideModal }) => {
+const AddUserModal = ({ visible, hideModal, onUserAdded }) => {
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const validateInputs = () => {
+    if (!username) {
+      setSnackbarMessage("Username is required");
+      setSnackbarVisible(true);
+      return false;
+    }
+    if (!email) {
+      setSnackbarMessage("Email is required");
+      setSnackbarVisible(true);
+      return false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setSnackbarMessage("Invalid email format");
+      setSnackbarVisible(true);
+      return false;
+    }
+    if (!role) {
+      setSnackbarMessage("Role is required");
+      setSnackbarVisible(true);
+      return false;
+    }
+    if (!password) {
+      setSnackbarMessage("Password is required");
+      setSnackbarVisible(true);
+      return false;
+    }
+    if (password.length < 6) {
+      setSnackbarMessage("Password must be at least 6 characters");
+      setSnackbarVisible(true);
+      return false;
+    }
+    return true;
+  };
 
   const handleRegister = async () => {
+    if (!validateInputs()) return;
+    setLoading(true);
     try {
       const url = `${serveraddress}auth/register`;
 
@@ -53,14 +91,38 @@ const AddUserModal = ({ visible, hideModal }) => {
         setRole("");
         setUsername("");
         setPassword("");
+        onUserAdded();
+        setTimeout(() => {
+          hideModal();
+        }, 3000);
+      } else if (response.data.message === "Username already exists") {
+        setSnackbarMessage("Username already exists");
+        setSnackbarVisible(true);
+      } else if (response.data.message === "Email already exists") {
+        setSnackbarMessage("Email already exists");
+        setSnackbarVisible(true);
       } else {
         setSnackbarMessage("Email alredy Exist");
         setSnackbarVisible(true);
-        hideModal();
       }
+      hideModal();
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error registering user:", error); // Log the full error object
-      setSnackbarMessage("Email Already Exist");
+      if (
+        error.response &&
+        error.response.data.message === "Username already exists"
+      ) {
+        setSnackbarMessage("Username already exists");
+      } else if (
+        error.response &&
+        error.response.data.message === "Email already exists"
+      ) {
+        setSnackbarMessage("Email already exists");
+      } else {
+        setSnackbarMessage("Error registering user. Please try again.");
+      }
       setSnackbarVisible(true);
     }
   };
@@ -124,13 +186,17 @@ const AddUserModal = ({ visible, hideModal }) => {
               onChangeText={(text) => setPassword(text)}
               style={styles.input}
             />
-            <Button
-              mode="contained"
-              onPress={handleRegister}
-              style={styles.button}
-            >
-              Register
-            </Button>
+            {loading ? (
+              <ActivityIndicator size={"small"} color="#0000ff" />
+            ) : (
+              <Button
+                mode="contained"
+                onPress={handleRegister}
+                style={styles.button}
+              >
+                Register
+              </Button>
+            )}
           </View>
         </View>
       </View>
@@ -183,7 +249,7 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 5,
-    paddingHorizontal: 8,
+    paddingHorizontal: 15,
     marginVertical: 5,
   },
   placeholderStyle: {

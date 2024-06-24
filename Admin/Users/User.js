@@ -14,11 +14,15 @@ const User = () => {
     setModalVisible(!modalVisible);
   };
 
+  const handleUserAdded = () => {
+    setRefreshing((prev) => !prev); // Toggle refreshing to trigger data fetch
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <Appbar.Header>
-        <Appbar.BackAction />
-        <Appbar.Content title="Title" />
+        {/* <Appbar.BackAction /> */}
+        <Appbar.Content title="Users" />
 
         <Appbar.Action icon="plus" onPress={toggleModal} />
         <Appbar.Action icon="magnify" onPress={() => setHide(!hide)} />
@@ -26,7 +30,11 @@ const User = () => {
 
       <DisplayUser hide={hide} setHide={setHide} refreshing={refreshing} />
 
-      <AddUserModal visible={modalVisible} hideModal={toggleModal} />
+      <AddUserModal
+        visible={modalVisible}
+        hideModal={toggleModal}
+        onUserAdded={handleUserAdded}
+      />
     </View>
   );
 };

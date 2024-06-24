@@ -12,7 +12,7 @@ import { serveraddress } from "../../assets/values/Constants";
 import { Entypo } from "@expo/vector-icons";
 import { TextInput } from "react-native-paper";
 
-const DisplayUser = ({ hide, setHide, onRefresh }) => {
+const DisplayUser = ({ hide, setHide, refreshing }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,7 +20,7 @@ const DisplayUser = ({ hide, setHide, onRefresh }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [refreshing]);
 
   useEffect(() => {
     const results = users.filter((user) =>
