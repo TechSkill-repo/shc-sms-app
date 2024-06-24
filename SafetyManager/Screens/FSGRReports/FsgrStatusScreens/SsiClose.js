@@ -36,6 +36,8 @@ const SsiClose = ({ loadSearchBar }) => {
     role: state.role,
   }));
 
+  console.log("before image:", data.beforeImage);
+
   useEffect(() => {
     const fetchLocationsData = async () => {
       try {
@@ -62,6 +64,8 @@ const SsiClose = ({ loadSearchBar }) => {
         `${serveraddress}fsgr/form/ssiclose/${selectedLocation}`
       );
       if (response.data && response.data.length > 0) {
+        console.log("ssi resp:", response.data);
+        // console.log("ssi resp  before image:", response.data[0].beforeImage);
         setData(response.data);
       } else {
         setDataNotFound(true);
@@ -202,6 +206,8 @@ const SsiClose = ({ loadSearchBar }) => {
           isVisible={isVisible}
           setIsVisible={setIsVisible}
           id={id}
+          // beforeImage={data.length > 0 ? data[0].beforeImage : null}
+          beforeImage={data}
         />
       )}
     </View>

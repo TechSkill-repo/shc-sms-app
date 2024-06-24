@@ -56,23 +56,52 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
         },
         {
           text: "Yes",
-          onPress: () => {
+          onPress: async() => {
             setVerifiedLoading(true);
-            axios
-              .patch(`${serveraddress}fsgr/form/${id}`, {
-                id,
-                status: "approved",
-              })
-              .then((res) => {
-                setVerifiedLoading(false);
-                Alert.alert("Success", "Report verified successfully.");
-                setIsVisible(false);
-                setRefresh((prev) => !prev);
-              })
-              .catch((error) => {
-                setVerifiedLoading(false);
-                Alert.alert("Error", "Failed to verify the report.");
+
+            try {
+              const formData = new FormData();
+
+              formData.append("id", id);
+              formData.append("status","approved")
+
+              const response = await fetch(`${serveraddress}fsgr/form/${id}`, {
+                method: "PATCH",
+                body: formData,
+                headers: {
+                  "Content-Type": "multipart/form-data", // Ensure correct content type
+                },
               });
+              if (!response.ok) {
+                const responseData = await response.text();
+                console.error("Server response:", responseData);
+                throw new Error("Network response was not ok");
+              }
+
+              setVerifiedLoading(false);
+              Alert.alert("Success", "Report verified successfully.");
+              setIsVisible(false);
+              setRefresh((prev) => !prev);
+              
+            } catch (error) {
+              setVerifiedLoading(false);
+              Alert.alert("Error", "Failed to verify the report.");
+            }
+            // axios
+            //   .patch(`${serveraddress}fsgr/form/${id}`, {
+            //     id,
+            //     status: "approved",
+            //   })
+            //   .then((res) => {
+            //     setVerifiedLoading(false);
+            //     Alert.alert("Success", "Report verified successfully.");
+            //     setIsVisible(false);
+            //     setRefresh((prev) => !prev);
+            //   })
+            //   .catch((error) => {
+            //     setVerifiedLoading(false);
+            //     Alert.alert("Error", "Failed to verify the report.");
+            //   });
           },
         },
       ]
