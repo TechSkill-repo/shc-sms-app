@@ -6,6 +6,11 @@ import SopForm from "./SopForm";
 
 const More = () => {
   const [visible, setVisible] = useState(false);
+  const [loadSearchBar, setLoadSearchBar] = useState(false);
+
+  const toggleSearchBar = () => {
+    setLoadSearchBar((prevState) => !prevState);
+  };
   return (
     <ScrollView
       style={{
@@ -13,9 +18,9 @@ const More = () => {
       }}
     >
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => {}} />
+        {/* <Appbar.BackAction onPress={() => {}} /> */}
         <Appbar.Content title="SOP" />
-        <Appbar.Action icon="magnify" />
+        <Appbar.Action icon="magnify" onPress={toggleSearchBar}/>
         <Appbar.Action
           icon="plus"
           onPress={() => {
@@ -23,7 +28,7 @@ const More = () => {
           }}
         />
       </Appbar.Header>
-      <Sop />
+      <Sop loadSearchBar={loadSearchBar}/>
       <SopForm isVisible={visible} setIsVisible={setVisible} />
     </ScrollView>
   );
