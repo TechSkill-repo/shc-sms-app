@@ -230,7 +230,8 @@ const Step1 = ({ onNext, formData, setFormData }) => {
           // onChangeText={handleTimeChange}
         />
       </View>
-      <View
+
+      {/* <View
         style={{
           marginTop: 20,
           marginHorizontal: 20,
@@ -259,10 +260,10 @@ const Step1 = ({ onNext, formData, setFormData }) => {
           search
           maxHeight={300}
           labelField="label"
-          valueField="value"
+          // valueField="value"
           placeholder={`Shift`}
           searchPlaceholder="Search..."
-          value={selectedValue}
+          value={shift}
           onChange={handleDropdownChange}
           renderLeftIcon={() => (
             <AntDesign
@@ -273,7 +274,8 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             />
           )}
         />
-      </View>
+      </View> */}
+
       <View
         style={{
           marginTop: 20,
@@ -410,7 +412,6 @@ export default Step1;
 const styles = StyleSheet.create({
   dropdown: {
     width: "90%",
-    margin: 10,
     height: 50,
     backgroundColor: "white",
     borderRadius: 7,

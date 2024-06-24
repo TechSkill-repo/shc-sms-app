@@ -1,4 +1,4 @@
-import { View, Alert, Image } from "react-native";
+import { View, Alert, Image, ActivityIndicator } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { serveraddress } from "../../assets/values/Constants";
@@ -164,14 +164,14 @@ const DailyJobPlan = () => {
       </Appbar.Header>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         {loading ? (
-          // <ActivityIndicator size="large" color="#0000ff" />
-          <Image
-            source={Loading}
-            style={{
-              height: 500,
-              width: "100%",
-            }}
-          />
+          <ActivityIndicator size="large" color="#0000ff" />
+          // <Image
+          //   source={Loading}
+          //   style={{
+          //     height: 500,
+          //     width: "100%",
+          //   }}
+          // />
         ) : (
           renderStep()
         )}
