@@ -5,12 +5,13 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 
-const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
+const Step5 = ({ onNext, onPrev, formData, setFormData, loading }) => {
   const [inputList, setInputList] = useState([{ id: 1, text: "" }]);
   const [idCounter, setIdCounter] = useState(2); // Counter for generating unique ids
 
@@ -182,19 +183,25 @@ const Step5 = ({ onNext, onPrev, formData, setFormData }) => {
               justifyContent: "center",
             }}
           >
-            <Text
-              style={{
-                paddingHorizontal: 20,
-                paddingVertical: 0,
-                fontSize: 16,
-                textAlign: "center",
-                fontWeight: "500",
-                color: "white",
-              }}
-            >
-              SUBMIT
-            </Text>
-            <MaterialIcons name="done" size={18} color="white" />
+            {loading ? (
+              <ActivityIndicator size="large" color="white" />
+            ) : (
+              <>
+                <Text
+                  style={{
+                    paddingHorizontal: 20,
+                    paddingVertical: 0,
+                    fontSize: 16,
+                    textAlign: "center",
+                    fontWeight: "500",
+                    color: "white",
+                  }}
+                >
+                  SUBMIT
+                </Text>
+                <MaterialIcons name="done" size={18} color="white" />
+              </>
+            )}
           </View>
         </TouchableOpacity>
       </View>

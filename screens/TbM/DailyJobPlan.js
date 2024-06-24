@@ -71,6 +71,7 @@ const DailyJobPlan = () => {
             onNext={handleConfirmSubmit}
             formData={formData}
             setFormData={setFormData}
+            loading={loading}
           />
         );
 
@@ -163,7 +164,7 @@ const DailyJobPlan = () => {
         <Appbar.Action icon="dots-vertical" />
       </Appbar.Header>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        {loading ? (
+        {/* {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
           // <Image
           //   source={Loading}
@@ -172,9 +173,10 @@ const DailyJobPlan = () => {
           //     width: "100%",
           //   }}
           // />
-        ) : (
-          renderStep()
-        )}
+        ) : ( */}
+        {renderStep()}
+
+        {/* )} */}
       </View>
     </>
   );

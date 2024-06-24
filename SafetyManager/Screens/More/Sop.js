@@ -15,7 +15,7 @@ import ViewSopPdf from "./ViewSopPdf";
 import { fetchLocations } from "../../../components/Global/Global";
 import { Dropdown } from "react-native-element-dropdown";
 
-const Sop = () => {
+const Sop = ({ loadSearchBar }) => {
   const [sopData, setSopData] = useState([]);
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
@@ -61,43 +61,45 @@ const Sop = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
-        <Dropdown
-          style={styles.dropdown}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
-          iconStyle={styles.iconStyle}
-          data={locations.map((location) => ({
-            label: location.name,
-            value: location.id,
-          }))}
-          search
-          maxHeight={300}
-          labelField="label"
-          valueField={selectedLocation}
-          placeholder={`${selectedLocation}`}
-          searchPlaceholder="Search..."
-          value={selectedLocation} // Use selectedLocation here
-          onChange={(item) => setSelectedLocation(item.label)}
-          renderLeftIcon={() => (
-            <AntDesign
-              style={styles.icon}
-              color="black"
-              name="Safety"
-              size={20}
-            />
-          )}
-        />
-        <TouchableOpacity onPress={fetchAllSop} style={styles.searchButton}>
-          <Feather
-            name="search"
-            size={20}
-            color="white"
-            style={{ alignSelf: "center", marginTop: 10 }}
+      {loadSearchBar && (
+        <View style={styles.searchContainer}>
+          <Dropdown
+            style={styles.dropdown}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={locations.map((location) => ({
+              label: location.name,
+              value: location.id,
+            }))}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField={selectedLocation}
+            placeholder={`${selectedLocation}`}
+            searchPlaceholder="Search..."
+            value={selectedLocation} // Use selectedLocation here
+            onChange={(item) => setSelectedLocation(item.label)}
+            renderLeftIcon={() => (
+              <AntDesign
+                style={styles.icon}
+                color="black"
+                name="Safety"
+                size={20}
+              />
+            )}
           />
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity onPress={fetchAllSop} style={styles.searchButton}>
+            <Feather
+              name="search"
+              size={20}
+              color="white"
+              style={{ alignSelf: "center", marginTop: 10 }}
+            />
+          </TouchableOpacity>
+        </View>
+      )}
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : sopData.length === 0 ? (

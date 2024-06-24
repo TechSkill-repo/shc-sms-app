@@ -295,7 +295,6 @@ export default Step1;
 const styles = StyleSheet.create({
   dropdown: {
     width: "90%",
-    margin: 10,
     height: 50,
     backgroundColor: "white",
     borderRadius: 7,

@@ -11,7 +11,7 @@ import Toast from "react-native-toast-message";
 import { Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { serveraddress } from "../../assets/values/Constants";
-import Loading from "../../assets/logo/Loading.png"
+import Loading from "../../assets/logo/Loading.png";
 
 const TbtForm = () => {
   const [loading, setLoading] = useState(false);
@@ -139,6 +139,7 @@ const TbtForm = () => {
             onPrev={prevStep}
             setFormData={setFormData}
             formData={formData}
+            loading={loading}
           />
         );
 
@@ -238,7 +239,7 @@ const TbtForm = () => {
         <Appbar.Action icon="dots-vertical" />
       </Appbar.Header>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        {loading ? (
+        {/* {loading ? (
           // <ActivityIndicator size="large" color="#0000ff" />
           <Image
             source={Loading}
@@ -247,9 +248,9 @@ const TbtForm = () => {
               width: "100%",
             }}
           />
-        ) : (
-          renderStep()
-        )}
+        ) : ( */}
+        {renderStep()}
+        {/* )} */}
       </View>
     </>
   );

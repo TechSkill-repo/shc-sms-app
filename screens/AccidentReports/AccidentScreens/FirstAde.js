@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -18,12 +19,14 @@ const FirstAde = () => {
   const [id, setId] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [countdown, setCountdown] = useState(60);
   const [dataNotFound, setDataNotFound] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
+        setCountdown(60);
         const response = await axios.get(`${serveraddress}accident/first_aid/`);
         if (response.data) {
           setData(response.data);
@@ -31,9 +34,12 @@ const FirstAde = () => {
           setDataNotFound(true);
         }
       } catch (error) {
+        setLoading(false);
+        setCountdown(60);
         console.error("Error fetching data:", error.message);
       } finally {
         setLoading(false);
+        setCountdown(60);
       }
     };
 
@@ -43,13 +49,12 @@ const FirstAde = () => {
   return (
     <View style={styles.mainContainer}>
       {loading ? (
-        <Image
-          source={Loading}
-          style={{
-            height: 500,
-            width: "100%",
-          }}
-        />
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#21005d" />
+          <Text style={styles.countdownText}>
+            Please wait for {countdown}'s
+          </Text>
+        </View>
       ) : data ? (
         data.map((data) => {
           return (
@@ -134,6 +139,16 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#21005d",
     marginLeft: 10,
+  },
+  loadingContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  countdownText: {
+    marginTop: 10,
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#21005d",
   },
 });
 

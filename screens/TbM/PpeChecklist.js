@@ -47,6 +47,7 @@ const PpeChecklist = () => {
             setStep2Data={setStep2Data}
             step1Data={step1Data}
             formData={step2Data}
+            loading={loading}
           />
         );
 
@@ -150,7 +151,7 @@ const PpeChecklist = () => {
         <Appbar.Action icon="dots-vertical" />
       </Appbar.Header>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {loading ? (
+        {/* {loading ? (
           // <ActivityIndicator size="large" color="#0000ff" />
           <Image
           source={Loading}
@@ -158,9 +159,9 @@ const PpeChecklist = () => {
             height: 500,
             width: "100%",
           }}/>
-        ) : (
-          renderStep()
-        )}
+        ) : ( */}
+        {renderStep()}
+        {/* )} */}
       </View>
     </>
   );

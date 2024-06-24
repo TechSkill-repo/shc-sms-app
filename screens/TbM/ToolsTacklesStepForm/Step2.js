@@ -5,6 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
@@ -18,7 +19,14 @@ const data = [
   { label: "Can't work with this ❌", value: "cantUse" },
 ];
 
-const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
+const Step2 = ({
+  onNext,
+  onPrev,
+  formData,
+  setStep2Data,
+  step1Data,
+  loading,
+}) => {
   const [seeMore, setSeeMore] = useState(false);
 
   const [inputList, setInputList] = useState([
@@ -339,27 +347,31 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data }) => {
           }}
           onPress={handleNext}
         >
-          <View
-            style={{
-              alignItems: "center",
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-            <Text
+          {loading ? (
+            <ActivityIndicator size="large" color="white" />
+          ) : (
+            <View
               style={{
-                paddingHorizontal: 20,
-                paddingVertical: 0,
-                fontSize: 16,
-                textAlign: "center",
-                fontWeight: "500",
-                color: "white",
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "center",
               }}
             >
-              SUBMIT
-            </Text>
-            <MaterialIcons name="done" size={18} color="white" />
-          </View>
+              <Text
+                style={{
+                  paddingHorizontal: 20,
+                  paddingVertical: 0,
+                  fontSize: 16,
+                  textAlign: "center",
+                  fontWeight: "500",
+                  color: "white",
+                }}
+              >
+                SUBMIT
+              </Text>
+              <MaterialIcons name="done" size={18} color="white" />
+            </View>
+          )}
         </TouchableOpacity>
       </View>
     </ScrollView>

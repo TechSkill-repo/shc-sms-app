@@ -59,7 +59,7 @@ const AccidentReports = () => {
             />
             <Appbar.Content title="Accident" />
             <Appbar.Action icon="pencil" onPress={() => setIsVisible(true)} />
-            <Appbar.Action icon="magnify" />
+            {/* <Appbar.Action icon="magnify" /> */}
           </Appbar.Header>
           <View>
             <View style={styles.container}>

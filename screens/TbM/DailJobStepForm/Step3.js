@@ -5,12 +5,13 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 
-const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
+const Step3 = ({ onNext, onPrev, formData, setFormData, loading }) => {
   const [hazardsInputList, setHazardsInputList] = useState([
     { id: 1, text: "" },
   ]);
@@ -270,7 +271,6 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
             borderRadius: 50,
           }}
         >
-
           <Text
             style={{
               paddingHorizontal: 20,
@@ -293,27 +293,31 @@ const Step3 = ({ onNext, onPrev, formData, setFormData }) => {
           }}
           onPress={onNext}
         >
-          <View
-            style={{
-              alignItems: "center",
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-            <Text
+          {loading ? (
+            <ActivityIndicator size="large" color="white" />
+          ) : (
+            <View
               style={{
-                paddingHorizontal: 20,
-                paddingVertical: 0,
-                fontSize: 16,
-                textAlign: "center",
-                fontWeight: "500",
-                color: "white",
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "center",
               }}
             >
-              SUBMIT
-            </Text>
-            <MaterialIcons name="done" size={18} color="white" />
-          </View>
+              <Text
+                style={{
+                  paddingHorizontal: 20,
+                  paddingVertical: 0,
+                  fontSize: 16,
+                  textAlign: "center",
+                  fontWeight: "500",
+                  color: "white",
+                }}
+              >
+                SUBMIT
+              </Text>
+              <MaterialIcons name="done" size={18} color="white" />
+            </View>
+          )}
         </TouchableOpacity>
       </View>
     </ScrollView>

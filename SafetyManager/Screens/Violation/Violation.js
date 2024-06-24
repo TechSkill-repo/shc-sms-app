@@ -104,15 +104,18 @@ const Violation = () => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
+    height:100
   },
   buttonsContainer: {
     flexDirection: "row",
-    marginBottom: 20,
+    marginBottom: 10,
     justifyContent: "space-evenly",
+    alignItems:"center",
   },
   button: {
     flex: 1,
-    paddingVertical: 15,
+    minWidth: 100,
+    paddingVertical:10,
     borderBottomWidth: 2,
     backgroundColor: "#fffbfe",
     borderBottomColor: "lightgray",
@@ -120,6 +123,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   selectedButton: {
+    borderBottomWidth: 2,
     borderBottomColor: "#21005d",
   },
   buttonText: {
