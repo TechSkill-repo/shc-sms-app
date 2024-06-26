@@ -122,7 +122,7 @@ const SopForm = ({ isVisible, setIsVisible }) => {
         <ScrollView
           style={[
             styles.container,
-            { height: windowHeight * 0.7, marginTop: windowHeight * 0.3 },
+            { height: windowHeight * 0.6, marginTop: windowHeight * 0.4 },
           ]}
         >
           <View style={styles.header}>
@@ -162,8 +162,8 @@ const SopForm = ({ isVisible, setIsVisible }) => {
             search
             maxHeight={300}
             labelField="label"
-            valueField={"value"}
-            placeholder="Location"
+            valueField="value"
+            placeholder={selectedLocation ? selectedLocation : "Location"}
             searchPlaceholder="Search..."
             value={selectedLocation} // Use selectedLocation here
             onChange={handleLocationChange}
@@ -255,7 +255,6 @@ const styles = {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-  
   },
   submitButtonText: {
     color: "white",
