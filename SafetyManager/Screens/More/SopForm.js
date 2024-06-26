@@ -93,6 +93,10 @@ const SopForm = ({ isVisible, setIsVisible }) => {
       if (response.ok) {
         Alert.alert("Success", "SOP submitted successfully.");
         setIsVisible(false);
+        setSopTitle("");
+        setSopDescription("");
+        setSelectedLocation("");
+        setFile("");
       } else {
         const errorData = await response.json(); // Attempt to parse JSON error response
         console.log("Error data:", errorData);
@@ -118,7 +122,7 @@ const SopForm = ({ isVisible, setIsVisible }) => {
         <ScrollView
           style={[
             styles.container,
-            { height: windowHeight * 0.6, marginTop: windowHeight * 0.4 },
+            { height: windowHeight * 0.7, marginTop: windowHeight * 0.3 },
           ]}
         >
           <View style={styles.header}>
@@ -158,7 +162,7 @@ const SopForm = ({ isVisible, setIsVisible }) => {
             search
             maxHeight={300}
             labelField="label"
-            valueField="value"
+            valueField={"value"}
             placeholder="Location"
             searchPlaceholder="Search..."
             value={selectedLocation} // Use selectedLocation here
@@ -251,6 +255,7 @@ const styles = {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+  
   },
   submitButtonText: {
     color: "white",

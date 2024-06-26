@@ -12,6 +12,7 @@ import { PDFReader } from "expo-av";
 import React, { useEffect, useState } from "react";
 import { serveraddress } from "../../../assets/values/Constants";
 import axios from "axios";
+import { Buffer } from "buffer";
 
 const ViewSopPdf = ({ visible, setVisible, pdfId }) => {
   const windowHeight = Dimensions.get("window").height;
