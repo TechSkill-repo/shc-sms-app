@@ -38,9 +38,9 @@ const Violation = () => {
         }}
       >
         <Appbar.Header>
-          <Appbar.BackAction />
+          {/* <Appbar.BackAction /> */}
           <Appbar.Content title="VIOLATION & OBSERVATION" />
-          <Appbar.Action icon="magnify" />
+          {/* <Appbar.Action icon="magnify" /> */}
           <Appbar.Action
             icon="plus"
             onPress={() => {

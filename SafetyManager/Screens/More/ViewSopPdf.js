@@ -15,6 +15,7 @@ import axios from "axios";
 
 const ViewSopPdf = ({ visible, setVisible, pdfId }) => {
   const windowHeight = Dimensions.get("window").height;
+  console.log("pdf id==", pdfId);
   const [pdfUri, setPdfUri] = useState(null);
   const [loading, setLoading] = useState(true);
 

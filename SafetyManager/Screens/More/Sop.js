@@ -47,6 +47,7 @@ const Sop = ({ loadSearchBar }) => {
       const res = await axios.get(`${serveraddress}sop/${selectedLocation}`);
       if (res.data) {
         setSopData(res.data);
+        console.log("sop-data===", res.data);
       } else {
         console.error("Invalid response format:", res);
         setSopData([]);
