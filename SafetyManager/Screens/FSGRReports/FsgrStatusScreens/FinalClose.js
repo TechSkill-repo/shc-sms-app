@@ -61,6 +61,7 @@ const FinalClose = ({ loadSearchBar }) => {
         `${serveraddress}fsgr/form/finalclose/${selectedLocation}`
       );
       if (response.data && response.data.length > 0) {
+        console.log("final close datra======", response.data);
         setData(response.data);
       } else {
         setDataNotFound(true);

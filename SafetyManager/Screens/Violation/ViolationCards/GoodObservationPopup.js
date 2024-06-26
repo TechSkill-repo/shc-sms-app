@@ -14,6 +14,7 @@ import { StyleSheet } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
 import { serveraddress } from "../../../../assets/values/Constants";
+import useAuthStore from "../../../../store/userAuthStore";
 
 const GoodObservationPopup = ({ visible, setVisible, cardId }) => {
   const windowHeight = Dimensions.get("window").height;
@@ -21,6 +22,12 @@ const GoodObservationPopup = ({ visible, setVisible, cardId }) => {
   const [violationDetails, setViolationDetails] = useState(null);
   const [imageLoadingBefore, setImageLoadingBefore] = useState(true);
   const [imageLoadingAfter, setImageLoadingAfter] = useState(true);
+  const [imageLoading, setImageLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { role } = useAuthStore((state) => ({
+    role: state.role,
+  }));
 
   useEffect(() => {
     if (visible) {
@@ -48,6 +55,36 @@ const GoodObservationPopup = ({ visible, setVisible, cardId }) => {
     return null;
   };
 
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+
+    try {
+      const formDataNew = new FormData();
+
+      formDataNew.append("status", "finalClosed");
+
+      const response = await fetch(`${serveraddress}violation/${cardId}`, {
+        method: "PATCH",
+        body: formDataNew,
+        headers: {
+          "Content-Type": "multipart/form-data", // Ensure correct content type
+        },
+      });
+      if (!response.ok) {
+        const responseData = await response.text();
+        console.error("Server response:", responseData);
+        throw new Error("Network response was not ok");
+      }
+
+      setIsSubmitting(false);
+      setVisible(false);
+    } catch (error) {
+      setIsSubmitting(false);
+      Alert.alert("Error", "Failed to submit form");
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <Modal
       visible={visible}
@@ -64,7 +101,7 @@ const GoodObservationPopup = ({ visible, setVisible, cardId }) => {
           }}
         >
           <View style={styles.header}>
-            <Text style={styles.headerText}>VIOLATION Details</Text>
+            <Text style={styles.headerText}>Good Observation</Text>
             <Entypo
               name="cross"
               size={30}
@@ -124,16 +161,43 @@ const GoodObservationPopup = ({ visible, setVisible, cardId }) => {
                   {violationDetails?.comment}
                 </Text>
               </View>
+              <View style={{ marginTop: 10 }}>
+                <Text style={styles.detailLabel}>Before Image:</Text>
+                {violationDetails?.violationBeforeImage ? (
+                  <View>
+                    {imageLoading && (
+                      <ActivityIndicator size="small" color="#21005d" />
+                    )}
+                    <Image
+                      source={{
+                        uri: getImageUrl(violationDetails.violationBeforeImage),
+                      }}
+                      style={styles.image}
+                      onLoadEnd={() => setImageLoading(false)}
+                      onError={() => {
+                        console.error("Failed to load image");
+                        setImageLoading(false);
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <Text style={styles.detailValue}>No image available</Text>
+                )}
+              </View>
 
               <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                  onPress={() => {
-                    setVisible(false);
-                  }}
-                  style={styles.closeButton}
-                >
-                  <Text style={styles.closeButtonText}>Closed</Text>
-                </TouchableOpacity>
+                {role === "admin" && (
+                  <TouchableOpacity
+                    onPress={handleSubmit}
+                    style={styles.closeButton}
+                  >
+                    {isSubmitting ? (
+                      <Text style={styles.closeButtonText}>Requesting...</Text>
+                    ) : (
+                      <Text style={styles.closeButtonText}>Closed</Text>
+                    )}
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           )}

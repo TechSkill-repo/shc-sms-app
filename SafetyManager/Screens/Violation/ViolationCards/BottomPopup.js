@@ -220,6 +220,15 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
                   <Text style={styles.detailValue}>No image available</Text>
                 )}
               </View>
+              <View style={{ marginTop: 10 }}>
+                <Text style={styles.detailLabel}>After Image:</Text>
+                {photoUri && (
+                  <View style={styles.photoPreviewContainer}>
+                    <Image source={{ uri: photoUri }} style={styles.image} />
+                  </View>
+                )}
+              </View>
+
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
                   style={styles.imageButton}
@@ -330,6 +339,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "500",
     color: "white",
+  },
+  photoPreviewContainer: {
+    marginVertical: 10,
+    alignItems: "center",
   },
 });
 

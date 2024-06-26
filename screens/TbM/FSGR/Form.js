@@ -144,7 +144,7 @@ const Form = ({
             maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder={!locationFocus ? "Location" : "..."}
+            placeholder={fsgrData.location ? fsgrData.location : "Location"}
             searchPlaceholder="Search..."
             onFocus={() => setLocationFocus(true)}
             onBlur={() => setLocationFocus(false)}

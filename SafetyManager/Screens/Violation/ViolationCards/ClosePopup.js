@@ -15,6 +15,7 @@ import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import { serveraddress } from "../../../../assets/values/Constants";
+import useAuthStore from "../../../../store/userAuthStore";
 
 const ClosePopup = ({ visible, setVisible, cardId }) => {
   const windowHeight = Dimensions.get("window").height;
@@ -22,7 +23,11 @@ const ClosePopup = ({ visible, setVisible, cardId }) => {
   const [violationDetails, setViolationDetails] = useState(null);
   const [imageLoadingBefore, setImageLoadingBefore] = useState(true);
   const [imageLoadingAfter, setImageLoadingAfter] = useState(true);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { role } = useAuthStore((state) => ({
+    role: state.role,
+  }));
+  console.log("role", role);
   useEffect(() => {
     if (visible) {
       setLoading(true);
@@ -47,6 +52,36 @@ const ClosePopup = ({ visible, setVisible, cardId }) => {
       return url;
     }
     return null;
+  };
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+
+    try {
+      const formDataNew = new FormData();
+
+      formDataNew.append("status", "finalClosed");
+
+      const response = await fetch(`${serveraddress}violation/${cardId}`, {
+        method: "PATCH",
+        body: formDataNew,
+        headers: {
+          "Content-Type": "multipart/form-data", // Ensure correct content type
+        },
+      });
+      if (!response.ok) {
+        const responseData = await response.text();
+        console.error("Server response:", responseData);
+        throw new Error("Network response was not ok");
+      }
+
+      setIsSubmitting(false);
+      setVisible(false);
+    } catch (error) {
+      setIsSubmitting(false);
+      Alert.alert("Error", "Failed to submit form");
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -172,14 +207,18 @@ const ClosePopup = ({ visible, setVisible, cardId }) => {
                 )}
               </View>
               <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                  onPress={() => {
-                    setVisible(false);
-                  }}
-                  style={styles.closeButton}
-                >
-                  <Text style={styles.closeButtonText}>Closed</Text>
-                </TouchableOpacity>
+                {role === "admin" && (
+                  <TouchableOpacity
+                    onPress={handleSubmit}
+                    style={styles.closeButton}
+                  >
+                    {isSubmitting ? (
+                      <Text style={styles.closeButtonText}>Requesting...</Text>
+                    ) : (
+                      <Text style={styles.closeButtonText}>Closed</Text>
+                    )}
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           )}

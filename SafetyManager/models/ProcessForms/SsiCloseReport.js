@@ -404,7 +404,6 @@
 //   },
 // });
 
-
 import {
   Alert,
   Dimensions,
@@ -639,7 +638,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id, beforeImage }) => {
                 onChange={onChange}
               />
             )}
-            <View style={{ marginTop: 10 }}>
+            {/* <View style={{ marginTop: 10 }}>
               <Text style={styles.detailLabel}>Before Image:</Text>
               {beforeImage ? (
                 <View>
@@ -661,7 +660,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id, beforeImage }) => {
               ) : (
                 <Text style={styles.detailValue}>No image available</Text>
               )}
-            </View>
+            </View> */}
             <View style={{ marginTop: 10 }}>
               <Text style={styles.detailLabel}>After Image:</Text>
               {photoUri && (

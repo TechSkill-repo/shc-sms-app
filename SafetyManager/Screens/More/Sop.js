@@ -17,7 +17,7 @@ import { Dropdown } from "react-native-element-dropdown";
 
 const Sop = ({ loadSearchBar }) => {
   const [sopData, setSopData] = useState([]);
-  const [location, setLocation] = useState("");
+  const [pdfName, setPdfName] = useState("");
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [pdfId, setPdfId] = useState("");
@@ -117,6 +117,7 @@ const Sop = ({ loadSearchBar }) => {
                 style={styles.viewButton}
                 onPress={() => {
                   viewPdf(data.id);
+                  setPdfName(data.pdfName);
                 }}
               >
                 <Text style={styles.viewButtonText}>View SOP</Text>
@@ -126,7 +127,11 @@ const Sop = ({ loadSearchBar }) => {
         </ScrollView>
       )}
       {visible && (
-        <ViewSopPdf visible={visible} setVisible={setVisible} pdfId={pdfId} />
+        <ViewSopPdf
+          visible={visible}
+          setVisible={setVisible}
+          pdfName={pdfName}
+        />
       )}
     </View>
   );

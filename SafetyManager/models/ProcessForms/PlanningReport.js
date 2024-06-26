@@ -302,7 +302,7 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
                 Resource Planning Done By
               </Text>
               <TextInput
-                placeholder="Enter the name of the person responsible for resource planning..."
+                placeholder="Responsible Person..."
                 multiline
                 numberOfLines={2}
                 textAlignVertical="top"

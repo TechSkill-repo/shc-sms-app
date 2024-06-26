@@ -38,7 +38,7 @@ const Fsgr = () => {
 
   const [fsgrData, setFsgrData] = useState({
     reportDate: formatDate(currentDate),
-    reportTime: formatTime(currentDate),
+    // reportTime: formatTime(currentDate),
     heading: "",
     location: "",
     empName: "",
@@ -51,6 +51,8 @@ const Fsgr = () => {
     beforeImage: "",
   });
 
+  console.log("fsgr heading:", fsgrData.heading);
+
   useEffect(() => {
     navigation.getParent()?.setOptions({
       tabBarStyle: {
@@ -58,19 +60,19 @@ const Fsgr = () => {
       },
     });
 
-    const timerID = setInterval(() => {
-      const now = new Date();
-      setCurrentTime(now);
-      setFsgrData((prevData) => ({
-        ...prevData,
-        reportTime: formatTime(now), // Update reportTime every second
-      }));
-    }, 1000);
+    // const timerID = setInterval(() => {
+    //   const now = new Date();
+    //   setCurrentTime(now);
+    //   setFsgrData((prevData) => ({
+    //     ...prevData,
+    //     reportTime: formatTime(now), // Update reportTime every second
+    //   }));
+    // }, 1000);
 
     // Clean up the timer
-    return () => {
-      clearInterval(timerID);
-    };
+    //   return () => {
+    //     clearInterval(timerID);
+    //   };
   }, []);
 
   // console.log("before image", fsgrData.beforeImage);
@@ -88,7 +90,7 @@ const Fsgr = () => {
 
       // Append form fields to FormData
       formData.append("reportDate", formatDate(currentDate));
-      formData.append("reportTime", formatTime(currentDate));
+      // formData.append("reportTime", formatTime(currentDate));
       formData.append("location", fsgrData.location);
       formData.append("empName", fsgrData.empName);
       formData.append("heading", formData.heading);
@@ -119,8 +121,8 @@ const Fsgr = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("Data sent successfully:", response.data);
       alert("Form Submitted Successfully");
+      console.log("Data sent successfully:", response);
       navigation.navigate("ToolBoxTalk");
       setLoadingSubmit(false);
     } catch (error) {
