@@ -6,6 +6,8 @@ import {
   Dimensions,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
+  Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Entypo } from "@expo/vector-icons";
@@ -19,6 +21,8 @@ const CloseReportGet = ({ isVisible, setIsVisible, id }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refresh, setRefresh] = useState(false);
+  const [imageLoadingBefore, setImageLoadingBefore] = useState(true);
+  const [imageLoadingAfter, setImageLoadingAfter] = useState(true);
 
   const { role } = useAuthStore((state) => ({
     role: state.role,
@@ -33,6 +37,7 @@ const CloseReportGet = ({ isVisible, setIsVisible, id }) => {
   const fetchData = async () => {
     try {
       const response = await axios.get(`${serveraddress}fsgr/${id}`);
+      console.log("ssi close====", response.data);
       setData(response.data);
       setLoading(false);
     } catch (err) {
@@ -65,6 +70,15 @@ const CloseReportGet = ({ isVisible, setIsVisible, id }) => {
       </Modal>
     );
   }
+
+  const getImageUrl = (imagePath) => {
+    if (imagePath) {
+      const url = `https://shconstruction.co.in/fsgr/${imagePath}`;
+      console.log("Image URL:", url);
+      return url;
+    }
+    return null;
+  };
 
   return (
     <Modal
@@ -123,6 +137,54 @@ const CloseReportGet = ({ isVisible, setIsVisible, id }) => {
               <Text style={styles.label}>Duration of Completion</Text>
               <Text style={styles.value}>{data?.duration_of_completion}</Text>
             </View>
+            <View style={{ marginTop: 10 }}>
+                <Text style={styles.label}>Before Image:</Text>
+                {data?.beforeImage ? (
+                  <View>
+                    {imageLoadingBefore && (
+                      <ActivityIndicator size="small" color="#21005d" />
+                    )}
+                    <Image
+                      source={{
+                        uri: getImageUrl(data.beforeImage),
+                      }}
+                      style={styles.image}
+                      onLoadEnd={() => setImageLoadingBefore(false)}
+                      onError={() => {
+                        console.error("Failed to load image");
+                        setImageLoadingBefore(false);
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <Text style={styles.detailValue}>No image available</Text>
+                )}
+              </View>
+
+              <View style={{ marginTop: 10 }}>
+                <Text style={styles.label}>After Image:</Text>
+                {data?.afterImage ? (
+                  <View>
+                    {imageLoadingAfter && (
+                      <ActivityIndicator size="small" color="#21005d" />
+                    )}
+                    <Image
+                      source={{
+                        uri: getImageUrl(data.afterImage),
+                      }}
+                      style={styles.image}
+                      onLoadEnd={() => setImageLoadingAfter(false)}
+                      onError={() => {
+                        console.error("Failed to load image");
+                        setImageLoadingAfter(false);
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <Text style={styles.detailValue}>No image available</Text>
+                )}
+              </View>
+
           </ScrollView>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
@@ -228,6 +290,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
     color: "#fff",
+  },
+  image: {
+    width: "100%",
+    height: 200,
+    borderRadius: 5,
+    marginTop: 10,
   },
 });
 

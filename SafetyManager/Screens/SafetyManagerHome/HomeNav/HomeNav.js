@@ -30,6 +30,8 @@ const items = [
   { id: 10, label: "Training", icon: training, screen: "Training" },
   { id: 11, label: "Test Result", icon: result, screen: "TestResult" },
   { id: 12, label: "Mass Meating", icon: meeting },
+  { id: 13, label: "FSGR History", icon: result, screen: "FsgrHistory" },
+  { id: 14, label: "Violation History", icon: result, screen: "ViolationHistory" },
 ];
 
 const backgroundColors = [

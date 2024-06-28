@@ -12,6 +12,8 @@ import TrainingTest from "../../SafetyManager/Screens/SafetyManagerHome/Training
 import Training from "../../SafetyManager/Screens/SafetyManagerHome/Training/Training";
 import TestResult from "../../SafetyManager/Screens/SafetyManagerHome/TestResult/TestResult";
 import Rewards from "../../Admin/Rewards/Rewards";
+import FsgrHistory from "../../Admin/FSGR/History/FsgrHistory";
+import ViolationHistory from "../../Admin/Violation/History/ViolationHistory";
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +74,16 @@ const AppRouter = () => {
       <Stack.Screen
         name="Rewards"
         component={Rewards}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="FsgrHistory"
+        component={FsgrHistory}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ViolationHistory"
+        component={ViolationHistory}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

@@ -21,6 +21,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [verifiedLoading, setVerifiedLoading] = useState(false);
+  const [cancelLoading, setCancelLoading] = useState(false)
   const [refresh, setRefresh] = useState(false);
 
   const { role } = useAuthStore((state) => ({
@@ -163,7 +164,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
                 ]}
                 disabled={verifiedLoading}
               >
-                {verifiedLoading ? (
+                {cancelLoading ? (
                   <ActivityIndicator size="small" color="#fff" />
                 ) : (
                   <Text style={styles.buttonText}>Canceled</Text>

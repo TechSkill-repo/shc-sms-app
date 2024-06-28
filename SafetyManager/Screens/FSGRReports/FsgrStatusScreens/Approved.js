@@ -60,6 +60,7 @@ const Approved = ({ loadSearchBar }) => {
       const response = await axios.get(
         `${serveraddress}fsgr/form/approved/${selectedLocation}`
       );
+      console.log("approved data=====", response.data);
       if (response.data && response.data.length > 0) {
         setData(response.data);
       } else {

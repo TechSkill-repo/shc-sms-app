@@ -170,7 +170,7 @@ const Pending = ({ loadSearchBar }) => {
               color: "gray",
             }}
           >
-            Please Search your Required DJP
+            Please Search your Required FSGR
           </Text>
           <TouchableOpacity
             style={{
@@ -195,7 +195,7 @@ const Pending = ({ loadSearchBar }) => {
                 marginLeft: 10,
               }}
             >
-              Search DJP
+              Search FSGR
             </Text>
           </TouchableOpacity>
         </View>

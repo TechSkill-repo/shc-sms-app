@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -22,6 +22,8 @@ const FsgrReports = () => {
 
   const [isVisible, setIsVisible] = useState(false);
   const [loadSearchBar, setLoadSearchBar] = useState(false);
+  const [refresh, setRefresh] = useState(false); 
+   const [loading, setLoading] = useState(false);
 
   const { role } = useAuthStore((state) => ({
     role: state.role,
@@ -45,6 +47,11 @@ const FsgrReports = () => {
     }
   };
 
+  const handleReload = () => {
+    setLoading(true); // Start loading
+    setRefresh((prev) => !prev); // Toggle refresh state
+  };
+
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -53,7 +60,8 @@ const FsgrReports = () => {
         display: "none",
       },
     });
-  }, [navigation]);
+    setLoading(false);
+  }, [navigation, refresh] );
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -70,6 +78,7 @@ const FsgrReports = () => {
           }}
         />
         <Appbar.Content title="FSGR Reports" />
+        <Appbar.Action icon="reload" onPress={handleReload} />
         <Appbar.Action icon="magnify" onPress={toggleSearchBar} />
       </Appbar.Header>
       <View>
@@ -159,19 +168,24 @@ const FsgrReports = () => {
             paddingTop: 20,
           }}
         >
-          {selectedCard === 1 && (
+            {loading && (
+            <View style={styles.loaderContainer}>
+              <ActivityIndicator size="large" color="#21005d" />
+            </View>
+          )}
+          {!loading && selectedCard === 1 && (
             <Pending
               toggleSearchBar={toggleSearchBar}
               loadSearchBar={loadSearchBar}
             />
           )}
-          {selectedCard === 2 && role !== "admin" && (
+          {!loading && selectedCard === 2 && role !== "admin" && (
             <Approved loadSearchBar={loadSearchBar} />
           )}
-          {selectedCard === 3 && <Progress loadSearchBar={loadSearchBar} />}
-          {selectedCard === 4 && <SsiClose loadSearchBar={loadSearchBar} />}
-          {selectedCard === 5 && <Close loadSearchBar={loadSearchBar} />}
-          {selectedCard === 6 && <FinalClose loadSearchBar={loadSearchBar} />}
+          {!loading && selectedCard === 3 && <Progress loadSearchBar={loadSearchBar} />}
+          {!loading && selectedCard === 4 && <SsiClose loadSearchBar={loadSearchBar} />}
+          {!loading && selectedCard === 5 && <Close loadSearchBar={loadSearchBar} />}
+          {!loading && selectedCard === 6 && <FinalClose loadSearchBar={loadSearchBar} />}
         </ScrollView>
         {/* </ScrollView> */}
       </PanGestureHandler>
