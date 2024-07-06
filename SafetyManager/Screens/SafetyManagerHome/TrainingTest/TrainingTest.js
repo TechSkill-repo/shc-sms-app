@@ -35,14 +35,20 @@ const TrainingTest = () => {
   const [selectedPass, setSelectedPass] = useState(null);
 
   useEffect(() => {
-    async function fetchLocationsData() {
+    const fetchLocationsData = async () => {
       try {
         const data = await fetchLocations();
-        setLocations(data);
+        setLocations(
+          data.map((location) => ({
+            label: location.name,
+            value: location.id,
+          }))
+        );
       } catch (error) {
         console.error("Error fetching locations:", error);
       }
-    }
+    };
+
     fetchLocationsData();
   }, []);
 
@@ -205,10 +211,7 @@ const TrainingTest = () => {
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
           iconStyle={styles.iconStyle}
-          data={locations.map((location) => ({
-            label: location.name,
-            value: location.id,
-          }))}
+          data={locations}
           search
           maxHeight={300}
           labelField="label"

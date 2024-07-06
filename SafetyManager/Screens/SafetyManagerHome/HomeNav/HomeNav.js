@@ -30,8 +30,13 @@ const items = [
   { id: 10, label: "Training", icon: training, screen: "Training" },
   { id: 11, label: "Test Result", icon: result, screen: "TestResult" },
   { id: 12, label: "Mass Meating", icon: meeting },
-  { id: 13, label: "FSGR History", icon: result, screen: "FsgrHistory" },
-  { id: 14, label: "Violation History", icon: result, screen: "ViolationHistory" },
+  { id: 13, label: "FSGR History", icon: policy, screen: "FsgrHistory" },
+  {
+    id: 14,
+    label: "Violation History",
+    icon: result,
+    screen: "ViolationHistory",
+  },
 ];
 
 const backgroundColors = [
@@ -81,6 +86,11 @@ const HomeNav = () => {
           item.label !== "Conseq. Policy" &&
           item.label !== "Training" &&
           item.label !== "upcoming"
+      );
+    } else if (role === "ss") {
+      return items.filter(
+        (item) =>
+          item.label !== "Conseq. Policy" && item.label !== "Violation History"
       );
     }
     // Add more role-based filtering logic if needed

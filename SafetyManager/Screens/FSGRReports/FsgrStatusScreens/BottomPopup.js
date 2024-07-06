@@ -21,7 +21,8 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [verifiedLoading, setVerifiedLoading] = useState(false);
-  const [cancelLoading, setCancelLoading] = useState(false)
+  const [cancelLoading, setCancelLoading] = useState(false);
+  const [cancelReason, setCancelReason] = useState("");
   const [refresh, setRefresh] = useState(false);
 
   const { role } = useAuthStore((state) => ({
@@ -57,14 +58,14 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
         },
         {
           text: "Yes",
-          onPress: async() => {
+          onPress: async () => {
             setVerifiedLoading(true);
 
             try {
               const formData = new FormData();
 
               formData.append("id", id);
-              formData.append("status","approved")
+              formData.append("status", "approved");
 
               const response = await fetch(`${serveraddress}fsgr/form/${id}`, {
                 method: "PATCH",
@@ -83,7 +84,6 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
               Alert.alert("Success", "Report verified successfully.");
               setIsVisible(false);
               setRefresh((prev) => !prev);
-              
             } catch (error) {
               setVerifiedLoading(false);
               Alert.alert("Error", "Failed to verify the report.");
@@ -106,6 +106,74 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
           },
         },
       ]
+    );
+  };
+
+  const handleCanceled = () => {
+    Alert.alert(
+      "Confirm Cancel",
+      "Are you sure you want to cancel this report?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: async () => {
+            setCancelLoading(true);
+
+            try {
+              const formData = new FormData();
+
+              formData.append("id", id);
+              formData.append("status", "canceled");
+
+              const response = await fetch(`${serveraddress}fsgr/form/${id}`, {
+                method: "PATCH",
+                body: formData,
+                headers: {
+                  "Content-Type": "multipart/form-data", // Ensure correct content type
+                },
+              });
+              if (!response.ok) {
+                const responseData = await response.text();
+                console.error("Server response:", responseData);
+                throw new Error("Network response was not ok");
+              }
+
+              setCancelLoading(false);
+              Alert.alert("Success", "Report verified successfully.");
+              setIsVisible(false);
+              setRefresh((prev) => !prev);
+              setCancelReason("");
+            } catch (error) {
+              setCancelLoading(false);
+              Alert.alert("Error", "Failed to verify the report.");
+            }
+            // axios
+            //   .patch(`${serveraddress}fsgr/form/${id}`, {
+            //     id,
+            //     status: "approved",
+            //   })
+            //   .then((res) => {
+            //     setVerifiedLoading(false);
+            //     Alert.alert("Success", "Report verified successfully.");
+            //     setIsVisible(false);
+            //     setRefresh((prev) => !prev);
+            //   })
+            //   .catch((error) => {
+            //     setVerifiedLoading(false);
+            //     Alert.alert("Error", "Failed to verify the report.");
+            //   });
+          },
+        },
+      ],
+      {
+        prompt: "Enter reason for cancellation:",
+        defaultValue: cancelReason,
+        onChangeText: (text) => setCancelReason(text),
+      }
     );
   };
 
@@ -162,7 +230,8 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
                   styles.cancelButton,
                   verifiedLoading && styles.buttonDisabled,
                 ]}
-                disabled={verifiedLoading}
+                onPress={handleCanceled}
+                disabled={cancelLoading}
               >
                 {cancelLoading ? (
                   <ActivityIndicator size="small" color="#fff" />
@@ -276,6 +345,7 @@ const styles = StyleSheet.create({
   cancelButton: {
     marginHorizontal: 6,
     width: "45%",
+    // backgroundColor: "teal",
     backgroundColor: "#f44336",
     paddingVertical: 10,
     borderRadius: 10,
