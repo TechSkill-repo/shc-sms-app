@@ -24,7 +24,7 @@ const TrainingTest = () => {
   const [testName, setTestName] = useState("");
   const [aboutTest, setAboutTest] = useState("");
   const [students, setStudents] = useState([
-    { empName: "", empMarks: "", testStatus: "" },
+    { empName: "", empMarks: "", testStatus: "", location: "" },
   ]);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -58,16 +58,30 @@ const TrainingTest = () => {
 
   useEffect(() => {
     const isFormValid = () => {
+      console.log(
+        "testing on validate===",
+        testName,
+        selectedLocation,
+        aboutTest,
+        students
+      );
       if (!testName || !selectedLocation || !aboutTest) return false;
       return students.every(
-        (student) => student.empName && student.empMarks && student.testStatus
+        (student) =>
+          student.empName &&
+          student.empMarks &&
+          student.testStatus &&
+          student.location
       );
     };
     setIsSubmitDisabled(!isFormValid());
   }, [testName, selectedLocation, aboutTest, students]);
 
   const addStudent = () => {
-    setStudents([...students, { empName: "", empMarks: "", testStatus: "" }]);
+    setStudents([
+      ...students,
+      { empName: "", empMarks: "", testStatus: "", location: "" },
+    ]);
   };
 
   const removeStudent = (index) => {
@@ -88,12 +102,16 @@ const TrainingTest = () => {
       testStatus: student.testStatus.value, // Extract only the value of testStatus
     }));
 
+    // console.log("transforemd---", transformedStudents);
+
     const payload = {
       testName,
-      selectedLocation,
+      location: selectedLocation,
       aboutTest,
       marks: transformedStudents,
     };
+
+    // console.log("payload===", payload);
 
     console.log(JSON.stringify(payload));
     try {
@@ -171,7 +189,10 @@ const TrainingTest = () => {
         placeholder="P/F"
         searchPlaceholder="Search..."
         value={student.testStatus}
-        onChange={(item) => handleInputChange(index, "testStatus", item)}
+        onChange={(item) => {
+          handleInputChange(index, "testStatus", item);
+          handleInputChange(index, "location", selectedLocation);
+        }}
       />
 
       <MaterialIcons
@@ -221,6 +242,8 @@ const TrainingTest = () => {
           value={selectedLocation}
           onChange={(location) => {
             setSelectedLocation(location.label);
+
+            // handleInputChange(index, "location", location)
           }}
           renderLeftIcon={() => (
             <AntDesign
