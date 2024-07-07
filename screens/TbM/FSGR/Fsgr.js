@@ -79,7 +79,7 @@ const Fsgr = () => {
 
   const handleSubmit = async () => {
     setLoadingSubmit(true);
-    if (!fsgrData.location || !fsgrData.empName) {
+    if (!fsgrData.location || !fsgrData.empName || !fsgrData.empDesignation || !fsgrData.inchargeName || !fsgrData.siteSupervisor ||!fsgrData.priority || !fsgrData.message) {
       alert("All fields are mandatory");
       setLoadingSubmit(false);
       return;
@@ -93,7 +93,7 @@ const Fsgr = () => {
       // formData.append("reportTime", formatTime(currentDate));
       formData.append("location", fsgrData.location);
       formData.append("empName", fsgrData.empName);
-      formData.append("heading", formData.heading);
+      formData.append("heading", fsgrData.heading);
       formData.append("empDesignation", fsgrData.empDesignation);
       formData.append("inchargeName", fsgrData.inchargeName);
       formData.append("siteSupervisor", fsgrData.siteSupervisor);
