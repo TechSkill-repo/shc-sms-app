@@ -14,6 +14,7 @@ import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
 import { serveraddress } from "../../../../assets/values/Constants";
 import useAuthStore from "../../../../store/userAuthStore";
+import { TextInput } from "react-native-paper";
 
 const BottomPopup = ({ isVisible, setIsVisible, id }) => {
   const screenHeight = Dimensions.get("screen").height;
@@ -23,6 +24,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
   const [verifiedLoading, setVerifiedLoading] = useState(false);
   const [cancelLoading, setCancelLoading] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
+  const [showCancelRemark, setShowCancelRemark] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
   const { role } = useAuthStore((state) => ({
@@ -110,6 +112,13 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
   };
 
   const handleCanceled = () => {
+    if (!cancelReason.trim()) {
+      Alert.alert(
+        "Cancel Reason Required",
+        "Please provide a reason for cancellation."
+      );
+      return;
+    }
     Alert.alert(
       "Confirm Cancel",
       "Are you sure you want to cancel this report?",
@@ -128,6 +137,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
 
               formData.append("id", id);
               formData.append("status", "canceled");
+              formData.append("cancelInfo", cancelReason);
 
               const response = await fetch(`${serveraddress}fsgr/form/${id}`, {
                 method: "PATCH",
@@ -146,7 +156,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
               Alert.alert("Success", "Report verified successfully.");
               setIsVisible(false);
               setRefresh((prev) => !prev);
-              setCancelReason("");
+              // setCancelReason("");
             } catch (error) {
               setCancelLoading(false);
               Alert.alert("Error", "Failed to verify the report.");
@@ -168,12 +178,12 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
             //   });
           },
         },
-      ],
-      {
-        prompt: "Enter reason for cancellation:",
-        defaultValue: cancelReason,
-        onChangeText: (text) => setCancelReason(text),
-      }
+      ]
+      // {
+      //   prompt: "Enter reason for cancellation:",
+      //   defaultValue: cancelReason,
+      //   onChangeText: (text) => setCancelReason(text),
+      // }
     );
   };
 
@@ -222,15 +232,59 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
               <Text style={styles.messageLabel}>Reporting Message/Issue</Text>
               <Text style={styles.messageText}>{data?.message}</Text>
             </View>
+            {showCancelRemark && (
+              <>
+                <View style={{ marginTop: 20 }}>
+                  <TextInput
+                    mode="outlined"
+                    label="Cancel Reason"
+                    value={cancelReason}
+                    onChangeText={(val) => setCancelReason(val)}
+                    // style={}
+                  />
+                </View>
+              </>
+            )}
           </ScrollView>
-          {role === "admin" && (
+          {showCancelRemark && (
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={[
                   styles.cancelButton,
                   verifiedLoading && styles.buttonDisabled,
                 ]}
+                onPress={() => {
+                  setIsVisible(false);
+                  setShowCancelRemark(false);
+                }}
+                disabled={cancelLoading}
+              >
+                <Text style={styles.buttonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.approveButton,
+                  verifiedLoading && styles.buttonDisabled,
+                ]}
                 onPress={handleCanceled}
+                disabled={verifiedLoading}
+              >
+                {cancelLoading ? (
+                  <ActivityIndicator size="small" color="#fff" />
+                ) : (
+                  <Text style={styles.buttonText}>submit</Text>
+                )}
+              </TouchableOpacity>
+            </View>
+          )}
+          {role === "admin" && !showCancelRemark && (
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={[
+                  styles.cancelButton,
+                  verifiedLoading && styles.buttonDisabled,
+                ]}
+                onPress={() => setShowCancelRemark(true)}
                 disabled={cancelLoading}
               >
                 {cancelLoading ? (
