@@ -8,8 +8,9 @@ import {
   Animated,
   Dimensions,
   TouchableWithoutFeedback,
+  Linking,
 } from "react-native";
-import { AntDesign, Feather } from "@expo/vector-icons";
+import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
 import Cards from "./Cards";
 import { useNavigation } from "@react-navigation/native";
 import useAuthStore from "../../store/userAuthStore";
@@ -37,6 +38,10 @@ const Header = () => {
     removeRole();
   };
 
+  const handleCallPress = () => {
+    Linking.openURL(`tel:7272977850`);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -57,6 +62,12 @@ const Header = () => {
         </View>
 
         <View style={styles.iconContainer}>
+          <TouchableOpacity
+            onPress={handleCallPress}
+            style={styles.iconWrapper}
+          >
+            <MaterialIcons name="phone" size={25} color="#21005d" />
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={toggleNotificationSlider}
             style={styles.iconWrapper}
@@ -137,7 +148,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: 90,
   },
   iconWrapper: {
     width: 40,
@@ -147,6 +157,8 @@ const styles = StyleSheet.create({
     borderColor: "#e9ecef",
     justifyContent: "center",
     alignItems: "center",
+    paddingVertical: 2,
+    marginHorizontal: 2,
   },
   logoutIcon: {
     marginHorizontal: 7,
