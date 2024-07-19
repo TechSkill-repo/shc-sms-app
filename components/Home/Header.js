@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
 import Cards from "./Cards";
-import { useNavigation } from "@react-navigation/native";
 import useAuthStore from "../../store/userAuthStore";
 
 const { width } = Dimensions.get("window");
