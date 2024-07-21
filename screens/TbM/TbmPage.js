@@ -1,202 +1,105 @@
+import React from "react";
 import {
   View,
   Text,
-  ScrollView,
   TouchableOpacity,
   StatusBar,
   StyleSheet,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
 import {
-  AntDesign,
   FontAwesome,
   FontAwesome6,
   Entypo,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const TbmPage = () => {
   const navigation = useNavigation();
 
-  const [currentDate, setCurrentDate] = useState("");
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const date = new Date();
-      setCurrentDate(formatDate(date));
-    }, 1000); // Update the current date every second
-
-    return () => clearInterval(interval); // Clear interval on unmount
-  }, []);
-
-  const formatDate = (date) => {
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    const monthIndex = date.getMonth();
-    const day = date.getDate();
-    const year = date.getFullYear();
-    const month = monthNames[monthIndex];
-    return `${day} - ${month} - ${year}`;
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#fffbfe" />
-      <View
-        style={{
-          height: "25%",
-          backgroundColor: "#fffbfe",
-        }}
-      >
+      <View style={styles.header}>
         <Text style={styles.heading}>Tool Box Meeting</Text>
-        <Text
-          style={{
-            paddingHorizontal: 20,
-            fontSize: 13,
-            color: "#21005d",
-          }}
-        >
-          You have to fill all the form on the daily basis, so that the record
-          is been maintained. All the details are been able to see on office
-          admin site.
+        <Text style={styles.subheading}>
+          You have to fill all the forms on a daily basis, so that the record is
+          maintained. All the details can be seen on the office admin site.
         </Text>
-        <Text></Text>
       </View>
-      <View style={styles.content}>
-        <View style={styles.row}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("TbtForm");
-            }}
-            style={[styles.box, { borderTopWidth: 1, borderRightWidth: 1 }]}
-          >
-            <FontAwesome6 name="file-waveform" size={40} color="#318CE7" />
-            <Text
-              style={{
-                marginTop: 20,
-                fontSize: 18,
-                fontWeight: "600",
-                color: "rgb(120, 69, 172)",
-              }}
+      <View style={styles.centerContent}>
+        <View style={styles.content}>
+          <View style={styles.row}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("TbtForm")}
+              style={styles.box}
             >
-              TBT FORM
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("DailyJobPlan");
-            }}
-            style={[styles.box, { borderTopWidth: 1 }]}
-          >
-            <FontAwesome6 name="person-walking" size={40} color="#17B169" />
-            <Text
-              style={{
-                marginTop: 20,
-                fontSize: 18,
-                fontWeight: "600",
-                color: "rgb(120, 69, 172)",
-              }}
+              <FontAwesome6 name="file-waveform" size={30} color="#21005d" />
+              <Text style={styles.boxText}>TBT FORM</Text>
+              <Text style={styles.boxSubText}>
+                You can fill the TBM form from here.
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("DailyJobPlan")}
+              style={styles.box}
             >
-              Daily Job Plan
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.row}>
-          <TouchableOpacity
-            style={[styles.box, { borderTopWidth: 1, borderRightWidth: 1 }]}
-            onPress={() => {
-              navigation.navigate("toolsTackles");
-            }}
-          >
-            <Entypo name="tools" size={40} color="#b87333" />
-            <Text
-              style={{
-                marginTop: 20,
-                fontSize: 18,
-                fontWeight: "600",
-                color: "rgb(120, 69, 172)",
-              }}
+              <FontAwesome6 name="person-walking" size={30} color="#21005d" />
+              <Text style={styles.boxText}>Daily Job Plan</Text>
+              <Text style={styles.boxSubText}>
+                You can fill the TBM form from here.
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.row}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("toolsTackles")}
+              style={styles.box}
             >
-              Tools & Tackles
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("ppeChecklist");
-            }}
-            style={[styles.box, { borderTopWidth: 1 }]}
-          >
-            <FontAwesome6 name="helmet-safety" size={40} color="#FEBE10" />
-            <Text
-              style={{
-                marginTop: 20,
-                fontSize: 18,
-                fontWeight: "600",
-                color: "rgb(120, 69, 172)",
-              }}
+              <Entypo name="tools" size={30} color="#21005d" />
+              <Text style={styles.boxText}>Tools & Tackles</Text>
+              <Text style={styles.boxSubText}>
+                You can fill the TBM form from here.
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ppeChecklist")}
+              style={styles.box}
             >
-              PPE Check List
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.row}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("fsgr");
-            }}
-            style={[
-              styles.box,
-              { borderTopWidth: 1, borderBottomWidth: 1, borderRightWidth: 1 },
-            ]}
-          >
-            <FontAwesome name="fire" size={40} color="#FF0000" />
-            <Text
-              style={{
-                marginTop: 20,
-                fontSize: 20,
-                fontWeight: "600",
-                color: "rgb(120, 69, 172)",
-              }}
+              <FontAwesome6 name="helmet-safety" size={30} color="#21005d" />
+              <Text style={styles.boxText}>PPE Check List</Text>
+              <Text style={styles.boxSubText}>
+                You can fill the TBM form from here.
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.row}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("fsgr")}
+              style={styles.box}
             >
-              F.S.G.R
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("accidentReport");
-            }}
-            style={[styles.box, { borderTopWidth: 1, borderBottomWidth: 1 }]}
-          >
-            <MaterialCommunityIcons
-              name="traffic-cone"
-              size={40}
-              color="#ee7600"
-            />
-            <Text
-              style={{
-                marginTop: 20,
-                fontSize: 20,
-                fontWeight: "600",
-                color: "rgb(120, 69, 172)",
-              }}
+              <FontAwesome name="fire" size={30} color="#21005d" />
+              <Text style={styles.boxTextLarge}>F.S.G.R</Text>
+              <Text style={styles.boxSubText}>
+                You can fill the TBM form from here.
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("accidentReport")}
+              style={styles.box}
             >
-              Accident Report
-            </Text>
-          </TouchableOpacity>
+              <MaterialCommunityIcons
+                name="traffic-cone"
+                size={30}
+                color="#21005d"
+              />
+              <Text style={styles.boxTextLarge}>Accident Report</Text>
+              <Text style={styles.boxSubText}>
+                You can fill the TBM form from here.
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -205,35 +108,67 @@ const TbmPage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
+    flex: 1,
     backgroundColor: "white",
+  },
+  header: {
+    height: "25%",
+    backgroundColor: "#fffbfe",
+    paddingHorizontal: 20,
+    paddingVertical: 20,
   },
   heading: {
     fontSize: 25,
     fontWeight: "600",
     color: "#21005d",
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    // marginBottom: 20,
+  },
+  subheading: {
+    fontSize: 13,
+    color: "#21005d",
+    marginTop: 10,
+  },
+  centerContent: {
+    alignItems: "center",
   },
   content: {
-    flex: 1,
-    width: "100%",
+    marginHorizontal: 10,
+    paddingHorizontal: 10,
     justifyContent: "center",
     alignItems: "center",
+    width: "95%",
   },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    // marginBottom: 10,
+    width: "100%",
   },
   box: {
-    flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
-    width: "50%", // Adjust width as needed
-    height: 165, // Adjust height as needed
+    paddingHorizontal: 15,
+    width: "48%",
+    height: 165,
     borderColor: "#21005d1a",
+    backgroundColor: "white",
+    elevation: 5,
+    borderRadius: 10,
+    marginVertical: 10,
+  },
+  boxText: {
+    marginTop: 20,
+    fontSize: 14,
+    fontWeight: "600",
+    color: "rgb(120, 69, 172)",
+  },
+  boxTextLarge: {
+    marginTop: 16,
+    fontSize: 14,
+    fontWeight: "600",
+    color: "rgb(120, 69, 172)",
+  },
+  boxSubText: {
+    fontSize: 12,
+    color: "gray",
+    fontWeight: "300",
   },
 });
 
