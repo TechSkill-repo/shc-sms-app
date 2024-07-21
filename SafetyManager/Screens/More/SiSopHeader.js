@@ -19,15 +19,9 @@ const SiSopHeader = () => {
       }}
     >
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => {}} />
         <Appbar.Content title="SOP" />
         <Appbar.Action icon="magnify" onPress={toggleSearchBar}/>
-        {/* <Appbar.Action
-          icon="plus"
-          onPress={() => {
-            setVisible(true);
-          }}
-        /> */}
+       
       </Appbar.Header>
       <Sop loadSearchBar={loadSearchBar}/>
       <SopForm isVisible={visible} setIsVisible={setVisible} />

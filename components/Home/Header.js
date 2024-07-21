@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, memo } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,44 @@ import { AntDesign, Feather } from "@expo/vector-icons";
 import Cards from "./Cards";
 import { useNavigation } from "@react-navigation/native";
 import useAuthStore from "../../store/userAuthStore";
+import job from "../../assets/icons/job.png";
+import consequence from "../../assets/icons/consequence.png";
+import yellowCard from "../../assets/icons/tools.png";
+import ppe from "../../assets/icons/ppe.png";
+
+const items = [
+  { id: 1, label: "Tool Box", icon: consequence, screen: "TBM" },
+  { id: 2, label: "DJP", icon: job, screen: "DJP" },
+  { id: 3, label: "PPE Check", icon: ppe, screen: "PPE" },
+  { id: 4, label: "Tool & Tackle", icon: yellowCard, screen: "TNT" },
+];
+
+const backgroundColors = [
+  "#fbf1de",
+  "#ffddd5",
+  "#ffd0b0",
+  "#ffe1ed",
+  "#ebeaff",
+  "#e8eaeb",
+  "#fcdcd6",
+  "#fbf1de",
+  "#d1e7dd",
+  "#e2e3e9",
+  "#f8d7da",
+  "#d1ecf1",
+];
+
+const Item = memo(({ label, icon, backgroundColor, onPress }) => (
+  <View style={styles.itemContainer}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.touchable, { backgroundColor }]}
+    >
+      <Image source={icon} style={styles.icon} />
+    </TouchableOpacity>
+    <Text style={styles.text}>{label}</Text>
+  </View>
+));
 
 const { width } = Dimensions.get("window");
 
@@ -20,6 +58,36 @@ const Header = () => {
   const { removeToken, removeRole, username, role } = useAuthStore();
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(-width)).current; // Initial position is off-screen to the left
+
+  const navigation = useNavigation();
+
+  const handlePress = (screen) => {
+    if (screen) {
+      navigation.navigate(screen);
+    }
+  };
+
+  console.log("role===", role);
+
+  const renderRows = () => {
+    const rows = [];
+    for (let i = 0; i < items.length; i += 4) {
+      const rowItems = items.slice(i, i + 4);
+      rows.push(
+        <View style={styles.row} key={i}>
+          {rowItems.map((item, index) => (
+            <Item
+              key={item.id}
+              {...item}
+              backgroundColor={backgroundColors[i + index]}
+              onPress={() => handlePress(item.screen)}
+            />
+          ))}
+        </View>
+      );
+    }
+    return rows;
+  };
 
   const toggleNotificationSlider = () => {
     const toValue = isNotificationVisible ? -width : 0;
@@ -72,12 +140,15 @@ const Header = () => {
         </View>
       </View>
 
-      <View style={styles.cardsContainer}>
-        <Cards text="Rewards" bgColor="#4caf501a" color="#4caf50" />
-        <Cards text="Total Violation" bgColor="#f443361a" color="#f44336" />
-        <Cards text="Total FSGR" bgColor="#fff4e5" color="#ffaa00" />
-        <Cards text="Current FSGR" bgColor="#407ad61a" color="#407ad6" />
-      </View>
+      <>
+        {renderRows()}
+        <View style={styles.cardsContainer}>
+          <Cards text="Rewards" bgColor="#4caf501a" color="#4caf50" />
+          <Cards text="Total Violation" bgColor="#f443361a" color="#f44336" />
+          <Cards text="Total FSGR" bgColor="#fff4e5" color="#ffaa00" />
+          <Cards text="Current FSGR" bgColor="#407ad61a" color="#407ad6" />
+        </View>
+      </>
 
       {isNotificationVisible && (
         <TouchableWithoutFeedback onPress={toggleNotificationSlider}>
@@ -177,6 +248,39 @@ const styles = StyleSheet.create({
   notificationText: {
     fontSize: 20,
     fontWeight: "600",
+    color: "#21005d",
+    marginBottom: 10,
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    marginTop: 8,
+    padding: 8,
+  },
+  itemContainer: {
+    alignItems: "center",
+    flexDirection: "column",
+  },
+  touchable: {
+    padding: 12,
+    borderRadius: 10,
+  },
+  icon: {
+    width: 30,
+    height: 30,
+  },
+  text: {
+    marginTop: 5,
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "#21005d",
+  },
+  title: {
+    marginHorizontal: 25,
+    marginTop: 20,
+    fontSize: 20,
+    fontWeight: "bold",
     color: "#21005d",
     marginBottom: 10,
   },
