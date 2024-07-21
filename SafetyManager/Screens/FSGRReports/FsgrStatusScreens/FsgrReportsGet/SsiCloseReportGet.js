@@ -139,16 +139,16 @@ const SsiCloseReportGet = ({ isVisible, setIsVisible, id }) => {
             </View>
           </ScrollView>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={[styles.button, { backgroundColor: "#4782da1a" }]}
               onPress={() => {
-                /* Handle edit action */
+
               }}
             >
               <Text style={[styles.buttonText, { color: "#4782da" }]}>
                 Edit
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               style={[styles.button, { backgroundColor: "#4caf501a" }]}
               onPress={() => setIsVisible(false)}

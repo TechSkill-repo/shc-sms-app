@@ -18,7 +18,6 @@ const More = () => {
       }}
     >
       <Appbar.Header>
-        {/* <Appbar.BackAction onPress={() => {}} /> */}
         <Appbar.Content title="SOP" />
         <Appbar.Action icon="magnify" onPress={toggleSearchBar}/>
         <Appbar.Action

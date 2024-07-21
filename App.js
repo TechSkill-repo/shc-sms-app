@@ -14,6 +14,11 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   const { token } = useAuthStore();
+  const { role } = useAuthStore((state) => ({
+    role: state.role,
+  }));
+
+  console.log("role===", role);
 
 
 
