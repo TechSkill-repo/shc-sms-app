@@ -5,37 +5,86 @@ import {
   ScrollView,
   Modal,
   Dimensions,
-  Image,
-  Button,
+  Platform,
 } from "react-native";
-import { PDFReader } from "expo-av";
-import React, { useEffect, useState } from "react";
-import { serveraddress } from "../../../assets/values/Constants";
-import axios from "axios";
-import { Buffer } from "buffer";
+import React, { useState } from "react";
+import * as FileSystem from "expo-file-system";
+import { shareAsync} from "expo-sharing";
+import Toast from "react-native-toast-message";
 
-const ViewSopPdf = ({ visible, setVisible, pdfId }) => {
+const ViewSopPdf = ({ visible, setVisible, pdfId, pdfName }) => {
   const windowHeight = Dimensions.get("window").height;
-  console.log("pdf id==", pdfId);
-  const [pdfUri, setPdfUri] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [downloading, setDownloading] = useState(false);
 
-  useEffect(() => {
-    const fetchPdf = async () => {
-      const uri = `${serveraddress}sop/viewpdf/${pdfId}`;
-      axios
-        .get(uri)
-        .then((res) => {
-          setPdfUri(res);
-          console.log("sop:", res.data);
-        })
-        .catch((error) => {
-          console.log(error);
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text1: "PDF Downloaded Successfully",
+      visibilityTimeout: 5000,
+      position: "top",
+    });
+  };
+
+  const downloadPdfFromUrl = async () => {
+    setDownloading(true);
+    try {
+      const baseUrl = `https://shconstruction.co.in/sop/`;
+      const fileName = pdfName ? pdfName : "";
+      const fileUri = FileSystem.documentDirectory + fileName;
+      const directoryUri = FileSystem.documentDirectory;
+      const directoryInfo = await FileSystem.getInfoAsync(directoryUri);
+
+      if (!directoryInfo.exists) {
+        await FileSystem.makeDirectoryAsync(directoryUri, {
+          intermediates: true,
         });
-    };
+      }
+      const result = await FileSystem.downloadAsync(
+        baseUrl + fileName,
+        fileUri
+      );
+      setDownloading(false);
+      if (result.status === 200) {
+        showToast();
+      }
+      await save(result.uri, fileName, result.headers["content-type"]);
+    } catch (error) {
+      setDownloading(false);
+      console.log("Error: download PDF", error);
+    }
+  };
 
-    fetchPdf();
-  }, [pdfId]);
+  const save = async (uri, fileName, mimetype) => {
+    try {
+      if (Platform.OS === "android") {
+        const permission =
+          await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+        if (permission.granted) {
+          const base64 = await FileSystem.readAsStringAsync(uri, {
+            encoding: FileSystem.EncodingType.Base64,
+          });
+          await FileSystem.StorageAccessFramework.createFileAsync(
+            permission.directoryUri,
+            fileName,
+            mimetype
+          )
+            .then(async (url) => {
+              await FileSystem.writeAsStringAsync(url, base64, {
+                encoding: FileSystem.EncodingType.Base64,
+              });
+            })
+            .catch((err) => {
+              console.log("Error: on saving file", err);
+            });
+        } else {
+          shareAsync(uri);
+        }
+      }
+      await shareAsync(uri);
+    } catch (error) {
+      console.log("Error file sharing", error);
+    }
+  };
   return (
     <Modal
       visible={visible}
@@ -48,15 +97,15 @@ const ViewSopPdf = ({ visible, setVisible, pdfId }) => {
           flex: 1,
           justifyContent: "flex-end",
           alignItems: "center",
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
         }}
       >
         <ScrollView
           style={{
             backgroundColor: "#FFF",
             width: "100%",
-            height: windowHeight * 0.1, // 70% of the screen height
-            marginTop: windowHeight * 0.0, // 30% from the top
+            height: windowHeight * 0.1,
+            marginTop: windowHeight * 0.1,
             padding: 25,
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
@@ -93,9 +142,58 @@ const ViewSopPdf = ({ visible, setVisible, pdfId }) => {
               </Text>
             </TouchableOpacity>
           </View>
-          {loading && <Button title="Loading PDF..." disabled />}
-          {!loading && pdfUri && <PDFReader source={{ uri: pdfUri }} />}
+          <View style={{ marginTop: 20 }}>
+            <Text style={{ alignSelf: "center", fontSize: 22 }}>
+              Download SOP PDF{" "}
+            </Text>
+          </View>
+
+          <TouchableOpacity
+            onPress={() => {
+              downloadPdfFromUrl();
+            }}
+            style={{
+              backgroundColor: "#41B06E",
+              width: 200,
+              height: 50,
+              borderRadius: 10,
+              alignSelf: "center",
+              marginTop: 30,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {downloading ? (
+              <Text
+                style={{
+                  color: "#ffffff",
+                  fontSize: 18,
+                  fontWeight: "600",
+                }}
+              >
+                Downloading...
+              </Text>
+            ) : (
+              <Text
+                style={{
+                  color: "#ffffff",
+                  fontSize: 18,
+                  fontWeight: "600",
+                }}
+              >
+                PDF Download
+              </Text>
+            )}
+            {pdfName === "" ? (
+              <View>
+                <Text style={{ alignSelf: "center", color: "orange" }}>
+                  PDF file not available!
+                </Text>
+              </View>
+            ) : null}
+          </TouchableOpacity>
         </ScrollView>
+        <Toast />
       </View>
     </Modal>
   );
