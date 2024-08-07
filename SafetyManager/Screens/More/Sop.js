@@ -130,7 +130,8 @@ const Sop = ({ loadSearchBar }) => {
         <ViewSopPdf
           visible={visible}
           setVisible={setVisible}
-          pdfName={pdfName}
+          pdfId={pdfId}
+          pdfName={pdfName?pdfName:""}
         />
       )}
     </View>
