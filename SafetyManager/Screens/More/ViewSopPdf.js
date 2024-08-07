@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import * as FileSystem from "expo-file-system";
-import { shareAsync} from "expo-sharing";
+import { shareAsync } from "expo-sharing";
 import Toast from "react-native-toast-message";
 
 const ViewSopPdf = ({ visible, setVisible, pdfId, pdfName }) => {
@@ -56,30 +56,30 @@ const ViewSopPdf = ({ visible, setVisible, pdfId, pdfName }) => {
 
   const save = async (uri, fileName, mimetype) => {
     try {
-      if (Platform.OS === "android") {
-        const permission =
-          await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
-        if (permission.granted) {
-          const base64 = await FileSystem.readAsStringAsync(uri, {
-            encoding: FileSystem.EncodingType.Base64,
-          });
-          await FileSystem.StorageAccessFramework.createFileAsync(
-            permission.directoryUri,
-            fileName,
-            mimetype
-          )
-            .then(async (url) => {
-              await FileSystem.writeAsStringAsync(url, base64, {
-                encoding: FileSystem.EncodingType.Base64,
-              });
-            })
-            .catch((err) => {
-              console.log("Error: on saving file", err);
-            });
-        } else {
-          shareAsync(uri);
-        }
-      }
+      // if (Platform.OS === "android") {
+      //   const permission =
+      //     await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+      //   if (permission.granted) {
+      //     const base64 = await FileSystem.readAsStringAsync(uri, {
+      //       encoding: FileSystem.EncodingType.Base64,
+      //     });
+      //     await FileSystem.StorageAccessFramework.createFileAsync(
+      //       permission.directoryUri,
+      //       fileName,
+      //       mimetype
+      //     )
+      //       .then(async (url) => {
+      //         await FileSystem.writeAsStringAsync(url, base64, {
+      //           encoding: FileSystem.EncodingType.Base64,
+      //         });
+      //       })
+      //       .catch((err) => {
+      //         console.log("Error: on saving file", err);
+      //       });
+      //   } else {
+      //     shareAsync(uri);
+      //   }
+      // }
       await shareAsync(uri);
     } catch (error) {
       console.log("Error file sharing", error);
@@ -144,7 +144,7 @@ const ViewSopPdf = ({ visible, setVisible, pdfId, pdfName }) => {
           </View>
           <View style={{ marginTop: 20 }}>
             <Text style={{ alignSelf: "center", fontSize: 22 }}>
-              Download SOP PDF{" "}
+              View SOP PDF{" "}
             </Text>
           </View>
 
@@ -181,7 +181,7 @@ const ViewSopPdf = ({ visible, setVisible, pdfId, pdfName }) => {
                   fontWeight: "600",
                 }}
               >
-                PDF Download
+                View PDF
               </Text>
             )}
             {pdfName === "" ? (
