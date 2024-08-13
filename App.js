@@ -18,7 +18,12 @@ function App() {
     role: state.role,
   }));
 
+  const { location } = useAuthStore((state) => ({
+    location: state.location,
+  }));
+
   console.log("role===", role);
+  console.log("location===", location);
 
 
 

@@ -11,10 +11,13 @@ import {
 } from "react-native-gesture-handler";
 import VioloationClose from "./VioloationClose";
 import ViolationGood from "./ViolationGood";
+import useAuthStore from "../../../store/userAuthStore";
 
 const Violation = () => {
   const [visible, setVisible] = useState(false);
   const [selectedCard, setSelectedCard] = useState(1);
+
+
 
   const handleGesture = ({ nativeEvent }) => {
     if (nativeEvent.state === State.END) {
@@ -104,18 +107,18 @@ const Violation = () => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height:100
+    height: 100,
   },
   buttonsContainer: {
     flexDirection: "row",
     marginBottom: 10,
     justifyContent: "space-evenly",
-    alignItems:"center",
+    alignItems: "center",
   },
   button: {
     flex: 1,
     minWidth: 100,
-    paddingVertical:10,
+    paddingVertical: 10,
     borderBottomWidth: 2,
     backgroundColor: "#fffbfe",
     borderBottomColor: "lightgray",

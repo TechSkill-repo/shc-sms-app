@@ -56,7 +56,7 @@ const Item = memo(({ label, icon, backgroundColor, onPress }) => (
 const { width } = Dimensions.get("window");
 
 const Header = () => {
-  const { removeToken, removeRole, username, role } = useAuthStore();
+  const { removeToken, removeRole, username, role, location } = useAuthStore();
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(-width)).current; // Initial position is off-screen to the left
 
@@ -124,9 +124,13 @@ const Header = () => {
 
         <View>
           <Text style={styles.username}>{username}</Text>
+          <View style={{flexDirection:"row"}}>
+
           <Text style={styles.userRole}>
             {role === "sm" ? "Safety Manager" : "Site Incharge"}
           </Text>
+          <Text style={styles.userRole}>{", "}{location}</Text>
+          </View>
         </View>
 
         <View style={styles.iconContainer}>

@@ -19,8 +19,12 @@ import NotFound from "../../../../assets/icons/nodata.png";
 import { Feather } from "@expo/vector-icons";
 import { serveraddress } from "../../../../assets/values/Constants";
 import { fetchLocations } from "../../../../components/Global/Global";
+import useAuthStore from "../../../../store/userAuthStore";
 
 const DailyJobPlans = () => {
+  const { location } = useAuthStore((state) => ({
+    location: state.location,
+  }));
   const [isVisible, setIsVisible] = useState(false);
   const [id, setId] = useState(0);
   const [data, setData] = useState([]);
@@ -47,13 +51,13 @@ const DailyJobPlans = () => {
   }, []);
 
   const searchFsgr = async () => {
-    if (!selectedLocation || !selectedMonth || !selectedYear) {
+    if (!location || !selectedMonth || !selectedYear) {
       console.error("Location, month, and year must be selected");
       return;
     }
     console.log(
       "Searching with location:",
-      selectedLocation,
+      location,
       "month:",
       selectedMonth,
       "year:",
@@ -62,7 +66,7 @@ const DailyJobPlans = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${serveraddress}forms/daily-job-plans/${selectedYear.value}/${selectedMonth.value}/${selectedLocation.label}`
+        `${serveraddress}forms/daily-job-plans/${selectedYear.value}/${selectedMonth.value}/${location}`
       );
       console.log("Response data:", response.data);
       setData(response.data || []);
@@ -101,7 +105,7 @@ const DailyJobPlans = () => {
           {showSearch && (
             <SearchForm
               locations={locations}
-              selectedLocation={selectedLocation}
+              selectedLocation={location}
               setSelectedLocation={setSelectedLocation}
               selectedMonth={selectedMonth}
               setSelectedMonth={setSelectedMonth}

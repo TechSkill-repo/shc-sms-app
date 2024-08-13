@@ -1,10 +1,12 @@
 // const serveraddress = "http://192.168.1.4:8080/";
 
+import { Dimensions } from "react-native";
 
-const serveraddress = "http://192.168.190.49:8085/";
-
+const serveraddress = "http://192.168.120.49:8085/";
 
 // const serveraddress = "https://sms-be-fj4h.onrender.com/";
 
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
-export { serveraddress };
+export { serveraddress, width, height };

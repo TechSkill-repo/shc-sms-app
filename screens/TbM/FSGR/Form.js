@@ -14,6 +14,7 @@ import { fetchLocations } from "../../../components/Global/Global";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { Dropdown } from "react-native-element-dropdown";
 import * as ImagePicker from "expo-image-picker";
+import ImagePickerComponent from "../../../components/ImagePicker/ImagePicker";
 
 const dataPriority = [
   { label: "Critical", value: "critical" },
@@ -34,6 +35,15 @@ const Form = ({
   const [locationFocus, setLocationFocus] = useState(false);
   const [priorityFocus, setPriorityFocus] = useState(false);
   const [photoUri, setPhotoUri] = useState(null);
+  const [loadImagePicker, setLoadImagePicker] = useState(false);
+
+  const handleImagePicked = (uri) => {
+    console.log("uri===", uri);
+    // setSelectedImage(uri);
+    setPhotoUri(uri);
+    // setIsPickerVisible(false);
+    setLoadImagePicker(false);
+  };
 
   useEffect(() => {
     const fetchLocationsData = async () => {
@@ -246,27 +256,36 @@ const Form = ({
           </View>
         ) : null}
 
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={handleCameraPress}
-            style={styles.photoButton}
-          >
-            <Entypo name="camera" size={20} color="#6750a4" />
-            <Text style={styles.photoButtonText}>Take Photo</Text>
-          </TouchableOpacity>
+        {loadImagePicker ? (
+          <ImagePickerComponent
+            onImagePicked={handleImagePicked}
+            onClose={() => setLoadImagePicker(false)}
+          />
+        ) : (
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                setLoadImagePicker(true);
+              }}
+              style={styles.photoButton}
+            >
+              <Entypo name="camera" size={20} color="#6750a4" />
+              <Text style={styles.photoButtonText}>Take Photo</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={handleSubmit}
-            style={styles.submitButton}
-            disabled={loadingSubmit}
-          >
-            {loadingSubmit ? (
-              <ActivityIndicator size="small" color="#fff" />
-            ) : (
-              <Text style={styles.submitButtonText}>Submit Report</Text>
-            )}
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              onPress={handleSubmit}
+              style={styles.submitButton}
+              disabled={loadingSubmit}
+            >
+              {loadingSubmit ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
+                <Text style={styles.submitButtonText}>Submit Report</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </ScrollView>
   );

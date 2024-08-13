@@ -88,7 +88,7 @@ const DjpSearch = ({
               onPress={() => setShowSearch(false)}
             />
           </View>
-          <DropdownField
+          {/* <DropdownField
             placeholder="Location"
             value={selectedLocation}
             onChange={setSelectedLocation}
@@ -97,7 +97,7 @@ const DjpSearch = ({
               value: location.id,
             }))}
             icon="Safety"
-          />
+          /> */}
           <DropdownField
             placeholder="Month"
             value={selectedMonth}

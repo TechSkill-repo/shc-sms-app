@@ -11,10 +11,11 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
-import { Entypo } from "@expo/vector-icons";
+import { AntDesign, Entypo, Feather } from "@expo/vector-icons";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
-import { serveraddress } from "../../../../assets/values/Constants";
+import { serveraddress, width } from "../../../../assets/values/Constants";
+import ImagePickerComponent from "../../../../components/ImagePicker/ImagePicker";
 
 const BottomPopup = ({ visible, setVisible, cardId }) => {
   const windowHeight = Dimensions.get("window").height;
@@ -23,6 +24,18 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
   const [imageLoading, setImageLoading] = useState(true);
   const [photoUri, setPhotoUri] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loadImagePicker, setLoadImagePicker] = useState(false);
+  const [isPickerVisible, setIsPickerVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  console.log("selected image==", photoUri);
+
+  const handleImagePicked = (uri) => {
+    console.log("uri===", uri);
+    // setSelectedImage(uri);
+    setPhotoUri(uri);
+    // setIsPickerVisible(false);
+    setLoadImagePicker(false);
+  };
 
   useEffect(() => {
     if (visible) {
@@ -66,9 +79,31 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
 
       if (!result.canceled) {
         setPhotoUri(result.assets[0].uri);
+        setLoadImagePicker(false);
         console.log("Photo URI:", result.assets[0].uri);
       }
     } catch (error) {
+      setLoadImagePicker(false);
+      console.error("Error taking photo:", error);
+    }
+  };
+
+  const pickImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        setPhotoUri(result.assets[0].uri);
+        setLoadImagePicker(false);
+        console.log("Photo URI:", result.assets[0].uri);
+      }
+    } catch (error) {
+      setLoadImagePicker(false);
       console.error("Error taking photo:", error);
     }
   };
@@ -229,25 +264,106 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
                 )}
               </View>
 
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                  style={styles.imageButton}
-                  onPress={handleCameraPress}
-                >
-                  <Entypo name="camera" size={20} color="#4caf50" />
-                  <Text style={styles.imageButtonText}>After Image</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.closeButton}
-                  onPress={handleSubmit}
-                >
-                  {isSubmitting ? (
-                    <ActivityIndicator size="small" color="#FFF" />
-                  ) : (
-                    <Text style={styles.closeButtonText}>Close</Text>
-                  )}
-                </TouchableOpacity>
-              </View>
+              {loadImagePicker ? (
+                // <View
+                //   style={{
+                //     flex: 1,
+                //     height: 120,
+                //     // width: width,
+                //     backgroundColor: "teal",
+                //     marginTop: 15,
+                //     flexDirection: "column",
+                //     borderRadius: 7,
+                //     marginBottom:50
+                //   }}
+                // >
+                //   <View
+                //     style={{
+                //       // justifyContent: "flex-end",
+                //       width: "100%",
+                //       height: "20%",
+                //     }}
+                //   >
+                //     <TouchableOpacity
+                //     onPress={()=>{
+                //       setLoadImagePicker(false)
+                //     }}
+                //       style={{
+                //         // backgroundColor: "green",
+                //         justifyContent: "flex-end",
+                //         paddingHorizontal: 10,
+                //       }}
+                //     >
+                //       <Text style={{ alignSelf: "flex-end" }}>X</Text>
+                //     </TouchableOpacity>
+                //   </View>
+                //   <View
+                //     style={{
+                //       backgroundColor: "tomato",
+                //       height: "80%",
+                //       width: "100%",
+                //       flexDirection: "row",
+                //       justifyContent: "centers",
+                //       // alignItems:"center"
+                //     }}
+                //   >
+                //     <TouchableOpacity
+                //       onPress={pickImage}
+                //       style={{
+                //         width: "50%",
+                //         justifyContent: "center",
+                //       }}
+                //     >
+                //       <AntDesign
+                //         style={{ alignSelf: "center" }}
+                //         name="folderopen"
+                //         size={50}
+                //         color="white"
+                //       />
+                //     </TouchableOpacity>
+                //     <TouchableOpacity
+                //       onPress={handleCameraPress}
+                //       style={{
+                //         width: "50%",
+                //         justifyContent: "center",
+                //       }}
+                //     >
+                //       <Feather
+                //         style={{ alignSelf: "center" }}
+                //         name="camera"
+                //         size={50}
+                //         color="white"
+                //       />
+                //     </TouchableOpacity>
+                //   </View>
+                // </View>
+                <ImagePickerComponent
+                  onImagePicked={handleImagePicked}
+                  onClose={() => setLoadImagePicker(false)}
+                />
+              ) : (
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={styles.imageButton}
+                    onPress={() => {
+                      setLoadImagePicker(true);
+                    }}
+                  >
+                    <Entypo name="camera" size={20} color="#4caf50" />
+                    <Text style={styles.imageButtonText}>After Image</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={handleSubmit}
+                  >
+                    {isSubmitting ? (
+                      <ActivityIndicator size="small" color="#FFF" />
+                    ) : (
+                      <Text style={styles.closeButtonText}>Close</Text>
+                    )}
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
           )}
         </ScrollView>

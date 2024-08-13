@@ -45,7 +45,11 @@ const LoginPage = () => {
         body: JSON.stringify({ email, password }),
       });
 
+      console.log("user-res===", response);
+
       const responseData = await response.json();
+
+      console.log("resp-data===", responseData);
 
       if (responseData.message === "successful") {
         setUser({
@@ -53,6 +57,7 @@ const LoginPage = () => {
           role: responseData.role,
           email: responseData.email,
           token: responseData.token,
+          location: responseData.location,
         });
         setLoading(false);
         setCountdown(60); // Reset countdown to 60 upon successful login

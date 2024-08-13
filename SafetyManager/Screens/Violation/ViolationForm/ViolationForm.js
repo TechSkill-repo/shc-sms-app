@@ -17,6 +17,8 @@ import { Dropdown } from "react-native-element-dropdown";
 import { fetchLocations } from "../../../../components/Global/Global";
 import * as ImagePicker from "expo-image-picker";
 import { serveraddress } from "../../../../assets/values/Constants";
+import ImagePickerComponent from "../../../../components/ImagePicker/ImagePicker";
+import useAuthStore from "../../../../store/userAuthStore";
 
 const duringOptions = [
   { label: "Line Walk", value: "LineWalk" },
@@ -24,12 +26,12 @@ const duringOptions = [
 ];
 
 const severityOptions = [
-  { label: "Low", value: "low" },
-  { label: "Medium", value: "medium" },
-  { label: "High", value: "high" },
-  { label: "Critical", value: "critical" },
-  { label: "Very High", value: "very_high" },
-  { label: "Severe", value: "severe" },
+  { label: "1", value: "1" },
+  { label: "2", value: "2" },
+  { label: "3", value: "3" },
+  { label: "4", value: "4" },
+  { label: "5", value: "5" },
+  // { label: "Severe", value: "severe" },
 ];
 
 const typeOptions = [
@@ -40,7 +42,7 @@ const typeOptions = [
 const ViolationForm = ({ visible, setVisible }) => {
   const windowHeight = Dimensions.get("window").height;
   const [locations, setLocations] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  // const [selectedLocation, setSelectedLocation] = useState(null);
   const [reportedBy, setReportedBy] = useState("");
   const [during, setDuring] = useState(null);
   const [severity, setSeverity] = useState(null);
@@ -50,6 +52,18 @@ const ViolationForm = ({ visible, setVisible }) => {
   const [responsibilityOfClosure, setResponsibilityOfClosure] = useState("");
   const [photoUri, setPhotoUri] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loadImagePicker, setLoadImagePicker] = useState(false);
+
+  const handleImagePicked = (uri) => {
+    console.log("uri===", uri);
+    setPhotoUri(uri);
+    setLoadImagePicker(false);
+  };
+
+  const { location } = useAuthStore((state) => ({
+    location: state.location,
+  }));
+  console.log("location===in-violation==>", location);
 
   useEffect(() => {
     async function fetchLocationsData() {
@@ -63,29 +77,29 @@ const ViolationForm = ({ visible, setVisible }) => {
     fetchLocationsData();
   }, []);
 
-  const handleCameraPress = async () => {
-    try {
-      const { status } = await ImagePicker.requestCameraPermissionsAsync();
-      if (status !== "granted") {
-        alert("Sorry, we need camera permissions to make this work!");
-        return;
-      }
+  // const handleCameraPress = async () => {
+  //   try {
+  //     const { status } = await ImagePicker.requestCameraPermissionsAsync();
+  //     if (status !== "granted") {
+  //       alert("Sorry, we need camera permissions to make this work!");
+  //       return;
+  //     }
 
-      const result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
+  //     const result = await ImagePicker.launchCameraAsync({
+  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //       allowsEditing: true,
+  //       aspect: [4, 3],
+  //       quality: 1,
+  //     });
 
-      if (!result.canceled) {
-        setPhotoUri(result.assets[0].uri);
-        console.log("Photo URI:", result.assets[0].uri);
-      }
-    } catch (error) {
-      console.error("Error taking photo:", error);
-    }
-  };
+  //     if (!result.canceled) {
+  //       setPhotoUri(result.assets[0].uri);
+  //       console.log("Photo URI:", result.assets[0].uri);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error taking photo:", error);
+  //   }
+  // };
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
@@ -93,7 +107,7 @@ const ViolationForm = ({ visible, setVisible }) => {
       const formData = new FormData();
 
       // Append form fields to FormData
-      formData.append("location", selectedLocation);
+      formData.append("location", location ? location : "");
       formData.append("reportedBy", reportedBy);
       formData.append("during", during);
       formData.append("severity", severity);
@@ -136,7 +150,7 @@ const ViolationForm = ({ visible, setVisible }) => {
       Alert.alert("Success", "Form submitted successfully!");
 
       // Reset form fields after successful submission
-      setSelectedLocation(null);
+      // setSelectedLocation(null);
       setReportedBy("");
       setDuring(null);
       setSeverity(null);
@@ -179,7 +193,7 @@ const ViolationForm = ({ visible, setVisible }) => {
             />
           </View>
           <View>
-            <Dropdown
+            {/* <Dropdown
               style={styles.dropdown}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
@@ -207,7 +221,7 @@ const ViolationForm = ({ visible, setVisible }) => {
                   size={20}
                 />
               )}
-            />
+            /> */}
             <TextInput
               label="Reported By"
               mode="outlined"
@@ -283,25 +297,34 @@ const ViolationForm = ({ visible, setVisible }) => {
                 <Image source={{ uri: photoUri }} style={styles.photoPreview} />
               </View>
             )}
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                onPress={handleCameraPress}
-                style={styles.photoButton}
-              >
-                <Entypo name="camera" size={20} color="#4caf50" />
-                <Text style={styles.photoButtonText}>Before Image</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={handleSubmit}
-                style={styles.submitButton}
-              >
-                {isSubmitting ? (
-                  <ActivityIndicator size="small" color="#FFF" />
-                ) : (
-                  <Text style={styles.submitButtonText}>Submit</Text>
-                )}
-              </TouchableOpacity>
-            </View>
+            {loadImagePicker ? (
+              <ImagePickerComponent
+                onImagePicked={handleImagePicked}
+                onClose={() => setLoadImagePicker(false)}
+              />
+            ) : (
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setLoadImagePicker(true);
+                  }}
+                  style={styles.photoButton}
+                >
+                  <Entypo name="camera" size={20} color="#4caf50" />
+                  <Text style={styles.photoButtonText}>Before Image</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={handleSubmit}
+                  style={styles.submitButton}
+                >
+                  {isSubmitting ? (
+                    <ActivityIndicator size="small" color="#FFF" />
+                  ) : (
+                    <Text style={styles.submitButtonText}>Submit</Text>
+                  )}
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         </ScrollView>
       </View>
