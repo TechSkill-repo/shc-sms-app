@@ -11,16 +11,20 @@ import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
 import BottomPopup from "./ViolationCards/BottomPopup";
 import GoodObservationPopup from "./ViolationCards/GoodObservationPopup";
+import useAuthStore from "../../../store/userAuthStore";
 
 const ViolationGood = () => {
   const [violations, setViolations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
   const [cardId, setCardId] = useState("");
+  const { location } = useAuthStore((state) => ({
+    location: state.location,
+  }));
 
   useEffect(() => {
     axios
-      .get(`${serveraddress}violation/good_observation/pending`)
+      .get(`${serveraddress}violation/goodObservation/pending/${location}`)
       .then((response) => {
         setViolations(response.data);
         setLoading(false);

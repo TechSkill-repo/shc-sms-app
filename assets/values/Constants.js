@@ -2,7 +2,7 @@
 
 import { Dimensions } from "react-native";
 
-const serveraddress = "http://192.168.120.49:8085/";
+const serveraddress = "http://192.168.31.143:8080/";
 
 // const serveraddress = "https://sms-be-fj4h.onrender.com/";
 

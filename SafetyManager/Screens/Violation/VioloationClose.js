@@ -11,6 +11,7 @@ import axios from "axios";
 import { serveraddress } from "../../../assets/values/Constants";
 import BottomPopup from "./ViolationCards/BottomPopup";
 import ClosePopup from "./ViolationCards/ClosePopup";
+import useAuthStore from "../../../store/userAuthStore";
 
 const ViolationClose = () => {
   const [violations, setViolations] = useState([]);
@@ -18,9 +19,16 @@ const ViolationClose = () => {
   const [visible, setVisible] = useState(false);
   const [cardId, setCardId] = useState("");
 
+  const { location } = useAuthStore((state) => ({
+    location: state.location,
+  }));
+
+  console.log("location===", location);
+  
+
   useEffect(() => {
     axios
-      .get(`${serveraddress}violation/violation/close`)
+      .get(`${serveraddress}violation/violation/close/${location}`)
       .then((response) => {
         setViolations(response.data);
         setLoading(false);

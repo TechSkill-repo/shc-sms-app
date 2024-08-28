@@ -10,16 +10,20 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import BottomPopup from "./BottomPopup";
 import { serveraddress } from "../../../../assets/values/Constants";
+import useAuthStore from "../../../../store/userAuthStore";
 
 const ViolationCard = () => {
   const [violations, setViolations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
   const [cardId, setCardId] = useState("");
+  const { location } = useAuthStore((state) => ({
+    location: state.location,
+  }));
 
   useEffect(() => {
     axios
-      .get(`${serveraddress}violation/violation/pending`)
+      .get(`${serveraddress}violation/violation/pending/${location}`)
       .then((response) => {
         console.log("response:", response.data);
         setViolations(response.data);
