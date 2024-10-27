@@ -11,7 +11,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 
-const Step5 = ({ onNext, onPrev, formData, setFormData, loading }) => {
+const Step5 = ({ onNext, onPrev, formData, setFormData, loading, createPdf }) => {
   const [inputList, setInputList] = useState([{ id: 1, text: "" }]);
   const [idCounter, setIdCounter] = useState(2); // Counter for generating unique ids
 
@@ -166,6 +166,10 @@ const Step5 = ({ onNext, onPrev, formData, setFormData, loading }) => {
           >
             Prev
           </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={createPdf}>
+          <Text>Download PDF</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{

@@ -50,8 +50,8 @@ const ViolationForm = ({ visible, setVisible }) => {
   const [comment, setComment] = useState("");
   const [description, setDescription] = useState("");
   const [responsibilityOfClosure, setResponsibilityOfClosure] = useState("");
-  const [closingReport, setClosingReport] = useState("");
-  console.log("closing=report", closingReport);
+  // const [closingReport, setClosingReport] = useState("");
+  // console.log("closing=report", closingReport);
   
   const [photoUri, setPhotoUri] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -118,7 +118,7 @@ const ViolationForm = ({ visible, setVisible }) => {
       formData.append("comment", comment);
       formData.append("discription", description);
       formData.append("responsiblePerson", responsibilityOfClosure);
-      formData.append("closingReport", closingReport);
+      // formData.append("closingReport", closingReport);
       formData.append("status", "pending");
 
       // Append the image file
@@ -297,13 +297,13 @@ const ViolationForm = ({ visible, setVisible }) => {
               value={responsibilityOfClosure}
               onChangeText={setResponsibilityOfClosure}
             />
-            <TextInput
+            {/* <TextInput
               label="Closing Report"
               mode="outlined"
               style={styles.input}
               value={closingReport}
               onChangeText={setClosingReport}
-            />
+            /> */}
             {photoUri && (
               <View style={styles.photoPreviewContainer}>
                 <Image source={{ uri: photoUri }} style={styles.photoPreview} />

@@ -14,6 +14,7 @@ import {
   Entypo,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
+import { height } from "../../assets/values/Constants";
 
 const TbmPage = () => {
   const navigation = useNavigation();
@@ -129,6 +130,7 @@ const styles = StyleSheet.create({
   },
   centerContent: {
     alignItems: "center",
+    marginBottom: height / 1.5,
   },
   content: {
     marginHorizontal: 10,

@@ -16,6 +16,7 @@ import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import { serveraddress, width } from "../../../../assets/values/Constants";
 import ImagePickerComponent from "../../../../components/ImagePicker/ImagePicker";
+import { TextInput } from "react-native-paper";
 
 const BottomPopup = ({ visible, setVisible, cardId }) => {
   const windowHeight = Dimensions.get("window").height;
@@ -27,6 +28,7 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
   const [loadImagePicker, setLoadImagePicker] = useState(false);
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [closingReport, setClosingReport] = useState("");
   console.log("selected image==", photoUri);
 
   const handleImagePicked = (uri) => {
@@ -115,6 +117,7 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
 
       // Append form fields to FormData
       formData.append("status", "close");
+      formData.append("closingReport", closingReport);
 
       // Append the image file
       if (photoUri) {
@@ -262,6 +265,16 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
                     <Image source={{ uri: photoUri }} style={styles.image} />
                   </View>
                 )}
+              </View>
+
+              <View style={{marginTop:10}}>
+                <TextInput
+                  label="Closing Report"
+                  mode="outlined"
+                  style={styles.input}
+                  value={closingReport}
+                  onChangeText={setClosingReport}
+                />
               </View>
 
               {loadImagePicker ? (

@@ -6,15 +6,28 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  StyleSheet,
 } from "react-native";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { Dropdown } from "react-native-element-dropdown";
+
+const hazardsOptions = [
+  { label: "Left", value: "Left" },
+  { label: "Right", value: "Right" },
+  { label: "Top", value: "Top" },
+  { label: "Bottom", value: "Bottom" },
+  { label: "Front", value: "Front" },
+  { label: "Back", value: "Back" },
+];
 
 const Step3 = ({ onNext, onPrev, formData, setFormData, loading }) => {
   const [hazardsInputList, setHazardsInputList] = useState([
     { id: 1, text: "" },
   ]);
+  console.log("hazards list===", hazardsInputList);
+  
   const [stepsInputList, setStepsInputList] = useState([{ id: 1, text: "" }]);
   const [hazardsIdCounter, setHazardsIdCounter] = useState(2);
   const [stepsIdCounter, setStepsIdCounter] = useState(2);
@@ -115,7 +128,7 @@ const Step3 = ({ onNext, onPrev, formData, setFormData, loading }) => {
               marginBottom: 10,
             }}
           >
-            <TextInput
+            {/* <TextInput
               style={{
                 paddingHorizontal: 12,
                 paddingVertical: 12,
@@ -128,6 +141,20 @@ const Step3 = ({ onNext, onPrev, formData, setFormData, loading }) => {
               value={input.text}
               onChangeText={(text) => handleHazardInputChange(text, input.id)}
               placeholder={`Hazards Description ${index + 1}`}
+            /> */}
+            <Dropdown
+              style={styles.dropdown}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={hazardsOptions}
+              labelField="label"
+              valueField="value"
+              placeholder="Hazards Description"
+              searchPlaceholder="Search..."
+              value={""}
+              onChange={(text) => handleHazardInputChange(text.value, input.id)}
             />
             {index > 0 && ( // Render remove button for all inputs except the first one
               <TouchableOpacity
@@ -324,3 +351,26 @@ const Step3 = ({ onNext, onPrev, formData, setFormData, loading }) => {
   );
 };
 export default Step3;
+
+const styles = StyleSheet.create({
+  dropdown: {
+    height: 50,
+    width:"90%",
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginVertical: 5,
+
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+});

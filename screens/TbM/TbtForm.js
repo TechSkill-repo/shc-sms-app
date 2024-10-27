@@ -12,6 +12,9 @@ import { Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { serveraddress } from "../../assets/values/Constants";
 import Loading from "../../assets/logo/Loading.png";
+import * as Sharing from "expo-sharing";
+import * as Print from "expo-print";
+
 
 const TbtForm = () => {
   const [loading, setLoading] = useState(false);
@@ -140,6 +143,7 @@ const TbtForm = () => {
             setFormData={setFormData}
             formData={formData}
             loading={loading}
+            createPdf={createPDF}
           />
         );
 
@@ -225,6 +229,60 @@ const TbtForm = () => {
       ],
       { cancelable: false }
     );
+  };
+
+  const createPDF = async () => {
+    alert("create pdf");
+    const html = `
+      <h1>Tool Box Talk Form</h1>
+      <p>Date: ${formData.todaysDate}</p>
+      <p>Time: ${formData.currentTime}</p>
+      <h2>Step 1</h2>
+      <p>Shift: ${formData.shift}</p>
+      <p>Location: ${formData.location}</p>
+      <p>Permit Number: ${formData.permitNumber}</p>
+      <h2>Step 2</h2>
+      <p>Company Supervisor: ${formData.companySupervisor}</p>
+      <p>Safety Representative: ${formData.safetyRepresentative}</p>
+      <p>Department: ${formData.department}</p>
+      <p>Contractor Representative: ${formData.contractorRepresentative}</p>
+      <p>Contractor Employee: ${formData.contractorEmployee}</p>
+      <h2>Step 3</h2>
+      <p>Safety Contract Review Items: ${formData.safetyContractReviewItems}</p>
+      <p>Items of General Safety Importance: ${
+        formData.itemsOfGeneralSafetyImportance
+      }</p>
+      <p>Queries: ${formData.queries}</p>
+      <h2>Step 4</h2>
+      <p>SOP: ${formData.sop}</p>
+      <p>Responsibilities: ${formData.responsibilities}</p>
+      <p>Safety Message: ${formData.safetyMessage}</p>
+      <p>Action Resulting: ${formData.actionResulting}</p>
+      <h2>Step 5</h2>
+      <p>Total Number of People Assigned: ${
+        formData.totalNumberOfPeopleAssign
+      }</p>
+      <p>Attendance: ${formData.attendance.join(", ")}</p>
+    `;
+
+    // let options = {
+    //   html,
+    //   fileName: "ToolBoxTalkForm",
+    //   directory: "Documents",
+    // };
+
+    // let file = await reactNativeHtmlToPdf.convert(options);
+
+    // // Use Expo's Sharing to share/download the PDF
+    // await Sharing.shareAsync(file.filePath);
+
+    // Create a PDF from the HTML
+    const { uri } = await Print.printToFileAsync({ html });
+
+    // Use Expo's Sharing to share/download the PDF
+    await Sharing.shareAsync(uri);
+
+    // await shareAsync(uri, { UTI: '.pdf', mimeType: 'application/pdf' });
   };
 
   return (
