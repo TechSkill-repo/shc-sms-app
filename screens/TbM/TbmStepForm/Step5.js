@@ -6,14 +6,21 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  StyleSheet,
 } from "react-native";
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import React, { useState } from "react";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 
-const Step5 = ({ onNext, onPrev, formData, setFormData, loading, createPdf }) => {
+const Step5 = ({
+  onNext,
+  onPrev,
+  formData,
+  setFormData,
+  loading,
+  createPdf,
+}) => {
   const [inputList, setInputList] = useState([{ id: 1, text: "" }]);
-  const [idCounter, setIdCounter] = useState(2); // Counter for generating unique ids
+  const [idCounter, setIdCounter] = useState(2);
 
   const handleAddInput = () => {
     const newInput = { id: idCounter, text: "" };
@@ -42,74 +49,24 @@ const Step5 = ({ onNext, onPrev, formData, setFormData, loading, createPdf }) =>
       .filter(Boolean);
     setFormData({ ...formData, attendance: updatedAttendance });
   };
+
   return (
-    <ScrollView
-      style={{
-        width: "100%",
-        height: "100%",
-        // justifyContent: "center",
-        flexDirection: "column",
-        // alignItems: "center",
-        backgroundColor: "white",
-      }}
-    >
-      <View
-        style={{
-          flex: 1,
-          //   justifyContent: "center",
-          //   alignItems: "center",
-          padding: 20,
-        }}
-      >
-        <Text
-          style={{
-            textAlign: "left",
-            fontSize: 16,
-            paddingHorizontal: 5,
-            paddingVertical: 5,
-            fontWeight: "600",
-            color: "#00308F",
-            paddingRight: 15,
-            marginBottom: 10,
-          }}
-        >
-          Enter Employee Names
-        </Text>
+    <ScrollView style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.title}>Enter Employee Names</Text>
 
         {inputList.map((input, index) => (
-          <View
-            key={input.id}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 10,
-            }}
-          >
+          <View key={input.id} style={styles.inputContainer}>
             <TextInput
-              style={{
-                paddingHorizontal: 12,
-                paddingVertical: 12,
-                width: "90%",
-                backgroundColor: "#F5F5F5",
-                elevation: 3,
-                borderRadius: 5,
-                color: "black",
-              }}
+              style={styles.textInput}
               value={input.text}
               onChangeText={(text) => handleInputChange(text, input.id)}
               placeholder={`Employee Name ${index + 1}`}
             />
-            {index > 0 && ( // Render remove button for all inputs except the first one
+            {index > 0 && (
               <TouchableOpacity
                 onPress={() => handleRemoveInput(input.id)}
-                style={{
-                  marginTop: 10,
-                  // backgroundColor: "#244aca",
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 50,
-                  // marginLeft: 10,
-                }}
+                style={styles.removeButton}
               >
                 <AntDesign name="delete" size={24} color="red" />
               </TouchableOpacity>
@@ -117,99 +74,131 @@ const Step5 = ({ onNext, onPrev, formData, setFormData, loading, createPdf }) =>
           </View>
         ))}
 
-        <TouchableOpacity
-          onPress={handleAddInput}
-          style={{
-            marginTop: 10,
-            backgroundColor: "#244aca",
-            paddingHorizontal: 20,
-            paddingVertical: 10,
-            borderRadius: 50,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: "600",
-              color: "#fff",
-            }}
-          >
-            + Add Employee
-          </Text>
+        <TouchableOpacity onPress={handleAddInput} style={styles.addButton}>
+          <Text style={styles.addButtonText}>+ Add Employee</Text>
         </TouchableOpacity>
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingHorizontal: 20,
-          marginTop: 40,
-        }}
-      >
-        <TouchableOpacity
-          onPress={onPrev}
-          style={{
-            backgroundColor: "rgb(120, 69, 172)",
-            padding: 10,
-            borderRadius: 50,
-          }}
-        >
-          <Text
-            style={{
-              paddingHorizontal: 20,
-              paddingVertical: 0,
-              fontSize: 16,
-              textAlign: "center",
-              fontWeight: "500",
-              color: "white",
-            }}
-          >
-            Prev
-          </Text>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={onPrev} style={styles.prevButton}>
+          <Text style={styles.buttonText}>Prev</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={createPdf}>
-          <Text>Download PDF</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#209920",
-            padding: 10,
-            borderRadius: 50,
-            marginLeft: 10,
-          }}
-          onPress={onNext}
-        >
-          <View
-            style={{
-              alignItems: "center",
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
+        <TouchableOpacity onPress={onNext} style={styles.submitButton}>
+          <View style={styles.submitContent}>
             {loading ? (
               <ActivityIndicator size="large" color="white" />
             ) : (
               <>
-                <Text
-                  style={{
-                    paddingHorizontal: 20,
-                    paddingVertical: 0,
-                    fontSize: 16,
-                    textAlign: "center",
-                    fontWeight: "500",
-                    color: "white",
-                  }}
-                >
-                  SUBMIT
-                </Text>
+                <Text style={styles.buttonText}>SUBMIT</Text>
                 <MaterialIcons name="done" size={18} color="white" />
               </>
             )}
           </View>
         </TouchableOpacity>
       </View>
+
+      <TouchableOpacity onPress={createPdf} style={styles.downloadButton}>
+        <Text style={styles.downloadButtonText}>Download as PDF</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "white",
+  },
+  content: {
+    flex: 1,
+    padding: 20,
+  },
+  title: {
+    textAlign: "left",
+    fontSize: 16,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    fontWeight: "600",
+    color: "#00308F",
+    paddingRight: 15,
+    marginBottom: 10,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  textInput: {
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    width: "90%",
+    backgroundColor: "#F5F5F5",
+    elevation: 3,
+    borderRadius: 5,
+    color: "black",
+  },
+  removeButton: {
+    marginTop: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderRadius: 50,
+  },
+  addButton: {
+    marginTop: 10,
+    backgroundColor: "#244aca",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 50,
+  },
+  addButtonText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#fff",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    marginTop: 40,
+  },
+  prevButton: {
+    backgroundColor: "rgb(120, 69, 172)",
+    padding: 10,
+    borderRadius: 50,
+  },
+  submitButton: {
+    backgroundColor: "#209920",
+    padding: 10,
+    borderRadius: 50,
+    marginLeft: 10,
+  },
+  submitContent: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  buttonText: {
+    paddingHorizontal: 20,
+    fontSize: 16,
+    fontWeight: "500",
+    color: "white",
+  },
+  downloadButton: {
+    backgroundColor: "#00308F",
+    padding: 10,
+    borderRadius: 50,
+    marginHorizontal: 20,
+    marginTop: 20,
+    alignItems: "center",
+    width: "40%",
+  },
+  downloadButtonText: {
+    fontSize: 14,
+    color: "white",
+    fontWeight: "600",
+  },
+});
+
 export default Step5;

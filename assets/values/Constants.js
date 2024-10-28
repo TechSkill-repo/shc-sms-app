@@ -2,9 +2,9 @@
 
 import { Dimensions } from "react-native";
 
-const serveraddress = "http://192.168.196.143:8080/";
+// const serveraddress = "http://192.168.196.143:8080/";
 
-// const serveraddress = "https://sms-be-fj4h.onrender.com/";
+const serveraddress = "https://sms-be-fj4h.onrender.com/";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;

@@ -15,7 +15,6 @@ import Loading from "../../assets/logo/Loading.png";
 import * as Sharing from "expo-sharing";
 import * as Print from "expo-print";
 
-
 const TbtForm = () => {
   const [loading, setLoading] = useState(false);
   const currentDate = new Date();
@@ -234,35 +233,98 @@ const TbtForm = () => {
   const createPDF = async () => {
     alert("create pdf");
     const html = `
-      <h1>Tool Box Talk Form</h1>
-      <p>Date: ${formData.todaysDate}</p>
-      <p>Time: ${formData.currentTime}</p>
-      <h2>Step 1</h2>
-      <p>Shift: ${formData.shift}</p>
-      <p>Location: ${formData.location}</p>
-      <p>Permit Number: ${formData.permitNumber}</p>
-      <h2>Step 2</h2>
-      <p>Company Supervisor: ${formData.companySupervisor}</p>
-      <p>Safety Representative: ${formData.safetyRepresentative}</p>
-      <p>Department: ${formData.department}</p>
-      <p>Contractor Representative: ${formData.contractorRepresentative}</p>
-      <p>Contractor Employee: ${formData.contractorEmployee}</p>
-      <h2>Step 3</h2>
-      <p>Safety Contract Review Items: ${formData.safetyContractReviewItems}</p>
-      <p>Items of General Safety Importance: ${
-        formData.itemsOfGeneralSafetyImportance
-      }</p>
-      <p>Queries: ${formData.queries}</p>
-      <h2>Step 4</h2>
-      <p>SOP: ${formData.sop}</p>
-      <p>Responsibilities: ${formData.responsibilities}</p>
-      <p>Safety Message: ${formData.safetyMessage}</p>
-      <p>Action Resulting: ${formData.actionResulting}</p>
-      <h2>Step 5</h2>
-      <p>Total Number of People Assigned: ${
-        formData.totalNumberOfPeopleAssign
-      }</p>
-      <p>Attendance: ${formData.attendance.join(", ")}</p>
+     <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+   body { font-family: Arial, sans-serif; background-color: #f5f5f5; color: #333; padding: 20px; display: flex; justify-content: center; }
+   .container { width: 100%; max-width: 700px; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+   header { text-align: center; margin-bottom: 20px; }
+   header h1 { font-size: 1.5em; color: #333; }
+   header h2, header h3 { font-size: 1.2em; margin: 5px 0; }
+   header p { font-size: 0.9em; color: #666; margin-top:10 }
+   .form-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+   .form-group { display: flex; flex-direction: column; }
+   .form-group label { font-weight: bold; font-size: 0.9em; color: #555; margin-bottom: 5px; }
+   .form-group input[type="text"] { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9em; background-color: #f9f9f9; }
+   .form-group input[type="text"]::placeholder { color: #888; }
+   .details, .representatives, .items-discussed { margin-bottom: 20px; }
+   .items-discussed h4 { margin-bottom: 10px; font-size: 1.1em; color: #444; }
+   .items-discussed p { font-weight: bold; margin-top: 10px; font-size: 0.9em; }
+   .items-discussed textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; height: 80px; margin-top: 5px; font-size: 0.9em; background-color: #f9f9f9; }
+
+   /* Adding a margin-top to push section 5 to the next page */
+   .section-reminder { margin-top: 50px; }
+
+   @media (max-width: 600px) { .form-section { grid-template-columns: 1fr; } }
+
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <header>
+          <h1>S. H. Construction Co.</h1>
+          <h2>Jamshedpur</h2>
+          <h3>Tool Box Meeting</h3>
+          <p>Form # SHC/OHS/TBM-01</p>
+        </header>
+        <section class="form-section">
+          <div class="form-group">
+            <label for="date-time">Date</label>
+            <input type="text" id="date-time" value="${formData.todaysDate}" readonly>
+          </div>
+          <div class="form-group">
+            <label for="time">Time</label>
+            <input type="text" id="time" value="${formData.currentTime}" readonly>
+          </div>
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" value="${formData.location}" readonly>
+          </div>
+          <div class="form-group">
+            <label for="department">Department</label>
+            <input type="text" id="department" value="${formData.department}" readonly>
+          </div>
+          <div class="form-group">
+            <label for="supervisor">Company Supervisor/Line Manager</label>
+            <input type="text" id="supervisor" value="${formData.companySupervisor}" readonly>
+          </div>
+          <div class="form-group">
+            <label for="safety-rep">Safety Representative</label>
+            <input type="text" id="safety-rep" value="${formData.safetyRepresentative}" readonly>
+          </div>
+          <div class="form-group">
+            <label for="contractor-rep">Contractor's Representative</label>
+            <input type="text" id="contractor-rep" value="${formData.contractorRepresentative}" readonly>
+          </div>
+          <div class="form-group">
+            <label for="contractor-employee">Contact Employee</label>
+            <input type="text" id="contractor-employee" value="${formData.contractorEmployee}" readonly>
+          </div>
+        </section>
+        <section class="items-discussed">
+          <h4>ITEMS DISCUSSED:(Indicate if not discussed)</h4>
+          <p>1. Safety contract and review of action items from last meeting.</p>
+          <textarea readonly>${formData.safetyContractReviewItems}</textarea>
+          <p>2. Items of General Safety Importance to the total work site.(ask Employees to mention any Incident/
+          near miss during the past day which may have or have resulted into damage to property or injury to
+          company or Contract personnel.)</p>
+          <textarea readonly>${formData.itemsOfGeneralSafetyImportance}</textarea>
+          <p>3. Items of Safety Interest to this Group.(e.g. Red Strips, Orange Strips, Green Strips, Safety alertLD#3
+            tips for Safety communications, hazards or Safety conditions applicable to this group's work area))</p>
+          <textarea readonly>${formData.queries}</textarea>
+          <p>4. Standard Operating Procedures (SOP) relevant to this group.</p>
+          <textarea readonly>${formData.sop}</textarea>
+          <p>5. Reminder to Employees of their personal responsibilities to ensure and maintain  (Personal
+            Protective Equipment, Housekeeping, iool and tackles, Electrical Equipment condition, Six directional
+              Hazards, Special requirement (e.g. Permit to work, No Alcohol regulations, No horse play, Safe
+              behaviour, team work approach, any Hazardous material etc.)</p>
+          <textarea readonly>${formData.responsibilities}</textarea>
+          <p>6. SSafety message Hand-outs/Circular to be shared with Contract Employees.</p>
+          <textarea readonly>${formData.safetyMessage}</textarea>
+          <p>7. Action resulting from meeting and points raised by Contract Employee and Supervisor..</p>
+          <textarea readonly>${formData.actionResulting}</textarea>
+        </section>
+      </div>
+    </body>
     `;
 
     // let options = {
