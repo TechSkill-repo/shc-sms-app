@@ -1,16 +1,14 @@
+import React, { useState } from "react";
 import {
   View,
   Text,
   TextInput,
   ScrollView,
   TouchableOpacity,
-  Alert,
-  StyleSheet,
   ActivityIndicator,
+  StyleSheet,
 } from "react-native";
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import { Dropdown } from "react-native-element-dropdown";
+import { AntDesign, Entypo, MaterialIcons } from "@expo/vector-icons";
 
 const ppeItemData = [
   { label: "Safety Shoes", value: "safetyShoes" },
@@ -26,61 +24,36 @@ const ppeItemData = [
   { label: "Safety Face Shield", value: "safetyFaceShield" },
 ];
 
-const ppeStatusData = [
-  { label: "Good ✅", value: "good" },
-  { label: "Damaged ⚠️", value: "damaged" },
-  { label: "Need to be replaced ⭕️", value: "replaced" },
-  { label: "Bad but can used for 2 days 🚨", value: "canBeUsed" },
-  { label: "Can't work with this ❌", value: "cantUse" },
-];
-
-const Step2 = ({
-  onNext,
-  onPrev,
-  formData,
-  setStep2Data,
-  step1Data,
-  loading,
-}) => {
+const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data, loading }) => {
+  const [idCounter, setIdCounter] = useState(2);
   const [inputList, setInputList] = useState([
-    { id: 1, empId: "", empName: "", ppeItem: "", ppeStatus: "" },
+    {
+      id: 1,
+      empName: "",
+      ppeStatus: ppeItemData.reduce((acc, item) => {
+        acc[item.value] = null; // null = not selected, true = good, false = bad
+        return acc;
+      }, {}),
+    },
   ]);
-  const [idCounter, setIdCounter] = useState(2); // Counter for generating unique ids
 
   const handleAddInput = () => {
     const newInput = {
       id: idCounter,
-      empId: "",
       empName: "",
-      ppeItem: "",
-      ppeStatus: "",
+      ppeStatus: ppeItemData.reduce((acc, item) => {
+        acc[item.value] = null;
+        return acc;
+      }, {}),
     };
-
-    const exists = inputList.some(
-      (item) =>
-        item.empId === "" &&
-        item.empName === "" &&
-        item.ppeItem &&
-        item.ppeStatus
-    );
-    if (!exists) {
-      setInputList([...inputList, newInput]);
-      setIdCounter(idCounter + 1);
-    }
+    setInputList([...inputList, newInput]);
+    setIdCounter(idCounter + 1);
   };
 
   const handleRemoveInput = (idToRemove) => {
     const updatedList = inputList.filter((item) => item.id !== idToRemove);
     setInputList(updatedList);
-
-    // const updatedPPE = formData.empId.filter(
-    //     (item, index) => index !== idToRemove - 1
-    // );
-
-    const updatedPPE = formData.empId
-      ? formData.empId.filter((item) => item.id !== idToRemove)
-      : [];
-
+    const updatedPPE = formData.empId?.filter((item) => item.id !== idToRemove) || [];
     setStep2Data({ ...formData, empId: updatedPPE });
   };
 
@@ -89,208 +62,84 @@ const Step2 = ({
       item.id === id ? { ...item, [field]: text } : item
     );
     setInputList(updatedList);
+    setStep2Data({ ...formData, ppe: updatedList });
+  };
 
-    const updatedppe = updatedList
-      .map((item) => ({
-        empId: item.empId ? item.empId.trim() : "",
-        empName: item.empName ? item.empName.trim() : "",
-      }))
-      .filter(Boolean);
+  const handlePPEStatusChange = (id, itemKey, status) => {
+    const updatedList = inputList.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          ppeStatus: { ...item.ppeStatus, [itemKey]: status },
+        };
+      }
+      return item;
+    });
+    setInputList(updatedList);
     setStep2Data({ ...formData, ppe: updatedList });
   };
 
   const handleNext = () => {
     const combinedFormData = {
       ...step1Data,
-      ...formData, // Include step2 data
-      ppe: inputList, // Include tools list
+      ...formData,
+      ppe: inputList,
     };
-    // Post formData to your server
     console.log("Form data:", combinedFormData);
-
-    // Example of navigating to the next step
     onNext();
   };
+
   return (
-    <ScrollView
-      style={{
-        width: "100%",
-        height: "100%",
-        // justifyContent: "center",
-        flexDirection: "column",
-        // alignItems: "center",
-        backgroundColor: "white",
-      }}
-    >
-      <View
-        style={{
-          flex: 1,
-          //   justifyContent: "center",
-          //   alignItems: "center",
-          padding: 20,
-        }}
-      >
-        <Text
-          style={{
-            textAlign: "left",
-            fontSize: 16,
-            paddingHorizontal: 5,
-            paddingVertical: 5,
-            fontWeight: "600",
-            color: "#00308F",
-            paddingRight: 15,
-            marginBottom: 10,
-          }}
-        >
-          PPE
-        </Text>
+    <ScrollView style={{ backgroundColor: "white", width: "100%" }}>
+      <View style={{ padding: 20 }}>
+        <Text style={styles.heading}>PPE</Text>
 
         {inputList.map((input, index) => (
-          <View
-            key={input.id}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 10,
-            }}
-          >
-            <View
-              style={{
-                width: "95%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {/* <TextInput
-                                style={{
-                                    paddingHorizontal: 12,
-                                    paddingVertical: 12,
-                                    width: "90%",
-                                    backgroundColor: "#F5F5F5",
-                                    elevation: 3,
-                                    borderRadius: 5,
-                                    color: "black",
-                                    marginBottom: 10
-                                }}
-                                value={input.text}
-                                onChangeText={(text) => handleInputChange(text, input.id, 'empId')}
-                                placeholder={`Employee Id ${index + 1}`}
-                            /> */}
-              <TextInput
-                style={{
-                  paddingHorizontal: 12,
-                  paddingVertical: 12,
-                  width: "90%",
-                  backgroundColor: "#F5F5F5",
-                  elevation: 3,
-                  borderRadius: 5,
-                  color: "black",
-                }}
-                value={input.text}
-                onChangeText={(text) =>
-                  handleInputChange(text, input.id, "empName")
-                }
-                placeholder={`Employee Name ${index + 1}`}
-              />
+          <View key={input.id} style={styles.inputContainer}>
+            <TextInput
+              style={styles.textInput}
+              value={input.empName}
+              onChangeText={(text) => handleInputChange(text, input.id, "empName")}
+              placeholder={`Employee Name ${index + 1}`}
+            />
 
-              {/* <TextInput
-                                style={{
-                                    paddingHorizontal: 12,
-                                    paddingVertical: 12,
-                                    width: "90%",
-                                    backgroundColor: "#F5F5F5",
-                                    elevation: 3,
-                                    borderRadius: 5,
-                                    color: "black",
-                                }}
-                                value={input.text}
-                                onChangeText={(text) => handleInputChange(text, input.id, 'ppeItem')}
-                                placeholder={`PPE Item ${index + 1}`}
-                            /> */}
-              <Dropdown
-                style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                iconStyle={styles.iconStyle}
-                data={ppeItemData}
-                search
-                maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder={`PPE Item ${index + 1}`}
-                searchPlaceholder="Search..."
-                value={input.text}
-                onChange={(selectedValue) => {
-                  const { label, value } = selectedValue;
-                  console.log("onchange running");
-                  handleInputChange(label, input.id, "ppeItem");
-                }}
-                renderLeftIcon={() => (
-                  <AntDesign
-                    style={styles.icon}
-                    color="black"
-                    name="Safety"
-                    size={20}
-                  />
-                )}
-              />
-
-              {/* <TextInput
-                                style={{
-                                    paddingHorizontal: 12,
-                                    paddingVertical: 12,
-                                    width: "90%",
-                                    backgroundColor: "#F5F5F5",
-                                    elevation: 3,
-                                    borderRadius: 5,
-                                    color: "black",
-                                }}
-                                value={input.text}
-                                onChangeText={(text) => handleInputChange(text, input.id, 'ppeStatus')}
-                                placeholder={`PPE Status ${index + 1}`}
-                            /> */}
-
-              <Dropdown
-                style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                iconStyle={styles.iconStyle}
-                data={ppeStatusData}
-                search
-                maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder={`PPE Status ${index + 1}`}
-                searchPlaceholder="Search..."
-                value={input.text}
-                onChange={(selectedValue) => {
-                  const { label, value } = selectedValue;
-                  console.log("onchange running");
-                  handleInputChange(label, input.id, "ppeStatus");
-                }}
-                renderLeftIcon={() => (
-                  <AntDesign
-                    style={styles.icon}
-                    color="black"
-                    name="Safety"
-                    size={20}
-                  />
-                )}
-              />
+            <View style={{ width: "100%" }}>
+              {ppeItemData.map((ppe, ppeIndex) => (
+                <View key={ppeIndex} style={styles.ppeItemRow}>
+                  <Text style={{ fontSize: 12 }}>{ppe.label}</Text>
+                  <View style={styles.iconRow}>
+                    <TouchableOpacity
+                      onPress={() => handlePPEStatusChange(input.id, ppe.value, true)}
+                    >
+                      <AntDesign
+                        name="checkcircle"
+                        size={18}
+                        color={
+                          input.ppeStatus[ppe.value] === true ? "green" : "grey"
+                        }
+                        style={styles.icon}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => handlePPEStatusChange(input.id, ppe.value, false)}
+                    >
+                      <Entypo
+                        name="circle-with-cross"
+                        size={18}
+                        color={
+                          input.ppeStatus[ppe.value] === false ? "red" : "grey"
+                        }
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              ))}
             </View>
-            {index > 0 && ( // Render remove button for all inputs except the first one
+
+            {index > 0 && (
               <TouchableOpacity
                 onPress={() => handleRemoveInput(input.id)}
-                style={{
-                  marginTop: 10,
-                  // backgroundColor: "#244aca",
-                  paddingHorizontal: 1,
-                  paddingVertical: 10,
-                  borderRadius: 50,
-                  // marginLeft: 10,
-                }}
+                style={styles.deleteButton}
               >
                 <AntDesign name="delete" size={24} color="red" />
               </TouchableOpacity>
@@ -298,87 +147,22 @@ const Step2 = ({
           </View>
         ))}
 
-        <TouchableOpacity
-          onPress={handleAddInput}
-          style={{
-            marginTop: 10,
-            backgroundColor: "#244aca",
-            paddingHorizontal: 20,
-            paddingVertical: 10,
-            borderRadius: 50,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: "600",
-              color: "#fff",
-            }}
-          >
-            + Add Tools
-          </Text>
+        <TouchableOpacity onPress={handleAddInput} style={styles.addButton}>
+          <Text style={styles.addButtonText}>+ Add Tools</Text>
         </TouchableOpacity>
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingHorizontal: 20,
-          marginTop: 40,
-        }}
-      >
-        <TouchableOpacity
-          onPress={onPrev}
-          style={{
-            backgroundColor: "rgb(120, 69, 172)",
-            padding: 10,
-            borderRadius: 50,
-          }}
-        >
-          <Text
-            style={{
-              paddingHorizontal: 20,
-              paddingVertical: 0,
-              fontSize: 16,
-              textAlign: "center",
-              fontWeight: "500",
-              color: "white",
-            }}
-          >
-            Prev
-          </Text>
+
+      <View style={styles.navigationContainer}>
+        <TouchableOpacity onPress={onPrev} style={styles.prevButton}>
+          <Text style={styles.buttonText}>Prev</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#209920",
-            padding: 10,
-            borderRadius: 50,
-            marginLeft: 10,
-          }}
-          onPress={handleNext}
-        >
+
+        <TouchableOpacity onPress={handleNext} style={styles.submitButton}>
           {loading ? (
             <ActivityIndicator size="large" color="white" />
           ) : (
-            <View
-              style={{
-                alignItems: "center",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
-              <Text
-                style={{
-                  paddingHorizontal: 20,
-                  paddingVertical: 0,
-                  fontSize: 16,
-                  textAlign: "center",
-                  fontWeight: "500",
-                  color: "white",
-                }}
-              >
-                SUBMIT
-              </Text>
+            <View style={styles.submitContent}>
+              <Text style={styles.buttonText}>SUBMIT</Text>
               <MaterialIcons name="done" size={18} color="white" />
             </View>
           )}
@@ -387,51 +171,82 @@ const Step2 = ({
     </ScrollView>
   );
 };
+
 export default Step2;
 
 const styles = StyleSheet.create({
-  dropdown: {
-    width: "90%",
-    margin: 10,
-    height: 50,
-    backgroundColor: "white",
-    borderRadius: 7,
-    padding: 12,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-
+  heading: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#00308F",
+    marginBottom: 10,
+  },
+  inputContainer: {
+    marginBottom: 20,
+    backgroundColor: "#f9f9f9",
+    padding: 10,
+    borderRadius: 10,
     elevation: 2,
   },
-  icon: {
-    marginRight: 5,
+  textInput: {
+    backgroundColor: "#F5F5F5",
+    borderRadius: 5,
+    padding: 12,
+    marginBottom: 10,
+    color: "black",
   },
-  item: {
-    padding: 17,
+  ppeItemRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingVertical: 5,
   },
-  textItem: {
-    flex: 1,
+  iconRow: {
+    flexDirection: "row",
+  },
+  icon: {
+    marginRight: 10,
+  },
+  deleteButton: {
+    marginTop: 10,
+    alignSelf: "flex-end",
+  },
+  addButton: {
+    backgroundColor: "#244aca",
+    padding: 10,
+    borderRadius: 50,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  addButtonText: {
+    color: "white",
+    fontWeight: "600",
+  },
+  navigationContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    marginVertical: 30,
+  },
+  prevButton: {
+    backgroundColor: "rgb(120, 69, 172)",
+    padding: 10,
+    borderRadius: 50,
+  },
+  submitButton: {
+    backgroundColor: "#209920",
+    padding: 10,
+    borderRadius: 50,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "500",
     fontSize: 16,
+    paddingHorizontal: 20,
   },
-  placeholderStyle: {
-    fontSize: 16,
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
+  submitContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

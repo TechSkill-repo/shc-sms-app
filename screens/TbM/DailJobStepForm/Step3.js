@@ -1,59 +1,28 @@
+import React, { useState } from "react";
 import {
   View,
   Text,
   TextInput,
   ScrollView,
   TouchableOpacity,
-  Alert,
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import { Dropdown } from "react-native-element-dropdown";
-
-const hazardsOptions = [
-  { label: "Left", value: "Left" },
-  { label: "Right", value: "Right" },
-  { label: "Top", value: "Top" },
-  { label: "Bottom", value: "Bottom" },
-  { label: "Front", value: "Front" },
-  { label: "Back", value: "Back" },
-];
 
 const Step3 = ({ onNext, onPrev, formData, setFormData, loading }) => {
-  const [hazardsInputList, setHazardsInputList] = useState([
-    { id: 1, text: "" },
-  ]);
-  console.log("hazards list===", hazardsInputList);
-  
+  const hazardPlaceholders = ["North", "South", "East", "West", "Top", "Bottom"];
+
+  const [hazardsInputList, setHazardsInputList] = useState(
+    Array.from({ length: 6 }, (_, index) => ({ id: index + 1, text: "" }))
+  );
   const [stepsInputList, setStepsInputList] = useState([{ id: 1, text: "" }]);
-  const [hazardsIdCounter, setHazardsIdCounter] = useState(2);
   const [stepsIdCounter, setStepsIdCounter] = useState(2);
 
-  const [inputList, setInputList] = useState([{ id: 1, text: "" }]);
-  const [idCounter, setIdCounter] = useState(2); // Counter for generating unique ids
-
-  const handleAddHazardInput = () => {
-    const newInput = { id: hazardsIdCounter, text: "" };
-    setHazardsInputList([...hazardsInputList, newInput]);
-    setHazardsIdCounter(hazardsIdCounter + 1);
-  };
-
-  const handleRemoveHazardInput = (idToRemove) => {
-    const updatedList = hazardsInputList.filter(
-      (item) => item.id !== idToRemove
-    );
-    setHazardsInputList(updatedList);
-
-    const updatedHazardsDesc = updatedList.map((item) => item.text.trim());
-    setFormData({ ...formData, hazardsDescription: updatedHazardsDesc });
-  };
-
+  // Handle Hazard Input Change
   const handleHazardInputChange = (text, id) => {
     const updatedList = hazardsInputList.map((item) =>
-      item.id === id ? { ...item, text: text } : item
+      item.id === id ? { ...item, text } : item
     );
     setHazardsInputList(updatedList);
 
@@ -61,10 +30,19 @@ const Step3 = ({ onNext, onPrev, formData, setFormData, loading }) => {
     setFormData({ ...formData, hazardsDescription: updatedHazardsDesc });
   };
 
-  // necessary steps
+  // Handle Step Input Change
+  const handleStepInputChange = (text, id) => {
+    const updatedList = stepsInputList.map((item) =>
+      item.id === id ? { ...item, text } : item
+    );
+    setStepsInputList(updatedList);
+
+    const updatedSteps = updatedList.map((item) => item.text.trim());
+    setFormData({ ...formData, necessarySteps: updatedSteps });
+  };
+
   const handleAddStepInput = () => {
-    const newInput = { id: stepsIdCounter, text: "" };
-    setStepsInputList([...stepsInputList, newInput]);
+    setStepsInputList([...stepsInputList, { id: stepsIdCounter, text: "" }]);
     setStepsIdCounter(stepsIdCounter + 1);
   };
 
@@ -76,183 +54,42 @@ const Step3 = ({ onNext, onPrev, formData, setFormData, loading }) => {
     setFormData({ ...formData, necessarySteps: updatedSteps });
   };
 
-  const handleStepInputChange = (text, id) => {
-    const updatedList = stepsInputList.map((item) =>
-      item.id === id ? { ...item, text: text } : item
-    );
-    setStepsInputList(updatedList);
-
-    const updatedSteps = updatedList.map((item) => item.text.trim());
-    setFormData({ ...formData, necessarySteps: updatedSteps });
-  };
   return (
-    <ScrollView
-      style={{
-        width: "100%",
-        height: "100%",
-        // justifyContent: "center",
-        flexDirection: "column",
-        // alignItems: "center",
-        backgroundColor: "white",
-      }}
-    >
-      <View
-        style={{
-          flex: 1,
-          //   justifyContent: "center",
-          //   alignItems: "center",
-          padding: 20,
-        }}
-      >
-        <Text
-          style={{
-            textAlign: "left",
-            fontSize: 16,
-            paddingHorizontal: 5,
-            paddingVertical: 5,
-            fontWeight: "600",
-            color: "#00308F",
-            paddingRight: 15,
-            marginBottom: 10,
-          }}
-        >
-          Enter Hazards Description
-        </Text>
+    <ScrollView style={styles.container}>
+      {/* Hazards Inputs */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Enter Hazards Description</Text>
 
         {hazardsInputList.map((input, index) => (
-          <View
-            key={input.id}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 10,
-            }}
-          >
-            {/* <TextInput
-              style={{
-                paddingHorizontal: 12,
-                paddingVertical: 12,
-                width: "90%",
-                backgroundColor: "#F5F5F5",
-                elevation: 3,
-                borderRadius: 5,
-                color: "black",
-              }}
+          <View key={input.id} style={styles.inputRow}>
+            <TextInput
+              style={styles.input}
               value={input.text}
               onChangeText={(text) => handleHazardInputChange(text, input.id)}
-              placeholder={`Hazards Description ${index + 1}`}
-            /> */}
-            <Dropdown
-              style={styles.dropdown}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              data={hazardsOptions}
-              labelField="label"
-              valueField="value"
-              placeholder="Hazards Description"
-              searchPlaceholder="Search..."
-              value={""}
-              onChange={(text) => handleHazardInputChange(text.value, input.id)}
+              placeholder={`Hazard - ${hazardPlaceholders[index]}`}
+              placeholderTextColor="#999"
             />
-            {index > 0 && ( // Render remove button for all inputs except the first one
-              <TouchableOpacity
-                onPress={() => handleRemoveHazardInput(input.id)}
-                style={{
-                  marginTop: 10,
-                  // backgroundColor: "#244aca",
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 50,
-                  // marginLeft: 10,
-                }}
-              >
-                <AntDesign name="delete" size={24} color="red" />
-              </TouchableOpacity>
-            )}
           </View>
         ))}
-
-        <TouchableOpacity
-          onPress={handleAddHazardInput}
-          style={{
-            width: "50%",
-            marginTop: 10,
-            backgroundColor: "#244aca",
-            paddingHorizontal: 20,
-            paddingVertical: 10,
-            borderRadius: 50,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: "600",
-              color: "#fff",
-            }}
-          >
-            + Add Hazard
-          </Text>
-        </TouchableOpacity>
       </View>
-      <View
-        style={{
-          flex: 1,
-          //   justifyContent: "center",
-          //   alignItems: "center",
-          padding: 20,
-        }}
-      >
-        <Text
-          style={{
-            textAlign: "left",
-            fontSize: 16,
-            paddingHorizontal: 5,
-            paddingVertical: 5,
-            fontWeight: "600",
-            color: "#00308F",
-            paddingRight: 15,
-            marginBottom: 10,
-          }}
-        >
-          Enter Necessary Steps Taken
-        </Text>
+
+      {/* Necessary Steps Inputs */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Enter Necessary Steps Taken</Text>
 
         {stepsInputList.map((input, index) => (
-          <View
-            key={input.id}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 10,
-            }}
-          >
+          <View key={input.id} style={styles.inputRow}>
             <TextInput
-              style={{
-                paddingHorizontal: 12,
-                paddingVertical: 12,
-                width: "90%",
-                backgroundColor: "#F5F5F5",
-                elevation: 3,
-                borderRadius: 5,
-                color: "black",
-              }}
+              style={styles.input}
               value={input.text}
               onChangeText={(text) => handleStepInputChange(text, input.id)}
               placeholder={`Necessary Step ${index + 1}`}
+              placeholderTextColor="#999"
             />
-            {index > 0 && ( // Render remove button for all inputs except the first one
+            {index > 0 && (
               <TouchableOpacity
                 onPress={() => handleRemoveStepInput(input.id)}
-                style={{
-                  marginTop: 10,
-                  // backgroundColor: "#244aca",
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  borderRadius: 50,
-                  // marginLeft: 10,
-                }}
+                style={styles.deleteButton}
               >
                 <AntDesign name="delete" size={24} color="red" />
               </TouchableOpacity>
@@ -260,88 +97,23 @@ const Step3 = ({ onNext, onPrev, formData, setFormData, loading }) => {
           </View>
         ))}
 
-        <TouchableOpacity
-          onPress={handleAddStepInput}
-          style={{
-            width: "50%",
-            marginTop: 10,
-            backgroundColor: "#244aca",
-            paddingHorizontal: 20,
-            paddingVertical: 10,
-            borderRadius: 50,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: "600",
-              color: "#fff",
-            }}
-          >
-            + Add Step
-          </Text>
+        <TouchableOpacity onPress={handleAddStepInput} style={styles.addButton}>
+          <Text style={styles.addButtonText}>+ Add Step</Text>
         </TouchableOpacity>
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingHorizontal: 20,
-          marginTop: 40,
-        }}
-      >
-        <TouchableOpacity
-          onPress={onPrev}
-          style={{
-            backgroundColor: "rgb(120, 69, 172)",
-            padding: 10,
-            borderRadius: 50,
-          }}
-        >
-          <Text
-            style={{
-              paddingHorizontal: 20,
-              paddingVertical: 0,
-              fontSize: 16,
-              textAlign: "center",
-              fontWeight: "500",
-              color: "white",
-            }}
-          >
-            Prev
-          </Text>
+
+      {/* Navigation Buttons */}
+      <View style={styles.buttonRow}>
+        <TouchableOpacity onPress={onPrev} style={styles.prevButton}>
+          <Text style={styles.buttonText}>Prev</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#209920",
-            padding: 10,
-            borderRadius: 50,
-            marginLeft: 10,
-          }}
-          onPress={onNext}
-        >
+
+        <TouchableOpacity onPress={onNext} style={styles.submitButton}>
           {loading ? (
             <ActivityIndicator size="large" color="white" />
           ) : (
-            <View
-              style={{
-                alignItems: "center",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
-              <Text
-                style={{
-                  paddingHorizontal: 20,
-                  paddingVertical: 0,
-                  fontSize: 16,
-                  textAlign: "center",
-                  fontWeight: "500",
-                  color: "white",
-                }}
-              >
-                SUBMIT
-              </Text>
+            <View style={styles.submitContent}>
+              <Text style={styles.buttonText}>SUBMIT</Text>
               <MaterialIcons name="done" size={18} color="white" />
             </View>
           )}
@@ -350,27 +122,84 @@ const Step3 = ({ onNext, onPrev, formData, setFormData, loading }) => {
     </ScrollView>
   );
 };
+
 export default Step3;
 
 const styles = StyleSheet.create({
-  dropdown: {
-    height: 50,
-    width:"90%",
-    borderColor: "gray",
-    borderWidth: 1,
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    width: "100%",
+  },
+  section: {
+    padding: 20,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#00308F",
+    marginBottom: 10,
+  },
+  inputRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  input: {
+    flex: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    backgroundColor: "#F5F5F5",
+    elevation: 2,
     borderRadius: 5,
-    paddingHorizontal: 10,
-    marginVertical: 5,
-
+    color: "black",
   },
-  placeholderStyle: {
+  deleteButton: {
+    marginLeft: 10,
+    padding: 10,
+  },
+  addButton: {
+    width: "50%",
+    marginTop: 10,
+    backgroundColor: "#244aca",
+    paddingVertical: 10,
+    borderRadius: 50,
+    alignSelf: "center",
+  },
+  addButtonText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "white",
+    textAlign: "center",
+  },
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    marginTop: 40,
+    marginBottom: 20,
+  },
+  prevButton: {
+    backgroundColor: "rgb(120, 69, 172)",
+    padding: 10,
+    borderRadius: 50,
+    paddingHorizontal: 20,
+  },
+  submitButton: {
+    backgroundColor: "#209920",
+    padding: 10,
+    borderRadius: 50,
+    paddingHorizontal: 20,
+  },
+  submitContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonText: {
     fontSize: 16,
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
+    fontWeight: "500",
+    color: "white",
+    marginRight: 5,
   },
 });
