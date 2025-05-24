@@ -19,7 +19,7 @@ const RewardCards = ({ rewards }) => {
                   style={{
                     fontSize: 16,
                     fontWeight: "600",
-                    color: "#21005d",
+                    color: "#009245",
                   }}
                 >
                   {reward.empName}
@@ -29,7 +29,7 @@ const RewardCards = ({ rewards }) => {
                     marginVertical: 4,
                     fontSize: 14,
                     fontWeight: "300",
-                    color: "#21005d",
+                    color: "#009245",
                   }}
                 >
                   {reward.shortDiscription}
@@ -39,7 +39,7 @@ const RewardCards = ({ rewards }) => {
                     marginVertical: 4,
                     fontSize: 14,
                     fontWeight: "300",
-                    color: "#21005d",
+                    color: "#009245",
                   }}
                 >
                   {reward.Reward}
@@ -49,7 +49,7 @@ const RewardCards = ({ rewards }) => {
                     marginVertical: 4,
                     fontSize: 16,
                     fontWeight: "600",
-                    color: "#21005d",
+                    color: "#009245",
                   }}
                 >
                   Price: {reward.Price}
@@ -61,7 +61,7 @@ const RewardCards = ({ rewards }) => {
                     marginVertical: 4,
                     fontSize: 18,
                     fontWeight: "600",
-                    color: "#21005d",
+                    color: "#009245",
                   }}
                 >
                   {reward.location}
@@ -71,7 +71,7 @@ const RewardCards = ({ rewards }) => {
                     marginVertical: 4,
                     fontSize: 14,
                     fontWeight: "400",
-                    color: "#21005d",
+                    color: "#009245",
                   }}
                 >
                   {reward.createdAt.slice(0, 10)}

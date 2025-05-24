@@ -184,7 +184,7 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
             />
           </View>
           {loading ? (
-            <ActivityIndicator size="large" color="#21005d" />
+            <ActivityIndicator size="large" color="#009245" />
           ) : (
             <View style={styles.detailContainer}>
               <View style={styles.detailRow}>
@@ -240,7 +240,7 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
                 {violationDetails?.violationBeforeImage ? (
                   <View>
                     {imageLoading && (
-                      <ActivityIndicator size="small" color="#21005d" />
+                      <ActivityIndicator size="small" color="#009245" />
                     )}
                     <Image
                       source={{
@@ -267,7 +267,7 @@ const BottomPopup = ({ visible, setVisible, cardId }) => {
                 )}
               </View>
 
-              <View style={{marginTop:10}}>
+              <View style={{ marginTop: 10 }}>
                 <TextInput
                   label="Closing Report"
                   mode="outlined"
@@ -408,7 +408,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 18,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   detailContainer: {
     marginTop: 10,
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
   detailLabel: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   detailValue: {
     fontSize: 16,
@@ -457,7 +457,7 @@ const styles = StyleSheet.create({
     color: "#4caf50",
   },
   closeButton: {
-    backgroundColor: "#21005d",
+    backgroundColor: "#009245",
     height: 45,
     borderRadius: 5,
     alignItems: "center",

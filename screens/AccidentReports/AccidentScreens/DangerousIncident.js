@@ -52,7 +52,7 @@ const DangerousIncident = () => {
     <View style={styles.mainContainer}>
       {loading ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#21005d" />
+          <ActivityIndicator size="large" color="#009245" />
           <Text style={styles.countdownText}>
             Please wait for {countdown}'s
           </Text>
@@ -97,7 +97,7 @@ const DangerousIncident = () => {
                   name="right"
                   size={20}
                   opacity={0.5}
-                  color="#21005d"
+                  color="#009245"
                 />
               </View>
             </TouchableOpacity>
@@ -134,14 +134,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   color: {
-    color: "#21005d",
+    color: "#009245",
   },
   text: {
     paddingVertical: 4,
     fontSize: 16,
     fontWeight: "600",
 
-    color: "#21005d",
+    color: "#009245",
   },
   loadingContainer: {
     justifyContent: "center",
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 14,
     fontWeight: "600",
-    color: "#21005d",
+    color: "#009245",
   },
 });
 

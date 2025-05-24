@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   color: {
-    color: "#21005d",
+    color: "#009245",
   },
   text: {
     paddingVertical: 4,
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     fontSize: 16,
     fontWeight: "600",
-    color: "#21005d",
+    color: "#009245",
     marginLeft: 10,
   },
   // dropdown

@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#21005d",
+    color: "#009245",
   },
   fieldContainer: {
     marginTop: 10,
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   inputSearchStyle: { height: 40, fontSize: 16 },
   buttonContainer: { justifyContent: "center", alignItems: "center" },
   searchButton: {
-    backgroundColor: "#21005d",
+    backgroundColor: "#009245",
     width: "100%",
     padding: 12,
     alignItems: "center",

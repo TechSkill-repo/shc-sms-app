@@ -24,7 +24,14 @@ const ppeItemData = [
   { label: "Safety Face Shield", value: "safetyFaceShield" },
 ];
 
-const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data, loading }) => {
+const Step2 = ({
+  onNext,
+  onPrev,
+  formData,
+  setStep2Data,
+  step1Data,
+  loading,
+}) => {
   const [idCounter, setIdCounter] = useState(2);
   const [inputList, setInputList] = useState([
     {
@@ -53,7 +60,8 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data, loading }) =
   const handleRemoveInput = (idToRemove) => {
     const updatedList = inputList.filter((item) => item.id !== idToRemove);
     setInputList(updatedList);
-    const updatedPPE = formData.empId?.filter((item) => item.id !== idToRemove) || [];
+    const updatedPPE =
+      formData.empId?.filter((item) => item.id !== idToRemove) || [];
     setStep2Data({ ...formData, empId: updatedPPE });
   };
 
@@ -99,7 +107,9 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data, loading }) =
             <TextInput
               style={styles.textInput}
               value={input.empName}
-              onChangeText={(text) => handleInputChange(text, input.id, "empName")}
+              onChangeText={(text) =>
+                handleInputChange(text, input.id, "empName")
+              }
               placeholder={`Employee Name ${index + 1}`}
             />
 
@@ -109,7 +119,9 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data, loading }) =
                   <Text style={{ fontSize: 12 }}>{ppe.label}</Text>
                   <View style={styles.iconRow}>
                     <TouchableOpacity
-                      onPress={() => handlePPEStatusChange(input.id, ppe.value, true)}
+                      onPress={() =>
+                        handlePPEStatusChange(input.id, ppe.value, true)
+                      }
                     >
                       <AntDesign
                         name="checkcircle"
@@ -121,7 +133,9 @@ const Step2 = ({ onNext, onPrev, formData, setStep2Data, step1Data, loading }) =
                       />
                     </TouchableOpacity>
                     <TouchableOpacity
-                      onPress={() => handlePPEStatusChange(input.id, ppe.value, false)}
+                      onPress={() =>
+                        handlePPEStatusChange(input.id, ppe.value, false)
+                      }
                     >
                       <Entypo
                         name="circle-with-cross"
@@ -229,7 +243,7 @@ const styles = StyleSheet.create({
     marginVertical: 30,
   },
   prevButton: {
-    backgroundColor: "rgb(120, 69, 172)",
+    backgroundColor: "#397d5a",
     padding: 10,
     borderRadius: 50,
   },

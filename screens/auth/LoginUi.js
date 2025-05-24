@@ -38,7 +38,7 @@ const LoginUi = () => {
           paddingVertical: 20,
           paddingHorizontal: 20,
           fontWeight: "700",
-          color: "#21005d",
+          color: "#009245",
         }}
       >
         Let's Login in the App.
@@ -49,7 +49,7 @@ const LoginUi = () => {
           paddingVertical: 0,
           paddingHorizontal: 20,
           fontWeight: "200",
-          color: "#21005d",
+          color: "#009245",
         }}
       >
         Welcome Back!

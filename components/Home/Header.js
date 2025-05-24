@@ -124,12 +124,14 @@ const Header = () => {
 
         <View>
           <Text style={styles.username}>{username}</Text>
-          <View style={{flexDirection:"row"}}>
-
-          <Text style={styles.userRole}>
-            {role === "sm" ? "Safety Manager" : "Site Incharge"}
-          </Text>
-          <Text style={styles.userRole}>{", "}{location}</Text>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={styles.userRole}>
+              {role === "sm" ? "Safety Manager" : "Site Incharge"}
+            </Text>
+            <Text style={styles.userRole}>
+              {", "}
+              {location}
+            </Text>
           </View>
         </View>
 
@@ -138,13 +140,13 @@ const Header = () => {
             onPress={handleCallPress}
             style={styles.iconWrapper}
           >
-            <MaterialIcons name="phone" size={25} color="#21005d" />
+            <MaterialIcons name="phone" size={25} color="#009245" />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={toggleNotificationSlider}
             style={styles.iconWrapper}
           >
-            <Feather name="bell" size={25} color="#21005d" />
+            <Feather name="bell" size={25} color="#009245" />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={removeTokenFromStorage}
@@ -212,12 +214,12 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#21005d",
+    color: "#009245",
   },
   userRole: {
     fontSize: 12,
     fontWeight: "600",
-    color: "#21005da1",
+    color: "#009245a1",
   },
   iconContainer: {
     flexDirection: "row",
@@ -264,7 +266,7 @@ const styles = StyleSheet.create({
   notificationText: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#21005d",
+    color: "#009245",
     marginBottom: 10,
   },
   row: {
@@ -290,14 +292,14 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 12,
     fontWeight: "bold",
-    color: "#21005d",
+    color: "#009245",
   },
   title: {
     marginHorizontal: 25,
     marginTop: 20,
     fontSize: 20,
     fontWeight: "bold",
-    color: "#21005d",
+    color: "#009245",
     marginBottom: 10,
   },
 });

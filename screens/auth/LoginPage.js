@@ -121,7 +121,7 @@ const LoginPage = () => {
         <View style={styles.loginButtonContainer}>
           {loading ? (
             <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color="#21005d" />
+              <ActivityIndicator size="large" color="#009245" />
               <Text style={styles.countdownText}>
                 Please wait for {countdown}'s
               </Text>
@@ -158,7 +158,7 @@ const styles = {
     paddingVertical: 20,
     paddingHorizontal: 20,
     fontWeight: "700",
-    color: "#21005d",
+    color: "#009245",
   },
   subtitle: {
     fontSize: 36,
@@ -184,7 +184,7 @@ const styles = {
   },
   loginButton: {
     width: "90%",
-    backgroundColor: "#21005d",
+    backgroundColor: "#009245",
     paddingVertical: 14,
     borderRadius: 5,
     elevation: 10,
@@ -203,7 +203,7 @@ const styles = {
     marginTop: 10,
     fontSize: 14,
     fontWeight: "600",
-    color: "#21005d",
+    color: "#009245",
   },
 };
 

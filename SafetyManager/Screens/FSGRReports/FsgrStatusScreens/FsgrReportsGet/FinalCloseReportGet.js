@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   subHeader: {
     flexDirection: "row",
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
     marginTop: 20,
   },
   value: {
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     fontSize: 20,
-    color: "#21005d",
+    color: "#009245",
     textAlign: "center",
   },
   errorText: {

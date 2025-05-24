@@ -138,53 +138,52 @@ const CloseReportGet = ({ isVisible, setIsVisible, id }) => {
               <Text style={styles.value}>{data?.duration_of_completion}</Text>
             </View>
             <View style={{ marginTop: 10 }}>
-                <Text style={styles.label}>Before Image:</Text>
-                {data?.beforeImage ? (
-                  <View>
-                    {imageLoadingBefore && (
-                      <ActivityIndicator size="small" color="#21005d" />
-                    )}
-                    <Image
-                      source={{
-                        uri: getImageUrl(data.beforeImage),
-                      }}
-                      style={styles.image}
-                      onLoadEnd={() => setImageLoadingBefore(false)}
-                      onError={() => {
-                        console.error("Failed to load image");
-                        setImageLoadingBefore(false);
-                      }}
-                    />
-                  </View>
-                ) : (
-                  <Text style={styles.detailValue}>No image available</Text>
-                )}
-              </View>
+              <Text style={styles.label}>Before Image:</Text>
+              {data?.beforeImage ? (
+                <View>
+                  {imageLoadingBefore && (
+                    <ActivityIndicator size="small" color="#009245" />
+                  )}
+                  <Image
+                    source={{
+                      uri: getImageUrl(data.beforeImage),
+                    }}
+                    style={styles.image}
+                    onLoadEnd={() => setImageLoadingBefore(false)}
+                    onError={() => {
+                      console.error("Failed to load image");
+                      setImageLoadingBefore(false);
+                    }}
+                  />
+                </View>
+              ) : (
+                <Text style={styles.detailValue}>No image available</Text>
+              )}
+            </View>
 
-              <View style={{ marginTop: 10 }}>
-                <Text style={styles.label}>After Image:</Text>
-                {data?.afterImage ? (
-                  <View>
-                    {imageLoadingAfter && (
-                      <ActivityIndicator size="small" color="#21005d" />
-                    )}
-                    <Image
-                      source={{
-                        uri: getImageUrl(data.afterImage),
-                      }}
-                      style={styles.image}
-                      onLoadEnd={() => setImageLoadingAfter(false)}
-                      onError={() => {
-                        console.error("Failed to load image");
-                        setImageLoadingAfter(false);
-                      }}
-                    />
-                  </View>
-                ) : (
-                  <Text style={styles.detailValue}>No image available</Text>
-                )}
-              </View>
-
+            <View style={{ marginTop: 10 }}>
+              <Text style={styles.label}>After Image:</Text>
+              {data?.afterImage ? (
+                <View>
+                  {imageLoadingAfter && (
+                    <ActivityIndicator size="small" color="#009245" />
+                  )}
+                  <Image
+                    source={{
+                      uri: getImageUrl(data.afterImage),
+                    }}
+                    style={styles.image}
+                    onLoadEnd={() => setImageLoadingAfter(false)}
+                    onError={() => {
+                      console.error("Failed to load image");
+                      setImageLoadingAfter(false);
+                    }}
+                  />
+                </View>
+              ) : (
+                <Text style={styles.detailValue}>No image available</Text>
+              )}
+            </View>
           </ScrollView>
           <View style={styles.buttonContainer}>
             {/* <TouchableOpacity
@@ -235,7 +234,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   subHeader: {
     flexDirection: "row",
@@ -255,7 +254,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
     marginTop: 20,
   },
   value: {
@@ -265,7 +264,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     fontSize: 20,
-    color: "#21005d",
+    color: "#009245",
     textAlign: "center",
   },
   errorText: {

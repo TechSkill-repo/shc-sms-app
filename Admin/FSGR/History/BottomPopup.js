@@ -257,7 +257,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
             {data?.beforeImage ? (
               <View>
                 {imageLoadingBefore && (
-                  <ActivityIndicator size="small" color="#21005d" />
+                  <ActivityIndicator size="small" color="#009245" />
                 )}
                 <Image
                   source={{
@@ -281,7 +281,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
             {data?.afterImage ? (
               <View>
                 {imageLoadingAfter && (
-                  <ActivityIndicator size="small" color="#21005d" />
+                  <ActivityIndicator size="small" color="#009245" />
                 )}
                 <Image
                   source={{
@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   subHeader: {
     flexDirection: "row",
@@ -397,7 +397,7 @@ const styles = StyleSheet.create({
   infoLabel: {
     fontSize: 12,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   infoText: {
     fontSize: 18,

@@ -373,7 +373,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
         <TouchableOpacity
           onPress={onNext}
           style={{
-            backgroundColor: "rgb(120, 69, 172)",
+            backgroundColor: "#397d5a",
             padding: 10,
             borderRadius: 50,
             position: "absolute",

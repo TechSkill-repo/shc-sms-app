@@ -23,9 +23,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
     const fetchData = async () => {
       if (serveraddress && id) {
         try {
-          const response = await axios.get(
-            `${serveraddress}violation/${id}`
-          );
+          const response = await axios.get(`${serveraddress}violation/${id}`);
           setData(response.data);
           setHazards(JSON.parse(response.data?.hazardsDescription || "[]"));
           setNecessarySteps(JSON.parse(response.data?.necessarySteps || "[]"));
@@ -53,9 +51,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
       <View style={styles.modalBackground}>
         <ScrollView style={[styles.scrollView, { height: screenHeight * 0.9 }]}>
           <View style={styles.header}>
-            <Text style={styles.headerTitle}>
-              Violation - {data?.location}
-            </Text>
+            <Text style={styles.headerTitle}>Violation - {data?.location}</Text>
             <Entypo
               name="cross"
               size={30}
@@ -147,7 +143,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   subHeader: {
     flexDirection: "row",
@@ -182,7 +178,7 @@ const styles = StyleSheet.create({
   infoLabel: {
     fontSize: 12,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   infoText: {
     fontSize: 18,

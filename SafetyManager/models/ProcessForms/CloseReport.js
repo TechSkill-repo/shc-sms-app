@@ -205,16 +205,16 @@ const styles = {
   headerTitle: {
     fontWeight: "500",
     fontSize: 18,
-    color: "#21005d",
+    color: "#009245",
   },
   sectionTitle: {
     fontSize: 14,
     fontWeight: "700",
-    color: "#21005d",
+    color: "#009245",
     marginLeft: 10,
   },
   submitButton: {
-    backgroundColor: "#21005d",
+    backgroundColor: "#009245",
     padding: 10,
     alignItems: "center",
     marginTop: 10,

@@ -144,11 +144,11 @@ const styles = StyleSheet.create({
   },
   selectedButton: {
     borderBottomWidth: 2,
-    borderBottomColor: "#21005d",
+    borderBottomColor: "#009245",
   },
   buttonText: {
     fontSize: 16,
-    color: "#21005d",
+    color: "#009245",
     fontWeight: "500",
   },
 });

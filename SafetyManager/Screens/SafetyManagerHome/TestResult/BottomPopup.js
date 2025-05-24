@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   subHeader: {
     flexDirection: "row",
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   hazardsTitle: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#21005d",
+    color: "#009245",
   },
   hazardItem: {
     margin: 2,

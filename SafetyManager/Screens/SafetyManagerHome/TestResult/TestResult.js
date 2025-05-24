@@ -163,7 +163,7 @@ const NoDataView = ({ setShowSearch }) => (
       onPress={() => setShowSearch(true)}
       style={styles.searchButton}
     >
-      <Feather name="search" size={22} color="#21005d" />
+      <Feather name="search" size={22} color="#009245" />
       <Text style={styles.searchButtonText}>Search Test Result</Text>
     </TouchableOpacity>
   </View>
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     fontSize: 16,
     fontWeight: "600",
-    color: "#21005d",
+    color: "#009245",
     marginLeft: 10,
   },
   itemDate: {
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
   searchButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#21005d1a",
+    backgroundColor: "#0092451a",
     marginTop: 40,
     width: "80%",
     paddingVertical: 10,
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   searchButtonText: {
-    color: "#21005d",
+    color: "#009245",
     fontSize: 16,
     fontWeight: "400",
     marginLeft: 10,

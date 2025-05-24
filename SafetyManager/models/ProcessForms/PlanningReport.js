@@ -173,7 +173,7 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
                 style={{
                   fontWeight: "500",
                   fontSize: 18,
-                  color: "#21005d",
+                  color: "#009245",
                 }}
               >
                 Requirements & Planning Report
@@ -196,7 +196,7 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -229,7 +229,7 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -262,7 +262,7 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -295,7 +295,7 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -329,7 +329,7 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -371,7 +371,7 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -400,7 +400,7 @@ const PlanningReport = ({ isVisible, setIsVisible, id }) => {
             <TouchableOpacity
               onPress={handleSubmit}
               style={{
-                backgroundColor: "#21005d",
+                backgroundColor: "#009245",
                 padding: 10,
                 alignItems: "center",
                 marginTop: 10,

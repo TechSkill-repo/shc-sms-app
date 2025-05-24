@@ -70,7 +70,7 @@ const ManagerHome = () => {
             onPress={navigateToNotifications}
             style={styles.iconButton}
           >
-            <Feather name="bell" size={25} color="#21005d" />
+            <Feather name="bell" size={25} color="#009245" />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={removeTokenFromStorage}
@@ -140,12 +140,12 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#21005d",
+    color: "#009245",
   },
   userRole: {
     fontSize: 12,
     fontWeight: "600",
-    color: "#21005da1",
+    color: "#009245a1",
   },
   iconContainer: {
     flexDirection: "row",
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   sidebarContent: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#21005d",
+    color: "#009245",
   },
 });
 

@@ -45,7 +45,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
     return (
       <Modal visible={isVisible} transparent animationType="slide">
         <View style={styles.centeredView}>
-          <ActivityIndicator size="large" color="#21005d" />
+          <ActivityIndicator size="large" color="#009245" />
         </View>
       </Modal>
     );
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   subHeader: {
     flexDirection: "row",
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   toolNameText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#21005d",
+    color: "#009245",
   },
   toolDetails: {
     flexDirection: "row",

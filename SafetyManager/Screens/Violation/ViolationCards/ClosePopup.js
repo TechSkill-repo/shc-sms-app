@@ -109,7 +109,7 @@ const ClosePopup = ({ visible, setVisible, cardId }) => {
             />
           </View>
           {loading ? (
-            <ActivityIndicator size="large" color="#21005d" />
+            <ActivityIndicator size="large" color="#009245" />
           ) : (
             <View style={styles.detailContainer}>
               <View style={styles.detailRow}>
@@ -165,7 +165,7 @@ const ClosePopup = ({ visible, setVisible, cardId }) => {
                 {violationDetails?.violationBeforeImage ? (
                   <View>
                     {imageLoadingBefore && (
-                      <ActivityIndicator size="small" color="#21005d" />
+                      <ActivityIndicator size="small" color="#009245" />
                     )}
                     <Image
                       source={{
@@ -188,7 +188,7 @@ const ClosePopup = ({ visible, setVisible, cardId }) => {
                 {violationDetails?.violationAfterImage ? (
                   <View>
                     {imageLoadingAfter && (
-                      <ActivityIndicator size="small" color="#21005d" />
+                      <ActivityIndicator size="small" color="#009245" />
                     )}
                     <Image
                       source={{
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 18,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   detailContainer: {
     marginTop: 10,
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
   detailLabel: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   detailValue: {
     fontSize: 16,

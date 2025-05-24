@@ -11,7 +11,14 @@ import {
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 
 const Step3 = ({ onNext, onPrev, formData, setFormData, loading }) => {
-  const hazardPlaceholders = ["North", "South", "East", "West", "Top", "Bottom"];
+  const hazardPlaceholders = [
+    "North",
+    "South",
+    "East",
+    "West",
+    "Top",
+    "Bottom",
+  ];
 
   const [hazardsInputList, setHazardsInputList] = useState(
     Array.from({ length: 6 }, (_, index) => ({ id: index + 1, text: "" }))
@@ -180,7 +187,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   prevButton: {
-    backgroundColor: "rgb(120, 69, 172)",
+    backgroundColor: "#397d5a",
     padding: 10,
     borderRadius: 50,
     paddingHorizontal: 20,

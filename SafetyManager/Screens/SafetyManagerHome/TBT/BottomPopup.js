@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   subHeader: {
     flexDirection: "row",
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   detailLabel: {
     fontSize: 12,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   detailValue: {
     fontSize: 18,
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
   textBlockLabel: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   textBlockValue: {
     marginTop: 10,

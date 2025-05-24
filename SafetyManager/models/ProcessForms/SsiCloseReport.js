@@ -241,7 +241,7 @@
 //               {beforeImage[0].beforeImage ? (
 //                 <View>
 //                   {imageLoadingBefore && (
-//                     <ActivityIndicatorBase size="small" color="#21005d" />
+//                     <ActivityIndicatorBase size="small" color="#009245" />
 //                   )}
 //                   <Image
 //                     source={{
@@ -324,7 +324,7 @@
 //   headerText: {
 //     fontWeight: "500",
 //     fontSize: 18,
-//     color: "#21005d",
+//     color: "#009245",
 //   },
 //   formContainer: {
 //     marginBottom: 20,
@@ -337,7 +337,7 @@
 //     paddingHorizontal: 10,
 //     fontWeight: "500",
 //     paddingVertical: 5,
-//     color: "#21005d",
+//     color: "#009245",
 //     marginBottom: 5,
 //   },
 //   textInput: {
@@ -375,7 +375,7 @@
 //     borderRadius: 10,
 //   },
 //   submitButton: {
-//     backgroundColor: "#21005d",
+//     backgroundColor: "#009245",
 //     padding: 10,
 //     alignItems: "center",
 //     marginTop: 10,
@@ -390,7 +390,7 @@
 //   detailLabel: {
 //     fontSize: 16,
 //     fontWeight: "500",
-//     color: "#21005d",
+//     color: "#009245",
 //   },
 //   detailValue: {
 //     fontSize: 16,
@@ -643,7 +643,7 @@ const SsiCloseReport = ({ isVisible, setIsVisible, id, beforeImage }) => {
               {beforeImage ? (
                 <View>
                   {imageLoadingBefore && (
-                    <ActivityIndicator size="small" color="#21005d" />
+                    <ActivityIndicator size="small" color="#009245" />
                   )}
                   <Image
                     source={{
@@ -763,7 +763,7 @@ const styles = StyleSheet.create({
   cameraButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#21005d",
+    backgroundColor: "#009245",
     padding: 10,
     borderRadius: 5,
   },
@@ -785,7 +785,7 @@ const styles = StyleSheet.create({
     // backgroundColor:"tomato"
   },
   submitButton: {
-    backgroundColor: "#21005d",
+    backgroundColor: "#009245",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,

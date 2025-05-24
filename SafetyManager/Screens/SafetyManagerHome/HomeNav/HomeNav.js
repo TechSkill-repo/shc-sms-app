@@ -155,14 +155,14 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 12,
     fontWeight: "bold",
-    color: "#21005d",
+    color: "#009245",
   },
   title: {
     marginHorizontal: 25,
     marginTop: 20,
     fontSize: 20,
     fontWeight: "bold",
-    color: "#21005d",
+    color: "#009245",
     marginBottom: 10,
   },
 });

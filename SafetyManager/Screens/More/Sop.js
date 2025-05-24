@@ -131,7 +131,7 @@ const Sop = ({ loadSearchBar }) => {
           visible={visible}
           setVisible={setVisible}
           pdfId={pdfId}
-          pdfName={pdfName?pdfName:""}
+          pdfName={pdfName ? pdfName : ""}
         />
       )}
     </View>
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   searchButton: {
-    backgroundColor: "#21005d",
+    backgroundColor: "#009245",
     height: 45,
     width: 45,
     borderRadius: 100,
@@ -187,11 +187,11 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 20,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   cardDescription: {
     fontSize: 14,
-    color: "#21005d",
+    color: "#009245",
     marginTop: 5,
     fontWeight: "300",
   },

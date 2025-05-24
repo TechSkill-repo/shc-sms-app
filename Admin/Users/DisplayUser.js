@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   cardContent: {},
   cardUsername: {
-    color: "#21005d",
+    color: "#009245",
     fontWeight: "bold",
     marginBottom: 5,
   },

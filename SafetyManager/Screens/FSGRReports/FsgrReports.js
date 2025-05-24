@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -22,8 +28,8 @@ const FsgrReports = () => {
 
   const [isVisible, setIsVisible] = useState(false);
   const [loadSearchBar, setLoadSearchBar] = useState(false);
-  const [refresh, setRefresh] = useState(false); 
-   const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { role } = useAuthStore((state) => ({
     role: state.role,
@@ -61,7 +67,7 @@ const FsgrReports = () => {
       },
     });
     setLoading(false);
-  }, [navigation, refresh] );
+  }, [navigation, refresh]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -168,9 +174,9 @@ const FsgrReports = () => {
             paddingTop: 20,
           }}
         >
-            {loading && (
+          {loading && (
             <View style={styles.loaderContainer}>
-              <ActivityIndicator size="large" color="#21005d" />
+              <ActivityIndicator size="large" color="#009245" />
             </View>
           )}
           {!loading && selectedCard === 1 && (
@@ -182,10 +188,18 @@ const FsgrReports = () => {
           {!loading && selectedCard === 2 && role !== "admin" && (
             <Approved loadSearchBar={loadSearchBar} />
           )}
-          {!loading && selectedCard === 3 && <Progress loadSearchBar={loadSearchBar} />}
-          {!loading && selectedCard === 4 && <SsiClose loadSearchBar={loadSearchBar} />}
-          {!loading && selectedCard === 5 && <Close loadSearchBar={loadSearchBar} />}
-          {!loading && selectedCard === 6 && <FinalClose loadSearchBar={loadSearchBar} />}
+          {!loading && selectedCard === 3 && (
+            <Progress loadSearchBar={loadSearchBar} />
+          )}
+          {!loading && selectedCard === 4 && (
+            <SsiClose loadSearchBar={loadSearchBar} />
+          )}
+          {!loading && selectedCard === 5 && (
+            <Close loadSearchBar={loadSearchBar} />
+          )}
+          {!loading && selectedCard === 6 && (
+            <FinalClose loadSearchBar={loadSearchBar} />
+          )}
         </ScrollView>
         {/* </ScrollView> */}
       </PanGestureHandler>
@@ -218,11 +232,11 @@ const styles = StyleSheet.create({
   },
   selectedButton: {
     borderBottomWidth: 2,
-    borderBottomColor: "#21005d",
+    borderBottomColor: "#009245",
   },
   buttonText: {
     fontSize: 14,
-    color: "#21005d",
+    color: "#009245",
     fontWeight: "500",
   },
 });

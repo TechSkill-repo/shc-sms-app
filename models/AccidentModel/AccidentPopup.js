@@ -76,7 +76,7 @@ const AccidentPopup = ({ isVisible, setIsVisible, id, endPoint }) => {
               style={{
                 fontSize: 20,
                 fontWeight: "bold",
-                color: "#21005d",
+                color: "#009245",
               }}
             >
               Accident Details{id}
@@ -103,7 +103,7 @@ const AccidentPopup = ({ isVisible, setIsVisible, id, endPoint }) => {
                   style={{
                     fontWeight: "400",
                     fontSize: 12,
-                    color: "#21005d",
+                    color: "#009245",
                   }}
                 >
                   Date
@@ -117,7 +117,7 @@ const AccidentPopup = ({ isVisible, setIsVisible, id, endPoint }) => {
                   style={{
                     fontWeight: "400",
                     fontSize: 12,
-                    color: "#21005d",
+                    color: "#009245",
                   }}
                 >
                   Location
@@ -142,7 +142,7 @@ const AccidentPopup = ({ isVisible, setIsVisible, id, endPoint }) => {
                   style={{
                     fontWeight: "400",
                     fontSize: 12,
-                    color: "#21005d",
+                    color: "#009245",
                   }}
                 >
                   Safety Supervisor
@@ -158,7 +158,7 @@ const AccidentPopup = ({ isVisible, setIsVisible, id, endPoint }) => {
                   style={{
                     fontWeight: "400",
                     fontSize: 12,
-                    color: "#21005d",
+                    color: "#009245",
                   }}
                 >
                   Person Name

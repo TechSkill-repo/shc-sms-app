@@ -85,7 +85,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
       const formDataNew = new FormData();
       formDataNew.append("id", id);
       formDataNew.append("what_is_the_issue", formData.issue);
-      formDataNew.append("what_is_the_fact", formData.fact)
+      formDataNew.append("what_is_the_fact", formData.fact);
       formDataNew.append("where_the_trouble_arrises", formData.trouble);
       formDataNew.append("why_did_the_issue_arrises", formData.issueArises);
       formDataNew.append("how_sevier_this_is", formData.severity);
@@ -180,7 +180,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                 style={{
                   fontWeight: 500,
                   fontSize: 18,
-                  color: "#21005d",
+                  color: "#009245",
                 }}
               >
                 Initial Investigation Report
@@ -203,7 +203,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -235,7 +235,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -268,7 +268,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -301,7 +301,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -334,7 +334,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -369,7 +369,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -401,7 +401,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                   // paddingHorizontal: 10,
                   fontWeight: "500",
                   // paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -454,7 +454,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -487,7 +487,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -522,7 +522,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -555,7 +555,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
                   paddingHorizontal: 10,
                   fontWeight: "500",
                   paddingVertical: 5,
-                  color: "#21005d",
+                  color: "#009245",
                   marginBottom: 5,
                 }}
               >
@@ -583,7 +583,7 @@ const InitialInvestigationReport = ({ isVisible, setIsVisible, id }) => {
             <TouchableOpacity
               onPress={handleSubmit}
               style={{
-                backgroundColor: "#21005d",
+                backgroundColor: "#009245",
                 padding: 10,
                 alignItems: "center",
                 marginTop: 10,

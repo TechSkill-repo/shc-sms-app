@@ -24,6 +24,7 @@ const StartingPage = () => {
       console.error("Error retrieving token:", error);
     }
   };
+
   return (
     <SafeAreaView
       style={{
@@ -40,15 +41,16 @@ const StartingPage = () => {
           height: "40%",
         }}
       />
+
       <Text
         style={{
           textAlign: "center",
           fontWeight: "bold",
           fontSize: 20,
-          color: "#21005d",
+          color: "#009245",
         }}
       >
-        Welcome to Safety CSMS
+        Powered by SH CONSTRUCTION CO.
       </Text>
       <View
         style={{
@@ -64,7 +66,8 @@ const StartingPage = () => {
             fontSize: 15,
           }}
         >
-          We extend a warm welcome to our Safety Management System.
+          Welcome to Safety First App, backed by TATA STEEL Safety Vision of
+          zero harm.
         </Text>
       </View>
       <TouchableOpacity
@@ -75,7 +78,7 @@ const StartingPage = () => {
           position: "absolute",
           bottom: 30,
           width: "90%",
-          backgroundColor: "#21005d",
+          backgroundColor: "#009245",
           paddingVertical: 14,
           borderRadius: 6,
           elevation: 6,

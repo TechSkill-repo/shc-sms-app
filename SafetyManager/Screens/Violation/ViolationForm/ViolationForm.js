@@ -52,7 +52,7 @@ const ViolationForm = ({ visible, setVisible }) => {
   const [responsibilityOfClosure, setResponsibilityOfClosure] = useState("");
   // const [closingReport, setClosingReport] = useState("");
   // console.log("closing=report", closingReport);
-  
+
   const [photoUri, setPhotoUri] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loadImagePicker, setLoadImagePicker] = useState(false);
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 18,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   input: {
     marginVertical: 5,
@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
     color: "#4caf50",
   },
   submitButton: {
-    backgroundColor: "#21005d",
+    backgroundColor: "#009245",
     height: 45,
     borderRadius: 5,
     alignItems: "center",

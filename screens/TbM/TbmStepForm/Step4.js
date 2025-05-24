@@ -197,7 +197,7 @@ const Step4 = ({ onNext, onPrev, setFormData, formData }) => {
         <TouchableOpacity
           onPress={onPrev}
           style={{
-            backgroundColor: "rgb(120, 69, 172)",
+            backgroundColor: "#397d5a",
             padding: 10,
             borderRadius: 50,
           }}
@@ -217,7 +217,7 @@ const Step4 = ({ onNext, onPrev, setFormData, formData }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            backgroundColor: "rgb(120, 69, 172)",
+            backgroundColor: "#397d5a",
             padding: 10,
             borderRadius: 50,
             marginLeft: 10,

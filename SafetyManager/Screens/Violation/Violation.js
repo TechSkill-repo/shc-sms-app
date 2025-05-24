@@ -17,8 +17,6 @@ const Violation = () => {
   const [visible, setVisible] = useState(false);
   const [selectedCard, setSelectedCard] = useState(1);
 
-
-
   const handleGesture = ({ nativeEvent }) => {
     if (nativeEvent.state === State.END) {
       if (nativeEvent.translationX < -50) {
@@ -127,11 +125,11 @@ const styles = StyleSheet.create({
   },
   selectedButton: {
     borderBottomWidth: 2,
-    borderBottomColor: "#21005d",
+    borderBottomColor: "#009245",
   },
   buttonText: {
     fontSize: 14,
-    color: "#21005d",
+    color: "#009245",
     fontWeight: "500",
   },
 });

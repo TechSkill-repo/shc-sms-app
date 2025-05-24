@@ -66,7 +66,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
               style={{
                 fontSize: 20,
                 fontWeight: "500",
-                color: "#21005d",
+                color: "#009245",
               }}
             >
               FSGR Report - {data?.location}
@@ -133,7 +133,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
                   style={{
                     fontSize: 12,
                     fontWeight: "500",
-                    color: "#21005d",
+                    color: "#009245",
                   }}
                 >
                   Incharge Name
@@ -153,7 +153,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
                   style={{
                     fontSize: 12,
                     fontWeight: "500",
-                    color: "#21005d",
+                    color: "#009245",
                   }}
                 >
                   Site Supervisor Name
@@ -179,7 +179,7 @@ const BottomPopup = ({ isVisible, setIsVisible, id }) => {
               style={{
                 fontSize: 14,
                 fontWeight: "500",
-                color: "#21005d",
+                color: "#009245",
               }}
             >
               Reporting Message/Issue

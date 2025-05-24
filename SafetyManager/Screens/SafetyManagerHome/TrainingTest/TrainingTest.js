@@ -237,7 +237,7 @@ const TrainingTest = () => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={selectedLocation?selectedLocation:"Location"}
+          placeholder={selectedLocation ? selectedLocation : "Location"}
           searchPlaceholder="Search..."
           value={selectedLocation}
           onChange={(location) => {
@@ -266,7 +266,7 @@ const TrainingTest = () => {
       <View style={styles.studentsContainer}>
         {students.map(renderStudentInput)}
         <TouchableOpacity onPress={addStudent} style={styles.addButton}>
-          <Entypo name="plus" size={20} color="#21005d" />
+          <Entypo name="plus" size={20} color="#009245" />
           <Text style={styles.addButtonText}>Add Employee Marks</Text>
         </TouchableOpacity>
       </View>
@@ -278,7 +278,7 @@ const TrainingTest = () => {
             styles.submitButton,
             {
               backgroundColor:
-                isSubmitDisabled || isLoading ? "#ccc" : "#21005d",
+                isSubmitDisabled || isLoading ? "#ccc" : "#009245",
             },
           ]}
         >
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     paddingHorizontal: 10,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   inputContainer: {
     paddingHorizontal: 20,
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     width: "30%",
   },
   addButton: {
-    backgroundColor: "#21005d1a",
+    backgroundColor: "#0092451a",
     width: "50%",
     paddingVertical: 10,
     borderRadius: 10,
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     textAlign: "center",
-    color: "#21005d",
+    color: "#009245",
     fontWeight: "600",
     fontSize: 12,
   },

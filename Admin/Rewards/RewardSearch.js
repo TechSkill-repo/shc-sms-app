@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   inputContainer: {
     marginTop: 20,
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   button: {
-    backgroundColor: "#21005d",
+    backgroundColor: "#009245",
     padding: 10,
     borderRadius: 5,
     alignItems: "center",

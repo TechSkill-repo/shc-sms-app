@@ -19,7 +19,7 @@ const TabNav = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: "rgb(120, 69, 172)", // Active tab icon color
+        tabBarActiveTintColor: "#397d5a", // Active tab icon color
         tabBarInactiveTintColor: "rgb(208, 193, 218)", // Inactive tab icon color
         tabBarShowLabel: false, // Hide tab labels
         tabBarStyle: { height: 60 },

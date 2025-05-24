@@ -38,7 +38,7 @@ const ViolationGood = () => {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#21005d" />
+        <ActivityIndicator size="large" color="#009245" />
       </View>
     );
   }
@@ -117,17 +117,17 @@ const styles = StyleSheet.create({
   },
   date: {
     fontWeight: "600",
-    color: "#21005d",
+    color: "#009245",
   },
   label: {
     fontWeight: "400",
-    color: "#21005d",
+    color: "#009245",
     marginTop: 5,
   },
   value: {
     fontWeight: "500",
     fontSize: 16,
-    color: "#21005d",
+    color: "#009245",
   },
   statusContainer: {
     justifyContent: "center",

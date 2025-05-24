@@ -75,8 +75,15 @@ const AccidentForm = ({ isVisible, setIsVisible }) => {
   };
 
   const handleSubmit = async () => {
-    if (!accidentDate || !selectedLocation || !safetySupervisor || !personName || !selectedAcidentType || !accidentNote) {
-      alert("All fields are mandatory")
+    if (
+      !accidentDate ||
+      !selectedLocation ||
+      !safetySupervisor ||
+      !personName ||
+      !selectedAcidentType ||
+      !accidentNote
+    ) {
+      alert("All fields are mandatory");
       return;
     }
     setLoading(true);
@@ -150,7 +157,7 @@ const AccidentForm = ({ isVisible, setIsVisible }) => {
               style={{
                 fontSize: 20,
                 fontWeight: "bold",
-                color: "#21005d",
+                color: "#009245",
               }}
             >
               Accident Form
@@ -284,7 +291,7 @@ const AccidentForm = ({ isVisible, setIsVisible }) => {
             <TouchableOpacity
               onPress={handleSubmit}
               style={{
-                backgroundColor: "#21005d",
+                backgroundColor: "#009245",
                 height: 45,
                 borderRadius: 50,
                 marginTop: 10,

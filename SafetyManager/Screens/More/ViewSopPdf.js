@@ -120,7 +120,7 @@ const ViewSopPdf = ({ visible, setVisible, pdfId, pdfName }) => {
           >
             <TouchableOpacity
               style={{
-                backgroundColor: "#21005d",
+                backgroundColor: "#009245",
                 width: 80,
                 paddingHorizontal: 10,
                 paddingVertical: 8,

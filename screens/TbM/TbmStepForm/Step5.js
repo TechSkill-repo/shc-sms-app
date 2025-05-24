@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   prevButton: {
-    backgroundColor: "rgb(120, 69, 172)",
+    backgroundColor: "#397d5a",
     padding: 10,
     borderRadius: 50,
   },

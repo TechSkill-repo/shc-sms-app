@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   subHeader: {
     flexDirection: "row",
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
   infoLabel: {
     fontSize: 12,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   infoText: {
     fontSize: 18,
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
   messageLabel: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#21005d",
+    color: "#009245",
   },
   messageText: {
     marginTop: 10,
